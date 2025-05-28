@@ -1,0 +1,262 @@
+[
+  {
+    "name": "DmC Ver 1",
+    "module": "DMC",
+    "version": 1
+  },
+  {
+    "name": "DmC Ver 2",
+    "module": "DMC",
+    "version": 2
+  },
+  {
+    "name": "DmC Ver 3",
+    "module": "DMC",
+    "version": 3
+  },
+  {
+    "name": "DmC Ver 4",
+    "module": "DMC",
+    "version": 4
+  },
+  {
+    "name": "DmC Ver 5",
+    "module": "DMC",
+    "version": 5
+  },
+  {
+    "name": "DmC Ver 1",
+    "module": "PenC",
+    "version": 1
+  },
+  {
+    "name": "DmC Ver 2",
+    "module": "PenC",
+    "version": 2
+  },
+  {
+    "name": "DmC Ver 3",
+    "module": "PenC",
+    "version": 3
+  },
+  {
+    "name": "DmC Ver 4",
+    "module": "PenC",
+    "version": 4
+  },
+  {
+    "name": "DmC Ver 5",
+    "module": "PenC",
+    "version": 5
+  },
+  {
+    "name": "PenC NSp2",
+    "module": "PenC",
+    "version": 1
+  },
+  {
+    "name": "PenC NSo",
+    "module": "PenC",
+    "version": 3
+  },
+  {
+    "name": "PenC DSa",
+    "module": "PenC",
+    "version": 2
+  },
+  {
+    "name": "PenC WG",
+    "module": "PenC",
+    "version": 4
+  },
+  {
+    "name": "PenC ME",
+    "module": "PenC",
+    "version": 5
+  },
+  {
+    "name": "PenC VB",
+    "module": "PenC",
+    "version": 0
+  },
+  {
+    "name": "Botamon",
+    "module": "DMC",
+    "version": 1
+  },
+  {
+    "name": "Pabumon",
+    "module": "PenC",
+    "version": 1
+  },
+  {
+    "name": "Pitimon",
+    "module": "PenC",
+    "version": 2
+  },
+  {
+    "name": "SnowBotamon",
+    "module": "PenC",
+    "version": 0
+  },
+  {
+    "name": "Mokumon",
+    "module": "PenC",
+    "version": 3
+  },
+  {
+    "name": "Motimon",
+    "module": "PenC",
+    "version": 1
+  },
+  {
+    "name": "Bukamon",
+    "module": "PenC",
+    "version": 2
+  },
+  {
+    "name": "DemiMeramon",
+    "module": "PenC",
+    "version": 3
+  },
+  {
+    "name": "Nyaromon",
+    "module": "PenC",
+    "version": 0
+  },
+  {
+    "name": "Choromon",
+    "module": "PenC",
+    "version": 5
+  },
+  {
+    "name": "Tapirmon",
+    "module": "PenC",
+    "version": 3
+  },
+  {
+    "name": "Punimon",
+    "module": "DMC",
+    "version": 2
+  },
+  {
+    "name": "Tsunomon",
+    "module": "DMC",
+    "version": 2
+  },
+  {
+    "name": "Agumon",
+    "module": "PenC",
+    "version": 0
+  },
+  {
+    "name": "Gabumon",
+    "module": "DMC",
+    "version": 2
+  },
+  {
+    "name": "Poyomon",
+    "module": "DMC",
+    "version": 3
+  },
+  {
+    "name": "Koromon",
+    "module": "DMC",
+    "version": 1
+  },
+  {
+    "name": "Agumon",
+    "module": "DMC",
+    "version": 1
+  },
+  {
+    "name": "Tokomon",
+    "module": "DMC",
+    "version": 3
+  },
+  {
+    "name": "Kapurimon",
+    "module": "PenC",
+    "version": 5
+  },
+  {
+    "name": "Hagurumon",
+    "module": "PenC",
+    "version": 5
+  },
+  {
+    "name": "Patamon",
+    "module": "DMC",
+    "version": 3
+  },
+  {
+    "name": "Yuramon",
+    "module": "DMC",
+    "version": 4
+  },
+  {
+    "name": "Tanemon",
+    "module": "DMC",
+    "version": 4
+  },
+  {
+    "name": "Biyomon",
+    "module": "DMC",
+    "version": 4
+  },
+  {
+    "name": "Kunemon",
+    "module": "DMC",
+    "version": 3
+  },
+  {
+    "name": "Sukamon",
+    "module": "DMC",
+    "version": 3
+  },
+  {
+    "name": "Kimeramon",
+    "module": "DMC",
+    "version": 3
+  },
+  {
+    "name": "Zurumon",
+    "module": "DMC",
+    "version": 5
+  },
+  {
+    "name": "Pagumon",
+    "module": "DMC",
+    "version": 5
+  },
+  {
+    "name": "Gazimon",
+    "module": "DMC",
+    "version": 5
+  },
+  {
+    "name": "DarkTyrannomon",
+    "module": "DMC",
+    "version": 5
+  },
+  {
+    "name": "MetalTyrannomon",
+    "module": "DMC",
+    "version": 5
+  },
+  {
+    "name": "Machinedramon",
+    "module": "DMC",
+    "version": 5
+  },
+  {
+    "name": "Millenniumon",
+    "module": "DMC",
+    "version": 5
+  },
+  {
+    "name": "Millenniumon",
+    "module": "DMC",
+    "version": 3
+  }
+]

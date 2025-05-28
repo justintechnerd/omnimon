@@ -1,0 +1,3086 @@
+{
+  "monster": [
+    {
+      "name": "DmC Ver 1",
+      "stage": 0,
+      "version": 1,
+      "special": false,
+	  "sleeps": null,
+	  "wakes": null,
+	  "atk_main": 0,
+	  "atk_alt": 0,
+	  "time": 1,
+	  "poop_timer": 0,
+	  "energy": 0,
+	  "min_weight": 0,
+	  "stomach": 0,
+	  "hunger_loss": 0,
+	  "strength_loss": 0,
+	  "heal_doses": 0,
+	  "power": 0,
+	  "attribute": "",
+      "evolve": [
+        {
+          "to": "Botamon"
+        }
+      ]
+    },
+    {
+      "name": "Botamon",
+      "stage": 1,
+      "version": 1,
+      "special": false,
+	  "sleeps": null,
+	  "wakes": null,
+	  "atk_main": 0,
+	  "atk_alt": 0,
+	  "time": 10,
+	  "poop_timer": 3,
+	  "energy": 0,
+	  "min_weight": 5,
+	  "stomach": 4,
+	  "hunger_loss": 3,
+	  "strength_loss": 3,
+	  "heal_doses": 0,
+	  "power": 0,
+	  "attribute": "",
+      "evolve": [
+        {
+          "to": "Koromon"
+        }
+      ]
+    },
+    {
+      "name": "Koromon",
+      "stage": 2,
+      "version": 1,
+      "special": false,  
+	  "sleeps": "20:00",
+	  "wakes": "8:00",
+	  "atk_main": 0,
+	  "atk_alt": 0,
+	  "time": 720,
+	  "poop_timer": 60,
+	  "energy": 0,
+	  "min_weight": 10,
+	  "stomach": 14,
+	  "hunger_loss": 30,
+	  "strength_loss": 30,
+	  "heal_doses": 1,
+	  "power": 0,
+	  "attribute": "",
+      "evolve": [
+        {
+          "to": "Agumon",
+		  "mistakes": [0,3]
+        },
+        {
+          "to": "Betamon",
+          "mistakes": [4,999999]
+        }
+      ]
+    },
+    {
+      "name": "Agumon",
+      "stage": 3,
+      "version": 1,
+      "special": false,
+	  "sleeps": "20:00",
+	  "wakes": "8:00",
+	  "atk_main": 1,
+	  "atk_alt": 26,
+	  "time": 1440,
+	  "poop_timer": 120,
+	  "energy": 20,
+	  "min_weight": 20,
+	  "stomach": 14,
+	  "hunger_loss": 48,
+	  "strength_loss": 48,
+	  "heal_doses": 2,
+	  "power": 30,
+	  "attribute": "Va",
+      "evolve": [
+        {
+          "to": "Greymon",
+          "mistakes": [0,3],
+          "training": [32,999999]
+        },
+        {
+          "to": "Tyrannomon",
+          "mistakes": [4,999999],
+          "training": [5,15],
+		  "overfeed": [3,999999],
+          "sleep_disturbances": [4,5]
+        },
+        {
+          "to": "Devimon",
+          "mistakes": [0,3],
+          "training": [0,31]
+        },
+        {
+          "to": "Meramon",
+          "mistakes": [4,999999],
+          "training": [16,999999],
+          "overfeed": [3,999999],
+          "sleep_disturbances": [6,999999]
+        },
+        {
+          "to": "Numemon",
+          "mistakes": [4,999999],
+          "training": [0,4]
+        },
+        {
+          "to": "Numemon",
+          "mistakes": [4,999999],
+          "overfeed": [0,2]
+        },
+        {
+          "to": "Numemon",
+          "mistakes": [4,999999],
+		  "training": [5,15],
+          "overfeed": [3,999999],
+		  "sleep_disturbances": [0,3]
+        },
+        {
+          "to": "Numemon",
+          "mistakes": [4,999999],
+		  "training": [5,15],
+          "overfeed": [3,999999],
+		  "sleep_disturbances": [6,999999]
+        },
+        {
+          "to": "Numemon",
+          "mistakes": [4,999999],
+		  "training": [16,999999],
+          "overfeed": [3,999999],
+		  "sleep_disturbances": [0,5]
+        }
+      ]
+    },
+    {
+      "name": "Betamon",
+      "stage": 3,
+      "version": 1,
+      "special": false,
+	  "sleeps": "21:00",
+	  "wakes": "8:00",
+	  "atk_main": 4,
+	  "atk_alt": 31,
+	  "time": 1440,
+	  "poop_timer": 120,
+	  "energy": 20,
+	  "min_weight": 20,
+	  "stomach": 14,
+	  "hunger_loss": 38,
+	  "strength_loss": 38,
+	  "heal_doses": 2,
+	  "power": 25,
+	  "attribute": "Vi",
+      "evolve": [
+	    {
+          "to": "Airdramon",
+          "mistakes": [4,999999],
+          "training": [8,31],
+		  "overfeed": [0,3],
+          "sleep_disturbances": [9,999999]
+        },
+        {
+          "to": "Seadramon",
+          "mistakes": [4,999999],
+          "training": [8,31],
+		  "overfeed": [4,999999],
+          "sleep_disturbances": [0,8]
+        },
+        {
+          "to": "Devimon",
+          "mistakes": [0,3],
+          "training": [48,999999]
+        },
+        {
+          "to": "Meramon",
+          "mistakes": [0,3],
+          "min-training": [0,47]
+        },
+        {
+          "to": "Numemon",
+          "mistakes": [4,999999],
+          "training": [0,7]
+        },
+        {
+          "to": "Numemon",
+          "mistakes": [4,999999],
+          "training": [32,999999]
+        },
+        {
+          "to": "Numemon",
+          "mistakes": [4,999999],
+		  "training": [8,31],
+          "overfeed": [4,999999],
+		  "sleep_disturbances": [9,999999]
+        },
+        {
+          "to": "Numemon",
+          "mistakes": [4,999999],
+		  "training": [8,31],
+          "overfeed": [0,3],
+		  "sleep_disturbances": [0,8]
+        }
+      ]
+    },
+    {
+      "name": "Greymon",
+      "stage": 4,
+      "version": 1,
+      "special": false,
+	  "sleeps": "21:00",
+	  "wakes": "8:00",
+	  "atk_main": 3,
+	  "atk_alt": 25,
+	  "time": 2160,
+	  "poop_timer": 120,
+	  "energy": 30,
+	  "min_weight": 30,
+	  "stomach": 14,
+	  "hunger_loss": 59,
+	  "strength_loss": 59,
+	  "heal_doses": 1,
+	  "power": 50,
+	  "attribute": "Va",
+      "evolve": [
+        {
+          "to": "MetalGreymon",
+          "battles": [15,999999],
+          "win_ratio": [80,100]
+        }
+      ]
+    },
+    {
+      "name": "Devimon",
+      "stage": 4,
+      "version": 1,
+      "special": false,
+	  "sleeps": "23:00",
+	  "wakes": "8:00",
+	  "atk_main": 6,
+	  "atk_alt": 12,
+	  "time": 2160,
+	  "poop_timer": 120,
+	  "energy": 30,
+	  "min_weight": 40,
+	  "stomach": 14,
+	  "hunger_loss": 48,
+	  "strength_loss": 48,
+	  "heal_doses": 1,
+	  "power": 50,
+	  "attribute": "Vi",
+      "evolve": [
+        {
+          "to": "MetalGreymon",
+		  "time": 2160,
+          "battles": [15,999999],
+          "win_ratio": [80,100]
+        }
+      ]
+    },
+    {
+      "name": "Airdramon",
+      "stage": 4,
+      "version": 1,
+      "special": false,
+	  "sleeps": "23:00",
+	  "wakes": "8:00",
+	  "atk_main": 5,
+	  "atk_alt": 34,
+	  "time": 2160,
+	  "poop_timer": 120,
+	  "energy": 30,
+	  "min_weight": 30,
+	  "stomach": 14,
+	  "hunger_loss": 38,
+	  "strength_loss": 38,
+	  "heal_doses": 1,
+	  "power": 50,
+	  "attribute": "Va",
+      "evolve": [
+        {
+          "to": "MetalGreymon",
+          "battles": [15,999999],
+          "win_ratio": [80,100]
+        }
+      ]
+    },
+    {
+      "name": "Numemon",
+      "stage": 4,
+      "version": 1,
+      "special": false,
+	  "sleeps": "00:00",
+	  "wakes": "8:00",
+	  "atk_main": 15,
+	  "atk_alt": 15,
+	  "time": 2160,
+	  "poop_timer": 120,
+	  "energy": 30,
+	  "min_weight": 10,
+	  "stomach": 14,
+	  "hunger_loss": 28,
+	  "strength_loss": 28,
+	  "heal_doses": 3,
+	  "power": 40,
+	  "attribute": "Vi",
+      "evolve": [
+        {
+          "to": "Monzaemon",
+          "battles": [15,999999],
+          "win_ratio": [80,100]
+        }
+      ]
+    },
+    {
+      "name": "Tyrannomon",
+      "stage": 4,
+      "version": 1,
+      "special": false,
+	  "sleeps": "22:00",
+	  "wakes": "8:00",
+	  "atk_main": 3,
+	  "atk_alt": 26,
+	  "time": 2160,
+	  "poop_timer": 120,
+	  "energy": 30,
+	  "min_weight": 20,
+	  "stomach": 14,
+	  "hunger_loss": 59,
+	  "strength_loss": 59,
+	  "heal_doses": 2,
+	  "power": 45,
+	  "attribute": "Da",
+      "evolve": [
+        {
+          "to": "Mamemon",
+          "battles": [15,999999],
+          "win_ratio": [80,100]
+        }
+      ]
+    },
+    {
+      "name": "Meramon",
+      "stage": 4,
+      "version": 1,
+      "special": false,
+	  "sleeps": "00:00",
+	  "wakes": "8:00",
+	  "atk_main": 6,
+	  "atk_alt": 17,
+	  "time": 2160,
+	  "poop_timer": 120,
+	  "energy": 30,
+	  "min_weight": 30,
+	  "stomach": 14,
+	  "hunger_loss": 48,
+	  "strength_loss": 48,
+	  "heal_doses": 2,
+	  "power": 45,
+	  "attribute": "Da",
+      "evolve": [
+        {
+          "to": "Mamemon",
+          "battles": [15,999999],
+          "win_ratio": [80,100]
+        }
+      ]
+    },
+    {
+      "name": "Seadramon",
+      "stage": 4,
+      "version": 1,
+      "special": false,
+	  "sleeps": "23:00",
+	  "wakes": "8:00",
+	  "atk_main": 5,
+	  "atk_alt": 14,
+	  "time": 2160,
+	  "poop_timer": 120,
+	  "energy": 30,
+	  "min_weight": 20,
+	  "stomach": 14,
+	  "hunger_loss": 38,
+	  "strength_loss": 38,
+	  "heal_doses": 2,
+	  "power": 45,
+	  "attribute": "Da",
+      "evolve": [
+        {
+          "to": "Mamemon",
+          "battles": [15,999999],
+          "win_ratio": [80,100]
+        }
+      ]
+    },
+    {
+      "name": "MetalGreymon",
+      "stage": 5,
+      "version": 1,
+      "special": false,
+	  "sleeps": "20:00",
+	  "wakes": "8:00",
+	  "atk_main": 2,
+	  "atk_alt": 26,
+	  "time": 2880,
+	  "poop_timer": 120,
+	  "energy": 40,
+	  "min_weight": 40,
+	  "stomach": 14,
+	  "hunger_loss": 59,
+	  "strength_loss": 59,
+	  "heal_doses": 1,
+	  "power": 100,
+	  "attribute": "Vi",
+      "evolve": [
+        {
+          "to": "BlitzGreymon",
+		  "mistakes": [0,1],
+          "battles": [15,999999],
+          "win_ratio": [80,100]
+        }
+      ]
+    },
+    {
+      "name": "Monzaemon",
+      "stage": 5,
+      "version": 1,
+      "special": false,
+      "sleeps": "21:00",
+	  "wakes": "8:00",
+	  "atk_main": 8,
+	  "atk_alt": 6,
+	  "time": 2880,
+	  "poop_timer": 120,
+	  "energy": 40,
+	  "min_weight": 40,
+	  "stomach": 14,
+	  "hunger_loss": 48,
+	  "strength_loss": 48,
+	  "heal_doses": 1,
+	  "power": 100,
+	  "attribute": "Va",
+      "evolve": [
+        {
+          "to": "ShinMonzaemon",
+		  "mistakes": [0,1],
+          "battles": [15,999999],
+          "win_ratio": [80,100]
+        }
+      ]
+    },
+    {
+      "name": "Mamemon",
+      "stage": 5,
+      "version": 1,
+      "special": false,
+      "sleeps": "23:00",
+	  "wakes": "8:00",
+	  "atk_main": 7,
+	  "atk_alt": 6,
+	  "time": 2880,
+	  "poop_timer": 120,
+	  "energy": 40,
+	  "min_weight": 5,
+	  "stomach": 14,
+	  "hunger_loss": 59,
+	  "strength_loss": 59,
+	  "heal_doses": 1,
+	  "power": 85,
+	  "attribute": "Da",
+      "evolve": [
+        {
+          "to": "BanchoMamemon",
+		  "mistakes": [0,1],
+          "battles": [15,999999],
+          "win_ratio": [80,100]
+        }
+      ]
+    },
+    {
+      "name": "BlitzGreymon",
+      "stage": 6,
+      "version": 1,
+      "special": false,
+	  "sleeps": "23:00",
+	  "wakes": "8:00",
+	  "atk_main": 48,
+	  "atk_alt": 4,
+	  "time": 2880,
+	  "poop_timer": 120,
+	  "energy": 50,
+	  "min_weight": 50,
+	  "stomach": 14,
+	  "hunger_loss": 59,
+	  "strength_loss": 59,
+	  "heal_doses": 1,
+	  "power": 170,
+	  "attribute": "Vi",
+      "evolve": [
+        {
+          "to": "Omnimon Alter-S",
+		  "jogress": "CresGarurumon",
+		  "version": 2
+        }
+      ]
+    },
+    {
+      "name": "ShinMonzaemon",
+      "stage": 6,
+      "version": 1,
+      "special": false,
+      "sleeps": "23:00",
+	  "wakes": "8:00",
+	  "atk_main": 8,
+	  "atk_alt": 6,
+	  "time": 2880,
+	  "poop_timer": 120,
+	  "energy": 50,
+	  "min_weight": 40,
+	  "stomach": 14,
+	  "hunger_loss": 48,
+	  "strength_loss": 48,
+	  "heal_doses": 2,
+	  "power": 170,
+	  "attribute": "Va",
+      "evolve": []
+    },
+    {
+      "name": "BanchoMamemon",
+      "stage": 6,
+      "version": 1,
+      "special": false,
+      "sleeps": "23:00",
+	  "wakes": "8:00",
+	  "atk_main": 40,
+	  "atk_alt": 32,
+	  "time": 2880,
+	  "poop_timer": 120,
+	  "energy": 50,
+	  "min_weight": 5,
+	  "stomach": 14,
+	  "hunger_loss": 59,
+	  "strength_loss": 59,
+	  "heal_doses": 1,
+	  "power": 150,
+	  "attribute": "Da",
+      "evolve": []
+    },
+    {
+      "name": "Omnimon Alter-S",
+      "stage": 7,
+      "version": 1,
+      "special": false,
+      "sleeps": "23:00",
+	  "wakes": "8:00",
+	  "atk_main": 16,
+	  "atk_alt": 12,
+	  "time": 2880,
+	  "poop_timer": 120,
+	  "energy": 50,
+	  "min_weight": 40,
+	  "stomach": 14,
+	  "hunger_loss": 66,
+	  "strength_loss": 66,
+	  "heal_doses": 1,
+	  "power": 200,
+	  "attribute": "Vi",
+      "evolve": []
+    },
+    {
+      "name": "DmC Ver 2",
+      "stage": 0,
+      "version": 2,
+      "special": false,
+	  "sleeps": null,
+	  "wakes": null,
+	  "atk_main": 0,
+	  "atk_alt": 0,
+	  "time": 1,
+	  "poop_timer": 0,
+	  "energy": 0,
+	  "min_weight": 0,
+	  "stomach": 0,
+	  "hunger_loss": 0,
+	  "strength_loss": 0,
+	  "heal_doses": 0,
+	  "power": 0,
+	  "attribute": "",
+      "evolve": [
+        {
+          "to": "Punimon"
+        }
+      ]
+    },
+    {
+      "name": "Punimon",
+      "stage": 1,
+      "version": 2,
+      "special": false,
+	  "sleeps": null,
+	  "wakes": null,
+	  "atk_main": 0,
+	  "atk_alt": 0,
+	  "time": 10,
+	  "poop_timer": 3,
+	  "energy": 0,
+	  "min_weight": 5,
+	  "stomach": 4,
+	  "hunger_loss": 3,
+	  "strength_loss": 3,
+	  "heal_doses": 0,
+	  "power": 0,
+	  "attribute": "",
+      "evolve": [
+        {
+          "to": "Tsunomon"
+        }
+      ]
+    },
+    {
+      "name": "Tsunomon",
+      "stage": 2,
+      "version": 2,
+      "special": false,
+	  "sleeps": "20:00",
+	  "wakes": "8:00",
+	  "atk_main": 0,
+	  "atk_alt": 0,
+	  "time": 720,
+	  "poop_timer": 60,
+	  "energy": 0,
+	  "min_weight": 10,
+	  "stomach": 14,
+	  "hunger_loss": 30,
+	  "strength_loss": 30,
+	  "heal_doses": 1,
+	  "power": 0,
+	  "attribute": "",
+      "evolve": [
+        {
+          "to": "Gabumon",
+          "mistakes": [0,3]
+        },
+        {
+          "to": "Elecmon",
+          "mistakes": [4,999999]
+        }
+      ]
+    },
+    {
+      "name": "Gabumon",
+      "stage": 3,
+      "version": 2,
+      "special": false,
+	  "sleeps": "21:00",
+	  "wakes": "8:00",
+	  "atk_main": 1,
+	  "atk_alt": 25,
+	  "time": 1440,
+	  "poop_timer": 120,
+	  "energy": 20,
+	  "min_weight": 20,
+	  "stomach": 14,
+	  "hunger_loss": 48,
+	  "strength_loss": 48,
+	  "heal_doses": 2,
+	  "power": 30,
+	  "attribute": "Da",
+      "evolve": [
+	    {
+          "to": "Kabuterimon",
+          "mistakes": [0,3],
+          "training": [48,999999]
+        },
+        {
+          "to": "Garurumon",
+          "mistakes": [4,999999],
+          "training": [5,31],
+		  "overfeed": [3,999999],
+		  "sleep_disturbances": [4,5]
+        },
+        {
+          "to": "Angemon",
+          "mistakes": [0,3],
+          "training": [0,47]
+        },
+        {
+          "to": "Frigimon",
+          "mistakes": [4,999999],
+          "training": [32,999999],
+		  "overfeed": [3,999999],
+		  "sleep_disturbances": [6,999999]
+        },
+        {
+          "to": "Vegiemon",
+          "mistakes": [4,999999],
+          "training": [0,4]
+        },
+        {
+          "to": "Vegiemon",
+          "mistakes": [4,999999],
+		  "overfeed": [0,2]
+        },
+        {
+          "to": "Vegiemon",
+          "mistakes": [4,999999],
+          "training": [5,31],
+		  "overfeed": [3,999999],
+		  "sleep_disturbances": [0,3]
+        },
+        {
+          "to": "Vegiemon",
+          "mistakes": [4,999999],
+          "training": [5,31],
+		  "overfeed": [3,999999],
+		  "sleep_disturbances": [6,999999]
+        },
+        {
+          "to": "Vegiemon",
+          "mistakes": [4,999999],
+          "training": [32,999999],
+		  "overfeed": [3,999999],
+		  "sleep_disturbances": [0,5]
+        }
+      ]
+    },
+    {
+      "name": "Elecmon",
+      "stage": 3,
+      "version": 2,
+      "special": false,
+	  "sleeps": "22:00",
+	  "wakes": "8:00",
+	  "atk_main": 4,
+	  "atk_alt": 41,
+	  "time": 1440,
+	  "poop_timer": 120,
+	  "energy": 20,
+	  "min_weight": 20,
+	  "stomach": 14,
+	  "hunger_loss": 38,
+	  "strength_loss": 38,
+	  "heal_doses": 2,
+	  "power": 25,
+	  "attribute": "Da",
+      "evolve": [
+        {
+          "to": "Birdramon",
+          "mistakes": [0,3],
+          "training": [0,47]
+        },
+        {
+          "to": "Whamon",
+          "mistakes": [4,999999],
+          "training": [32,999999],
+		  "overfeed": [6,999999],
+		  "sleep_disturbances": [4,999999]
+        },
+        {
+          "to": "Angemon",
+          "mistakes": [0,3],
+          "training": [48,999999]
+        },
+        {
+          "to": "Frigimon",
+          "mistakes": [4,999999],
+          "training": [8,31],
+		  "overfeed": [0,5],
+		  "sleep_disturbances": [6,999999]
+        },
+        {
+          "to": "Vegiemon",
+          "mistakes": [4,999999],
+          "training": [0,7]
+        },
+        {
+          "to": "Vegiemon",
+          "mistakes": [4,999999],
+		  "training": [32,999999],
+		  "overfeed": [0,5]
+        },
+        {
+          "to": "Vegiemon",
+          "mistakes": [4,999999],
+          "training": [8,31],
+		  "overfeed": [6,999999]
+        },
+        {
+          "to": "Vegiemon",
+          "mistakes": [4,999999],
+          "training": [32,999999],
+		  "sleep_disturbances": [0,3]
+        },
+        {
+          "to": "Vegiemon",
+          "mistakes": [4,999999],
+          "training": [8,31],
+		  "sleep_disturbances": [0,5]
+        }
+      ]
+    },
+    {
+      "name": "Kabuterimon",
+      "stage": 4,
+      "version": 2,
+      "special": false,
+	  "sleeps": "22:00",
+	  "wakes": "8:00",
+	  "atk_main": 3,
+	  "atk_alt": 25,
+	  "time": 2160,
+	  "poop_timer": 120,
+	  "energy": 30,
+	  "min_weight": 30,
+	  "stomach": 14,
+	  "hunger_loss": 59,
+	  "strength_loss": 59,
+	  "heal_doses": 1,
+	  "power": 50,
+	  "attribute": "Va",
+      "evolve": [
+        {
+          "to": "SkullGreymon",
+          "battles": [15,999999],
+          "win_ratio": [80,100]
+        }
+      ]
+    },
+    {
+      "name": "Angemon",
+      "stage": 4,
+      "version": 2,
+      "special": false,
+      "sleeps": "00:00",
+	  "wakes": "8:00",
+	  "atk_main": 6,
+	  "atk_alt": 22,
+	  "time": 2160,
+	  "poop_timer": 120,
+	  "energy": 30,
+	  "min_weight": 20,
+	  "stomach": 14,
+	  "hunger_loss": 48,
+	  "strength_loss": 48,
+	  "heal_doses": 1,
+	  "power": 50,
+	  "attribute": "Va",
+      "evolve": [
+        {
+          "to": "SkullGreymon",
+          "battles": [15,999999],
+          "win_ratio": [80,100]
+        }
+      ]
+    },
+    {
+      "name": "Birdramon",
+      "stage": 4,
+      "version": 2,
+      "special": false,
+      "sleeps": "22:00",
+	  "wakes": "8:00",
+	  "atk_main": 5,
+	  "atk_alt": 17,
+	  "time": 2160,
+	  "poop_timer": 120,
+	  "energy": 30,
+	  "min_weight": 30,
+	  "stomach": 14,
+	  "hunger_loss": 38,
+	  "strength_loss": 38,
+	  "heal_doses": 1,
+	  "power": 50,
+	  "attribute": "Va",
+      "evolve": [
+        {
+          "to": "SkullGreymon",
+          "battles": [15,999999],
+          "win_ratio": [80,100]
+        }
+      ]
+    },
+    {
+      "name": "Vegiemon",
+      "stage": 4,
+      "version": 2,
+      "special": false,
+      "sleeps": "22:00",
+	  "wakes": "8:00",
+	  "atk_main": 15,
+	  "atk_alt": 15,
+	  "time": 2160,
+	  "poop_timer": 120,
+	  "energy": 30,
+	  "min_weight": 10,
+	  "stomach": 14,
+	  "hunger_loss": 28,
+	  "strength_loss": 28,
+	  "heal_doses": 3,
+	  "power": 40,
+	  "attribute": "Vi",
+      "evolve": [
+        {
+          "to": "Vademon",
+          "battles": [15,999999],
+          "win_ratio": [80,100]
+        }
+      ]
+    },
+    {
+      "name": "Garurumon",
+      "stage": 4,
+      "version": 2,
+      "special": false,
+      "sleeps": "23:00",
+	  "wakes": "8:00",
+	  "atk_main": 3,
+	  "atk_alt": 5,
+	  "time": 2160,
+	  "poop_timer": 120,
+	  "energy": 30,
+	  "min_weight": 20,
+	  "stomach": 14,
+	  "hunger_loss": 59,
+	  "strength_loss": 48,
+	  "heal_doses": 2,
+	  "power": 45,
+	  "attribute": "Va",
+      "evolve": [
+        {
+          "to": "MetalMamemon",
+          "battles": [15,999999],
+          "win_ratio": [80,100]
+        }
+      ]
+    },
+    {
+      "name": "Frigimon",
+      "stage": 4,
+      "version": 2,
+      "special": false,
+      "sleeps": "22:00",
+	  "wakes": "8:00",
+	  "atk_main": 6,
+	  "atk_alt": 35,
+	  "time": 2160,
+	  "poop_timer": 120,
+	  "energy": 30,
+	  "min_weight": 30,
+	  "stomach": 14,
+	  "hunger_loss": 48,
+	  "strength_loss": 38,
+	  "heal_doses": 2,
+	  "power": 45,
+	  "attribute": "Va",
+      "evolve": [
+        {
+          "to": "MetalMamemon",
+          "battles": [15,999999],
+          "win_ratio": [80,100]
+        }
+      ]
+    },
+    {
+      "name": "Whamon",
+      "stage": 4,
+      "version": 2,
+      "special": false,
+      "sleeps": "21:00",
+	  "wakes": "8:00",
+	  "atk_main": 9,
+	  "atk_alt": 5,
+	  "time": 2160,
+	  "poop_timer": 120,
+	  "energy": 30,
+	  "min_weight": 40,
+	  "stomach": 14,
+	  "hunger_loss": 38,
+	  "strength_loss": 38,
+	  "heal_doses": 2,
+	  "power": 45,
+	  "attribute": "Va",
+      "evolve": [
+        {
+          "to": "MetalMamemon",
+          "battles": [15,999999],
+          "win_ratio": [80,100]
+        }
+      ]
+    },
+    {
+      "name": "SkullGreymon",
+      "stage": 5,
+      "version": 2,
+      "special": false,
+      "sleeps": "22:00",
+	  "wakes": "8:00",
+	  "atk_main": 10,
+	  "atk_alt": 2,
+	  "time": 2880,
+	  "poop_timer": 120,
+	  "energy": 40,
+	  "min_weight": 40,
+	  "stomach": 14,
+	  "hunger_loss": 59,
+	  "strength_loss": 59,
+	  "heal_doses": 1,
+	  "power": 100,
+	  "attribute": "Vi",
+      "evolve": [
+        {
+          "to": "SkullMammothmon",
+		  "mistakes": [0,1],
+          "battles": [15,999999],
+          "win_ratio": [80,100]
+        }
+      ]
+    },
+    {
+      "name": "Vademon",
+      "stage": 5,
+      "version": 2,
+      "special": false,
+      "sleeps": "23:00",
+	  "wakes": "8:00",
+	  "atk_main": 14,
+	  "atk_alt": 8,
+	  "time": 2880,
+	  "poop_timer": 120,
+	  "energy": 40,
+	  "min_weight": 20,
+	  "stomach": 14,
+	  "hunger_loss": 48,
+	  "strength_loss": 48,
+	  "heal_doses": 1,
+	  "power": 100,
+	  "attribute": "Vi",
+      "evolve": [
+        {
+          "to": "Ebemon",
+		  "mistakes": [0,1],
+          "battles": [15,999999],
+          "win_ratio": [80,100]
+        }
+      ]
+    },
+    {
+      "name": "MetalMamemon",
+      "stage": 5,
+      "version": 2,
+      "special": false,
+      "sleeps": "21:00",
+	  "wakes": "8:00",
+	  "atk_main": 7,
+	  "atk_alt": 26,
+	  "time": 2880,
+	  "poop_timer": 120,
+	  "energy": 40,
+	  "min_weight": 5,
+	  "stomach": 14,
+	  "hunger_loss": 59,
+	  "strength_loss": 59,
+	  "heal_doses": 1,
+	  "power": 85,
+	  "attribute": "Da",
+      "evolve": [
+        {
+          "to": "CresGarurumon",
+		  "mistakes": [0,1],
+          "battles": [15,999999],
+          "win_ratio": [80,100]
+        }
+      ]
+    },
+    {
+      "name": "SkullMammothmon",
+      "stage": 6,
+      "version": 2,
+      "special": false,
+	  "sleeps": "23:00",
+	  "wakes": "8:00",
+	  "atk_main": 11,
+	  "atk_alt": 33,
+	  "time": 2880,
+	  "poop_timer": 120,
+	  "energy": 50,
+	  "min_weight": 5,
+	  "stomach": 14,
+	  "hunger_loss": 59,
+	  "strength_loss": 59,
+	  "heal_doses": 1,
+	  "power": 170,
+	  "attribute": "Va",
+      "evolve": []
+    },
+    {
+      "name": "Ebemon",
+      "stage": 6,
+      "version": 2,
+      "special": false,
+      "sleeps": "23:00",
+	  "wakes": "8:00",
+	  "atk_main": 21,
+	  "atk_alt": 8,
+	  "time": 2880,
+	  "poop_timer": 120,
+	  "energy": 50,
+	  "min_weight": 30,
+	  "stomach": 14,
+	  "hunger_loss": 48,
+	  "strength_loss": 48,
+	  "heal_doses": 2,
+	  "power": 170,
+	  "attribute": "Vi",
+      "evolve": []
+    },
+    {
+      "name": "CresGarurumon",
+      "stage": 6,
+      "version": 2,
+      "special": false,
+      "sleeps": "23:00",
+	  "wakes": "8:00",
+	  "atk_main": 12,
+	  "atk_alt": 30,
+	  "time": 2880,
+	  "poop_timer": 120,
+	  "energy": 50,
+	  "min_weight": 50,
+	  "stomach": 14,
+	  "hunger_loss": 59,
+	  "strength_loss": 59,
+	  "heal_doses": 1,
+	  "power": 150,
+	  "attribute": "Da",
+      "evolve": [
+		{
+          "to": "Omnimon Alter-S",
+		  "jogress": "BlitzGreymon",
+		  "version": 1
+        }
+	  ]
+    },
+    {
+      "name": "Omnimon Alter-S",
+      "stage": 7,
+      "version": 2,
+      "special": false,
+      "sleeps": "23:00",
+	  "wakes": "8:00",
+	  "atk_main": 16,
+	  "atk_alt": 12,
+	  "time": 2880,
+	  "poop_timer": 120,
+	  "energy": 50,
+	  "min_weight": 40,
+	  "stomach": 14,
+	  "hunger_loss": 66,
+	  "strength_loss": 66,
+	  "heal_doses": 1,
+	  "power": 200,
+	  "attribute": "Vi",
+      "evolve": []
+    },
+    {
+      "name": "DmC Ver 3",
+      "stage": 0,
+      "version": 3,
+      "special": false,
+	  "sleeps": null,
+	  "wakes": null,
+	  "atk_main": 0,
+	  "atk_alt": 0,
+	  "time": 1,
+	  "poop_timer": 0,
+	  "energy": 0,
+	  "min_weight": 0,
+	  "stomach": 0,
+	  "hunger_loss": 0,
+	  "strength_loss": 0,
+	  "heal_doses": 0,
+	  "power": 0,
+	  "attribute": "",
+      "evolve": [
+        {
+          "to": "Poyomon"
+        }
+      ]
+    },
+    {
+      "name": "Poyomon",
+      "stage": 1,
+      "version": 3,
+      "special": false,
+	  "sleeps": null,
+	  "wakes": null,
+	  "atk_main": 0,
+	  "atk_alt": 0,
+	  "time": 10,
+	  "poop_timer": 3,
+	  "energy": 0,
+	  "min_weight": 5,
+	  "stomach": 4,
+	  "hunger_loss": 3,
+	  "strength_loss": 3,
+	  "heal_doses": 0,
+	  "power": 0,
+	  "attribute": "",
+      "evolve": [
+        {
+          "to": "Tokomon"
+        }
+      ]
+    },
+    {
+      "name": "Tokomon",
+      "stage": 2,
+      "version": 3,
+      "special": false,
+	  "sleeps": "20:00",
+	  "wakes": "8:00",
+	  "atk_main": 0,
+	  "atk_alt": 0,
+	  "time": 720,
+	  "poop_timer": 60,
+	  "energy": 0,
+	  "min_weight": 10,
+	  "stomach": 14,
+	  "hunger_loss": 30,
+	  "strength_loss": 30,
+	  "heal_doses": 1,
+	  "power": 0,
+	  "attribute": "",
+      "evolve": [
+        {
+          "to": "Patamon",
+          "mistakes": [0,3]
+        },
+        {
+          "to": "Kunemon",
+          "mistakes": [4,999999]
+        }
+      ]
+    },
+    {
+      "name": "Patamon",
+      "stage": 3,
+      "version": 3,
+      "special": false,
+	  "sleeps": "20:00",
+	  "wakes": "8:00",
+	  "atk_main": 1,
+	  "atk_alt": 12,
+	  "time": 1440,
+	  "poop_timer": 120,
+	  "energy": 20,
+	  "min_weight": 20,
+	  "stomach": 14,
+	  "hunger_loss": 48,
+	  "strength_loss": 48,
+	  "heal_doses": 2,
+	  "power": 30,
+	  "attribute": "Da",
+      "evolve": [
+        {
+          "to": "Unimon",
+          "mistakes": [0,3],
+          "training": [32,999999]
+        },
+        {
+          "to": "Centarumon",
+          "mistakes": [4,999999],
+          "training": [5,23],
+		  "overfeed": [2,999999],
+          "sleep_disturbances": [0,2]
+        },
+        {
+          "to": "Ogremon",
+          "mistakes": [0,3],
+          "training": [0,31]
+        },
+        {
+          "to": "Bakemon",
+          "mistakes": [4,999999],
+          "training": [24,999999],
+          "overfeed": [2,999999],
+          "sleep_disturbances": [0,4]
+        },
+        {
+          "to": "Sukamon",
+          "mistakes": [4,999999],
+          "training": [0,4]
+        },
+        {
+          "to": "Sukamon",
+          "mistakes": [4,999999],
+          "overfeed": [0,1]
+        },
+        {
+          "to": "Sukamon",
+          "mistakes": [4,999999],
+		  "sleep_disturbances": [5,999999]
+        },
+        {
+          "to": "Sukamon",
+          "mistakes": [4,999999],
+		  "training": [5,23],
+		  "sleep_disturbances": [3,4]
+        }
+      ]
+    },
+    {
+      "name": "Kunemon",
+      "stage": 3,
+      "version": 3,
+      "special": false,
+	  "sleeps": "22:00",
+	  "wakes": "8:00",
+	  "atk_main": 4,
+	  "atk_alt": 41,
+	  "time": 1440,
+	  "poop_timer": 120,
+	  "energy": 20,
+	  "min_weight": 20,
+	  "stomach": 14,
+	  "hunger_loss": 38,
+	  "strength_loss": 38,
+	  "heal_doses": 2,
+	  "power": 25,
+	  "attribute": "Vi",
+      "evolve": [
+        {
+          "to": "Shellmon",
+          "mistakes": [0,3],
+          "training": [0,7]
+        },
+        {
+          "to": "Shellmon",
+          "mistakes": [0,3],
+          "training": [24,31]
+        },
+        {
+          "to": "Shellmon",
+          "mistakes": [0,3],
+          "training": [8,23],
+		  "overfeed": [4,999999]
+        },
+        {
+          "to": "Shellmon",
+          "mistakes": [0,3],
+          "training": [8,23],
+		  "sleep_disturbances": [0,2]
+        },
+		{
+          "to": "Drimogemon",
+          "mistakes": [4,999999],
+          "training": [24,999999],
+		  "overfeed": [4,999999],
+          "sleep_disturbances": [0,2]
+        },
+		{
+          "to": "Ogremon",
+          "mistakes": [0,3],
+          "training": [32,999999]
+        },
+		{
+          "to": "Bakemon",
+          "mistakes": [0,3],
+          "training": [8,23],
+		  "overfeed": [0,3],
+		  "sleep_disturbances": [3,999999]
+        },
+        {
+          "to": "Sukamon",
+          "mistakes": [4,999999],
+          "training": [0,23]
+        },
+        {
+          "to": "Sukamon",
+          "mistakes": [4,999999],
+          "overfeed": [0,3]
+        },
+        {
+          "to": "Sukamon",
+          "mistakes": [4,999999],
+		  "sleep_disturbances": [3,999999]
+        }
+      ]
+    },
+    {
+      "name": "Unimon",
+      "stage": 4,
+      "version": 3,
+      "special": false,
+	  "sleeps": "22:00",
+	  "wakes": "8:00",
+	  "atk_main": 3,
+	  "atk_alt": 25,
+	  "time": 2160,
+	  "poop_timer": 120,
+	  "energy": 30,
+	  "min_weight": 30,
+	  "stomach": 14,
+	  "hunger_loss": 59,
+	  "strength_loss": 59,
+	  "heal_doses": 1,
+	  "power": 50,
+	  "attribute": "Va",
+      "evolve": [
+        {
+          "to": "Andromon",
+		  "training": [0,31],
+          "battles": [15,999999],
+          "win_ratio": [80,100]
+        },
+		{
+          "to": "Kimeramon",
+		  "training": [32,999999],
+          "battles": [15,999999],
+          "win_ratio": [80,100]
+        }
+      ]
+    },
+    {
+      "name": "Ogremon",
+      "stage": 4,
+      "version": 3,
+      "special": false,
+	  "sleeps": "23:00",
+	  "wakes": "8:00",
+	  "atk_main": 6,
+	  "atk_alt": 11,
+	  "time": 2160,
+	  "poop_timer": 120,
+	  "energy": 30,
+	  "min_weight": 20,
+	  "stomach": 14,
+	  "hunger_loss": 48,
+	  "strength_loss": 48,
+	  "heal_doses": 1,
+	  "power": 50,
+	  "attribute": "Vi",
+      "evolve": [
+        {
+          "to": "Andromon",
+		  "training": [0,31],
+          "battles": [15,999999],
+          "win_ratio": [80,100]
+        },
+		{
+          "to": "Kimeramon",
+		  "training": [32,999999],
+          "battles": [15,999999],
+          "win_ratio": [80,100]
+        }
+      ]
+    },
+    {
+      "name": "Shellmon",
+      "stage": 4,
+      "version": 3,
+      "special": false,
+	  "sleeps": "22:00",
+	  "wakes": "8:00",
+	  "atk_main": 5,
+	  "atk_alt": 9,
+	  "time": 2160,
+	  "poop_timer": 120,
+	  "energy": 30,
+	  "min_weight": 30,
+	  "stomach": 14,
+	  "hunger_loss": 38,
+	  "strength_loss": 38,
+	  "heal_doses": 1,
+	  "power": 50,
+	  "attribute": "Da",
+      "evolve": [
+        {
+          "to": "Andromon",
+		  "training": [0,31],
+          "battles": [15,999999],
+          "win_ratio": [80,100]
+        },
+		{
+          "to": "Kimeramon",
+		  "training": [32,999999],
+          "battles": [15,999999],
+          "win_ratio": [80,100]
+        }
+      ]
+    },
+    {
+      "name": "Sukamon",
+      "stage": 4,
+      "version": 3,
+      "special": false,
+	  "sleeps": "22:00",
+	  "wakes": "8:00",
+	  "atk_main": 15,
+	  "atk_alt": 15,
+	  "time": 2160,
+	  "poop_timer": 120,
+	  "energy": 30,
+	  "min_weight": 10,
+	  "stomach": 14,
+	  "hunger_loss": 28,
+	  "strength_loss": 28,
+	  "heal_doses": 3,
+	  "power": 40,
+	  "attribute": "Vi",
+      "evolve": [
+        {
+          "to": "Etemon",
+		  "training": [0,39],
+          "battles": [15,999999],
+          "win_ratio": [80,100]
+        },
+		{
+          "to": "Kimeramon",
+		  "training": [40,999999],
+          "battles": [15,999999],
+          "win_ratio": [80,100]
+        }
+      ]
+    },
+    {
+      "name": "Centarumon",
+      "stage": 4,
+      "version": 3,
+      "special": false,
+	  "sleeps": "23:00",
+	  "wakes": "8:00",
+	  "atk_main": 3,
+	  "atk_alt": 1,
+	  "time": 2160,
+	  "poop_timer": 120,
+	  "energy": 30,
+	  "min_weight": 28,
+	  "stomach": 14,
+	  "hunger_loss": 59,
+	  "strength_loss": 59,
+	  "heal_doses": 2,
+	  "power": 45,
+	  "attribute": "Da",
+      "evolve": [
+        {
+          "to": "Giromon",
+          "battles": [15,999999],
+          "win_ratio": [80,100]
+        }
+      ]
+    },
+    {
+      "name": "Bakemon",
+      "stage": 4,
+      "version": 3,
+      "special": false,
+	  "sleeps": "22:00",
+	  "wakes": "8:00",
+	  "atk_main": 6,
+	  "atk_alt": 27,
+	  "time": 2160,
+	  "poop_timer": 120,
+	  "energy": 30,
+	  "min_weight": 30,
+	  "stomach": 14,
+	  "hunger_loss": 48,
+	  "strength_loss": 48,
+	  "heal_doses": 2,
+	  "power": 45,
+	  "attribute": "Vi",
+      "evolve": [
+        {
+          "to": "Giromon",
+          "battles": [15,999999],
+          "win_ratio": [80,100]
+        }
+      ]
+    },
+    {
+      "name": "Drimogemon",
+      "stage": 4,
+      "version": 3,
+      "special": false,
+	  "sleeps": "21:00",
+	  "wakes": "8:00",
+	  "atk_main": 5,
+	  "atk_alt": 11,
+	  "time": 2160,
+	  "poop_timer": 120,
+	  "energy": 30,
+	  "min_weight": 40,
+	  "stomach": 14,
+	  "hunger_loss": 38,
+	  "strength_loss": 38,
+	  "heal_doses": 2,
+	  "power": 45,
+	  "attribute": "Da",
+      "evolve": [
+        {
+          "to": "Giromon",
+          "battles": [15,999999],
+          "win_ratio": [80,100]
+        }
+      ]
+    },
+    {
+      "name": "Andromon",
+      "stage": 5,
+      "version": 3,
+      "special": false,
+	  "sleeps": "22:00",
+	  "wakes": "8:00",
+	  "atk_main": 2,
+	  "atk_alt": 12,
+	  "time": 2880,
+	  "poop_timer": 120,
+	  "energy": 40,
+	  "min_weight": 20,
+	  "stomach": 14,
+	  "hunger_loss": 59,
+	  "strength_loss": 59,
+	  "heal_doses": 1,
+	  "power": 100,
+	  "attribute": "Va",
+      "evolve": [
+        {
+          "to": "HiAndromon",
+		  "mistakes": [0,1],
+          "battles": [15,999999],
+          "win_ratio": [80,100]
+        }
+      ]
+    },
+    {
+      "name": "Etemon",
+      "stage": 5,
+      "version": 3,
+      "special": false,
+	  "sleeps": "23:00",
+	  "wakes": "8:00",
+	  "atk_main": 8,
+	  "atk_alt": 13,
+	  "time": 2880,
+	  "poop_timer": 120,
+	  "energy": 40,
+	  "min_weight": 20,
+	  "stomach": 14,
+	  "hunger_loss": 48,
+	  "strength_loss": 48,
+	  "heal_doses": 1,
+	  "power": 100,
+	  "attribute": "Vi",
+      "evolve": [
+        {
+          "to": "BanchoLeomon",
+		  "mistakes": [0,1],
+          "battles": [15,999999],
+          "win_ratio": [80,100]
+        }
+      ]
+    },
+    {
+      "name": "Kimeramon",
+      "stage": 5,
+      "version": 3,
+      "special": false,
+	  "sleeps": "23:00",
+	  "wakes": "8:00",
+	  "atk_main": 17,
+	  "atk_alt": 17,
+	  "time": 2880,
+	  "poop_timer": 120,
+	  "energy": 40,
+	  "min_weight": 20,
+	  "stomach": 14,
+	  "hunger_loss": 48,
+	  "strength_loss": 48,
+	  "heal_doses": 2,
+	  "power": 100,
+	  "attribute": "Da",
+      "evolve": [
+        {
+          "to": "BanchoLeomon",
+		  "mistakes": [0,1],
+		  "time": 2880,
+          "battles": [15,999999],
+          "win_ratio": [80,100]
+        },
+		{
+          "to": "Millenniumon",
+		  "jogress": "Machinedramon",
+		  "version": 5
+        }
+      ]
+    },
+    {
+      "name": "Giromon",
+      "stage": 5,
+      "version": 3,
+      "special": false,
+	  "sleeps": "21:00",
+	  "wakes": "8:00",
+	  "atk_main": 7,
+	  "atk_alt": 20,
+	  "time": 2880,
+	  "poop_timer": 120,
+	  "energy": 40,
+	  "min_weight": 5,
+	  "stomach": 14,
+	  "hunger_loss": 59,
+	  "strength_loss": 59,
+	  "heal_doses": 1,
+	  "power": 85,
+	  "attribute": "Va",
+      "evolve": [
+        {
+          "to": "Reapermon",
+		  "mistakes": [0,1],
+          "battles": [15,999999],
+          "win_ratio": [80,100]
+        }
+      ]
+    },
+    {
+      "name": "HiAndromon",
+      "stage": 6,
+      "version": 3,
+      "special": false,
+      "sleeps": "23:00",
+	  "wakes": "8:00",
+	  "atk_main": 30,
+	  "atk_alt": 29,
+	  "time": 2880,
+	  "poop_timer": 120,
+	  "energy": 50,
+	  "min_weight": 30,
+	  "stomach": 14,
+	  "hunger_loss": 59,
+	  "strength_loss": 59,
+	  "heal_doses": 1,
+	  "power": 150,
+	  "attribute": "Va",
+      "evolve": []
+    },
+    {
+      "name": "BanchoLeomon",
+      "stage": 6,
+      "version": 3,
+      "special": false,
+	  "sleeps": "23:00",
+	  "wakes": "8:00",
+	  "atk_main": 6,
+	  "atk_alt": 11,
+	  "time": 2880,
+	  "poop_timer": 120,
+	  "energy": 50,
+	  "min_weight": 25,
+	  "stomach": 14,
+	  "hunger_loss": 59,
+	  "strength_loss": 59,
+	  "heal_doses": 1,
+	  "power": 180,
+	  "attribute": "Va",
+      "evolve": [
+        {
+          "to": "Chaosmon",
+		  "jogress": "Darkdramon",
+		  "version": 4
+        }
+      ]
+    },
+    {
+      "name": "Reapermon",
+      "stage": 6,
+      "version": 3,
+      "special": false,
+      "sleeps": "23:00",
+	  "wakes": "8:00",
+	  "atk_main": 27,
+	  "atk_alt": 27,
+	  "time": 2880,
+	  "poop_timer": 120,
+	  "energy": 50,
+	  "min_weight": 30,
+	  "stomach": 14,
+	  "hunger_loss": 48,
+	  "strength_loss": 48,
+	  "heal_doses": 2,
+	  "power": 170,
+	  "attribute": "Vi",
+      "evolve": []
+    },
+    {
+      "name": "Chaosmon",
+      "stage": 7,
+      "version": 3,
+      "special": false,
+      "sleeps": "23:00",
+	  "wakes": "8:00",
+	  "atk_main": 71,
+	  "atk_alt": 105,
+	  "time": 2880,
+	  "poop_timer": 120,
+	  "energy": 50,
+	  "min_weight": 32,
+	  "stomach": 14,
+	  "hunger_loss": 48,
+	  "strength_loss": 48,
+	  "heal_doses": 1,
+	  "power": 200,
+	  "attribute": "Va",
+      "evolve": []
+    },
+    {
+      "name": "Millenniumon",
+      "stage": 7,
+      "version": 3,
+      "special": false,
+      "sleeps": "23:00",
+	  "wakes": "8:00",
+	  "atk_main": 16,
+	  "atk_alt": 16,
+	  "time": 2880,
+	  "poop_timer": 120,
+	  "energy": 50,
+	  "min_weight": 40,
+	  "stomach": 14,
+	  "hunger_loss": 59,
+	  "strength_loss": 59,
+	  "heal_doses": 1,
+	  "power": 200,
+	  "attribute": "Vi",
+      "evolve": []
+    },
+    {
+      "name": "DmC Ver 4",
+      "stage": 0,
+      "version": 4,
+      "special": false,
+	  "sleeps": null,
+	  "wakes": null,
+	  "atk_main": 0,
+	  "atk_alt": 0,
+	  "time": 1,
+	  "poop_timer": 0,
+	  "energy": 0,
+	  "min_weight": 0,
+	  "stomach": 0,
+	  "hunger_loss": 0,
+	  "strength_loss": 0,
+	  "heal_doses": 0,
+	  "power": 0,
+	  "attribute": "",
+      "evolve": [
+        {
+          "to": "Yuramon"
+        }
+      ]
+    },
+    {
+      "name": "Yuramon",
+      "stage": 1,
+      "version": 4,
+      "special": false,
+	  "sleeps": null,
+	  "wakes": null,
+	  "atk_main": 0,
+	  "atk_alt": 0,
+	  "time": 10,
+	  "poop_timer": 3,
+	  "energy": 0,
+	  "min_weight": 4,
+	  "stomach": 4,
+	  "hunger_loss": 3,
+	  "strength_loss": 3,
+	  "heal_doses": 0,
+	  "power": 0,
+	  "attribute": "",
+      "evolve": [
+        {
+          "to": "Tanemon"
+        }
+      ]
+    },
+    {
+      "name": "Tanemon",
+      "stage": 2,
+      "version": 4,
+      "special": false,
+	  "sleeps": "20:00",
+	  "wakes": "8:00",
+	  "atk_main": 0,
+	  "atk_alt": 0,
+	  "time": 720,
+	  "poop_timer": 60,
+	  "energy": 0,
+	  "min_weight": 10,
+	  "stomach": 14,
+	  "hunger_loss": 30,
+	  "strength_loss": 30,
+	  "heal_doses": 1,
+	  "power": 0,
+	  "attribute": "",
+      "evolve": [
+        {
+          "to": "Biyomon",
+		  "mistakes": [0,3]
+        },
+        {
+          "to": "Palmon",
+          "mistakes": [4,999999]
+        }
+      ]
+    },
+    {
+      "name": "Biyomon",
+      "stage": 3,
+      "version": 4,
+      "special": false,
+	  "sleeps": "21:00",
+	  "wakes": "8:00",
+	  "atk_main": 1,
+	  "atk_alt": 5,
+	  "time": 1440,
+	  "poop_timer": 120,
+	  "energy": 20,
+	  "min_weight": 15,
+	  "stomach": 14,
+	  "hunger_loss": 48,
+	  "strength_loss": 48,
+	  "heal_doses": 2,
+	  "power": 30,
+	  "attribute": "Va",
+      "evolve": [
+        {
+          "to": "Monochromon",
+          "mistakes": [0,3],
+          "training": [32,999999]
+        },
+        {
+          "to": "Kokatorimon",
+          "mistakes": [4,999999],
+          "training": [5,23],
+		  "overfeed": [2,999999],
+          "sleep_disturbances": [0,2]
+        },
+        {
+          "to": "Leomon",
+          "mistakes": [0,3],
+          "training": [0,31]
+        },
+        {
+          "to": "Kuwagamon",
+          "mistakes": [4,999999],
+          "training": [24,999999],
+          "overfeed": [2,999999],
+          "sleep_disturbances": [0,4]
+        },
+        {
+          "to": "Nanimon",
+          "mistakes": [4,999999],
+          "training": [0,4]
+        },
+        {
+          "to": "Nanimon",
+          "mistakes": [4,999999],
+          "overfeed": [0,1]
+        },
+        {
+          "to": "Nanimon",
+          "mistakes": [4,999999],
+		  "sleep_disturbances": [5,999999]
+        },
+        {
+          "to": "Nanimon",
+          "mistakes": [4,999999],
+		  "training": [5,23],
+		  "sleep_disturbances": [3,4]
+        }
+      ]
+    },
+    {
+      "name": "Palmon",
+      "stage": 3,
+      "version": 4,
+      "special": false,
+	  "sleeps": "22:00",
+	  "wakes": "8:00",
+	  "atk_main": 4,
+	  "atk_alt": 39,
+	  "time": 1440,
+	  "poop_timer": 120,
+	  "energy": 20,
+	  "min_weight": 15,
+	  "stomach": 14,
+	  "hunger_loss": 38,
+	  "strength_loss": 38,
+	  "heal_doses": 2,
+	  "power": 25,
+	  "attribute": "Da",
+      "evolve": [
+        {
+          "to": "Coelamon",
+          "mistakes": [0,3],
+          "training": [0,7]
+        },
+        {
+          "to": "Coelamon",
+          "mistakes": [0,3],
+          "training": [24,31]
+        },
+        {
+          "to": "Coelamon",
+          "mistakes": [0,3],
+          "training": [8,23],
+		  "overfeed": [4,999999]
+        },
+        {
+          "to": "Coelamon",
+          "mistakes": [0,3],
+          "training": [8,23],
+          "sleep_disturbances": [0,2]
+        },
+        {
+          "to": "Mojyamon",
+          "mistakes": [4,999999],
+          "training": [24,999999],
+		  "overfeed": [0,2],
+          "sleep_disturbances": [4,999999]
+        },
+        {
+          "to": "Leomon",
+          "mistakes": [0,3],
+          "training": [32,999999]
+        },
+        {
+          "to": "Kuwagamon",
+          "mistakes": [0,3],
+          "training": [8,23],
+		  "overfeed": [0,3],
+          "sleep_disturbances": [3,999999]
+        },
+        {
+          "to": "Nanimon",
+          "mistakes": [4,999999],
+          "training": [0,23]
+        },
+        {
+          "to": "Nanimon",
+          "mistakes": [4,999999],
+          "overfeed": [0,3]
+        },
+        {
+          "to": "Nanimon",
+          "mistakes": [4,999999],
+		  "sleep_disturbances": [3,999999]
+        }
+      ]
+    },
+    {
+      "name": "Monochromon",
+      "stage": 4,
+      "version": 4,
+      "special": false,
+	  "sleeps": "22:00",
+	  "wakes": "8:00",
+	  "atk_main": 3,
+	  "atk_alt": 31,
+	  "time": 2160,
+	  "poop_timer": 120,
+	  "energy": 30,
+	  "min_weight": 40,
+	  "stomach": 14,
+	  "hunger_loss": 59,
+	  "strength_loss": 59,
+	  "heal_doses": 1,
+	  "power": 50,
+	  "attribute": "Da",
+      "evolve": [
+        {
+          "to": "Megadramon",
+          "battles": [15,999999],
+          "win_ratio": [80,100]
+        }
+      ]
+    },
+    {
+      "name": "Leomon",
+      "stage": 4,
+      "version": 4,
+      "special": false,
+	  "sleeps": "23:00",
+	  "wakes": "8:00",
+	  "atk_main": 6,
+	  "atk_alt": 11,
+	  "time": 2160,
+	  "poop_timer": 120,
+	  "energy": 30,
+	  "min_weight": 20,
+	  "stomach": 14,
+	  "hunger_loss": 48,
+	  "strength_loss": 48,
+	  "heal_doses": 1,
+	  "power": 50,
+	  "attribute": "Va",
+      "evolve": [
+        {
+          "to": "Megadramon",
+          "battles": [15,999999],
+          "win_ratio": [80,100]
+        }
+      ]
+    },
+    {
+      "name": "Coelamon",
+      "stage": 4,
+      "version": 4,
+      "special": false,
+	  "sleeps": "22:00",
+	  "wakes": "8:00",
+	  "atk_main": 5,
+	  "atk_alt": 41,
+	  "time": 2160,
+	  "poop_timer": 120,
+	  "energy": 30,
+	  "min_weight": 20,
+	  "stomach": 14,
+	  "hunger_loss": 38,
+	  "strength_loss": 38,
+	  "heal_doses": 1,
+	  "power": 50,
+	  "attribute": "Da",
+      "evolve": [
+        {
+          "to": "Megadramon",
+          "battles": [15,999999],
+          "win_ratio": [80,100]
+        }
+      ]
+    },
+    {
+      "name": "Nanimon",
+      "stage": 4,
+      "version": 4,
+      "special": false,
+	  "sleeps": "22:00",
+	  "wakes": "8:00",
+	  "atk_main": 15,
+	  "atk_alt": 15,
+	  "time": 2160,
+	  "poop_timer": 120,
+	  "energy": 30,
+	  "min_weight": 10,
+	  "stomach": 14,
+	  "hunger_loss": 28,
+	  "strength_loss": 28,
+	  "heal_doses": 3,
+	  "power": 40,
+	  "attribute": "Vi",
+      "evolve": [
+        {
+          "to": "Digitamamon",
+          "battles": [15,999999],
+          "win_ratio": [80,100]
+        }
+      ]
+    },
+    {
+      "name": "Kokatorimon",
+      "stage": 4,
+      "version": 4,
+      "special": false,
+	  "sleeps": "23:00",
+	  "wakes": "8:00",
+	  "atk_main": 3,
+	  "atk_alt": 12,
+	  "time": 2160,
+	  "poop_timer": 120,
+	  "energy": 30,
+	  "min_weight": 20,
+	  "stomach": 14,
+	  "hunger_loss": 59,
+	  "strength_loss": 59,
+	  "heal_doses": 2,
+	  "power": 45,
+	  "attribute": "Da",
+      "evolve": [
+        {
+          "to": "Piximon",
+          "battles": [15,999999],
+          "win_ratio": [80,100]
+        }
+      ]
+    },
+    {
+      "name": "Kuwagamon",
+      "stage": 4,
+      "version": 4,
+      "special": false,
+	  "sleeps": "22:00",
+	  "wakes": "8:00",
+	  "atk_main": 6,
+	  "atk_alt": 23,
+	  "time": 2160,
+	  "poop_timer": 120,
+	  "energy": 30,
+	  "min_weight": 40,
+	  "stomach": 14,
+	  "hunger_loss": 48,
+	  "strength_loss": 48,
+	  "heal_doses": 2,
+	  "power": 45,
+	  "attribute": "Vi",
+      "evolve": [
+        {
+          "to": "Piximon",
+          "battles": [15,999999],
+          "win_ratio": [80,100]
+        }
+      ]
+    },
+    {
+      "name": "Mojyamon",
+      "stage": 4,
+      "version": 4,
+      "special": false,
+	  "sleeps": "21:00",
+	  "wakes": "8:00",
+	  "atk_main": 5,
+	  "atk_alt": 11,
+	  "time": 2160,
+	  "poop_timer": 120,
+	  "energy": 30,
+	  "min_weight": 20,
+	  "stomach": 14,
+	  "hunger_loss": 38,
+	  "strength_loss": 38,
+	  "heal_doses": 2,
+	  "power": 45,
+	  "attribute": "Va",
+      "evolve": [
+        {
+          "to": "Piximon",
+          "battles": [15,999999],
+          "win_ratio": [80,100]
+        }
+      ]
+    },
+    {
+      "name": "Megadramon",
+      "stage": 5,
+      "version": 4,
+      "special": false,
+	  "sleeps": "20:00",
+	  "wakes": "8:00",
+	  "atk_main": 2,
+	  "atk_alt": 12,
+	  "time": 2160,
+	  "poop_timer": 120,
+	  "energy": 40,
+	  "min_weight": 50,
+	  "stomach": 14,
+	  "hunger_loss": 59,
+	  "strength_loss": 59,
+	  "heal_doses": 1,
+	  "power": 100,
+	  "attribute": "Vi",
+      "evolve": [
+        {
+          "to": "Darkdramon",
+		  "mistakes": [0,1],
+          "battles": [15,999999],
+          "win_ratio": [80,100]
+        }
+      ]
+    },
+    {
+      "name": "Digitamamon",
+      "stage": 5,
+      "version": 4,
+      "special": false,
+	  "sleeps": "23:00",
+	  "wakes": "8:00",
+	  "atk_main": 8,
+	  "atk_alt": 13,
+	  "time": 2880,
+	  "poop_timer": 120,
+	  "energy": 40,
+	  "min_weight": 10,
+	  "stomach": 14,
+	  "hunger_loss": 48,
+	  "strength_loss": 48,
+	  "heal_doses": 1,
+	  "power": 100,
+	  "attribute": "Da",
+      "evolve": [
+        {
+          "to": "Gankoomon",
+		  "mistakes": [0,1],
+          "battles": [15,999999],
+          "win_ratio": [80,100]
+        }
+      ]
+    },
+    {
+      "name": "Piximon",
+      "stage": 5,
+      "version": 4,
+      "special": false,
+	  "sleeps": "21:00",
+	  "wakes": "8:00",
+	  "atk_main": 7,
+	  "atk_alt": 22,
+	  "time": 2880,
+	  "poop_timer": 120,
+	  "energy": 40,
+	  "min_weight": 5,
+	  "stomach": 14,
+	  "hunger_loss": 59,
+	  "strength_loss": 59,
+	  "heal_doses": 1,
+	  "power": 85,
+	  "attribute": "Da",
+      "evolve": [
+        {
+          "to": "BloomLordmon",
+		  "mistakes": [0,1],
+          "battles": [15,999999],
+          "win_ratio": [80,100]
+        }
+      ]
+    },
+    {
+      "name": "Darkdramon",
+      "stage": 6,
+      "version": 4,
+      "special": false,
+	  "sleeps": "23:00",
+	  "wakes": "8:00",
+	  "atk_main": 105,
+	  "atk_alt": 105,
+	  "time": 2880,
+	  "poop_timer": 120,
+	  "energy": 50,
+	  "min_weight": 32,
+	  "stomach": 14,
+	  "hunger_loss": 59,
+	  "strength_loss": 59,
+	  "heal_doses": 1,
+	  "power": 170,
+	  "attribute": "Vi",
+      "evolve": [
+        {
+          "to": "Chaosmon",
+		  "jogress": "BanchoLeomon",
+		  "version": 3
+        },
+		{
+          "to": "Chaosdramon",
+		  "jogress": "Machinedramon",
+		  "version": 5
+        }
+      ]
+    },
+    {
+      "name": "Gankoomon",
+      "stage": 6,
+      "version": 4,
+      "special": false,
+      "sleeps": "23:00",
+	  "wakes": "8:00",
+	  "atk_main": 6,
+	  "atk_alt": 6,
+	  "time": 2880,
+	  "poop_timer": 120,
+	  "energy": 50,
+	  "min_weight": 28,
+	  "stomach": 14,
+	  "hunger_loss": 48,
+	  "strength_loss": 48,
+	  "heal_doses": 1,
+	  "power": 170,
+	  "attribute": "Da",
+      "evolve": []
+    },
+    {
+      "name": "BloomLordmon",
+      "stage": 6,
+      "version": 4,
+      "special": false,
+      "sleeps": "23:00",
+	  "wakes": "8:00",
+	  "atk_main": 42,
+	  "atk_alt": 42,
+	  "time": 2880,
+	  "poop_timer": 120,
+	  "energy": 50,
+	  "min_weight": 30,
+	  "stomach": 14,
+	  "hunger_loss": 59,
+	  "strength_loss": 59,
+	  "heal_doses": 1,
+	  "power": 150,
+	  "attribute": "Va",
+      "evolve": []
+    },
+    {
+      "name": "Chaosmon",
+      "stage": 7,
+      "version": 4,
+      "special": false,
+      "sleeps": "23:00",
+	  "wakes": "8:00",
+	  "atk_main": 71,
+	  "atk_alt": 105,
+	  "time": 2880,
+	  "poop_timer": 120,
+	  "energy": 50,
+	  "min_weight": 32,
+	  "stomach": 14,
+	  "hunger_loss": 48,
+	  "strength_loss": 48,
+	  "heal_doses": 1,
+	  "power": 200,
+	  "attribute": "Va",
+      "evolve": []
+    },
+    {
+      "name": "Chaosdramon",
+      "stage": 7,
+      "version": 4,
+      "special": false,
+      "sleeps": "23:00",
+	  "wakes": "8:00",
+	  "atk_main": 30,
+	  "atk_alt": 30,
+	  "time": 2880,
+	  "poop_timer": 120,
+	  "energy": 50,
+	  "min_weight": 50,
+	  "stomach": 14,
+	  "hunger_loss": 66,
+	  "strength_loss": 66,
+	  "heal_doses": 1,
+	  "power": 200,
+	  "attribute": "Vi",
+      "evolve": []
+    },
+    {
+      "name": "DmC Ver 5",
+      "stage": 0,
+      "version": 5,
+      "special": false,
+	  "sleeps": null,
+	  "wakes": null,
+	  "atk_main": 0,
+	  "atk_alt": 0,
+	  "time": 1,
+	  "poop_timer": 0,
+	  "energy": 0,
+	  "min_weight": 0,
+	  "stomach": 0,
+	  "hunger_loss": 0,
+	  "strength_loss": 0,
+	  "heal_doses": 0,
+	  "power": 0,
+	  "attribute": "",
+      "evolve": [
+        {
+          "to": "Zurumon"
+        }
+      ]
+    },
+    {
+      "name": "Zurumon",
+      "stage": 1,
+      "version": 5,
+      "special": false,
+	  "sleeps": null,
+	  "energy": 0,
+	  "min_weight": 4,
+	  "stomach": 4,
+	  "hunger_loss": 3,
+	  "strength_loss": 3,
+	  "heal_doses": 0,
+	  "power": 0,
+	  "attribute": "",
+      "evolve": [
+        {
+          "to": "Pagumon"
+        }
+      ]
+    },
+    {
+      "name": "Pagumon",
+      "stage": 2,
+      "version": 5,
+      "special": false,
+	  "sleeps": "20:00",
+	  "wakes": "8:00",
+	  "atk_main": 0,
+	  "atk_alt": 0,
+	  "time": 720,
+	  "poop_timer": 60,
+	  "energy": 0,
+	  "min_weight": 8,
+	  "stomach": 14,
+	  "hunger_loss": 30,
+	  "strength_loss": 30,
+	  "heal_doses": 1,
+	  "power": 0,
+	  "attribute": "",
+      "evolve": [
+        {
+          "to": "Gazimon",
+          "mistakes": [0,3]
+        },
+        {
+          "to": "Gizamon",
+          "mistakes": [4,999999]
+        }
+      ]
+    },
+    {
+      "name": "Gazimon",
+      "stage": 3,
+      "version": 5,
+      "special": false,
+	  "sleeps": "21:00",
+	  "wakes": "8:00",
+	  "atk_main": 1,
+	  "atk_alt": 41,
+	  "time": 1440,
+	  "poop_timer": 120,
+	  "energy": 20,
+	  "min_weight": 15,
+	  "stomach": 14,
+	  "hunger_loss": 48,
+	  "strength_loss": 48,
+	  "heal_doses": 2,
+	  "power": 30,
+	  "attribute": "Vi",
+      "evolve": [
+        {
+          "to": "DarkTyrannomon",
+          "mistakes": [0,3],
+          "training": [32,999999]
+        },
+        {
+          "to": "Cyclonemon",
+          "mistakes": [4,999999],
+          "training": [5,23],
+		  "overfeed": [2,999999],
+          "sleep_disturbances": [0,2]
+        },
+        {
+          "to": "Devidramon",
+          "mistakes": [0,3],
+          "training": [0,31],
+		  "overfeed": [2,999999],
+          "sleep_disturbances": [0,4]
+        },
+        {
+          "to": "Tuskmon",
+          "mistakes": [4,999999],
+          "training": [24,999999],
+		  "overfeed": [2,999999],
+          "sleep_disturbances": [0,4]
+        },
+        {
+          "to": "Raremon",
+          "mistakes": [4,999999],
+          "training": [0,4]
+        },
+        {
+          "to": "Raremon",
+          "mistakes": [4,999999],
+		  "overfeed": [0,1]
+        },
+        {
+          "to": "Raremon",
+          "mistakes": [4,999999],
+          "sleep_disturbances": [5,999999]
+        },
+        {
+          "to": "Raremon",
+          "mistakes": [4,999999],
+          "training": [5,23],
+          "sleep_disturbances": [3,4]
+        }
+      ]
+    },
+    {
+      "name": "Gizamon",
+      "stage": 3,
+      "version": 5,
+      "special": false,
+	  "sleeps": "22:00",
+	  "wakes": "8:00",
+	  "atk_main": 4,
+	  "atk_alt": 31,
+	  "time": 1440,
+	  "poop_timer": 120,
+	  "energy": 20,
+	  "min_weight": 15,
+	  "stomach": 14,
+	  "hunger_loss": 38,
+	  "strength_loss": 38,
+	  "heal_doses": 2,
+	  "power": 25,
+	  "attribute": "Vi",
+      "evolve": [
+        {
+          "to": "Flymon",
+          "mistakes": [0,3],
+          "training": [0,7]
+        },
+		{
+          "to": "Flymon",
+          "mistakes": [0,3],
+          "training": [24,31]
+        },
+		{
+          "to": "Flymon",
+          "mistakes": [0,3],
+          "training": [8,23],
+		  "overfeed": [4,999999]
+        },
+		{
+          "to": "Flymon",
+          "mistakes": [0,3],
+          "training": [8,23],
+          "sleep_disturbances": [0,2]
+        },
+		{
+          "to": "Deltamon",
+          "mistakes": [4,999999],
+          "training": [24,999999],
+		  "overfeed": [4,999999],
+          "sleep_disturbances": [0,2]
+        },
+		{
+          "to": "Devidramon",
+          "mistakes": [0,3],
+          "training": [32,999999]
+        },
+		{
+          "to": "Tuskmon",
+          "mistakes": [0,3],
+          "training": [8,23],
+		  "overfeed": [0,3],
+          "sleep_disturbances": [3,999999]
+        },
+        {
+          "to": "Raremon",
+          "mistakes": [4,999999],
+          "training": [0,23]
+        },
+        {
+          "to": "Raremon",
+          "mistakes": [4,999999],
+		  "overfeed": [0,3]
+        },
+        {
+          "to": "Raremon",
+          "mistakes": [4,999999],
+          "sleep_disturbances": [3,999999]
+        }
+      ]
+    },
+    {
+      "name": "DarkTyrannomon",
+      "stage": 4,
+      "version": 5,
+      "special": false,
+	  "sleeps": "21:00",
+	  "wakes": "8:00",
+	  "atk_main": 3,
+	  "atk_alt": 26,
+	  "time": 2160,
+	  "poop_timer": 120,
+	  "energy": 30,
+	  "min_weight": 40,
+	  "stomach": 14,
+	  "hunger_loss": 59,
+	  "strength_loss": 59,
+	  "heal_doses": 1,
+	  "power": 50,
+	  "attribute": "Vi",
+      "evolve": [
+        {
+          "to": "MetalTyrannomon",
+          "battles": [15,999999],
+          "win_ratio": [80,100]
+        }
+      ]
+    },
+    {
+      "name": "Devidramon",
+      "stage": 4,
+      "version": 5,
+      "special": false,
+	  "sleeps": "23:00",
+	  "wakes": "8:00",
+	  "atk_main": 6,
+	  "atk_alt": 5,
+	  "time": 2160,
+	  "poop_timer": 120,
+	  "energy": 30,
+	  "min_weight": 30,
+	  "stomach": 14,
+	  "hunger_loss": 48,
+	  "strength_loss": 48,
+	  "heal_doses": 1,
+	  "power": 50,
+	  "attribute": "Vi",
+      "evolve": [
+        {
+          "to": "MetalTyrannomon",
+          "battles": [15,999999],
+          "win_ratio": [80,100]
+        }
+      ]
+    },
+    {
+      "name": "Flymon",
+      "stage": 4,
+      "version": 5,
+      "special": false,
+	  "sleeps": "22:00",
+	  "wakes": "8:00",
+	  "atk_main": 5,
+	  "atk_alt": 14,
+	  "time": 2160,
+	  "poop_timer": 120,
+	  "energy": 30,
+	  "min_weight": 20,
+	  "stomach": 14,
+	  "hunger_loss": 38,
+	  "strength_loss": 38,
+	  "heal_doses": 1,
+	  "power": 50,
+	  "attribute": "Vi",
+      "evolve": [
+        {
+          "to": "MetalTyrannomon",
+          "battles": [15,999999],
+          "win_ratio": [80,100]
+        }
+      ]
+    },
+    {
+      "name": "Raremon",
+      "stage": 4,
+      "version": 5,
+      "special": false,
+	  "sleeps": "22:00",
+	  "wakes": "8:00",
+	  "atk_main": 15,
+	  "atk_alt": 15,
+	  "time": 2160,
+	  "poop_timer": 120,
+	  "energy": 30,
+	  "min_weight": 20,
+	  "stomach": 14,
+	  "hunger_loss": 28,
+	  "strength_loss": 28,
+	  "heal_doses": 3,
+	  "power": 40,
+	  "attribute": "Vi",
+      "evolve": [
+        {
+          "to": "ExTyrannomon",
+          "battles": [15,999999],
+          "win_ratio": [80,100]
+        }
+      ]
+    },
+    {
+      "name": "Cyclonemon",
+      "stage": 4,
+      "version": 5,
+      "special": false,
+	  "sleeps": "23:00",
+	  "wakes": "8:00",
+	  "atk_main": 3,
+	  "atk_alt": 5,
+	  "time": 2160,
+	  "poop_timer": 120,
+	  "energy": 30,
+	  "min_weight": 40,
+	  "stomach": 14,
+	  "hunger_loss": 59,
+	  "strength_loss": 59,
+	  "heal_doses": 2,
+	  "power": 45,
+	  "attribute": "Vi",
+      "evolve": [
+        {
+          "to": "Datamon",
+          "battles": [15,999999],
+          "win_ratio": [80,100]
+        }
+      ]
+    },
+    {
+      "name": "Tuskmon",
+      "stage": 4,
+      "version": 5,
+      "special": false,
+	  "sleeps": "23:00",
+	  "wakes": "8:00",
+	  "atk_main": 6,
+	  "atk_alt": 25,
+	  "time": 2160,
+	  "poop_timer": 120,
+	  "energy": 30,
+	  "min_weight": 40,
+	  "stomach": 14,
+	  "hunger_loss": 48,
+	  "strength_loss": 48,
+	  "heal_doses": 2,
+	  "power": 45,
+	  "attribute": "Vi",
+      "evolve": [
+        {
+          "to": "Datamon",
+          "battles": [15,999999],
+          "win_ratio": [80,100]
+        }
+      ]
+    },
+    {
+      "name": "Deltamon",
+      "stage": 4,
+      "version": 5,
+      "special": false,
+	  "sleeps": "21:00",
+	  "wakes": "8:00",
+	  "atk_main": 5,
+	  "atk_alt": 11,
+	  "time": 2160,
+	  "poop_timer": 120,
+	  "energy": 30,
+	  "min_weight": 30,
+	  "stomach": 14,
+	  "hunger_loss": 38,
+	  "strength_loss": 38,
+	  "heal_doses": 2,
+	  "power": 45,
+	  "attribute": "Vi",
+      "evolve": [
+        {
+          "to": "Datamon",
+          "battles": [15,999999],
+          "win_ratio": [80,100]
+        }
+      ]
+    },
+    {
+      "name": "MetalTyrannomon",
+      "stage": 5,
+      "version": 5,
+      "special": false,
+	  "sleeps": "22:00",
+	  "wakes": "8:00",
+	  "atk_main": 2,
+	  "atk_alt": 12,
+	  "time": 2880,
+	  "poop_timer": 120,
+	  "energy": 40,
+	  "min_weight": 40,
+	  "stomach": 14,
+	  "hunger_loss": 59,
+	  "strength_loss": 59,
+	  "heal_doses": 1,
+	  "power": 100,
+	  "attribute": "Vi",
+      "evolve": [
+        {
+          "to": "Machinedramon",
+		  "mistakes": [0,1],
+          "battles": [15,999999],
+          "win_ratio": [80,100]
+        }
+      ]
+    },
+    {
+      "name": "ExTyrannomon",
+      "stage": 5,
+      "version": 5,
+      "special": false,
+	  "sleeps": "23:00",
+	  "wakes": "8:00",
+	  "atk_main": 8,
+	  "atk_alt": 13,
+	  "time": 2880,
+	  "poop_timer": 120,
+	  "energy": 40,
+	  "min_weight": 40,
+	  "stomach": 14,
+	  "hunger_loss": 48,
+	  "strength_loss": 48,
+	  "heal_doses": 1,
+	  "power": 100,
+	  "attribute": "Va",
+      "evolve": [
+        {
+          "to": "Samudramon",
+		  "mistakes": [0,1],
+          "battles": [15,999999],
+          "win_ratio": [80,100]
+        }
+      ]
+    },
+    {
+      "name": "Datamon",
+      "stage": 5,
+      "version": 5,
+      "special": false,
+	  "sleeps": "21:00",
+	  "wakes": "8:00",
+	  "atk_main": 7,
+	  "atk_alt": 22,
+	  "time": 2880,
+	  "poop_timer": 120,
+	  "energy": 40,
+	  "min_weight": 5,
+	  "stomach": 14,
+	  "hunger_loss": 59,
+	  "strength_loss": 59,
+	  "heal_doses": 1,
+	  "power": 85,
+	  "attribute": "Vi",
+      "evolve": [
+        {
+          "to": "Raidenmon",
+		  "mistakes": [0,1],
+          "battles": [15,999999],
+          "win_ratio": [80,100]
+        }
+      ]
+    },
+    {
+      "name": "Machinedramon",
+      "stage": 6,
+      "version": 5,
+      "special": false,
+	  "sleeps": "23:00",
+	  "wakes": "8:00",
+	  "atk_main": 30,
+	  "atk_alt": 25,
+	  "time": 2880,
+	  "poop_timer": 120,
+	  "energy": 50,
+	  "min_weight": 50,
+	  "stomach": 14,
+	  "hunger_loss": 59,
+	  "strength_loss": 59,
+	  "heal_doses": 1,
+	  "power": 170,
+	  "attribute": "Vi",
+      "evolve": [
+        {
+          "to": "Millenniumon",
+		  "jogress": "Kimeramon",
+		  "version": 3
+        },
+		{
+          "to": "Chaosdramon",
+		  "jogress": "Darkdramon",
+		  "version": 4
+        }
+      ]
+    },
+    {
+      "name": "Samudramon",
+      "stage": 6,
+      "version": 5,
+      "special": false,
+      "sleeps": "23:00",
+	  "wakes": "8:00",
+	  "atk_main": 31,
+	  "atk_alt": 31,
+	  "time": 2880,
+	  "poop_timer": 120,
+	  "energy": 50,
+	  "min_weight": 38,
+	  "stomach": 14,
+	  "hunger_loss": 48,
+	  "strength_loss": 48,
+	  "heal_doses": 2,
+	  "power": 180,
+	  "attribute": "Vi",
+      "evolve": []
+    },
+    {
+      "name": "Raidenmon",
+      "stage": 6,
+      "version": 5,
+      "special": false,
+      "sleeps": "23:00",
+	  "wakes": "8:00",
+	  "atk_main": 57,
+	  "atk_alt": 57,
+	  "time": 2880,
+	  "poop_timer": 120,
+	  "energy": 50,
+	  "min_weight": 50,
+	  "stomach": 14,
+	  "hunger_loss": 59,
+	  "strength_loss": 59,
+	  "heal_doses": 1,
+	  "power": 150,
+	  "attribute": "Vi",
+      "evolve": []
+    },
+    {
+      "name": "Millenniumon",
+      "stage": 7,
+      "version": 5,
+      "special": false,
+      "sleeps": "23:00",
+	  "wakes": "8:00",
+	  "atk_main": 16,
+	  "atk_alt": 16,
+	  "time": 2880,
+	  "poop_timer": 120,
+	  "energy": 50,
+	  "min_weight": 40,
+	  "stomach": 14,
+	  "hunger_loss": 59,
+	  "strength_loss": 59,
+	  "heal_doses": 1,
+	  "power": 200,
+	  "attribute": "Vi",
+      "evolve": []
+    },
+    {
+      "name": "Chaosdramon",
+      "stage": 7,
+      "version": 5,
+      "special": false,
+      "sleeps": "23:00",
+	  "wakes": "8:00",
+	  "atk_main": 30,
+	  "atk_alt": 30,
+	  "time": 2880,
+	  "poop_timer": 120,
+	  "energy": 50,
+	  "min_weight": 50,
+	  "stomach": 14,
+	  "hunger_loss": 66,
+	  "strength_loss": 66,
+	  "heal_doses": 1,
+	  "power": 200,
+	  "attribute": "Vi",
+      "evolve": []
+    }
+  ]
+}

@@ -1,0 +1,97 @@
+{
+  "name": "PenC",
+  "name_format": "$_dmc",
+  "ruleset": "penc",
+  
+  "adventure_mode": true,
+  "adventure_version_max": 6,
+  
+  "meat_weight_gain": 1,
+  "meat_hunger_gain": 1,
+  "meat_care_mistake_time": 10,
+  "overfeed_timer": 60,
+  
+  "protein_weight_gain": 1,
+  "protein_strengh_gain": 1,
+  "protein_dp_gain": 1,
+  "protein_care_mistake_time": 10,
+  
+  "sleep_care_mistake_timer": 60,
+  
+  "training_effort_gain": 1,
+  "training_strengh_gain": 1,
+  "training_weight_win": 4,
+  "training_weight_lose": 1,
+  
+  "battle_base_sick_chance_win": 20,
+  "battle_base_sick_chance_lose": 10,
+  
+  "death_max_injuries": 15,
+  "death_sick_timer" : 360,
+  "death_hunger_timer" : 720,
+  "death_starvation_count" : 20,
+  "death_strength_timer" : 720,
+  "death_stage45_mistake" : 5,
+  "death_stage67_mistake" : 5,
+  
+  "unlocks": {
+  "eggs": [],
+  "backgrounds": [
+		{ "name": "ver1" },
+		{ "name": "ver2" },
+		{ "name": "ver3" },
+		{ "name": "ver4" },
+		{ "name": "ver5" },
+		{ "name": "ver0" },
+		{ "name": "folder_continent" },
+		{ "name": "living_quarters" },
+		{ "name": "the_net" },
+		{ "name": "nsp_neo" },
+		{ "name": "dsa_neo" },
+		{ "name": "nso_neo" },
+		{ "name": "wgu_neo" },
+		{ "name": "mem_neo" },
+		{ "name": "vbu_neo" },
+		{ "name": "nsp_box" },
+		{ "name": "dsa_box" },
+		{ "name": "nso_box" },
+		{ "name": "wgu_box" },
+		{ "name": "mem_box" },
+		{ "name": "vbu_box" },
+		{ "name": "swimmer" }
+	  ],
+	  "evolutions": [
+		{ "name": "Slot1" },
+		{ "name": "Slot2" },
+		{ "name": "Slot3" },
+		{ "name": "Slot4" },
+		{ "name": "Slot5" },
+		{ "name": "Slot0" }
+	  ]
+	},
+
+  "backgrounds": [
+	  { "name": "ver1", "day_night": true },
+	  { "name": "ver2", "day_night": true },
+	  { "name": "ver3", "day_night": true },
+	  { "name": "ver4", "day_night": true },
+	  { "name": "ver5", "day_night": true },
+	  { "name": "ver0", "day_night": true },
+	  { "name": "folder_continent", "day_night": true },
+	  { "name": "living_quarters", "day_night": false },
+	  { "name": "the_net", "day_night": false },
+	  { "name": "nsp_neo", "day_night": false },
+	  { "name": "dsa_neo", "day_night": false },
+	  { "name": "nso_neo", "day_night": false },
+	  { "name": "wgu_neo", "day_night": false },
+	  { "name": "mem_neo", "day_night": false },
+	  { "name": "vbu_neo", "day_night": false },
+	  { "name": "nsp_box", "day_night": false },
+	  { "name": "dsa_box", "day_night": false },
+	  { "name": "nso_box", "day_night": false },
+	  { "name": "wgu_box", "day_night": false },
+	  { "name": "mem_box", "day_night": false },
+	  { "name": "vbu_box", "day_night": false },
+	  { "name": "swimmer", "day_night": false }
+	]
+}

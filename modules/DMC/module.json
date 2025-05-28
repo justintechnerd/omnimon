@@ -1,0 +1,74 @@
+{
+  "name": "DMC",
+  "name_format": "$_dmc",
+  "ruleset": "dmc",
+  
+  "adventure_mode": true,
+  "adventure_version_max": 5,
+  
+  "meat_weight_gain": 1,
+  "meat_hunger_gain": 1,
+  "meat_care_mistake_time": 10,
+  "overfeed_timer": 120,
+  
+  "protein_weight_gain": 1,
+  "protein_strengh_gain": 1,
+  "protein_dp_gain": 0,
+  "protein_care_mistake_time": 10,
+  
+  "sleep_care_mistake_timer": 60,
+  
+  "training_effort_gain": 1,
+  "training_strengh_gain": 0,
+  "training_weight_win": 4,
+  "training_weight_lose": 1,
+  
+  "battle_base_sick_chance_win": 20,
+  "battle_base_sick_chance_lose": 10,
+  
+  "death_max_injuries": 15,
+  "death_sick_timer" : 360,
+  "death_hunger_timer" : 720,
+  "death_starvation_count" : 0,
+  "death_strength_timer" : 720,
+  "death_stage45_mistake" : 5,
+  "death_stage67_mistake" : 5,
+  
+  "unlocks": {
+  "eggs": [],
+  "backgrounds": [
+		{ "name": "ver1" },
+		{ "name": "ver2" },
+		{ "name": "ver3" },
+		{ "name": "ver4" },
+		{ "name": "ver5" },
+		{ "name": "file_island" },
+		{ "name": "abandoned_office" },
+		{ "name": "the_grid" },
+		{ "name": "dmc_logo" },
+		{ "name": "box_art" },
+		{ "name": "d1_grand_prix" },
+		{ "name": "d1_grand_prix_gold" },
+		{ "name": "25" },
+		{ "name": "blank" }
+	  ],
+	  "evolutions": []
+	},
+
+  "backgrounds": [
+	  { "name": "ver1", "day_night": true },
+	  { "name": "ver2", "day_night": true },
+	  { "name": "ver3", "day_night": true },
+	  { "name": "ver4", "day_night": true },
+	  { "name": "ver5", "day_night": true },
+	  { "name": "file_island", "day_night": true },
+	  { "name": "abandoned_office", "day_night": false },
+	  { "name": "the_grid", "day_night": false },
+	  { "name": "dmc_logo", "day_night": false },
+	  { "name": "box_art", "day_night": true },
+	  { "name": "d1_grand_prix", "day_night": false },
+	  { "name": "d1_grand_prix_gold", "day_night": false },
+	  { "name": "25", "day_night": false },
+	  { "name": "blank", "day_night": false }
+	]
+}
