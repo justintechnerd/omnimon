@@ -21,6 +21,9 @@ class GameMessage:
         self.slide_queue.append((text, color, y, font_size))
 
     def update(self):
+        if not self.messages and not self.current_slide and not self.slide_queue:
+            return
+
         # === Floating Messages ===
         updated_messages = []
         for surf, pos, alpha, dy in self.messages:

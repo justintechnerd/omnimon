@@ -58,7 +58,6 @@ class GameSound:
             try:
                 if index < 18:
                     sound = pygame.mixer.Sound(filepath)
-                    sound.set_volume(0.3)
                     self.sounds[label] = sound
                 else:
                     self.sounds[label] = filepath
@@ -78,10 +77,11 @@ class GameSound:
         if name in self.sounds:
             if isinstance(self.sounds[name], pygame.mixer.Sound):
                 self.stop_all()
+                self.sounds[name].set_volume(0.3 if game_globals.sound == 1 else 0.7)
                 self.sounds[name].play()
             else:
                 pygame.mixer.music.load(self.sounds[name])
-                pygame.mixer.music.set_volume(0.3)
+                pygame.mixer.music.set_volume(0.3 if game_globals.sound == 1 else 0.7)
                 pygame.mixer.music.play()
         else:
             print(f"[!] Sound '{name}' not found.")

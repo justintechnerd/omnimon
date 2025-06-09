@@ -71,6 +71,9 @@ class SceneBoot:
             runtime_globals.game_console.log("[SceneBoot] Transitioning to MainGame (pets found)")
             for pet in game_globals.pet_list:
                 pet.begin_position()
+                pet.food_type = -1
+                if pet.state not in ["dead", "hatch", "nap"]:
+                    pet.set_state("idle")
             distribute_pets_evenly()
         else:
             change_scene("egg")

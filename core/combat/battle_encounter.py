@@ -20,6 +20,7 @@ BAR_HOLD_TIME_MS = 2500
 AFTER_ATTACK_DELAY_FRAMES = 50
 ALERT_DURATION_FRAMES = 50
 LEVEL_DURATION_FRAMES = 60
+WAIT_ATTACK_READY_FRAMES = 19
 
 class BattleEncounter:
     
@@ -43,8 +44,8 @@ class BattleEncounter:
         self.bar_piece = sprite_load(BAR_PIECE_PATH, size=(24, 12))
         self.training_max = sprite_load(TRAINING_MAX_PATH, size=(60, 60))
 
-        self.alert_sprite = sprite_load(ALERT_SPRITE_PATH, size=(48, 48))
-        self.go_sprite = sprite_load(GO_SPRITE_PATH, size=(48, 48))
+        self.ready_sprite = sprite_load(READY_SPRITE_PATH, scale=2.5)
+        self.go_sprite = sprite_load(GO_SPRITE_PATH, scale=2.5)
 
         self.attacking_pets = []
         self.attacking_enemies = []
@@ -53,6 +54,9 @@ class BattleEncounter:
         self.forward_distance = 0
         self.player_health = 4
         self.enemy_health = 4
+
+        self.attack_jump = 0
+        self.attack_forward = 0
 
         self.font = get_font(FONT_SIZE_LARGE)
 
@@ -74,8 +78,10 @@ class BattleEncounter:
         module = get_module(self.module)
         versions = []
         for p in selected_pets:
-            if p.version == 0 and module.name == "DMC":  # Special case for DMC
+            if (p.version <= 0 or p.version >= 6) and self.module == "DMC":  # Special case for DMC
                 versions.append(random.randint(1, 5))
+            elif (p.version >= 6) and self.module == "PenC":
+                versions.append(random.randint(0, 5))
             else:
                 versions.append(p.version)
         
@@ -110,10 +116,14 @@ class BattleEncounter:
             self.update_charge()
         elif self.phase == "move_pair":
             self.move_pair()
+        elif self.phase == "pet_charge":
+            self.update_pet_charge()
         elif self.phase == "pet_attack":
             self.update_pet_attack()
         elif self.phase == "enemy_attack":
             self.update_enemy_attack()
+        elif self.phase == "enemy_charge":
+            self.update_enemy_charge()
         elif self.phase == "retreat":
             self.update_retreat()
         elif self.phase == "post_attack_delay":
@@ -209,8 +219,36 @@ class BattleEncounter:
     def move_pair(self):
         self.forward_distance += 1
         if self.frame_counter == 20:
-            self.phase = "pet_attack"
+            self.phase = "pet_charge"
             runtime_globals.game_console.log("Entering pet_attack phase")
+            self.frame_counter = 0
+
+    def update_pet_charge(self):
+        if self.frame_counter <= 9:
+            self.attack_forward += 1
+            if self.frame_counter < 5:
+                self.attack_jump += 1
+            elif self.frame_counter > 5:
+                self.attack_jump -= 1
+        else:
+            self.attack_forward -= 1
+
+        if self.frame_counter >= WAIT_ATTACK_READY_FRAMES:
+            self.phase = "pet_attack"
+            self.frame_counter = 0
+
+    def update_enemy_charge(self):
+        if self.frame_counter <= 9:
+            self.attack_forward += 1
+            if self.frame_counter < 5:
+                self.attack_jump += 1
+            elif self.frame_counter > 5:
+                self.attack_jump -= 1
+        else:
+            self.attack_forward -= 1
+
+        if self.frame_counter >= WAIT_ATTACK_READY_FRAMES:
+            self.phase = "enemy_attack"
             self.frame_counter = 0
 
     def update_pet_attack(self):
@@ -310,6 +348,8 @@ class BattleEncounter:
                 done = False
 
         if done:
+            if hasattr(self, "projectiles"):
+                del self.projectiles
             del self.enemy_projectiles
             self.frame_counter = 0
             if self.enemy_hit:
@@ -351,7 +391,7 @@ class BattleEncounter:
     def update_post_attack_delay(self):
         if self.frame_counter >= AFTER_ATTACK_DELAY_FRAMES:
             if self.after_attack_phase == "enemy":
-                self.phase = "enemy_attack"
+                self.phase = "enemy_charge"
                 runtime_globals.game_console.log("Entering enemy_attack phase")
             elif self.after_attack_phase == "retreat":
                 self.phase = "retreat"
@@ -396,7 +436,7 @@ class BattleEncounter:
     def draw(self, surface: pygame.Surface):
         self.draw_health_bars(surface)
         surface.blit(self.backgroundIm, (0,0))
-        if self.phase in ["entry", "intimidate", "alert", "charge", "move_pair", "pet_attack", "enemy_attack", "retreat", "post_attack_delay"]:
+        if self.phase in ["entry", "intimidate", "alert", "charge", "move_pair", "pet_attack", "pet_charge", "enemy_attack", "enemy_charge", "retreat", "post_attack_delay"]:
             if self.phase == "intimidate" and self.frame_counter >= IDLE_ANIM_DURATION // 2:
                 is_last_round = False
                 if self.module:
@@ -442,6 +482,8 @@ class BattleEncounter:
             anim_toggle = (self.frame_counter + i * 5) // 15 % 2  # Varia com o índice
 
             if self.phase == "enemy_attack" and enemy == self.attacking_enemy:
+                frame_id = PetFrame.ATK1.value
+            elif self.phase == "enemy_charge" and enemy == self.attacking_enemy:
                 frame_id = PetFrame.ATK2.value
             elif self.enemy_health <= 0:
                 frame_id = PetFrame.ANGRY.value
@@ -456,6 +498,10 @@ class BattleEncounter:
 
             if enemy == self.attacking_enemy:
                 x += self.forward_distance
+
+            if self.phase == "enemy_charge" and enemy == self.attacking_enemy:
+                y -= self.attack_jump
+                x -= self.attack_forward
 
             if sprite:
                 sprite = pygame.transform.flip(sprite, True, False)
@@ -475,6 +521,8 @@ class BattleEncounter:
             elif self.player_health <= 0:
                 frame_id = PetFrame.LOSE.value
             elif self.phase == "pet_attack" and pet == self.attacking_pet:
+                frame_id = PetFrame.ATK1.value
+            elif self.phase == "pet_charge" and pet == self.attacking_pet:
                 frame_id = PetFrame.ATK2.value
             else:
                 frame_id = PetFrame.IDLE1.value if anim_toggle == 0 else PetFrame.IDLE2.value
@@ -487,6 +535,9 @@ class BattleEncounter:
                 x -= self.forward_distance
 
             y = self.get_y(i, total)
+            if self.phase == "pet_charge" and pet == self.attacking_pet:
+                y -= self.attack_jump
+                x += self.attack_forward
             blit_with_shadow(surface, sprite, (x, y))
 
     def draw_projectiles(self, surface):

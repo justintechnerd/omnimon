@@ -3,6 +3,7 @@ import time
 
 from core import runtime_globals
 from core.animation import PetFrame
+from core.combat.training import Training
 from core.constants import *
 from core.utils import blit_with_shadow, change_scene, distribute_pets_evenly, get_training_targets, load_attack_sprites, sprite_load
 from scenes.scene_battle import ATTACK_SPEED
@@ -10,26 +11,19 @@ from scenes.scene_battle import ATTACK_SPEED
 READY_FRAME_COUNTER = 20
 ALERT_FRAME_COUNTER = 30
 
-class CountMatchTraining:
+class CountMatchTraining(Training):
     def __init__(self):
-        self.phase = "set_attribute"
-        self.frame_counter = 0
+        super().__init__()
+
         self.press_counter = 0
         self.rotation_index = 0
         self.start_time = 0
-        self.final_color = 3  # Default to Count1
+        self.final_color = 3
         self.correct_color = 0
         self.super_hits = {}
 
-        self.attack_phase = 0
-        self.attack_waves = []
-        self.current_wave_index = 0
-        self.attack_sprites = load_attack_sprites()
-
         self.result_text = None
         self.flash_frame = 0
-
-        self.pet_sprites = []
 
         self.load_sprites()
 
@@ -39,46 +33,24 @@ class CountMatchTraining:
         self.count_sprites = {key: sprite_load(path, scale=2.5) for key, path in COUNT_SPRITES_PATHS.items()}
         self.mega_hit = sprite_load(MEGA_HIT_PATH, scale=2.5)
 
-
-
-    def update(self):
-        if self.phase == "set_attribute":
-            self.frame_counter += 1
-            if self.frame_counter >= READY_FRAME_COUNTER:
-                self.phase = "alert"
-                self.frame_counter = 0
-
-        elif self.phase == "alert":
-            self.frame_counter += 1
-            if self.frame_counter >= ALERT_FRAME_COUNTER:
-                self.start_count_phase()
-
-        elif self.phase == "count":
-            elapsed = time.time() - self.start_time
-            if elapsed >= 3:
-                self.phase = "prepare_attack"
-                self.calculate_results()
-                self.prepare_attack()
-
-        elif self.phase == "attack":
-            self.update_attacks()
-
-        elif self.phase == "result":
-            self.frame_counter += 1
-            if self.frame_counter >= 30:
-                self.finish_training()
+    def update_charge_phase(self):
+        if self.frame_counter == 1:
+            self.start_count_phase()
+        if self.frame_counter > 30 * 3:
+            self.phase = "wait_attack"
+            self.calculate_results()
+            self.prepare_attack()
 
     def start_count_phase(self):
-        self.phase = "count"
-        self.start_time = time.time()
+        self.phase = "charge"
         self.press_counter = 0
         self.rotation_index = 3
 
     def handle_event(self, input_action):
-        if self.phase in ("alert", "count") and input_action == "Y" or input_action == "SHAKE": 
+        if self.phase == "charge" and input_action == "Y" or input_action == "SHAKE": 
             if self.phase == "alert":
-                self.start_count_phase()
-            elif self.phase == "count":
+                self.phase = "charge"
+            elif self.phase == "charge":
                 self.press_counter += 1
                 if self.press_counter % 2 == 0:
                     self.rotation_index -= 1
@@ -86,7 +58,7 @@ class CountMatchTraining:
                         self.rotation_index = 3
         elif self.phase in ["attack","result"] and input_action in ["B","START"]:
             self.finish_training()
-        elif self.phase in ("alert", "count") and input_action in ["B","START"]:
+        elif self.phase in ("alert", "charge") and input_action in ["B","START"]:
             runtime_globals.game_sound.play("cancel")
             change_scene("game")
 
@@ -122,7 +94,6 @@ class CountMatchTraining:
             self.super_hits[pet] = hits
 
     def prepare_attack(self):
-        self.phase = "attack"
         self.attack_phase = 0
         self.attack_waves = [[] for _ in range(5)]
         pets = get_training_targets()
@@ -154,7 +125,7 @@ class CountMatchTraining:
         
         self.frame_counter = 0
 
-    def update_attacks(self):
+    def move_attacks(self):
         if self.current_wave_index >= len(self.attack_waves):
             self.phase = "result"
             self.frame_counter = 0
@@ -164,7 +135,7 @@ class CountMatchTraining:
         new_wave = []
         all_off_screen = True
 
-        if self.frame_counter == 0:
+        if self.frame_counter <= 1:
             runtime_globals.game_sound.play("attack")
 
         for sprite, kind, x, y in wave:
@@ -174,92 +145,76 @@ class CountMatchTraining:
                 new_wave.append((sprite, kind, x, y))
 
         self.attack_waves[self.current_wave_index] = new_wave
-        self.frame_counter += 1
 
         # Wait at least 10 frames before next wave
         if all_off_screen and self.frame_counter >= 10:
             self.current_wave_index += 1
             self.frame_counter = 0
 
-    def draw(self, screen):
-        if self.phase == "set_attribute":
-            attr = self.get_first_pet_attribute()
-            sprite = self.ready_sprites[attr]
-            y = (SCREEN_HEIGHT - sprite.get_height()) // 2
-            screen.blit(sprite, (0, y))
+    def draw_alert(self, surface):
+        attr = self.get_first_pet_attribute()
+        sprite = self.ready_sprites[attr]
+        y = (SCREEN_HEIGHT - sprite.get_height()) // 2
+        surface.blit(sprite, (0, y))
 
-        elif self.phase == "alert":
-            sprite = self.count_sprites[4]
-            y = (SCREEN_HEIGHT - sprite.get_height()) // 2
-            screen.blit(sprite, (0, y))
+    def draw_charge(self, surface):
+        sprite = self.count_sprites[4 if self.press_counter == 0 else self.rotation_index]
+        y = (SCREEN_HEIGHT - sprite.get_height()) // 2
+        surface.blit(sprite, (0, y))
 
-        elif self.phase == "count":
-            sprite = self.count_sprites[self.rotation_index]
-            y = (SCREEN_HEIGHT - sprite.get_height()) // 2
-            screen.blit(sprite, (0, y))
+    def draw_attack_move(self, screen):
+        self.draw_pets(screen)
+        for wave in self.attack_waves:
+            for sprite, kind, x, y in wave:
+                if x < 150:
+                    blit_with_shadow(screen, sprite, (x, y))
+                    if kind > 1:
+                        blit_with_shadow(screen, sprite, (x - 20, y - 10))
+                    if kind == 3:
+                        blit_with_shadow(screen, sprite, (x - 40, y + 10))
 
-        elif self.phase == "attack":
-            self.draw_pets(screen)
-            for wave in self.attack_waves:
-                for sprite, kind, x, y in wave:
-                    if x < 150:
-                        screen.blit(sprite, (x, y))
-                        if kind > 1:
-                            blit_with_shadow(screen, sprite, (x - 20, y - 10))
-                        if kind == 3:
-                            blit_with_shadow(screen, sprite, (x - 40, y + 10))
+    def draw_result(self, screen):
+        pets = get_training_targets()
+        pet = pets[0]
+        hits = self.super_hits.get(pet, 0)
+        if hits == 5:
+            sprite = self.mega_hit
+            x = SCREEN_WIDTH // 2 - sprite.get_width() // 2
+            y = SCREEN_HEIGHT // 2 - sprite.get_height() // 2
+            blit_with_shadow(screen, sprite, (x, y))
+        else:
+            font = pygame.font.Font(None, FONT_SIZE_LARGE)
+            text = font.render(f"{hits} Super-Hits", True, (255, 255, 255))
+            x = SCREEN_WIDTH // 2 - text.get_width() // 2
+            y = 100
+            screen.blit(text, (x, y))
 
-        elif self.phase == "result":
-            pets = get_training_targets()
-            pet = pets[0]
-            hits = self.super_hits.get(pet, 0)
-            if hits == 5:
-                sprite = self.mega_hit
-                x = SCREEN_WIDTH // 2 - sprite.get_width() // 2
-                y = SCREEN_HEIGHT // 2 - sprite.get_height() // 2
-                blit_with_shadow(screen, sprite, (x, y))
-            else:
-                font = pygame.font.Font(None, FONT_SIZE_LARGE)
-                text = font.render(f"{hits} Super-Hits", True, (255, 255, 255))
-                x = SCREEN_WIDTH // 2 - text.get_width() // 2
-                y = 100
-                screen.blit(text, (x, y))
-
-    def draw_pets(self, surface):
+    def check_victory(self):
+        """Apply training results and return to game."""
+        return self.super_hits.get(get_training_targets()[0], 0) > 1
+    
+    def draw_pets(self, surface, frame_enum=PetFrame.IDLE1):
         """
         Draws pets using appropriate frame based on attack animation phase.
         """
-        if self.phase == "attack":
+        if self.phase == "attack_move":
+            delay = 29
+            if self.frame_counter > delay and self.frame_counter < delay + 18:
+                if self.frame_counter <= 9 + delay:
+                    self.attack_forward += 1
+                    if self.frame_counter < 5 + delay:
+                        self.attack_jump += 1
+                    elif self.frame_counter > 5 + delay:
+                        self.attack_jump -= 1
+                else:
+                    self.attack_forward -= 1
+            else:
+                self.attack_forward = 0
+                self.attack_jump = 0
+
             if self.frame_counter < 30:
                 frame_enum = PetFrame.TRAIN2
             else:
                 frame_enum = PetFrame.TRAIN1
-        else:
-            frame_enum = PetFrame.IDLE1
 
-        self.pet_sprites = []
-        for pet in get_training_targets():
-            sprite = runtime_globals.pet_sprites[pet][frame_enum.value]
-            sprite = pygame.transform.scale(sprite, (OPTION_ICON_SIZE, OPTION_ICON_SIZE))
-            self.pet_sprites.append(sprite)
-
-        total_pets = len(self.pet_sprites)
-        available_height = SCREEN_HEIGHT
-        spacing = min(available_height // total_pets, OPTION_ICON_SIZE + 20)
-        start_y = (SCREEN_HEIGHT - spacing * total_pets) // 2
-
-        for i, sprite in enumerate(self.pet_sprites):
-            x = SCREEN_WIDTH - OPTION_ICON_SIZE - 16
-            y = start_y + i * spacing
-            blit_with_shadow(surface, sprite, (x, y))
-
-    def finish_training(self):
-        if self.super_hits.get(get_training_targets()[0], 0) > 1:
-            runtime_globals.game_sound.play("attack_fail")
-        else:
-            runtime_globals.game_sound.play("fail")
-
-        for pet in get_training_targets():
-            pet.finish_training(self.super_hits.get(pet, 0) > 1)
-        distribute_pets_evenly()
-        change_scene("game")
+        super().draw_pets(surface, frame_enum)

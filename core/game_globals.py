@@ -1,5 +1,7 @@
+import datetime
 import os
 import pickle
+import random
 import time
 
 #=====================================================================
@@ -22,6 +24,8 @@ sound = 1
 battle_area = {}
 battle_round = {}
 rotated = False
+xai = 1
+xai_date = datetime.date.today()
 
 # Internal timer for autosave
 _last_save_time = time.time()
@@ -43,6 +47,8 @@ def save() -> None:
         "showClock": showClock,
         "sound": sound,
         "debug": debug,
+        "xai": xai,
+        "xai_date": xai_date,
     }
 
     with open(SAVE_FILE, "wb") as f:
@@ -54,7 +60,7 @@ def load() -> None:
     """
     Loads the global game state from the save file, if it exists.
     """
-    global pet_list, poop_list, traited, unlocks, battle_area, battle_round
+    global pet_list, poop_list, traited, unlocks, battle_area, battle_round, xai, xai_date
     global game_background, background_module_name, showClock, sound, debug
 
     if os.path.exists(SAVE_FILE):
@@ -72,6 +78,8 @@ def load() -> None:
             showClock = data.get("showClock", True)
             sound = data.get("sound", 1)
             debug = data.get("debug", True)
+            xai = data.get("xai", random.randint(1, 7))
+            xai_date = data.get("xai_date", datetime.date.today())
 
 def autosave() -> None:
     """

@@ -1,5 +1,4 @@
-from abc import abstractmethod
-from datetime import datetime, timedelta
+from datetime import datetime
 import pygame
 import random
 import os
@@ -10,12 +9,17 @@ from core.constants import *
 from core.game_digidex import register_digidex_entry
 from core.game_poop import GamePoop
 from core.utils import change_scene, get_module, sprite_load
+from core.utils_unlocks import is_unlocked, unlock_item
 
 
 class GamePet:
     def __init__(self, pet_data, traited = False):
         self.hunger = self.strength = self.age = self.injuries = self.poop_count_flag = self.weight = 0
         self.totalWin = self.totalBattles = 0
+
+        self.traited = traited
+        self.shiny = False
+        self.shook = False
 
         self.set_data(pet_data)
         self.reset_variables()
@@ -31,13 +35,13 @@ class GamePet:
         self.injuries = 0
         self.move_timer = random.randint(60, 120)
 
-        self.traited = traited
-        self.shiny = False
-        self.shook = False
-
         self.sleep_start_time = None
         self.sleep_timer = 0 
         self.back_to_sleep = 0
+
+        self.level = 1
+        self.experience = 0
+        self.attack = 1
 
     def set_data(self, data):
         self.module = data["module"]
@@ -54,6 +58,8 @@ class GamePet:
         self.wakes = data.get("wakes")
         self.atk_main = data.get("atk_main", 0)
         self.atk_alt = data.get("atk_alt", 0)
+        if self.atk_alt == 0:
+            self.atk_alt = self.atk_main
         self.time = data.get("time", 0)
         self.poop_timer = data.get("poop_timer", 60)
         self.min_weight = data.get("min_weight")
@@ -64,6 +70,12 @@ class GamePet:
         self.attribute = data.get("attribute")
         self.energy = data.get("energy")
 
+        self.heal_doses = data.get("heal_doses", 1)
+        self.hp = data.get("hp")
+
+        self.condition_hearts_max = int(data.get("condition_hearts", 0))
+        self.jogress_avaliable = int(data.get("jogress_avaliable", 0))
+
     def reset_variables(self):
         self.timer = 0
         if self.weight < self.min_weight:
@@ -71,9 +83,33 @@ class GamePet:
         self.dp = self.energy
         self.effort = 0
         self.sick = 0
+        self.level = 1
+        self.experience = 0
         self.win = self.battles = 0
         self.animation_counter = self.frame_counter = self.frame_index = 0
         self.care_food_mistake_timer = self.care_strength_mistake_timer = self.care_sleep_mistake_timer = self.care_sick_mistake_timer = 0
+        self.special_encounter = False
+
+        self.starvation_counter = 0
+        self.disturbance_penalty = 0
+        self.overfeed_timer = 0
+        self.protein_overdose = 0
+        self.shake_counter = 0
+        self.death_save_counter = 0
+
+        self.overfeed = 0
+        self.sleep_disturbances = 0
+        self.protein_overdose = 0
+
+        module = get_module(self.module)
+
+        if self.traited:
+            self.level = module.traited_egg_starting_level
+
+        self.use_condition_hearts = module.use_condition_hearts
+        if self.use_condition_hearts:
+            self.condition_hearts = self.condition_hearts_max
+        self.mistakes = 0
 
     def load_sprite(self):
         """Loads animation frames for the pet, replacing `$` in module paths."""
@@ -88,6 +124,14 @@ class GamePet:
                 break
             
             runtime_globals.pet_sprites[self].append(sprite_load(frame_file, size=(PET_WIDTH, PET_HEIGHT)))
+
+        if get_module(self.module).reverse_atk_frames:
+            sprites = runtime_globals.pet_sprites[self]
+            # Swap TRAIN1 <-> ATK1 and TRAIN2 <-> ATK2
+            if len(runtime_globals.pet_sprites[self]) > 6:
+                sprites[4], sprites[5] = sprites[5], sprites[4]  # TRAIN1 ↔ TRAIN2
+                sprites[5], sprites[6] = sprites[6], sprites[5]  # ATK1 ↔ ATK2
+            runtime_globals.pet_sprites[self] = sprites
 
     def begin_position(self):
         self.subpixel_x = float(SCREEN_WIDTH - PET_WIDTH) / 2
@@ -155,21 +199,25 @@ class GamePet:
             overlay = runtime_globals.misc_sprites.get(f"Mad{anim_phase + 1}")
         
         if overlay:
-            base_pos = (self.x + PET_WIDTH, self.y)
+            x = self.x + PET_WIDTH
+            y = self.y - (PET_WIDTH//2)
+            if self.state in ["happy2", "happy3"]:
+                y = self.y
+            base_pos = (x, y)
             surface.blit(overlay, base_pos)
             
             if self.state == "happy3":
                 # Draw additional overlay positions
-                surface.blit(overlay, (self.x + PET_WIDTH, self.y + 24))
-                surface.blit(overlay, (self.x - 24, self.y))
-                surface.blit(overlay, (self.x - 24, self.y + 24))
+                surface.blit(overlay, (x, y + 24))
+                surface.blit(overlay, (x - PET_WIDTH - 24, y))
+                surface.blit(overlay, (x - PET_WIDTH - 24, y + 24))
 
     def update(self):
         self.timer += 1
         self.age_timer += 1
         self.update_animation()
 
-        if self.state in ("moving", "idle"):
+        if self.state != "nap" and self.state in ("moving", "idle"):
             self.update_idle_movement()
         elif self.state == "nap":
             self.sleep_timer += 1
@@ -239,9 +287,6 @@ class GamePet:
                 self.direction = -1
 
     def update_animation(self):
-        if not runtime_globals.pet_sprites[self]:
-            return
-
         # Handle special 'nope' animation with direction flip
         if self.state == "nope" and self.timer % 30 == 0:
             self.direction *= -1
@@ -263,7 +308,7 @@ class GamePet:
         self.animation_counter += 1
         if self.state not in ("moving", "idle", "nap", "dead"):
             if self.state != "nap" and self.animation_counter > 119:
-                self.set_state("happy" if self.food_type == 1 or (self.food_type == 0 and self.overfeed_timer == 0) else "idle")
+                self.set_state("happy" if self.food_type == 1 or (self.food_type == 0 and hasattr(self, 'overfeed_timer') and self.overfeed_timer == 0) else "idle")
                 self.food_type = -1
 
         # Handle hatching animation
@@ -287,7 +332,10 @@ class GamePet:
 
     def poop(self):
         runtime_globals.game_sound.play("cancel")
-        game_globals.poop_list.append(GamePoop(12 + self.x + (FRAME_SIZE // 2), self.y + (PET_HEIGHT-24)))
+        if random.random() < 0.2:
+            game_globals.poop_list.append(GamePoop(12 + self.x + (FRAME_SIZE // 2), self.y + (PET_HEIGHT-48), True))
+        else:
+            game_globals.poop_list.append(GamePoop(12 + self.x + (FRAME_SIZE // 2), self.y + (PET_HEIGHT-24)))
         if self.weight > self.min_weight:
             self.weight -= 1
         self.set_state("idle")
@@ -320,6 +368,30 @@ class GamePet:
             if self.age_timer >= 48 * 60 * 60 * 30:
                 result = True
 
+        if get_module(self.module).death_starvation_count > 0 and self.starvation_counter > get_module(self.module).death_starvation_count:
+            result = True
+
+        if self.mistakes >= get_module(self.module).death_care_mistake:
+            result = True
+
+        if result and get_module(self.module).death_save_by_b_press:
+            if self.death_save_counter == -1:
+                self.death_save_counter = 100
+                return False
+            elif self.death_save_counter > 0:
+                return True
+            else:
+                self.death_save_counter = -1
+
+        if result and get_module(self.module).death_save_by_shake:
+            if self.shake_counter == -1:
+                self.shake_counter = 50
+                return False
+            elif self.shake_counter > 0:
+                return True
+            else:
+                self.shake_counter = -1
+
         return result
 
     def update_death_check(self):
@@ -347,61 +419,362 @@ class GamePet:
             if not game_globals.pet_list:
                 change_scene("egg")
 
-    @abstractmethod
-    def set_traited_egg(self):
-        pass
 
-    @abstractmethod
     def set_eating(self):
-        pass
+        if self.food_type < 0 or (not get_module(self.module).can_eat_sleeping and self.state == "nap"): return
 
-    @abstractmethod
+        self.animation_counter = 0
+        self.direction = 1
+
+        if self.food_type == 0:
+            if self.hunger == self.stomach or self.overfeed_timer: #can eat if not overfed and stomach < hunger
+                if self.overfeed_timer == 0:
+                    self.overfeed_timer = get_module(self.module).overfeed_timer
+                    self.overfeed += 1
+                self.set_state("nope")
+                self.food_type = -1
+                runtime_globals.game_console.log(f"{self.name} is full. Overfeed Timer {self.overfeed_timer}")
+            else:
+                self.set_state("eat")
+                self.hunger += get_module(self.module).meat_hunger_gain
+                if self.stage > 1 and self.weight < 99:
+                    self.weight += get_module(self.module).meat_weight_gain
+                self.care_food_mistake_timer = 0
+                runtime_globals.game_console.log(f"{self.name} ate protein. Hunger {self.hunger}")
+        else:
+            self.set_state("eat")
+            self.strength += get_module(self.module).protein_strengh_gain
+            self.protein_overdose += 1
+            if self.stage > 1 and self.weight < 99:
+                self.weight += get_module(self.module).protein_weight_gain
+            if self.dp < self.energy and self.protein_overdose % 4 == 0:
+                self.dp += get_module(self.module).protein_dp_gain
+            self.care_strength_mistake_timer = 0
+            runtime_globals.game_console.log(f"{self.name} ate vitamin. Strength {self.strength}")
+
     def set_sick(self):
-        pass
+        self.sick = self.heal_doses
+        self.injuries += 1
+        self.death_save_counter = 0
+        self.set_state("sick")
 
-    @abstractmethod
     def update_evolution(self):
-        pass
+        if self.stage > 5 or (self.timer / 30) < (self.time * 60) or self.need_care():
+            return
+        
+        for evo in self.evolve:
+            def in_range(val, r): return r[0] <= val <= r[1]
+            if (
+                ("jogress" in evo) or
+                ("mistakes" in evo and not in_range(self.mistakes, evo["mistakes"])) or
+                ("condition_hearts" in evo and not in_range(self.condition_hearts, evo["condition_hearts"])) or
+                ("training" in evo and not in_range(self.effort // 4, evo["training"])) or
+                ("overfeed" in evo and not in_range(self.overfeed, evo["overfeed"])) or
+                ("special_encounter" in evo and not self.special_encounter) or
+                ("level" in evo and not in_range(self.level, evo["level"])) or
+                ("level-count" in evo and not in_range(self.level_count, evo["level-count"])) or
+                ("sleep_disturbances" in evo and not in_range(self.sleep_disturbances, evo["sleep_disturbances"])) or
+                ("battles" in evo and not in_range(self.battles, evo["battles"])) or
+                ("win_ratio" in evo and self.battles and not in_range((self.win * 100) // self.battles, evo["win_ratio"]))
+            ):
+                continue
 
-    @abstractmethod
+            if self.module == "DMC" and evo["to"] in ("ShinMonzaemon","Ebemon","BanchoLeomon","Gankoomon","Samudramon"):
+                unlock_item("DMC", "backgrounds", "25")
+
+            if self.stage > 0:
+                module = get_module(self.module)
+                pet_data = module.get_monster(evo["to"], self.version)
+
+                if pet_data.get("special", False):
+                    special_key = pet_data.get("special_key")
+                    if special_key and not is_unlocked(self.module, "evolutions", special_key):
+                        runtime_globals.game_console.log(f"{self.name} cannot evolve into {evo['to']}—special evolution {special_key} is locked.")
+                        continue  # Skip this evolution
+                    else:
+                        runtime_globals.game_console.log("Special evolution check pass")
+
+
+            if self.stage == 0 and self.shake_counter >= 99 and get_module(self.module).enable_shaken_egg:
+                self.shook = True
+                
+            self.evolve_to(evo["to"], evo.get("version", self.version))
+            break
+
     def update_needs(self):
-        pass
+        if self.timer % (self.hunger_loss  * 60 * 30) == 0 and self.overfeed_timer == 0:
+            if self.hunger > 0:
+                self.hunger -= 1
+            else:
+                self.starvation_counter += 1
+        if self.timer % (self.strength_loss * 60 * 30) == 0 and self.strength > 0:
+            if self.strength > 4:
+                self.strength = 4
+            else:
+                self.strength -= 1
+        if self.overfeed_timer > 0:
+            self.overfeed_timer -= 1
 
-    @abstractmethod
     def update_pooping(self):
-        pass
+        if self.stage <= 0 or self.timer < 1800: return
+        if len(game_globals.poop_list) >= (len(game_globals.pet_list) * 8) and self.stage >= 2:
+            if self.poop_count_flag == 0:
+                self.poop_count_flag = 1
+                self.set_sick()
+                runtime_globals.game_console.log(f"[!] Care sick of poop ({len(game_globals.poop_list)})! Injuries: {self.injuries}")
+        else:
+            self.poop_count_flag = 0
+            
+        depletion_rate = 1
+        if self.stage >= 6 and self.age_timer >= 48 * 60 * 60 * 30:
+            depletion_rate = 2  # Accelerate depletion after 48 hours
 
-    @abstractmethod
+        if self.timer % (self.poop_timer * 60 * 30 // depletion_rate) == 0:
+            self.set_state("pooping")
+
     def update_care_mistakes(self):
-        pass
+        sound_alert = False
+        #hunger call
+        if self.hunger == 0:
+            self.care_food_mistake_timer += 1
+            if self.care_food_mistake_timer == get_module(self.module).meat_care_mistake_time:
+                self.add_care_mistake("hunger")
+                sound_alert = True
+        
+        #strength call
+        if self.strength == 0:
+            self.care_strength_mistake_timer += 1
+            if self.care_strength_mistake_timer == get_module(self.module).protein_care_mistake_time:
+                self.add_care_mistake("strength")
+                sound_alert = True
+        
+        #sick call
+        if self.sick > 0:
+            self.care_sick_mistake_timer += 1
+        else:
+            self.care_sick_mistake_timer = 0
+
+        #sleep call
+        if self.should_sleep():
+            self.care_sleep_mistake_timer += 1
+            if self.care_sleep_mistake_timer >= get_module(self.module).sleep_care_mistake_timer:
+                self.add_care_mistake("sleep")
+                sound_alert = True
+                self.care_sleep_mistake_timer = 0
+                
+        
+        if sound_alert:
+            runtime_globals.game_sound.play("alarm")
     
-    @abstractmethod
+    def add_care_mistake(self, mistake_type):
+        if self.use_condition_hearts:
+            if self.condition_hearts_max > 0:
+                self.condition_hearts_max -= 1
+                runtime_globals.game_console.log(f"[!] Care mistake ({mistake_type})! Condition hearts left: {self.condition_hearts_max}")
+        else:
+            self.mistakes += 1
+            runtime_globals.game_console.log(f"[!] Care mistake ({mistake_type})! Total: {self.mistakes}")
+
     def need_care(self):
-        pass
+        return self.stage != 0 and self.state not in ("dead","nap") and (self.hunger == 0 or self.strength == 0 or self.sick > 0 or self.should_sleep()) 
 
-    @abstractmethod
-    def get_power(self):
-        pass
+    def call_sign(self):
+        if self.stage == 0 or self.state in ("dead","nap"):
+            return False
+        if self.hunger == 0 and self.care_food_mistake_timer < get_module(self.module).meat_care_mistake_time:
+            return True
+        elif self.strength == 0 and self.care_strength_mistake_timer < get_module(self.module).protein_care_mistake_time:
+            return True
+        elif self.should_sleep() and self.care_sleep_mistake_timer < get_module(self.module).sleep_care_mistake_timer:
+            return True
+        return False
 
-    @abstractmethod
+    def set_traited_egg(self):
+        ruleset = get_module(self.module).ruleset
+
+        if ruleset == "dmc":
+            if self.stage in [6, 7] and random.randint(0, 10) <= 3:
+                key = f"{self.module}@{self.version}"
+                if key not in game_globals.traited:
+                    game_globals.traited.append(key)
+                    runtime_globals.game_console.log(f"Traited Egg granted for {self.name}!")
+        elif ruleset == "penc":
+            win_ratio = (self.win * 100) // self.battles if self.battles > 0 else 0
+
+            if self.stage >= 6 and self.age_timer >= 48 * 60 * 60 * 30:
+                if win_ratio >= 60:
+                    key = f"{self.module}@{self.version}"
+                    if key not in game_globals.traited:
+                        game_globals.traited.append(key)
+                        runtime_globals.game_console.log(f"Traited Egg granted for {self.name}!")
+        elif ruleset == "dmx":
+            trait = False
+            if self.timer > 5184000: #48 hours
+                trait = True
+
+            if self.version > 4 and self.area < 45:
+                trait = False
+
+            if trait:
+                key = f"{self.module}@{self.version}"
+                if key not in game_globals.traited:
+                    game_globals.traited.append(key)
+                    runtime_globals.game_console.log(f"Traited Egg granted for {self.name}!")
+
+
     def can_battle(self):
-        pass
-
-    @abstractmethod
+        return self.stage > 2 and self.state != "dead" and self.atk_main > 0
+    
     def can_train(self):
-        pass
+        return self.stage > 1 and self.state != "dead" and self.atk_main > 0
 
-    @abstractmethod
     def set_back_to_sleep(self):
-        pass
+        self.back_to_sleep = get_module(self.module).back_to_sleep_time
 
-    @abstractmethod
     def check_disturbed_sleep(self):
-        pass
+        if self.state == "nap":
+            runtime_globals.game_console.log(f"[DEBUG] Sleep disturbance {self.sleep_disturbances}")
+            self.set_state("idle")
+            self.sleep_disturbances += 1
+            self.disturbance_penalty += 2
+            self.set_back_to_sleep()
 
-    @abstractmethod
+    def get_hp(self):
+        hp = self.hp
+
+        if self.level >= 2:
+            hp += 2
+        if self.level >= 5:
+            hp += 2
+        if self.level >= 6:
+            hp += 2
+        if self.level >= 10:
+            hp += 2
+        return hp
+    
+    def get_power(self):
+        ruleset = get_module(self.module).ruleset
+        power = self.power
+
+        if ruleset == "dmc":
+            multi = 1
+            if self.traited:
+                multi = 2
+
+            if self.effort >= 16:
+                if self.stage == 3:
+                    power += (5 * multi)
+                elif self.stage == 4:
+                    power += (8 * multi)
+                elif self.stage == 5:
+                    power += (15 * multi)
+                elif self.stage >= 6:
+                    power += (25 * multi)
+            return power
+        elif ruleset == "penc":
+            strength_bonus = 0
+            traited_bonus = 0
+            shaken_bonus = 0
+            
+            # Strength Hearts Bonus
+            if self.effort >= 16:
+                if self.stage == 3:
+                    strength_bonus = 5
+                elif self.stage == 4:
+                    strength_bonus = 8
+                elif self.stage == 5:
+                    strength_bonus = 15
+                elif self.stage >= 6:
+                    strength_bonus = 20
+
+            # Traited Egg Bonus
+            if self.traited:
+                if self.stage == 3:
+                    traited_bonus = 5
+                elif self.stage == 4:
+                    traited_bonus = 8
+                elif self.stage == 5:
+                    traited_bonus = 15
+                elif self.stage >= 6:
+                    traited_bonus = 20
+
+            # Shaken Egg Bonus
+            if self.shook:
+                shaken_bonus = 10
+
+            # Total Bonus Calculation
+            total_bonus = strength_bonus + traited_bonus + shaken_bonus
+
+            return power + total_bonus
+        elif ruleset == "dmx":
+            if self.effort >= 16:
+                if self.version > 4:
+                    power += 16
+                else:
+                    power += 15
+            if self.level >= 3:
+                power += 10
+            if self.level >= 6:
+                power += 10
+            if self.level >= 9:
+                power += 10
+            return power
+
+    def get_attack(self):
+        attack = self.attack
+
+        if self.level >= 4:
+            attack += 1
+        if self.level >= 7:
+            attack += 1
+        return attack
+    
     def finish_training(self, won = False):
-        pass
+        if won:
+            self.set_state("happy2")
+            self.effort += get_module(self.module).training_effort_gain
+            if self.disturbance_penalty > 2:
+                self.disturbance_penalty -= 2
+        else:
+            self.set_state("angry")
+
+        self.strength += get_module(self.module).training_strengh_gain
+
+        weight_loss = get_module(self.module).training_weight_win if won else get_module(self.module).training_weight_lose
+        self.weight = max(self.min_weight, self.weight - weight_loss)
+
+    def finish_versus(self, won=False):
+        self.battles += 1
+        self.totalBattles += 1
+        if won:
+            self.set_state("happy3")
+            self.win += 1
+            self.totalWin += 1
+
+    def finish_battle(self, won=False):
+        self.battles += 1
+        self.dp -= 1
+        self.totalBattles += 1
+        if won:
+            self.set_state("happy3")
+            self.win += 1
+            self.totalWin += 1
+            sick_chance = get_module(self.module).battle_base_sick_chance_win
+        else:
+            sick_chance = get_module(self.module).battle_base_sick_chance_lose
+            if self.protein_overdose > get_module(self.module).protein_overdose_max:
+                self.protein_overdose = get_module(self.module).protein_overdose_max
+            sick_chance += self.protein_overdose * 10
+
+            if self.disturbance_penalty > get_module(self.module).disturbance_penalty_max:
+                self.disturbance_penalty = get_module(self.module).disturbance_penalty_max
+
+            sick_chance += self.disturbance_penalty
+
+        sick_chance = max(0.05, min(sick_chance / 100, 0.5))
+        
+        if random.random() < sick_chance:
+            self.set_sick()
 
     def should_sleep(self):
         if not self.sleeps or not self.wakes:
@@ -459,24 +832,13 @@ class GamePet:
         except Exception as e:
             runtime_globals.game_console.log(f"[!] Error parsing wake time: {e}")
 
-
-
-
     def __getstate__(self):
-        if self.state not in ("dead", "idle", "moving", "hatch"):
-            self.state = "idle"
-            self.food_type = -1
-            self.animation_counter = 0
         state = self.__dict__.copy()
         state.pop("frames", None)
         return state
     
     def __setstate__(self, state):
         self.__dict__.update(state)
-        if self.state not in ("dead", "idle", "moving", "hatch", "nap"):
-            self.set_state("idle")
-            self.food_type = -1
-            self.animation_counter = 0
         self.load_sprite()
         if self.state == "dead":
             runtime_globals.pet_sprites[self][0] = pygame.image.load(DEAD_FRAME_PATH).convert_alpha()

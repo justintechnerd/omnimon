@@ -1,0 +1,16 @@
+import json
+
+with open(r"c:\Users\Ander\Documents\Meus Projetos\omnimon\modules\DMC\monster.json", "r", encoding="utf-8") as f:
+    data = json.load(f)
+
+for monster in data["monster"]:
+    if "evolve" in monster:
+        for evo in monster["evolve"]:
+            if "training" in evo and isinstance(evo["training"], list):
+                evo["training"] = [
+                    v if v == 999999 else v // 4
+                    for v in evo["training"]
+                ]
+
+with open(r"c:\Users\Ander\Documents\Meus Projetos\omnimon\modules\DMC\monster.json", "w", encoding="utf-8") as f:
+    json.dump(data, f, indent=2, ensure_ascii=False)

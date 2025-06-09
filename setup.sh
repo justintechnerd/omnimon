@@ -10,7 +10,10 @@ sudo apt-get install -y python3 python3-pip git
 sudo apt-get install python3-smbus
 
 # Install Pygame
-pip3 install pygame
+pip install --user pygame==2.5.2
+sudo apt-get install libsdl2-mixer-2.0-0
+sudo apt-get install libsdl2-ttf-2.0-0
+pip install psutil
 
 # Create the Omnimon service
 echo "[Unit]

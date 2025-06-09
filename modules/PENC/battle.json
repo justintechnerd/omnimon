@@ -7,7 +7,8 @@
     "round": 1,
     "version": 1,
     "atk_main": 37,
-    "atk_alt": 0
+    "atk_alt": 0,
+    "stage": 3
   },
   {
     "name": "Gotsumon",
@@ -17,7 +18,8 @@
     "round": 2,
     "version": 1,
     "atk_main": 58,
-    "atk_alt": 0
+    "atk_alt": 0,
+    "stage": 3
   },
   {
     "name": "Tentomon",
@@ -27,7 +29,8 @@
     "round": 3,
     "version": 1,
     "atk_main": 57,
-    "atk_alt": 0
+    "atk_alt": 0,
+    "stage": 3
   },
   {
     "name": "Gotsumon",
@@ -37,7 +40,8 @@
     "round": 1,
     "version": 1,
     "atk_main": 58,
-    "atk_alt": 0
+    "atk_alt": 0,
+    "stage": 3
   },
   {
     "name": "Gekomon",
@@ -47,7 +51,8 @@
     "round": 2,
     "version": 1,
     "atk_main": 60,
-    "atk_alt": 0
+    "atk_alt": 0,
+    "stage": 4
   },
   {
     "name": "Starmon",
@@ -57,7 +62,8 @@
     "round": 3,
     "version": 1,
     "atk_main": 22,
-    "atk_alt": 0
+    "atk_alt": 0,
+    "stage": 4
   },
   {
     "name": "Tortomon",
@@ -67,7 +73,8 @@
     "round": 1,
     "version": 1,
     "atk_main": 25,
-    "atk_alt": 0
+    "atk_alt": 0,
+    "stage": 4
   },
   {
     "name": "Monochromon",
@@ -77,7 +84,8 @@
     "round": 2,
     "version": 1,
     "atk_main": 3,
-    "atk_alt": 0
+    "atk_alt": 0,
+    "stage": 4
   },
   {
     "name": "Gatomon",
@@ -87,7 +95,8 @@
     "round": 3,
     "version": 1,
     "atk_main": 51,
-    "atk_alt": 0
+    "atk_alt": 0,
+    "stage": 4
   },
   {
     "name": "Kuwagamon",
@@ -97,7 +106,8 @@
     "round": 1,
     "version": 1,
     "atk_main": 6,
-    "atk_alt": 0
+    "atk_alt": 0,
+    "stage": 4
   },
   {
     "name": "Kabuterimon",
@@ -107,7 +117,8 @@
     "round": 2,
     "version": 1,
     "atk_main": 3,
-    "atk_alt": 0
+    "atk_alt": 0,
+    "stage": 4
   },
   {
     "name": "Okuwamon",
@@ -117,7 +128,8 @@
     "round": 3,
     "version": 1,
     "atk_main": 59,
-    "atk_alt": 0
+    "atk_alt": 0,
+    "stage": 5
   },
   {
     "name": "Jagamon",
@@ -127,7 +139,8 @@
     "round": 1,
     "version": 1,
     "atk_main": 63,
-    "atk_alt": 0
+    "atk_alt": 0,
+    "stage": 5
   },
   {
     "name": "ShogunGekomon",
@@ -137,7 +150,8 @@
     "round": 2,
     "version": 1,
     "atk_main": 29,
-    "atk_alt": 0
+    "atk_alt": 0,
+    "stage": 5
   },
   {
     "name": "Piximon",
@@ -147,7 +161,8 @@
     "round": 3,
     "version": 1,
     "atk_main": 7,
-    "atk_alt": 0
+    "atk_alt": 0,
+    "stage": 5
   },
   {
     "name": "Triceramon",
@@ -157,7 +172,8 @@
     "round": 1,
     "version": 1,
     "atk_main": 62,
-    "atk_alt": 0
+    "atk_alt": 0,
+    "stage": 5
   },
   {
     "name": "MegaKabuterimon",
@@ -167,7 +183,8 @@
     "round": 2,
     "version": 1,
     "atk_main": 65,
-    "atk_alt": 0
+    "atk_alt": 0,
+    "stage": 5
   },
   {
     "name": "Angewomon",
@@ -177,7 +194,8 @@
     "round": 3,
     "version": 1,
     "atk_main": 81,
-    "atk_alt": 0
+    "atk_alt": 0,
+    "stage": 5
   },
   {
     "name": "MetalEtemon",
@@ -187,7 +205,8 @@
     "round": 1,
     "version": 1,
     "atk_main": 43,
-    "atk_alt": 0
+    "atk_alt": 0,
+    "stage": 6
   },
   {
     "name": "Eldradimon",
@@ -197,7 +216,8 @@
     "round": 2,
     "version": 1,
     "atk_main": 24,
-    "atk_alt": 0
+    "atk_alt": 0,
+    "stage": 6
   },
   {
     "name": "SaberLeomon",
@@ -207,7 +227,8 @@
     "round": 3,
     "version": 1,
     "atk_main": 26,
-    "atk_alt": 0
+    "atk_alt": 0,
+    "stage": 6
   },
   {
     "name": "Blastmon",
@@ -218,7 +239,8 @@
     "version": 1,
     "atk_main": 22,
     "atk_alt": 0,
-	"handicap": 0
+    "handicap": 0,
+    "stage": 6
   },
   {
     "name": "HerculesKabuterimon",
@@ -229,7 +251,8 @@
     "version": 1,
     "atk_main": 30,
     "atk_alt": 0,
-	"handicap": 5
+    "handicap": 5,
+    "stage": 6
   },
   {
     "name": "GranKuwagamon",
@@ -240,7 +263,8 @@
     "version": 1,
     "atk_main": 67,
     "atk_alt": 0,
-	"handicap": 8
+    "handicap": 8,
+    "stage": 6
   },
   {
     "name": "SymbareAngoramon",
@@ -251,7 +275,8 @@
     "version": 1,
     "atk_main": 21,
     "atk_alt": 0,
-	"handicap": 20
+    "handicap": 20,
+    "stage": 4
   },
   {
     "name": "Lamortmon",
@@ -262,7 +287,8 @@
     "version": 1,
     "atk_main": 32,
     "atk_alt": 0,
-	"handicap": 18
+    "handicap": 18,
+    "stage": 5
   },
   {
     "name": "Diarbbitmon",
@@ -273,7 +299,8 @@
     "version": 1,
     "atk_main": 31,
     "atk_alt": 0,
-	"handicap": 10
+    "handicap": 10,
+    "stage": 6
   },
   {
     "name": "GranKuwagamon",
@@ -284,7 +311,8 @@
     "version": 1,
     "atk_main": 67,
     "atk_alt": 0,
-	"handicap": 10
+    "handicap": 10,
+    "stage": 6
   },
   {
     "name": "Magnadramon",
@@ -295,7 +323,8 @@
     "version": 1,
     "atk_main": 16,
     "atk_alt": 0,
-	"handicap": 10
+    "handicap": 10,
+    "stage": 6
   },
   {
     "name": "Tlalocmon",
@@ -306,7 +335,8 @@
     "version": 1,
     "atk_main": 4,
     "atk_alt": 0,
-	"handicap": 10
+    "handicap": 10,
+    "stage": 7
   },
   {
     "name": "Gomamon",
@@ -316,7 +346,8 @@
     "round": 1,
     "version": 2,
     "atk_main": 44,
-    "atk_alt": 0
+    "atk_alt": 0,
+    "stage": 3
   },
   {
     "name": "Syakomon",
@@ -326,7 +357,8 @@
     "round": 2,
     "version": 2,
     "atk_main": 41,
-    "atk_alt": 0
+    "atk_alt": 0,
+    "stage": 3
   },
   {
     "name": "Crabmon",
@@ -336,7 +368,8 @@
     "round": 3,
     "version": 2,
     "atk_main": 67,
-    "atk_alt": 0
+    "atk_alt": 0,
+    "stage": 3
   },
   {
     "name": "Syakomon",
@@ -346,7 +379,8 @@
     "round": 1,
     "version": 2,
     "atk_main": 41,
-    "atk_alt": 0
+    "atk_alt": 0,
+    "stage": 3
   },
   {
     "name": "Gesomon",
@@ -356,7 +390,8 @@
     "round": 2,
     "version": 2,
     "atk_main": 45,
-    "atk_alt": 0
+    "atk_alt": 0,
+    "stage": 4
   },
   {
     "name": "Seadramon",
@@ -366,7 +401,8 @@
     "round": 3,
     "version": 2,
     "atk_main": 5,
-    "atk_alt": 0
+    "atk_alt": 0,
+    "stage": 4
   },
   {
     "name": "Octomon",
@@ -376,7 +412,8 @@
     "round": 1,
     "version": 2,
     "atk_main": 18,
-    "atk_alt": 0
+    "atk_alt": 0,
+    "stage": 4
   },
   {
     "name": "Coelamon",
@@ -386,7 +423,8 @@
     "round": 2,
     "version": 2,
     "atk_main": 5,
-    "atk_alt": 0
+    "atk_alt": 0,
+    "stage": 4
   },
   {
     "name": "Dolphmon",
@@ -396,7 +434,8 @@
     "round": 3,
     "version": 2,
     "atk_main": 14,
-    "atk_alt": 0
+    "atk_alt": 0,
+    "stage": 4
   },
   {
     "name": "Ikkakumon",
@@ -406,7 +445,8 @@
     "round": 1,
     "version": 2,
     "atk_main": 98,
-    "atk_alt": 0
+    "atk_alt": 0,
+    "stage": 4
   },
   {
     "name": "Ebidramon",
@@ -416,7 +456,8 @@
     "round": 2,
     "version": 2,
     "atk_main": 69,
-    "atk_alt": 0
+    "atk_alt": 0,
+    "stage": 4
   },
   {
     "name": "Dragomon",
@@ -426,7 +467,8 @@
     "round": 3,
     "version": 2,
     "atk_main": 46,
-    "atk_alt": 0
+    "atk_alt": 0,
+    "stage": 5
   },
   {
     "name": "Divermon",
@@ -436,7 +478,8 @@
     "round": 1,
     "version": 2,
     "atk_main": 46,
-    "atk_alt": 0
+    "atk_alt": 0,
+    "stage": 5
   },
   {
     "name": "MarineDevimon",
@@ -446,7 +489,8 @@
     "round": 2,
     "version": 2,
     "atk_main": 72,
-    "atk_alt": 0
+    "atk_alt": 0,
+    "stage": 5
   },
   {
     "name": "Whamon",
@@ -456,7 +500,8 @@
     "round": 3,
     "version": 2,
     "atk_main": 9,
-    "atk_alt": 0
+    "atk_alt": 0,
+    "stage": 5
   },
   {
     "name": "Zudomon",
@@ -466,7 +511,8 @@
     "round": 1,
     "version": 2,
     "atk_main": 16,
-    "atk_alt": 0
+    "atk_alt": 0,
+    "stage": 5
   },
   {
     "name": "MegaSeadramon",
@@ -476,7 +522,8 @@
     "round": 2,
     "version": 2,
     "atk_main": 73,
-    "atk_alt": 0
+    "atk_alt": 0,
+    "stage": 5
   },
   {
     "name": "Scorpiomon",
@@ -486,7 +533,8 @@
     "round": 3,
     "version": 2,
     "atk_main": 69,
-    "atk_alt": 0
+    "atk_alt": 0,
+    "stage": 5
   },
   {
     "name": "Pukumon",
@@ -496,7 +544,8 @@
     "round": 1,
     "version": 2,
     "atk_main": 48,
-    "atk_alt": 0
+    "atk_alt": 0,
+    "stage": 6
   },
   {
     "name": "JumboGamemon",
@@ -506,7 +555,8 @@
     "round": 2,
     "version": 2,
     "atk_main": 100,
-    "atk_alt": 0
+    "atk_alt": 0,
+    "stage": 6
   },
   {
     "name": "Vikemon",
@@ -516,7 +566,8 @@
     "round": 3,
     "version": 2,
     "atk_main": 28,
-    "atk_alt": 0
+    "atk_alt": 0,
+    "stage": 6
   },
   {
     "name": "Plesiomon",
@@ -527,7 +578,8 @@
     "version": 2,
     "atk_main": 21,
     "atk_alt": 0,
-	"handicap": 0
+    "handicap": 0,
+    "stage": 6
   },
   {
     "name": "MarineAngemon",
@@ -538,7 +590,8 @@
     "version": 2,
     "atk_main": 8,
     "atk_alt": 0,
-	"handicap": 5
+    "handicap": 5,
+    "stage": 6
   },
   {
     "name": "Cthyllamon",
@@ -549,7 +602,8 @@
     "version": 2,
     "atk_main": 114,
     "atk_alt": 0,
-	"handicap": 8
+    "handicap": 8,
+    "stage": 6
   },
   {
     "name": "TeslaJellymon",
@@ -560,7 +614,8 @@
     "version": 2,
     "atk_main": 81,
     "atk_alt": 0,
-	"handicap": 20
+    "handicap": 20,
+    "stage": 4
   },
   {
     "name": "Thetismon",
@@ -571,7 +626,8 @@
     "version": 2,
     "atk_main": 6,
     "atk_alt": 0,
-	"handicap": 18
+    "handicap": 18,
+    "stage": 5
   },
   {
     "name": "Amphimon",
@@ -582,7 +638,8 @@
     "version": 2,
     "atk_main": 0,
     "atk_alt": 0,
-	"handicap": 10
+    "handicap": 10,
+    "stage": 6
   },
   {
     "name": "MetalSeadramon",
@@ -593,7 +650,8 @@
     "version": 2,
     "atk_main": 30,
     "atk_alt": 0,
-	"handicap": 10
+    "handicap": 10,
+    "stage": 6
   },
   {
     "name": "Cthyllamon",
@@ -604,7 +662,8 @@
     "version": 2,
     "atk_main": 114,
     "atk_alt": 0,
-	"handicap": 10
+    "handicap": 10,
+    "stage": 6
   },
   {
     "name": "Aegisdramon",
@@ -615,7 +674,8 @@
     "version": 2,
     "atk_main": 10,
     "atk_alt": 0,
-	"handicap": 10
+    "handicap": 10,
+    "stage": 7
   },
   {
     "name": "Tapirmon",
@@ -625,7 +685,8 @@
     "round": 1,
     "version": 3,
     "atk_main": 47,
-    "atk_alt": 0
+    "atk_alt": 0,
+    "stage": 3
   },
   {
     "name": "Candlemon",
@@ -635,7 +696,8 @@
     "round": 2,
     "version": 3,
     "atk_main": 17,
-    "atk_alt": 0
+    "atk_alt": 0,
+    "stage": 3
   },
   {
     "name": "DemiDevimon",
@@ -645,7 +707,8 @@
     "round": 3,
     "version": 3,
     "atk_main": 76,
-    "atk_alt": 0
+    "atk_alt": 0,
+    "stage": 3
   },
   {
     "name": "Candlemon",
@@ -655,7 +718,8 @@
     "round": 1,
     "version": 3,
     "atk_main": 17,
-    "atk_alt": 0
+    "atk_alt": 0,
+    "stage": 3
   },
   {
     "name": "Bakemon",
@@ -665,7 +729,8 @@
     "round": 2,
     "version": 3,
     "atk_main": 27,
-    "atk_alt": 0
+    "atk_alt": 0,
+    "stage": 4
   },
   {
     "name": "Apemon",
@@ -675,7 +740,8 @@
     "round": 3,
     "version": 3,
     "atk_main": 48,
-    "atk_alt": 0
+    "atk_alt": 0,
+    "stage": 4
   },
   {
     "name": "Garurumon",
@@ -685,7 +751,8 @@
     "round": 1,
     "version": 3,
     "atk_main": 3,
-    "atk_alt": 0
+    "atk_alt": 0,
+    "stage": 4
   },
   {
     "name": "Meramon",
@@ -695,7 +762,8 @@
     "round": 2,
     "version": 3,
     "atk_main": 6,
-    "atk_alt": 0
+    "atk_alt": 0,
+    "stage": 4
   },
   {
     "name": "Wizardmon",
@@ -705,7 +773,8 @@
     "round": 3,
     "version": 3,
     "atk_main": 81,
-    "atk_alt": 0
+    "atk_alt": 0,
+    "stage": 4
   },
   {
     "name": "Devimon",
@@ -715,7 +784,8 @@
     "round": 1,
     "version": 3,
     "atk_main": 26,
-    "atk_alt": 0
+    "atk_alt": 0,
+    "stage": 4
   },
   {
     "name": "Dokugumon",
@@ -725,7 +795,8 @@
     "round": 2,
     "version": 3,
     "atk_main": 74,
-    "atk_alt": 0
+    "atk_alt": 0,
+    "stage": 4
   },
   {
     "name": "LadyDevimon",
@@ -735,7 +806,8 @@
     "round": 3,
     "version": 3,
     "atk_main": 50,
-    "atk_alt": 0
+    "atk_alt": 0,
+    "stage": 5
   },
   {
     "name": "Phantomon",
@@ -745,7 +817,8 @@
     "round": 1,
     "version": 3,
     "atk_main": 49,
-    "atk_alt": 0
+    "atk_alt": 0,
+    "stage": 5
   },
   {
     "name": "SkullMeramon",
@@ -755,7 +828,8 @@
     "round": 2,
     "version": 3,
     "atk_main": 78,
-    "atk_alt": 0
+    "atk_alt": 0,
+    "stage": 5
   },
   {
     "name": "Myotismon",
@@ -765,7 +839,8 @@
     "round": 3,
     "version": 3,
     "atk_main": 50,
-    "atk_alt": 0
+    "atk_alt": 0,
+    "stage": 5
   },
   {
     "name": "Mammothmon",
@@ -775,7 +850,8 @@
     "round": 1,
     "version": 3,
     "atk_main": 98,
-    "atk_alt": 0
+    "atk_alt": 0,
+    "stage": 5
   },
   {
     "name": "WereGarurumon",
@@ -785,7 +861,8 @@
     "round": 2,
     "version": 3,
     "atk_main": 26,
-    "atk_alt": 0
+    "atk_alt": 0,
+    "stage": 5
   },
   {
     "name": "Pumpkinmon",
@@ -795,7 +872,8 @@
     "round": 3,
     "version": 3,
     "atk_main": 77,
-    "atk_alt": 0
+    "atk_alt": 0,
+    "stage": 5
   },
   {
     "name": "Anubismon",
@@ -805,7 +883,8 @@
     "round": 1,
     "version": 3,
     "atk_main": 53,
-    "atk_alt": 0
+    "atk_alt": 0,
+    "stage": 6
   },
   {
     "name": "Boltmon",
@@ -815,7 +894,8 @@
     "round": 2,
     "version": 3,
     "atk_main": 28,
-    "atk_alt": 0
+    "atk_alt": 0,
+    "stage": 6
   },
   {
     "name": "Creepymon",
@@ -825,7 +905,8 @@
     "round": 3,
     "version": 3,
     "atk_main": 16,
-    "atk_alt": 0
+    "atk_alt": 0,
+    "stage": 6
   },
   {
     "name": "SkullMammothmon",
@@ -836,7 +917,8 @@
     "version": 3,
     "atk_main": 11,
     "atk_alt": 0,
-	"handicap": 0
+    "handicap": 0,
+    "stage": 6
   },
   {
     "name": "Piedmon",
@@ -847,7 +929,8 @@
     "version": 3,
     "atk_main": 82,
     "atk_alt": 0,
-	"handicap": 5
+    "handicap": 5,
+    "stage": 6
   },
   {
     "name": "Callismon",
@@ -858,7 +941,8 @@
     "version": 3,
     "atk_main": 26,
     "atk_alt": 0,
-	"handicap": 8
+    "handicap": 8,
+    "stage": 6
   },
   {
     "name": "Loogarmon",
@@ -869,7 +953,8 @@
     "version": 3,
     "atk_main": 1,
     "atk_alt": 0,
-	"handicap": 20
+    "handicap": 20,
+    "stage": 4
   },
   {
     "name": "Soloogarmon",
@@ -880,7 +965,8 @@
     "version": 3,
     "atk_main": 33,
     "atk_alt": 0,
-	"handicap": 18
+    "handicap": 18,
+    "stage": 5
   },
   {
     "name": "Fenriloogamon",
@@ -891,7 +977,8 @@
     "version": 3,
     "atk_main": 34,
     "atk_alt": 0,
-	"handicap": 10
+    "handicap": 10,
+    "stage": 6
   },
   {
     "name": "Piedmon",
@@ -902,7 +989,8 @@
     "version": 3,
     "atk_main": 82,
     "atk_alt": 0,
-	"handicap": 10
+    "handicap": 10,
+    "stage": 6
   },
   {
     "name": "NoblePumpkinmon",
@@ -913,7 +1001,8 @@
     "version": 3,
     "atk_main": 77,
     "atk_alt": 0,
-	"handicap": 10
+    "handicap": 10,
+    "stage": 6
   },
   {
     "name": "Boltboutamon",
@@ -924,7 +1013,8 @@
     "version": 3,
     "atk_main": 116,
     "atk_alt": 0,
-	"handicap": 10
+    "handicap": 10,
+    "stage": 7
   },
   {
     "name": "Floramon",
@@ -934,7 +1024,8 @@
     "round": 1,
     "version": 4,
     "atk_main": 37,
-    "atk_alt": 0
+    "atk_alt": 0,
+    "stage": 3
   },
   {
     "name": "Mushroommon",
@@ -944,7 +1035,8 @@
     "round": 2,
     "version": 4,
     "atk_main": 92,
-    "atk_alt": 0
+    "atk_alt": 0,
+    "stage": 3
   },
   {
     "name": "Biyomon",
@@ -954,7 +1046,8 @@
     "round": 3,
     "version": 4,
     "atk_main": 1,
-    "atk_alt": 0
+    "atk_alt": 0,
+    "stage": 3
   },
   {
     "name": "Biyomon",
@@ -964,7 +1057,8 @@
     "round": 1,
     "version": 4,
     "atk_main": 1,
-    "atk_alt": 0
+    "atk_alt": 0,
+    "stage": 3
   },
   {
     "name": "Palmon",
@@ -974,7 +1068,8 @@
     "round": 2,
     "version": 4,
     "atk_main": 4,
-    "atk_alt": 0
+    "atk_alt": 0,
+    "stage": 3
   },
   {
     "name": "Birdramon",
@@ -984,7 +1079,8 @@
     "round": 3,
     "version": 4,
     "atk_main": 52,
-    "atk_alt": 0
+    "atk_alt": 0,
+    "stage": 4
   },
   {
     "name": "RedVegiemon",
@@ -994,7 +1090,8 @@
     "round": 1,
     "version": 4,
     "atk_main": 47,
-    "atk_alt": 0
+    "atk_alt": 0,
+    "stage": 4
   },
   {
     "name": "Kiwimon",
@@ -1004,7 +1101,8 @@
     "round": 2,
     "version": 4,
     "atk_main": 89,
-    "atk_alt": 0
+    "atk_alt": 0,
+    "stage": 4
   },
   {
     "name": "Togemon",
@@ -1014,7 +1112,8 @@
     "round": 3,
     "version": 4,
     "atk_main": 87,
-    "atk_alt": 0
+    "atk_alt": 0,
+    "stage": 4
   },
   {
     "name": "Woodmon",
@@ -1024,7 +1123,8 @@
     "round": 1,
     "version": 4,
     "atk_main": 53,
-    "atk_alt": 0
+    "atk_alt": 0,
+    "stage": 4
   },
   {
     "name": "Veedramon",
@@ -1034,7 +1134,8 @@
     "round": 2,
     "version": 4,
     "atk_main": 93,
-    "atk_alt": 0
+    "atk_alt": 0,
+    "stage": 4
   },
   {
     "name": "Garbagemon",
@@ -1044,7 +1145,8 @@
     "round": 3,
     "version": 4,
     "atk_main": 15,
-    "atk_alt": 0
+    "atk_alt": 0,
+    "stage": 5
   },
   {
     "name": "Deramon",
@@ -1054,7 +1156,8 @@
     "round": 1,
     "version": 4,
     "atk_main": 80,
-    "atk_alt": 0
+    "atk_alt": 0,
+    "stage": 5
   },
   {
     "name": "Garudamon",
@@ -1064,7 +1167,8 @@
     "round": 2,
     "version": 4,
     "atk_main": 38,
-    "atk_alt": 0
+    "atk_alt": 0,
+    "stage": 5
   },
   {
     "name": "Blossomon",
@@ -1074,7 +1178,8 @@
     "round": 3,
     "version": 4,
     "atk_main": 42,
-    "atk_alt": 0
+    "atk_alt": 0,
+    "stage": 5
   },
   {
     "name": "Cherrymon",
@@ -1084,7 +1189,8 @@
     "round": 1,
     "version": 4,
     "atk_main": 95,
-    "atk_alt": 0
+    "atk_alt": 0,
+    "stage": 5
   },
   {
     "name": "Lillymon",
@@ -1094,7 +1200,8 @@
     "round": 2,
     "version": 4,
     "atk_main": 30,
-    "atk_alt": 0
+    "atk_alt": 0,
+    "stage": 5
   },
   {
     "name": "AeroVeedramon",
@@ -1104,7 +1211,8 @@
     "round": 3,
     "version": 4,
     "atk_main": 106,
-    "atk_alt": 0
+    "atk_alt": 0,
+    "stage": 5
   },
   {
     "name": "Gryphonmon",
@@ -1114,7 +1222,8 @@
     "round": 1,
     "version": 4,
     "atk_main": 21,
-    "atk_alt": 0
+    "atk_alt": 0,
+    "stage": 6
   },
   {
     "name": "Phoenixmon",
@@ -1124,7 +1233,8 @@
     "round": 2,
     "version": 4,
     "atk_main": 91,
-    "atk_alt": 0
+    "atk_alt": 0,
+    "stage": 6
   },
   {
     "name": "Puppetmon",
@@ -1134,7 +1244,8 @@
     "round": 3,
     "version": 4,
     "atk_main": 94,
-    "atk_alt": 0
+    "atk_alt": 0,
+    "stage": 6
   },
   {
     "name": "Hydramon",
@@ -1145,7 +1256,8 @@
     "version": 4,
     "atk_main": 27,
     "atk_alt": 0,
-	"handicap": 0
+    "handicap": 0,
+    "stage": 6
   },
   {
     "name": "Rosemon",
@@ -1156,7 +1268,8 @@
     "version": 4,
     "atk_main": 57,
     "atk_alt": 0,
-	"handicap": 5
+    "handicap": 5,
+    "stage": 6
   },
   {
     "name": "UlforceVeedramon",
@@ -1167,7 +1280,8 @@
     "version": 4,
     "atk_main": 106,
     "atk_alt": 0,
-	"handicap": 8
+    "handicap": 8,
+    "stage": 6
   },
   {
     "name": "Galemon",
@@ -1178,7 +1292,8 @@
     "version": 4,
     "atk_main": 90,
     "atk_alt": 0,
-	"handicap": 20
+    "handicap": 20,
+    "stage": 4
   },
   {
     "name": "GrandGalemon",
@@ -1189,7 +1304,8 @@
     "version": 4,
     "atk_main": 28,
     "atk_alt": 0,
-	"handicap": 18
+    "handicap": 18,
+    "stage": 5
   },
   {
     "name": "Zephagamon",
@@ -1200,7 +1316,8 @@
     "version": 4,
     "atk_main": 47,
     "atk_alt": 0,
-	"handicap": 10
+    "handicap": 10,
+    "stage": 6
   },
   {
     "name": "Rafflesimon",
@@ -1211,7 +1328,8 @@
     "version": 4,
     "atk_main": 42,
     "atk_alt": 0,
-	"handicap": 10
+    "handicap": 10,
+    "stage": 6
   },
   {
     "name": "UlforceVeedramon",
@@ -1222,7 +1340,8 @@
     "version": 4,
     "atk_main": 106,
     "atk_alt": 0,
-	"handicap": 10
+    "handicap": 10,
+    "stage": 6
   },
   {
     "name": "Cernumon",
@@ -1233,7 +1352,8 @@
     "version": 4,
     "atk_main": 60,
     "atk_alt": 0,
-	"handicap": 10
+    "handicap": 10,
+    "stage": 7
   },
   {
     "name": "ToyAgumon",
@@ -1243,7 +1363,8 @@
     "round": 1,
     "version": 5,
     "atk_main": 1,
-    "atk_alt": 0
+    "atk_alt": 0,
+    "stage": 3
   },
   {
     "name": "Kokuwamon",
@@ -1253,7 +1374,8 @@
     "round": 2,
     "version": 5,
     "atk_main": 69,
-    "atk_alt": 0
+    "atk_alt": 0,
+    "stage": 3
   },
   {
     "name": "Hagurumon",
@@ -1263,7 +1385,8 @@
     "round": 3,
     "version": 5,
     "atk_main": 101,
-    "atk_alt": 0
+    "atk_alt": 0,
+    "stage": 3
   },
   {
     "name": "Kokuwamon",
@@ -1273,7 +1396,8 @@
     "round": 1,
     "version": 5,
     "atk_main": 69,
-    "atk_alt": 0
+    "atk_alt": 0,
+    "stage": 3
   },
   {
     "name": "Deputymon",
@@ -1283,7 +1407,8 @@
     "round": 2,
     "version": 5,
     "atk_main": 103,
-    "atk_alt": 0
+    "atk_alt": 0,
+    "stage": 4
   },
   {
     "name": "Clockmon",
@@ -1293,7 +1418,8 @@
     "round": 3,
     "version": 5,
     "atk_main": 107,
-    "atk_alt": 0
+    "atk_alt": 0,
+    "stage": 4
   },
   {
     "name": "Mekanorimon",
@@ -1303,7 +1429,8 @@
     "round": 1,
     "version": 5,
     "atk_main": 21,
-    "atk_alt": 0
+    "atk_alt": 0,
+    "stage": 4
   },
   {
     "name": "Greymon",
@@ -1313,7 +1440,8 @@
     "round": 2,
     "version": 5,
     "atk_main": 3,
-    "atk_alt": 0
+    "atk_alt": 0,
+    "stage": 4
   },
   {
     "name": "Thundermon",
@@ -1323,7 +1451,8 @@
     "round": 3,
     "version": 5,
     "atk_main": 81,
-    "atk_alt": 0
+    "atk_alt": 0,
+    "stage": 4
   },
   {
     "name": "Tankmon",
@@ -1333,7 +1462,8 @@
     "round": 1,
     "version": 5,
     "atk_main": 10,
-    "atk_alt": 0
+    "atk_alt": 0,
+    "stage": 4
   },
   {
     "name": "Guardromon",
@@ -1343,7 +1473,8 @@
     "round": 2,
     "version": 5,
     "atk_main": 39,
-    "atk_alt": 0
+    "atk_alt": 0,
+    "stage": 4
   },
   {
     "name": "Andromon",
@@ -1353,7 +1484,8 @@
     "round": 3,
     "version": 5,
     "atk_main": 12,
-    "atk_alt": 0
+    "atk_alt": 0,
+    "stage": 5
   },
   {
     "name": "BigMamemon",
@@ -1363,7 +1495,8 @@
     "round": 1,
     "version": 5,
     "atk_main": 115,
-    "atk_alt": 0
+    "atk_alt": 0,
+    "stage": 5
   },
   {
     "name": "WaruMonzaemon",
@@ -1373,7 +1506,8 @@
     "round": 2,
     "version": 5,
     "atk_main": 110,
-    "atk_alt": 0
+    "atk_alt": 0,
+    "stage": 5
   },
   {
     "name": "Cyberdramon",
@@ -1383,7 +1517,8 @@
     "round": 3,
     "version": 5,
     "atk_main": 26,
-    "atk_alt": 0
+    "atk_alt": 0,
+    "stage": 5
   },
   {
     "name": "Knightmon",
@@ -1393,7 +1528,8 @@
     "round": 1,
     "version": 5,
     "atk_main": 109,
-    "atk_alt": 0
+    "atk_alt": 0,
+    "stage": 5
   },
   {
     "name": "MetalGreymon",
@@ -1403,7 +1539,8 @@
     "round": 2,
     "version": 5,
     "atk_main": 2,
-    "atk_alt": 0
+    "atk_alt": 0,
+    "stage": 5
   },
   {
     "name": "Megadramon",
@@ -1413,7 +1550,8 @@
     "round": 3,
     "version": 5,
     "atk_main": 116,
-    "atk_alt": 0
+    "atk_alt": 0,
+    "stage": 5
   },
   {
     "name": "HiAndromon",
@@ -1423,7 +1561,8 @@
     "round": 1,
     "version": 5,
     "atk_main": 30,
-    "atk_alt": 0
+    "atk_alt": 0,
+    "stage": 6
   },
   {
     "name": "MetalGarurumon",
@@ -1433,7 +1572,8 @@
     "round": 2,
     "version": 5,
     "atk_main": 16,
-    "atk_alt": 0
+    "atk_alt": 0,
+    "stage": 6
   },
   {
     "name": "WarGreymon",
@@ -1443,7 +1583,8 @@
     "round": 3,
     "version": 5,
     "atk_main": 34,
-    "atk_alt": 0
+    "atk_alt": 0,
+    "stage": 6
   },
   {
     "name": "VenomMyotismon",
@@ -1454,7 +1595,8 @@
     "version": 5,
     "atk_main": 36,
     "atk_alt": 0,
-	"handicap": 0
+    "handicap": 0,
+    "stage": 6
   },
   {
     "name": "Machinedramon",
@@ -1465,7 +1607,8 @@
     "version": 5,
     "atk_main": 30,
     "atk_alt": 0,
-	"handicap": 5
+    "handicap": 5,
+    "stage": 6
   },
   {
     "name": "Galacticmon",
@@ -1476,7 +1619,8 @@
     "version": 5,
     "atk_main": 10,
     "atk_alt": 0,
-	"handicap": 10
+    "handicap": 10,
+    "stage": 6
   },
   {
     "name": "Hi-Commandramon",
@@ -1487,7 +1631,8 @@
     "version": 5,
     "atk_main": 100,
     "atk_alt": 0,
-	"handicap": 20
+    "handicap": 20,
+    "stage": 4
   },
   {
     "name": "Cargodramon",
@@ -1498,7 +1643,8 @@
     "version": 5,
     "atk_main": 87,
     "atk_alt": 0,
-	"handicap": 18
+    "handicap": 18,
+    "stage": 5
   },
   {
     "name": "Brigadramon",
@@ -1509,7 +1655,8 @@
     "version": 5,
     "atk_main": 87,
     "atk_alt": 0,
-	"handicap": 10
+    "handicap": 10,
+    "stage": 6
   },
   {
     "name": "ZeigGreymon",
@@ -1520,7 +1667,8 @@
     "version": 5,
     "atk_main": 20,
     "atk_alt": 0,
-	"handicap": 10
+    "handicap": 10,
+    "stage": 6
   },
   {
     "name": "Machinedramon",
@@ -1531,7 +1679,8 @@
     "version": 5,
     "atk_main": 30,
     "atk_alt": 0,
-	"handicap": 10
+    "handicap": 10,
+    "stage": 6
   },
   {
     "name": "Chaosdramon",
@@ -1542,7 +1691,8 @@
     "version": 5,
     "atk_main": 30,
     "atk_alt": 0,
-	"handicap": 10
+    "handicap": 10,
+    "stage": 7
   },
   {
     "name": "Salamon",
@@ -1552,7 +1702,8 @@
     "round": 1,
     "version": 0,
     "atk_main": 21,
-    "atk_alt": 0
+    "atk_alt": 0,
+    "stage": 3
   },
   {
     "name": "Gabumon",
@@ -1562,7 +1713,8 @@
     "round": 2,
     "version": 0,
     "atk_main": 1,
-    "atk_alt": 0
+    "atk_alt": 0,
+    "stage": 3
   },
   {
     "name": "Agumon",
@@ -1572,7 +1724,8 @@
     "round": 3,
     "version": 0,
     "atk_main": 1,
-    "atk_alt": 0
+    "atk_alt": 0,
+    "stage": 3
   },
   {
     "name": "Agumon",
@@ -1582,7 +1735,8 @@
     "round": 1,
     "version": 0,
     "atk_main": 1,
-    "atk_alt": 0
+    "atk_alt": 0,
+    "stage": 3
   },
   {
     "name": "Ninjamon",
@@ -1592,7 +1746,8 @@
     "round": 2,
     "version": 0,
     "atk_main": 35,
-    "atk_alt": 0
+    "atk_alt": 0,
+    "stage": 4
   },
   {
     "name": "Garurumon",
@@ -1602,7 +1757,8 @@
     "round": 3,
     "version": 0,
     "atk_main": 3,
-    "atk_alt": 0
+    "atk_alt": 0,
+    "stage": 4
   },
   {
     "name": "Leomon",
@@ -1612,7 +1768,8 @@
     "round": 1,
     "version": 0,
     "atk_main": 6,
-    "atk_alt": 0
+    "atk_alt": 0,
+    "stage": 4
   },
   {
     "name": "Angemon",
@@ -1622,7 +1779,8 @@
     "round": 2,
     "version": 0,
     "atk_main": 6,
-    "atk_alt": 0
+    "atk_alt": 0,
+    "stage": 4
   },
   {
     "name": "Gatomon",
@@ -1632,7 +1790,8 @@
     "round": 3,
     "version": 0,
     "atk_main": 51,
-    "atk_alt": 0
+    "atk_alt": 0,
+    "stage": 4
   },
   {
     "name": "Greymon",
@@ -1642,7 +1801,8 @@
     "round": 1,
     "version": 0,
     "atk_main": 3,
-    "atk_alt": 0
+    "atk_alt": 0,
+    "stage": 4
   },
   {
     "name": "Asuramon",
@@ -1652,7 +1812,8 @@
     "round": 2,
     "version": 0,
     "atk_main": 6,
-    "atk_alt": 0
+    "atk_alt": 0,
+    "stage": 5
   },
   {
     "name": "WereGarurumon",
@@ -1662,7 +1823,8 @@
     "round": 3,
     "version": 0,
     "atk_main": 26,
-    "atk_alt": 0
+    "atk_alt": 0,
+    "stage": 5
   },
   {
     "name": "MetalMamemon",
@@ -1672,7 +1834,8 @@
     "round": 1,
     "version": 0,
     "atk_main": 105,
-    "atk_alt": 0
+    "atk_alt": 0,
+    "stage": 5
   },
   {
     "name": "Angewomon",
@@ -1682,7 +1845,8 @@
     "round": 2,
     "version": 0,
     "atk_main": 81,
-    "atk_alt": 0
+    "atk_alt": 0,
+    "stage": 5
   },
   {
     "name": "MagnaAngemon",
@@ -1692,7 +1856,8 @@
     "round": 3,
     "version": 0,
     "atk_main": 104,
-    "atk_alt": 0
+    "atk_alt": 0,
+    "stage": 5
   },
   {
     "name": "MetalGreymon",
@@ -1702,7 +1867,8 @@
     "round": 1,
     "version": 0,
     "atk_main": 2,
-    "atk_alt": 0
+    "atk_alt": 0,
+    "stage": 5
   },
   {
     "name": "Dominimon",
@@ -1712,7 +1878,8 @@
     "round": 2,
     "version": 0,
     "atk_main": 19,
-    "atk_alt": 0
+    "atk_alt": 0,
+    "stage": 6
   },
   {
     "name": "Quantumon",
@@ -1722,7 +1889,8 @@
     "round": 3,
     "version": 0,
     "atk_main": 113,
-    "atk_alt": 0
+    "atk_alt": 0,
+    "stage": 6
   },
   {
     "name": "MetalGarurumon",
@@ -1732,7 +1900,8 @@
     "round": 1,
     "version": 0,
     "atk_main": 16,
-    "atk_alt": 0
+    "atk_alt": 0,
+    "stage": 6
   },
   {
     "name": "WarGreymon",
@@ -1742,7 +1911,8 @@
     "round": 2,
     "version": 0,
     "atk_main": 34,
-    "atk_alt": 0
+    "atk_alt": 0,
+    "stage": 6
   },
   {
     "name": "Omnimon",
@@ -1752,7 +1922,8 @@
     "round": 3,
     "version": 0,
     "atk_main": 32,
-    "atk_alt": 0
+    "atk_alt": 0,
+    "stage": 7
   },
   {
     "name": "KausGammamon",
@@ -1763,7 +1934,8 @@
     "version": 0,
     "atk_main": 47,
     "atk_alt": 0,
-	"handicap": 15
+    "handicap": 15,
+    "stage": 4
   },
   {
     "name": "WezenGammamon",
@@ -1774,7 +1946,8 @@
     "version": 0,
     "atk_main": 10,
     "atk_alt": 0,
-	"handicap": 15
+    "handicap": 15,
+    "stage": 4
   },
   {
     "name": "GulusGammamon",
@@ -1785,7 +1958,8 @@
     "version": 0,
     "atk_main": 53,
     "atk_alt": 0,
-	"handicap": 15
+    "handicap": 15,
+    "stage": 4
   },
   {
     "name": "BetelGammamon",
@@ -1796,7 +1970,8 @@
     "version": 0,
     "atk_main": 54,
     "atk_alt": 0,
-	"handicap": 20
+    "handicap": 20,
+    "stage": 4
   },
   {
     "name": "Canoweissmon",
@@ -1807,7 +1982,8 @@
     "version": 0,
     "atk_main": 16,
     "atk_alt": 0,
-	"handicap": 15
+    "handicap": 15,
+    "stage": 5
   },
   {
     "name": "Siriusmon",
@@ -1818,7 +1994,8 @@
     "version": 0,
     "atk_main": 30,
     "atk_alt": 0,
-	"handicap": 10
+    "handicap": 10,
+    "stage": 6
   },
   {
     "name": "Regulusmon",
@@ -1829,7 +2006,8 @@
     "version": 0,
     "atk_main": 33,
     "atk_alt": 0,
-	"handicap": 15
+    "handicap": 15,
+    "stage": 5
   },
   {
     "name": "Arcturusmon",
@@ -1840,7 +2018,8 @@
     "version": 0,
     "atk_main": 31,
     "atk_alt": 0,
-	"handicap": 10
+    "handicap": 10,
+    "stage": 6
   },
   {
     "name": "Proximamon",
@@ -1851,6 +2030,7 @@
     "version": 0,
     "atk_main": 111,
     "atk_alt": 0,
-	"handicap": 10
+    "handicap": 10,
+    "stage": 7
   }
 ]

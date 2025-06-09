@@ -10,11 +10,17 @@
   "meat_hunger_gain": 1,
   "meat_care_mistake_time": 10,
   "overfeed_timer": 120,
+  "condition_heart": false,
+  "can_eat_sleeping": true,
+  "back_to_sleep_time": 10,
+  "enable_shaken_egg": false,
   
   "protein_weight_gain": 1,
   "protein_strengh_gain": 1,
   "protein_dp_gain": 0,
   "protein_care_mistake_time": 10,
+  "protein_overdose_max": 7,
+  "disturbance_penalty_max": 0,
   
   "sleep_care_mistake_timer": 60,
   
@@ -22,6 +28,8 @@
   "training_strengh_gain": 0,
   "training_weight_win": 4,
   "training_weight_lose": 1,
+  "traited_egg_starting_level": 3,
+  "reverse_atk_frames": false,
   
   "battle_base_sick_chance_win": 20,
   "battle_base_sick_chance_lose": 10,
@@ -33,6 +41,8 @@
   "death_strength_timer" : 720,
   "death_stage45_mistake" : 5,
   "death_stage67_mistake" : 5,
+  "death_save_by_b_press" : 0,
+  "death_save_by_shake" : 0,
   
   "unlocks": {
   "eggs": [],

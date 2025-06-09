@@ -58,8 +58,7 @@ class BattleEncounterDMC(BattleEncounter):
         super().draw(surface)
 
         if self.phase == "alert":
-            sprite = self.alert_sprite if self.frame_counter < 30 else self.go_sprite
-            center_x = SCREEN_WIDTH // 2 - sprite.get_width() // 2
-            surface.blit(sprite, (center_x, 25))
+            center_y = SCREEN_HEIGHT // 2 - self.ready_sprite.get_height() // 2
+            surface.blit(self.ready_sprite, (0, center_y))
         elif self.phase == "charge":
             self.draw_strength_bar(surface)

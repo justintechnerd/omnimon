@@ -9,10 +9,11 @@ import pygame
 
 from core import runtime_globals
 from core.animation import PetFrame
+from core.combat.training import Training
 from core.constants import *
-from core.utils import blit_with_shadow, change_scene, distribute_pets_evenly, get_font, get_selected_pets, get_training_targets, sprite_load
+from core.utils import blit_with_shadow, change_scene, get_font, get_training_targets, sprite_load
 
-class HeadToHeadTraining:
+class HeadToHeadTraining(Training):
     """
     Head-to-Head training mode where two pets face off based on player's timing.
     """
@@ -27,8 +28,7 @@ class HeadToHeadTraining:
     RESULT_TIME_FRAMES = 90
 
     def __init__(self) -> None:
-        self.phase = "choose"
-        self.frame_counter = 0
+        super().__init__()
 
         self.left_pet = None
         self.right_pet = None
@@ -39,28 +39,15 @@ class HeadToHeadTraining:
         self.failures = 0
         self.player_input = None
 
-        self.attack_positions = []
         self.is_collision = False
 
-        self.load_assets()
-        self.select_pets()
-        self.select_pattern()
-
-    def load_assets(self):
-        """Load all needed sprites for head-to-head training."""
-        self.attack_sprites = {}
-
-        # 🔹 Load attack sprites from ATK_FOLDER
-        for filename in os.listdir(ATK_FOLDER):
-            if filename.endswith(".png"):
-                path = os.path.join(ATK_FOLDER, filename)
-                self.attack_sprites[filename.split(".")[0]] = sprite_load(path, size=(24, 24))
-
-        # 🔹 Load other training sprites using constants
         self.head_training_img = sprite_load(HEADTRAINING_PATH, scale=2)
         self.vs_img = sprite_load(VS_PATH, scale=2)
         self.strikes_back = sprite_load(STRIKES_BACK_PATH, scale=1)
         self.strikes = sprite_load(STRIKE_PATH, scale=1)
+
+        self.select_pets()
+        self.select_pattern()
 
     def load_and_scale(self, path, factor):
         """Helper to load and scale an image."""
@@ -75,10 +62,8 @@ class HeadToHeadTraining:
 
     def select_pattern(self):
         """Selects a cyclic pattern based on previous training."""
-        if not hasattr(runtime_globals, "last_headtohead_pattern"):
-            runtime_globals.last_headtohead_pattern = random.randint(0, 5)
-        else:
-            runtime_globals.last_headtohead_pattern = (runtime_globals.last_headtohead_pattern + 1) % 6
+        runtime_globals.last_headtohead_pattern = random.randint(0, 5)
+        runtime_globals.last_headtohead_pattern = (runtime_globals.last_headtohead_pattern + 1) % 6
 
         self.pattern = self.PATTERNS[runtime_globals.last_headtohead_pattern]
         self.current_index = 0
@@ -87,7 +72,7 @@ class HeadToHeadTraining:
         if not (self.left_pet and self.right_pet):
             return
 
-        if self.phase != "result_screen":
+        if self.phase != "result":
             blit_with_shadow(surface, self.strikes_back, (145, 215))
 
             for i in range(5 - self.current_index):
@@ -96,15 +81,17 @@ class HeadToHeadTraining:
                 blit_with_shadow(surface, self.strikes, (x, y))
 
             self.draw_pets(surface)
-            if self.phase == "attacking":
+            if self.phase == "attack_move":
                 self.draw_attacks(surface)
+            elif self.phase == "alert":
+                self.draw_alert(surface)
         else:
-            self.draw_result_screen(surface)
+            self.draw_result(surface)
 
     def draw_pets(self, surface):
         """Draw pets in idle or attacking poses."""
-        left_frame = PetFrame.ATK2.value if self.phase == "attacking" else PetFrame.ATK1.value
-        right_frame = PetFrame.ATK2.value if self.phase == "attacking" else PetFrame.ATK1.value
+        left_frame = PetFrame.ATK2.value if self.phase == "attack_move" else PetFrame.ATK1.value
+        right_frame = PetFrame.ATK2.value if self.phase == "attack_move" else PetFrame.ATK1.value
 
         left_sprite = runtime_globals.pet_sprites[self.left_pet][left_frame]
         right_sprite = runtime_globals.pet_sprites[self.right_pet][right_frame]
@@ -119,7 +106,7 @@ class HeadToHeadTraining:
         for sprite, (x, y) in self.attack_positions:
             blit_with_shadow(surface, sprite, (x, y))
 
-    def draw_result_screen(self, surface):
+    def draw_result(self, surface):
         """Draw final result after all attack phases."""
         center_x = SCREEN_WIDTH // 2
         center_y = SCREEN_HEIGHT // 2
@@ -138,13 +125,7 @@ class HeadToHeadTraining:
         blit_with_shadow(surface, self.vs_img, (start_x + wins_text.get_width() + 10, y))
         blit_with_shadow(surface, losses_text, (start_x + wins_text.get_width() + self.vs_img.get_width() + 20, y))
 
-    def update(self):
-        if self.phase == "attacking":
-            self.update_attacks()
-        elif self.phase == "result_screen":
-            self.update_result_screen()
-
-    def update_attacks(self):
+    def move_attacks(self):
         """Move attacks according to collision type."""
         finished = False
 
@@ -180,14 +161,8 @@ class HeadToHeadTraining:
             self.attack_positions[1][1][0] <= PET_WIDTH
         )
 
-    def update_result_screen(self):
-        """Wait some time after results before returning to game."""
-        self.frame_counter += 1
-        if self.frame_counter >= self.RESULT_TIME_FRAMES:
-            self.end_training()
-
     def handle_event(self, input_action):
-        if self.phase == "choose" and input_action:
+        if self.phase == "charge" and input_action:
             if input_action == "UP":  # Select Attack B
                 self.player_input = "B"
                 self.start_attack()
@@ -197,14 +172,13 @@ class HeadToHeadTraining:
             elif input_action == "START" or input_action == "B":
                 runtime_globals.game_sound.play("cancel")
                 change_scene("game")
-        else:
-            if input_action in ["A","B"]:
-                self.end_training()
-
+        elif input_action in ["A","B"]:
+            runtime_globals.game_sound.play("cancel")
+            change_scene("game")
 
     def start_attack(self):
         """Begin the attack phase after a key press."""
-        self.phase = "attacking"
+        self.phase = "attack_move"
         self.attack_positions.clear()
 
         left_dir = self.pattern[self.current_index]
@@ -214,7 +188,6 @@ class HeadToHeadTraining:
         left_sprite = pygame.transform.flip(left_sprite, True, False)
         right_sprite = self.attack_sprites.get(str(self.right_pet.atk_main))
         
-
         y_base = SCREEN_HEIGHT // 2 - PET_HEIGHT // 2
         y_up = y_base
         y_down = y_base + self.ATTACK_OFFSET_Y
@@ -241,21 +214,13 @@ class HeadToHeadTraining:
         self.current_index += 1
 
         if self.current_index >= len(self.pattern):
-            self.phase = "result_screen"
+            self.phase = "result"
             self.frame_counter = 0
             runtime_globals.game_console.log(f"Head-to-Head training done: {self.victories} wins, {self.failures} fails")
         else:
-            self.phase = "choose"
+            self.phase = "charge"
             self.attack_positions.clear()
 
-    def end_training(self):
-        """Finish training and apply results to pets."""
-        if self.victories > self.failures:
-            runtime_globals.game_sound.play("attack_fail")
-        else:
-            runtime_globals.game_sound.play("fail")
-
-        for pet in [pet for pet in get_selected_pets() if pet.can_train()]:
-            pet.finish_training(self.victories >= self.failures)
-        distribute_pets_evenly()
-        change_scene("game")
+    def check_victory(self):
+        """Apply training results and return to game."""
+        return self.victories > self.failures

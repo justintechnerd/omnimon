@@ -36,7 +36,8 @@ ROUND_LIMITS = {
     "DMC": {1: 3, 2: 3, 3: 3, 4: 4, 5: 4, 6: 4, 7: 5, 8: 5},
     "PenC": {1: 3, 2: 3, 3: 3, 4: 3, 5: 3, 6: 3, 7: 3, 8: 3, 9: 3, 10: 3}
 }
-
+MAX_LEVEL = {0: 0, 1: 1, 2: 3, 3: 4, 4: 6, 5: 8, 6: 10, 7: 10, 8: 10}
+EXPERIENCE_LEVEL = {0: 0, 1: 0, 2: 50, 3: 150, 4: 500, 5: 800, 6: 1000, 7: 1500, 8: 2000, 9: 3000, 10:5000}
 #=====================================================================
 # UI Settings
 #=====================================================================
@@ -91,6 +92,8 @@ HEAD_TRAINING_ICON_PATH = "resources/HeadTrainingIcon.png"
 JOGRESS_ICON_PATH = "resources/Jogress.png"
 DUMMY_TRAINING_ICON_PATH = "resources/BagIcon.png"
 SHAKE_MATCH_ICON_PATH = "resources/CountTrainingIcon.png"
+EXCITE_MATCH_ICON_PATH = "resources/ExciteTrainingIcon.png"
+XAIARROW_ICON_PATH = "resources/XaiArrow.png"
 
 #=====================================================================
 # Paths: Pet Sprites
@@ -108,6 +111,7 @@ SHOOK_ICON_PATH = "resources/Shook.png"
 OVERFEED_ICON_PATH = "resources/Overfeed.png"
 SICK_ICON_PATH = "resources/Sick1.png"
 SLEEP_DISTURBANCES_ICON_PATH = "resources/SleepDisturbances.png"
+XAI_ICON_PATH = "resources/Xai.png"
 
 #=====================================================================
 # Paths: UI Icons
@@ -117,12 +121,13 @@ HEART_HALF_ICON_PATH = "resources/Heart Half.png"
 HEART_FULL_ICON_PATH = "resources/Heart Full.png"
 ENERGY_BAR_ICON_PATH = "resources/Energy Bar Count - Green.png"
 ENERGY_BAR_BACK_ICON_PATH = "resources/Energy Bar.png"
+LEVEL_ICON_PATH = "resources/Level.png"
+EXP_ICON_PATH = "resources/Exp.png"
 
 #=====================================================================
 # Paths: Scene Backgrounds
 #=====================================================================
 SPLASH_PATH = "resources/Splash.png"
-EGG_BACKGROUND_PATH = "resources/EggBackground.png"
 MAIN_MENU_PATH = "resources/Menu.png"
 
 #=====================================================================
@@ -135,10 +140,22 @@ BAR_PIECE_PATH = "resources/StrengthBar.png"
 TRAINING_MAX_PATH = "resources/TrainingMax.png"
 ALERT_SPRITE_PATH = "resources/Alert.png"
 GO_SPRITE_PATH = "resources/Go.png"
+BAD_SPRITE_PATH = "resources/Bad.png"
+GOOD_SPRITE_PATH = "resources/Good.png"
+GREAT_SPRITE_PATH = "resources/Great.png"
+EXCELLENT_SPRITE_PATH = "resources/Excellent.png"
+READY_SPRITE_PATH = "resources/Ready.png"
 BATTLE1_PATH = "resources/Battle1.png"
 BATTLE2_PATH = "resources/Battle2.png"
 BAG1_PATH = "resources/Bag1.png"
 BAG2_PATH = "resources/Bag2.png"
+BRICK1_PATH = "resources/Brick1.png"
+BRICK2_PATH = "resources/Brick2.png"
+ROCK1_PATH = "resources/Rock1.png"
+ROCK2_PATH = "resources/Rock2.png"
+TREE1_PATH = "resources/Tree1.png"
+TREE2_PATH = "resources/Tree2.png"
+
 
 #=====================================================================
 # Paths: Training Sprites
@@ -179,13 +196,13 @@ __all__ = [
     "MENU_ICON_SIZE", "OPTION_ICON_SIZE", "OPTION_FRAME_WIDTH", "OPTION_FRAME_HEIGHT",
     "FONT_SIZE_SMALL", "FONT_SIZE_MEDIUM", "FONT_SIZE_MEDIUM_LARGE", "FONT_SIZE_LARGE",
     "FONT_COLOR_DEFAULT", "FONT_COLOR_GREEN", "FONT_COLOR_YELLOW", "FONT_COLOR_BLUE",
-    "BACKGROUND_COLOR", "FONT_COLOR_GRAY",
+    "BACKGROUND_COLOR", "FONT_COLOR_GRAY", "LEVEL_ICON_PATH", "EXP_ICON_PATH",
 
     # Paths: General Resources
     "MODULES_FOLDER", "ARROW_IMAGE_PATH", "FOOD_SHEET_PATH", "ATK_FOLDER",
 
     # Paths: UI Sprites
-    "SELECTION_OFF_PATH", "SELECTION_ON_PATH", "PET_SELECTION_BACKGROUND_PATH",
+    "SELECTION_OFF_PATH", "SELECTION_ON_PATH", "PET_SELECTION_BACKGROUND_PATH", "XAI_ICON_PATH",
     "MENU_BACKGROUND_PATH", "PET_SELECTION_SMALL_ON_PATH", "PET_SELECTION_SMALL_OFF_PATH",
 
     # Paths: Battle & Training Sprites
@@ -193,7 +210,8 @@ __all__ = [
     "BATTLE_ICON_PATH", "HEAD_TRAINING_ICON_PATH", "JOGRESS_ICON_PATH", "VS_PATH",
     "STRIKES_BACK_PATH", "STRIKE_PATH", "NEXT_BATTLE_ICON_PATH", "RESTART_BATTLE_ICON_PATH",
     "CLEAR1_PATH", "CLEAR2_PATH", "WARNING1_PATH", "WARNING2_PATH", "HIT_ANIMATION_PATH",
-    "DUMMY_TRAINING_ICON_PATH", "SHAKE_MATCH_ICON_PATH",
+    "DUMMY_TRAINING_ICON_PATH", "SHAKE_MATCH_ICON_PATH", "BRICK1_PATH", "BRICK2_PATH",
+    "ROCK1_PATH", "ROCK2_PATH", "TREE1_PATH", "TREE2_PATH", "EXCITE_MATCH_ICON_PATH",
 
     # Paths: Pet Sprites
     "DEAD_FRAME_PATH", "AGE_ICON_PATH", "WEIGHT_ICON_PATH", "MODULE_ICON_PATH",
@@ -206,12 +224,13 @@ __all__ = [
     "ENERGY_BAR_ICON_PATH", "ENERGY_BAR_BACK_ICON_PATH",
 
     # Paths: Scene Backgrounds
-    "SPLASH_PATH", "EGG_BACKGROUND_PATH", "MAIN_MENU_PATH",
+    "SPLASH_PATH", "MAIN_MENU_PATH",
 
     # Paths: Battle Scene Sprites
     "BATTLE_SPRITE_PATH", "BATTLE_LEVEL_SPRITE_PATH", "BAR_BACK_PATH",
-    "BAR_PIECE_PATH", "TRAINING_MAX_PATH", "ALERT_SPRITE_PATH", "GO_SPRITE_PATH",
-    "BATTLE1_PATH", "BATTLE2_PATH", "BAG1_PATH", "BAG2_PATH",
+    "BAR_PIECE_PATH", "TRAINING_MAX_PATH", "ALERT_SPRITE_PATH", "GO_SPRITE_PATH","READY_SPRITE_PATH",
+    "BATTLE1_PATH", "BATTLE2_PATH", "BAG1_PATH", "BAG2_PATH", "BAD_SPRITE_PATH",
+    "GOOD_SPRITE_PATH", "GREAT_SPRITE_PATH", "EXCELLENT_SPRITE_PATH",
 
     # Paths: Training Sprites
     "READY_SPRITES_PATHS", "COUNT_SPRITES_PATHS", "MEGA_HIT_PATH"

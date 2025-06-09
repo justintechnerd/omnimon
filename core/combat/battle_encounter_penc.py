@@ -4,6 +4,8 @@
 
 import random
 import time
+
+import pygame
 from core import game_globals, runtime_globals
 from core.combat.battle_encounter import BattleEncounter
 from core.constants import *
@@ -22,6 +24,7 @@ class BattleEncounterPENC(BattleEncounter):
         self.final_color = 3
         self.correct_color = 0
         self.super_hits = 0
+        self.super_hit_damage = False
         self.ready_sprites = {
             1: sprite_load(READY_SPRITES_PATHS[1], scale=2.5),
             2: sprite_load(READY_SPRITES_PATHS[2], scale=2.5),
@@ -101,9 +104,11 @@ class BattleEncounterPENC(BattleEncounter):
                 atk_id = str(self.attacking_enemy.atk_main)
             atk_sprite = self.attack_sprites.get(atk_id)
 
+            self.super_hit_damage = False
             # Determina número de ataques com base na força
             if self.super_hits == 5 and random.random() < 0.8:
                 hits = 3
+                self.super_hit_damage = True
             elif self.super_hits > 2 and random.random() < 0.5:
                 hits = 2
             else:
@@ -122,9 +127,119 @@ class BattleEncounterPENC(BattleEncounter):
             self.attack_hit = self.check_hit(self.attacking_pet, self.attacking_enemy, is_player=True)
             runtime_globals.game_sound.play("attack")
         
-        super().update_pet_attack()
+        # Move os projéteis
+        done = True
+        for sprite_data in self.projectiles:
+            sprite, (x, y) = sprite_data
+            x -= 4  # Velocidade
+            sprite_data[1][0] = x
+            enemy_index = get_selected_pets().index(self.attacking_pet)
+            target_x = self.enemy_positions[enemy_index][1] + PET_WIDTH // 2
+            if x > target_x:
+                done = False
 
+        if done:
+            del self.projectiles
+            self.frame_counter = 0
+            if self.attack_hit:
+                runtime_globals.game_sound.play("attack_hit")
+                if self.super_hit_damage:
+                    self.enemy_health = max(0, self.enemy_health - 2)
+                    self.super_hit_damage = 0
+                else:
+                    self.enemy_health = max(0, self.enemy_health - 1)
 
+                enemy_index = get_selected_pets().index(self.attacking_pet)
+                enemy_y = self.get_y(enemy_index, len(get_selected_pets()))
+                enemy_x = self.enemy_positions[enemy_index][1] + PET_WIDTH // 2
+                self.hit_animations.append([0, [enemy_x+ 16, enemy_y+24]])
+            else:
+                runtime_globals.game_sound.play("attack_fail")
+                enemy_index = get_selected_pets().index(self.attacking_pet)
+                enemy_y = self.get_y(enemy_index, len(get_selected_pets()))
+                enemy_x = self.enemy_positions[enemy_index][1]
+                runtime_globals.game_message.add("MISS", (enemy_x + 16, enemy_y - 10), (255, 0, 0))
+
+            if self.enemy_health <= 0 or self.player_health <= 0:
+                self.phase = "result"
+                runtime_globals.game_console.log("Entering result phase")
+            else:
+                self.phase = "post_attack_delay"
+                self.after_attack_phase = "enemy"
+                runtime_globals.game_console.log("Entering post_attack_delay phase")
+
+    def update_enemy_attack(self):
+        if not hasattr(self, "enemy_projectiles"):
+            # Início do ataque inimigo
+            if self.attacking_enemy.atk_alt > 0 and random.random() < 0.3:
+                atk_id = str(self.attacking_enemy.atk_alt)
+            else:
+                atk_id = str(self.attacking_enemy.atk_main)
+            atk_sprite = self.attack_sprites.get(atk_id)
+
+            self.super_hit_damage = False
+            # Determina número de ataques com base na força
+            if random.random() < 0.1:
+                hits = 3
+                self.super_hit_damage = True
+            elif random.random() < 0.6:
+                hits = 2
+            else:
+                hits = 1
+            enemy_index = self.enemies.index(self.attacking_enemy)
+            y_base = self.get_y(enemy_index, len(self.enemies))
+
+            self.enemy_projectiles = []
+            for i in range(hits):
+                x = self.enemy_positions[enemy_index][1] + PET_WIDTH
+                y = y_base + i * 16
+                sprite = pygame.transform.flip(atk_sprite.copy(), True, False)
+                self.enemy_projectiles.append([sprite, [x, y]])
+
+            self.enemy_hit = self.check_hit(self.attacking_enemy, self.attacking_pet, is_player=False)
+            runtime_globals.game_sound.play("attack")
+
+        # Move os projéteis
+        done = True
+        for sprite_data in self.enemy_projectiles:
+            sprite, (x, y) = sprite_data
+            x += 4  # Velocidade para a direita
+            sprite_data[1][0] = x
+            pet_index = get_selected_pets().index(self.attacking_pet)
+            target_x = SCREEN_WIDTH - PET_WIDTH - 2 - self.forward_distance
+            if x < target_x:
+                done = False
+
+        if done:
+            del self.enemy_projectiles
+            self.frame_counter = 0
+            if self.enemy_hit:
+                runtime_globals.game_sound.play("attack_hit")
+                if self.super_hit_damage:
+                    self.player_health = max(0, self.player_health - 2)
+                    self.super_hit_damage = 0
+                else:
+                    self.player_health = max(0, self.player_health - 1)
+
+                pet_index = get_selected_pets().index(self.attacking_pet)
+                pet_y = self.get_y(pet_index, len(get_selected_pets()))
+                pet_x = SCREEN_WIDTH - PET_WIDTH - 2 - self.forward_distance + PET_WIDTH // 2
+                self.hit_animations.append([0, [pet_x, pet_y+24]])
+            else:
+                runtime_globals.game_sound.play("attack_fail")
+                pet_index = get_selected_pets().index(self.attacking_pet)
+                pet_y = self.get_y(pet_index, len(get_selected_pets()))
+                pet_x = SCREEN_WIDTH - PET_WIDTH - 2 - self.forward_distance
+                runtime_globals.game_message.add("MISS", (pet_x + 16, pet_y - 10), (255, 0, 0))
+
+            if self.enemy_health <= 0 or self.player_health <= 0:
+                self.phase = "result"
+                runtime_globals.game_console.log("Entering result phase")
+            else:
+                self.phase = "post_attack_delay"
+                self.after_attack_phase = "retreat"
+                runtime_globals.game_console.log("Entering post_attack_delay phase")
+                
     def start_count_phase(self):
         self.phase = "count"
         self.start_time = time.time()
@@ -202,33 +317,33 @@ class BattleEncounterPENC(BattleEncounter):
                     for pet in get_selected_pets():
                         if pet.module == "PenC":
                             if pet.version == 1:
-                                unlock_item("DMC", "backgrounds", "nsp_box")
+                                unlock_item("PenC", "backgrounds", "nsp_box")
                             elif pet.version == 2:
-                                unlock_item("DMC", "backgrounds", "dsa_box")
+                                unlock_item("PenC", "backgrounds", "dsa_box")
                             elif pet.version == 3:
-                                unlock_item("DMC", "backgrounds", "nso_box")
+                                unlock_item("PenC", "backgrounds", "nso_box")
                             elif pet.version == 4:
-                                unlock_item("DMC", "backgrounds", "wgu_box")
+                                unlock_item("PenC", "backgrounds", "wgu_box")
                             elif pet.version == 5:
-                                unlock_item("DMC", "backgrounds", "mem_box")
+                                unlock_item("PenC", "backgrounds", "mem_box")
                             elif pet.version == 0:
-                                unlock_item("DMC", "backgrounds", "vbu_box")
+                                unlock_item("PenC", "backgrounds", "vbu_box")
                 if game_globals.battle_area[self.module] > 10:
                     game_globals.battle_area[self.module] = 1
                     for pet in get_selected_pets():
                         if pet.module == "PenC":
                             if pet.version == 1:
-                                unlock_item("DMC", "backgrounds", "nsp_neo")
+                                unlock_item("PenC", "backgrounds", "nsp_neo")
                             elif pet.version == 2:
-                                unlock_item("DMC", "backgrounds", "dsa_neo")
+                                unlock_item("PenC", "backgrounds", "dsa_neo")
                             elif pet.version == 3:
-                                unlock_item("DMC", "backgrounds", "nso_neo")
+                                unlock_item("PenC", "backgrounds", "nso_neo")
                             elif pet.version == 4:
-                                unlock_item("DMC", "backgrounds", "wgu_neo")
+                                unlock_item("PenC", "backgrounds", "wgu_neo")
                             elif pet.version == 5:
-                                unlock_item("DMC", "backgrounds", "mem_neo")
+                                unlock_item("PenC", "backgrounds", "mem_neo")
                             elif pet.version == 0:
-                                unlock_item("DMC", "backgrounds", "vbu_neo")
+                                unlock_item("PenC", "backgrounds", "vbu_neo")
                 self.return_to_main_scene()
         else:
             runtime_globals.game_sound.play("fail")

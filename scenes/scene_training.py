@@ -8,9 +8,11 @@ import pygame
 from components.window_background import WindowBackground
 from components.window_horizontalmenu import WindowHorizontalMenu
 from components.window_petview import WindowPetList
-from core import runtime_globals
+from components.window_xai import WindowXai
+from core import game_globals, runtime_globals
 from core.combat.count_training import CountMatchTraining
 from core.combat.dummy_training import DummyTraining
+from core.combat.excite_training import ExciteTraining
 from core.combat.head_training import HeadToHeadTraining
 from core.constants import *
 from core.utils import change_scene, get_font, get_training_targets
@@ -52,10 +54,15 @@ class SceneTraining:
         if runtime_globals.penc_enabled:
             self.options.append(("CountMatch", pygame.image.load(SHAKE_MATCH_ICON_PATH).convert_alpha()))
 
+        if runtime_globals.dmx_enabled:
+            self.options.append(("Excite", pygame.image.load(EXCITE_MATCH_ICON_PATH).convert_alpha()))
+
         self.selectionBackground = pygame.image.load(PET_SELECTION_BACKGROUND_PATH).convert_alpha()
         self.backgroundIm = pygame.image.load(TRAINING_BACKGROUND_PATH).convert_alpha()
 
         self.pet_list_window = WindowPetList(lambda: get_training_targets())
+
+        self.xai_window = WindowXai(191, 123, 48, 48, game_globals.xai)
 
         self.menu_window = WindowHorizontalMenu(
             options=self.options,
@@ -79,6 +86,8 @@ class SceneTraining:
 
             # Desenha pets na parte inferior
             self.pet_list_window.draw(surface)
+            if self.options[runtime_globals.training_index][0] == "Excite":
+                self.xai_window.draw(surface)
         elif self.mode:
             surface.blit(self.backgroundIm, (0,0))
             
@@ -103,7 +112,7 @@ class SceneTraining:
             delta = -1 if input_action == "LEFT" else 1
             runtime_globals.training_index = (runtime_globals.training_index + delta) % len(self.options)
         elif input_action == "A":
-            if runtime_globals.training_index == 0:
+            if self.options[runtime_globals.training_index][0] == "Dummy":
                 if len(get_training_targets())  > 0:
                     runtime_globals.game_sound.play("menu")
                     self.phase = "dummy"
@@ -113,7 +122,7 @@ class SceneTraining:
                         pet.check_disturbed_sleep()
                 else:
                     runtime_globals.game_sound.play("cancel")
-            elif runtime_globals.training_index == 1:
+            elif self.options[runtime_globals.training_index][0] == "HeadtoHead":
                 if len(get_training_targets())  > 1:
                     runtime_globals.game_sound.play("menu")
                     self.phase = "headtohead"
@@ -123,7 +132,7 @@ class SceneTraining:
                         pet.check_disturbed_sleep()
                 else:
                     runtime_globals.game_sound.play("cancel")
-            elif runtime_globals.training_index == 2:
+            elif self.options[runtime_globals.training_index][0] == "CountMatch":
                 if len(get_training_targets())  > 0:
                     runtime_globals.game_sound.play("menu")
                     self.phase = "count"
@@ -133,7 +142,16 @@ class SceneTraining:
                         pet.check_disturbed_sleep()
                 else:
                     runtime_globals.game_sound.play("cancel")
-            
+            elif self.options[runtime_globals.training_index][0] == "Excite":
+                if len(get_training_targets())  > 0:
+                    runtime_globals.game_sound.play("menu")
+                    self.phase = "excite"
+                    self.mode = ExciteTraining()
+                    runtime_globals.game_console.log("Starting Dummy Training.")
+                    for pet in get_training_targets():
+                        pet.check_disturbed_sleep()
+                else:
+                    runtime_globals.game_sound.play("cancel")
         elif input_action == "SELECT" and self.phase == "menu":
             runtime_globals.game_sound.play("menu")
             runtime_globals.strategy_index = (runtime_globals.strategy_index + 1) % 2

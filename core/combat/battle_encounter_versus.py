@@ -7,6 +7,7 @@ from core.animation import PetFrame
 from core import runtime_globals
 from core.utils import blit_with_shadow, change_scene
 from core.constants import *
+from core.utils_unlocks import unlock_item
 
 class BattleEncounterVersus(BattleEncounter):
     def __init__(self, pet1, pet2):
@@ -266,6 +267,11 @@ class BattleEncounterVersus(BattleEncounter):
         loser.finish_versus(False)
         winner.set_state("happy2")
         loser.set_state("lose")
+
+        if self.pet1.module == "PenC" and self.pet2.module == "PenC":
+            unlock_item("PenC", "evolutions", f"Slot{self.pet1.version}")
+            unlock_item("PenC", "evolutions", f"Slot{self.pet2.version}")
+
 
         #distribute_pets_evenly()
         change_scene("game")

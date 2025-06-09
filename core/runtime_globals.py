@@ -1,4 +1,5 @@
 import os
+import random
 import pygame
 
 from core.game_console import GameConsole
@@ -34,6 +35,7 @@ battle_enemies = {}
 pet_sprites = {}
 evolution_data = []
 evolution_pet = None
+last_headtohead_pattern = random.randint(0, 5)
 
 # Global managers
 game_sound = GameSound()
@@ -45,10 +47,12 @@ game_module_flag = {}
 
 pet_alert = False
 show_hearts = False
+check_shaking = False
 
 #rulesets
 dmc_enabled = False
 penc_enabled = False
+dmx_enabled = False
 
 i2c = I2CUtils()
 shake_detector = ShakeDetector(i2c)
@@ -60,7 +64,8 @@ def load_misc_sprites() -> None:
     sprite_files = [
         "Cheer.png", "Mad1.png", "Mad2.png",
         "Sick1.png", "Sick2.png", "Sleep1.png",
-        "Sleep2.png", "Poop1.png", "Poop2.png", "Wash.png"
+        "Sleep2.png", "Poop1.png", "Poop2.png",
+        "JumboPoop1.png", "JumboPoop2.png", "Wash.png"
     ]
 
     misc_sprites.clear()

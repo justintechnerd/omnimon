@@ -2,7 +2,9 @@
 Scene Main Game
 The main scene where pets live, eat, sleep, move, and interact.
 """
+import random
 import pygame
+import datetime
 
 from components.window_background import WindowBackground
 from components.window_clock import WindowClock
@@ -10,8 +12,7 @@ from components.window_mainmenu import WindowMenu
 from core import game_globals, runtime_globals
 from core.constants import *
 from core.game_evolution_entity import GameEvolutionEntity
-from core.game_pet_penc import GamePetPenC
-from core.utils import all_pets_hatched, change_scene, distribute_pets_evenly, draw_pet_outline, get_selected_pets
+from core.utils import all_pets_hatched, change_scene, distribute_pets_evenly, draw_pet_outline, get_module, get_selected_pets
 
 
 HEARTS_SIZE = 8
@@ -46,6 +47,12 @@ class SceneMainGame:
         self.cleaning = False
         self.cleaning_x = SCREEN_WIDTH
         self.cleaning_speed = CLEANING_SPEED
+        
+        today = datetime.date.today()
+        if game_globals.xai_date < today:
+            game_globals.xai = random.randint(1, 7)
+            game_globals.xai_date = today
+            game_globals.xai_date = today
 
     def update(self) -> None:
         """
@@ -61,10 +68,11 @@ class SceneMainGame:
         for poop in game_globals.poop_list:
             poop.update()
 
-        self.fade_out_timer -= 1
-        if self.fade_out_timer <= 0:
-            runtime_globals.main_menu_index = -1
-            runtime_globals.selected_pets = []
+        if runtime_globals.evolution_pet:
+            self.fade_out_timer -= 1
+            if self.fade_out_timer <= 0:
+                runtime_globals.main_menu_index = -1
+                runtime_globals.selected_pets = []
 
         self.background.update()
         self.update_cleaning()
@@ -203,7 +211,6 @@ class SceneMainGame:
         """
         if runtime_globals.evolution_pet != pet:
             return
-        
         pet.draw(surface)
 
         frame_enum = pet.animation_frames[pet.frame_index]
@@ -240,9 +247,12 @@ class SceneMainGame:
             runtime_globals.main_menu_index = -1
             if input_action == "Y" or input_action == "SHAKE":
                 for pet in game_globals.pet_list:
-                    if pet.stage == 0 and isinstance(pet, GamePetPenC):
-                        pet.shake_counter += 1
-                return
+                    pet.shake_counter += 1
+            return
+            
+        if input_action == "B":
+            for pet in game_globals.pet_list:
+                pet.death_save_counter += 1
 
         if input_action == "SELECT":
             self.selection_mode = "pet" if self.selection_mode == "menu" else "menu"
@@ -267,8 +277,8 @@ class SceneMainGame:
     
         if input_action == "F1":
             for pet in game_globals.pet_list:
-                pet.timer -= 108000
-                pet.age_timer -= 108000
+                pet.timer += 108000
+                pet.age_timer += 108000
                 runtime_globals.game_console.log(f"[DEBUG] {pet.name} age {(pet.timer // 30) // 60}/{(pet.age_timer // 30) // 60}")
         elif input_action == "F2":
             for pet in game_globals.pet_list:
@@ -285,7 +295,7 @@ class SceneMainGame:
                 runtime_globals.game_console.log(f"[DEBUG] {pet.name} forced to poop")
         elif input_action == "F5":
             for pet in game_globals.pet_list:
-                if isinstance(pet, GamePetPenC):
+                if get_module(pet.module).use_condition_hearts:
                     if pet.condition_hearts > 0:
                         pet.condition_hearts -= 1
                         runtime_globals.game_console.log(f"[DEBUG] {pet.name} lost a condition heart, current: {pet.condition_hearts}")
@@ -320,6 +330,10 @@ class SceneMainGame:
             for pet in game_globals.pet_list:
                 pet.effort += 1
                 runtime_globals.game_console.log(f"[DEBUG] {pet.effort} strength up")
+        elif input_action == "F9":
+            for pet in game_globals.pet_list:
+                pet.level += 1
+                runtime_globals.game_console.log(f"[DEBUG] {pet.level} level up")
 
     def handle_navigation_keys(self, input_action) -> None:
         """Handles cyclic LEFT, RIGHT, UP, DOWN for menu navigation."""

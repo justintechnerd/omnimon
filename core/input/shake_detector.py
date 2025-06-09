@@ -1,7 +1,7 @@
 import time
 
 class ShakeDetector:
-    def __init__(self, i2c_utils, threshold=1.5, cooldown=0.2):
+    def __init__(self, i2c_utils, threshold=1.5, cooldown=0.1):
         """
         Detects shakes based on directional changes rather than just exceeding a threshold.
 
@@ -19,7 +19,7 @@ class ShakeDetector:
 
     def check_for_shake(self):
         """Detects a shake when movement direction changes and exceeds threshold."""
-        x, _, _ = self.i2c.read_accel()
+        _, x, _ = self.i2c.read_accel()
         if x is None:
             return False
 

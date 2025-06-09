@@ -1,10 +1,13 @@
 import pygame
 import platform
 
+# Try to import gpiozero, but handle gracefully if not available (e.g., Linux desktop)
 try:
-    from gpiozero import Button  # type: ignore # Only works on Raspberry Pi
+    from gpiozero import Button  # type: ignore
+    HAS_GPIO = True
 except ImportError:
-    Button = None  # Ignore GPIOZero on non-Raspberry Pi systems
+    Button = None
+    HAS_GPIO = False
 
 class InputManager:
     def __init__(self):
@@ -35,19 +38,20 @@ class InputManager:
         }
 
         self.just_pressed_gpio = set()
-        self.active_gpio_inputs = set()  # ✅ Required for GPIO tracking
+        self.active_gpio_inputs = set()
         self.buttons = {}
 
-        try:
-            from gpiozero import Button  # type: ignore
-            if self.device == "Pi":
-                for pin, action in self.pin_map.items():
+        # Only attempt to set up GPIO if on Pi and gpiozero is available
+        if self.device == "Pi" and HAS_GPIO:
+            for pin, action in self.pin_map.items():
+                try:
                     btn = Button(pin, pull_up=True, bounce_time=0.05)
                     btn.when_pressed = self.make_gpio_handler(action, True)
                     btn.when_released = self.make_gpio_handler(action, False)
                     self.buttons[pin] = btn
-        except ImportError:
-            pass
+                except Exception as e:
+                    # Could not initialize this pin, skip it
+                    pass
 
     def make_gpio_handler(self, action, pressed):
         def handler():
@@ -71,7 +75,6 @@ class InputManager:
         # Handle keyboard normally
         if event.type == pygame.KEYDOWN and event.key in self.key_map:
             action = self.key_map[event.key]
-            # Directly return the action instead of adding to gpio set
             return action
         return None  # No action from this event
 

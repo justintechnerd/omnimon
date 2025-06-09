@@ -7,6 +7,7 @@ import pygame
 from core import runtime_globals
 from core.constants import *
 from core.game_enemy import GameEnemy
+import copy
 
 
 #=====================================================================
@@ -45,11 +46,17 @@ class GameModule:
                     self.meat_hunger_gain = int(data.get("meat_hunger_gain"))
                     self.meat_care_mistake_time = int(data.get("meat_care_mistake_time"))
                     self.overfeed_timer = int(data.get("overfeed_timer"))
+                    self.use_condition_hearts = bool(data.get("condition_heart", False))
+                    self.can_eat_sleeping = bool(data.get("can_eat_sleeping", True))
+                    self.back_to_sleep_time = bool(data.get("back_to_sleep_time", True))
+                    self.enable_shaken_egg = bool(data.get("enable_shaken_egg", False))
 
                     self.protein_weight_gain = int(data.get("protein_weight_gain"))
                     self.protein_strengh_gain = int(data.get("protein_strengh_gain"))
                     self.protein_dp_gain = int(data.get("protein_dp_gain"))
                     self.protein_care_mistake_time = int(data.get("protein_care_mistake_time"))
+                    self.protein_overdose_max = int(data.get("protein_care_mistake_time", 0))
+                    self.disturbance_penalty_max = int(data.get("disturbance_penalty_max", 0))
 
                     self.sleep_care_mistake_timer = int(data.get("sleep_care_mistake_timer"))
 
@@ -58,6 +65,10 @@ class GameModule:
 
                     self.training_weight_win = int(data.get("training_weight_win"))
                     self.training_weight_lose = int(data.get("training_weight_lose"))
+
+                    self.traited_egg_starting_level = int(data.get("traited_egg_starting_level"))
+
+                    self.reverse_atk_frames = bool(data.get("reverse_atk_frames", False))
 
                     self.battle_base_sick_chance_win = int(data.get("battle_base_sick_chance_win"))
                     self.battle_base_sick_chance_lose = int(data.get("battle_base_sick_chance_lose"))
@@ -69,6 +80,9 @@ class GameModule:
                     self.death_strength_timer = int(data.get("death_strength_timer"))
                     self.death_stage45_mistake = int(data.get("death_stage45_mistake"))
                     self.death_stage67_mistake = int(data.get("death_stage67_mistake"))
+                    self.death_care_mistake = int(data.get("death_care_mistake",999999))
+                    self.death_save_by_b_press = int(data.get("death_save_by_b_press",0))
+                    self.death_save_by_shake = int(data.get("death_save_by_shake",0))
                     
                     self.unlocks = data.get("unlocks", {
                         "eggs": [],
@@ -134,11 +148,13 @@ class GameModule:
             return [None] * len(versions)
 
         try:
+            id = 1
             with open(battle_path, "r", encoding="utf-8") as file:
                 data = json.load(file)
 
                 for entry in data:
                     entry.setdefault("handicap", 0)
+                    entry.setdefault("id", 0)
 
                 all_enemies = [GameEnemy(**entry) for entry in data]
 
@@ -151,10 +167,11 @@ class GameModule:
                         if not hasattr(match, "handicap"):
                             match.handicap = 0
 
-                    selected.append(match)
+                    match.id = id
+                    id += 1
+                    selected.append(copy.deepcopy(match))
 
                 # Save to runtime
-                runtime_globals.battle_enemies[self.name] = selected
                 return selected
         except json.JSONDecodeError:
             runtime_globals.game_console.log(f"⚠️ Failed to parse {battle_path}")

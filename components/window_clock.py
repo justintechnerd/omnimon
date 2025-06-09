@@ -5,13 +5,7 @@ import os
 
 from core import runtime_globals
 from core.constants import *
-from core.input.i2c_utils import I2CUtils
 from core.utils import get_font
-
-
-#=====================================================================
-# WindowClock - Top Bar Clock and Battery Display
-#=====================================================================
 
 class WindowClock:
     """
@@ -19,7 +13,6 @@ class WindowClock:
     """
 
     def __init__(self):
-        # Basic dimensions and positions
         self.font = get_font(FONT_SIZE_SMALL)
         self.x = 10
         self.y = 0
@@ -28,13 +21,16 @@ class WindowClock:
 
         self.battery_icons = self.load_battery_icons()
         self.current_icon_key = "battery_full"
-        self.battery_icon = self.battery_icons[self.current_icon_key]
-        self.last_update = 0
+        self.battery_icon = self.battery_icons.get(self.current_icon_key)
+        self.last_battery_update = 0
+
+        self.last_time_update = 0
+        self.last_time_string = ""
+        self.time_surface = None
+
+        self.battery = runtime_globals.i2c  # I2C Battery instance
 
     def load_battery_icons(self):
-        """
-        Loads all battery icon images into a dictionary.
-        """
         names = [
             "battery_charging",
             "battery_empty",
@@ -52,43 +48,49 @@ class WindowClock:
                 icons[name] = None
         return icons
 
-    def select_icon_key(self, voltage, capacity):
-        if platform.system() == "Windows":
-            return "battery_full"
-        elif voltage is None or capacity is None:
+    def select_icon_key(self, percent, charging):
+        if charging:
+            return "battery_charging"
+        elif percent <= 5.0:
             return "battery_empty"
-        elif capacity < 5:
-            return "battery_empty"
-        elif capacity < 20:
+        elif percent <= 20.0:
             return "battery_low"
-        elif capacity < 60:
+        elif percent <= 50.0:
             return "battery_half"
         else:
             return "battery_full"
 
     def update_battery_icon(self):
         now = time.time()
-        if now - self.last_update < 2:  # Throttle updates
+        if now - self.last_battery_update < 5:
             return
 
-        voltage, capacity = runtime_globals.i2c.read_battery()
-        icon_key = self.select_icon_key(voltage, capacity)
+        percent = self.battery.get_battery_percentage()
+        charging = self.battery.is_charging()
+        icon_key = self.select_icon_key(percent, charging)
 
-        if icon_key != self.current_icon_key and self.battery_icons.get(icon_key):
-            self.battery_icon = self.battery_icons[icon_key]
+        icon = self.battery_icons.get(icon_key)
+        if icon is not None:
+            self.battery_icon = icon
             self.current_icon_key = icon_key
 
-        self.last_update = now
+        self.last_battery_update = now
 
     def draw(self, surface):
-        # Draw top black bar
-        bar_rect = pygame.Rect(0, self.y, SCREEN_WIDTH, self.height)
-        pygame.draw.rect(surface, (0, 0, 0), bar_rect)
+        now = time.time()
 
-        # Draw current time
-        current_time = time.strftime("%H:%M:%S")
-        time_surface = self.font.render(current_time, True, FONT_COLOR_DEFAULT)
-        surface.blit(time_surface, (self.x, self.padding))
+        # Only update time string and surface once per second
+        if now - self.last_time_update >= 1:
+            self.last_time_string = time.strftime("%H:%M:%S")
+            self.time_surface = self.font.render(self.last_time_string, True, FONT_COLOR_DEFAULT)
+            self.last_time_update = now
+
+        # Draw top black bar
+        pygame.draw.rect(surface, (0, 0, 0), (0, self.y, SCREEN_WIDTH, self.height))
+
+        # Draw cached time surface
+        if self.time_surface:
+            surface.blit(self.time_surface, (self.x, self.padding))
 
         # Update and draw battery icon
         self.update_battery_icon()

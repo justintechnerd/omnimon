@@ -22,7 +22,7 @@ from core.utils import blit_with_shadow, change_scene, get_battle_targets, get_f
 ALERT_DURATION_FRAMES = 50
 WAIT_AFTER_BAR_FRAMES = 30
 IMPACT_DURATION_FRAMES = 60
-WAIT_ATTACK_READY_FRAMES = 10
+WAIT_ATTACK_READY_FRAMES = 19
 RESULT_SCREEN_FRAMES = 60
 BAR_HOLD_TIME_MS = 2500
 ATTACK_SPEED = 4
@@ -340,16 +340,20 @@ class SceneBattle:
                     if pet2.shook:
                         pet1.shook = True
                     game_globals.pet_list.remove(pet2)
-                    runtime_globals.game_sound.play("happy")
+                    runtime_globals.game_sound.play("evolution")
                     runtime_globals.game_console.log(f"[Jogress] {pet1.name} jogressed to {evo['to']}!")
                     change_scene("game")
                     return
 
             elif evo["jogress"] == "PenC":
                 if pet2.attribute == evo.get("attribute") and pet2.stage == evo.get("stage"):
-                    pet1.evolve_to(evo["to"])
-                    pet2.set_state("egg")  # or remove/reset
-                    runtime_globals.game_sound.play("happy")
+                    evo2 = next((e for e in pet2.evolve if e.get("jogress") == "PenC" and e.get("attribute") == pet1.attribute), None)
+
+                    if evo2:
+                        pet1.evolve_to(evo["to"], pet1.version)  # pet1 evolves to pet2's attribute evolution
+                        pet2.evolve_to(evo2["to"], pet2.version)  # pet2 evolves to pet1's attribute evolution
+
+                    runtime_globals.game_sound.play("evolution")
                     runtime_globals.game_console.log(f"[Jogress] {pet1.name} jogressed to {evo['to']}!")
                     change_scene("game")
                     return

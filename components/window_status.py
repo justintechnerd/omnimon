@@ -49,10 +49,10 @@ class WindowStatus:
             "version": VERSION_ICON_PATH, "mistakes": MISTAKES_ICON_PATH, "battle": BATTLE_ICON_PATH,
             "jogress": JOGRESS_ICON_PATH, "special": SPECIAL_ICON_PATH, "traited": TRAITED_ICON_PATH,
             "shiny": SHINY_ICON_PATH, "shook": SHOOK_ICON_PATH, "overfeed": OVERFEED_ICON_PATH,
-            "sick": SICK_ICON_PATH, "sleep_disturbances": SLEEP_DISTURBANCES_ICON_PATH,
+            "sick": SICK_ICON_PATH, "sleep Dist.": SLEEP_DISTURBANCES_ICON_PATH,
             "heart_empty": HEART_EMPTY_ICON_PATH, "heart_half": HEART_HALF_ICON_PATH,
             "heart_full": HEART_FULL_ICON_PATH, "energy_bar": ENERGY_BAR_ICON_PATH,
-            "energy_bar_back": ENERGY_BAR_BACK_ICON_PATH,
+            "energy_bar_back": ENERGY_BAR_BACK_ICON_PATH, "level": LEVEL_ICON_PATH,"exp": EXP_ICON_PATH,
         }
         return {key: pygame.image.load(path).convert_alpha() for key, path in sprite_paths.items()}
 
@@ -105,10 +105,12 @@ class WindowStatus:
             self.draw_dmc_stats(surface, distance)
         elif module.ruleset == "penc":
             self.draw_penc_stats(surface, distance)
+        elif module.ruleset == "dmx":
+            self.draw_dmx_stats(surface, distance)
 
     def draw_dmc_stats(self, surface, distance):
         """Draws DMC-specific stats (mistakes, sleep disturbances, sickness)."""
-        labels = ["mistakes", "sleep_disturbances", "overfeed", "sick"]
+        labels = ["mistakes", "sleep Dist.", "overfeed", "sick"]
         values = [self.pet.mistakes, self.pet.sleep_disturbances, self.pet.overfeed, self.pet.injuries]
 
         for i, label in enumerate(labels):
@@ -136,6 +138,17 @@ class WindowStatus:
         blit_with_shadow(surface, self.sprites["sick"], (10, y_pos))
         blit_with_shadow(surface, self.font_small.render("Sick" + ":", True, FONT_COLOR_DEFAULT), (40, y_pos))
         blit_with_shadow(surface, self.font_small.render(str(self.pet.injuries), True, FONT_COLOR_DEFAULT), (self.right_align_x, y_pos))  
+
+    def draw_dmx_stats(self, surface, distance):
+        """Draws DMX-specific stats (level, mistakes, sickness)."""
+        labels = ["level", "exp", "mistakes", "sick"]
+        values = [self.pet.level, self.pet.experience, self.pet.mistakes, self.pet.injuries]
+
+        for i, label in enumerate(labels):
+            y_pos = PAGE_MARGIN + (distance * (2 + i))
+            blit_with_shadow(surface, self.sprites[label], (10, y_pos))
+            blit_with_shadow(surface, self.font_small.render(label.capitalize() + ":", True, FONT_COLOR_DEFAULT), (40, y_pos))
+            blit_with_shadow(surface, self.font_small.render(str(values[i]), True, FONT_COLOR_DEFAULT), (self.right_align_x, y_pos))
 
     def draw_page_3(self, surface: pygame.Surface) -> None:
         """
@@ -209,10 +222,7 @@ class WindowStatus:
             evolution_text = format_seconds(evolution_seconds) if evolution_seconds > 0 else "00:00"
         else:
             evolution_text = ""
-        evoExtra = ""
-        if self.pet.stage in [4,5]:
-            evoExtra = "-"
-        evolution_value = self.font_small.render(evoExtra + evolution_text, True, FONT_COLOR_DEFAULT)
+        evolution_value = self.font_small.render(evolution_text, True, FONT_COLOR_DEFAULT)
         blit_with_shadow(surface, evolution_label, (PAGE_MARGIN, y))
         blit_with_shadow(surface, evolution_value, (self.right_align_x - evolution_value.get_width(), y))
 

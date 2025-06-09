@@ -10,7 +10,7 @@ class GamePoop:
     Represents a poop entity that can be drawn and animated on screen.
     """
 
-    def __init__(self, x: int, y: int) -> None:
+    def __init__(self, x: int, y: int, jumbo = False) -> None:
         """
         Initializes the poop object at the given (x, y) position.
 
@@ -21,6 +21,7 @@ class GamePoop:
         self.x = x
         self.y = y
         self.frame_counter = 0
+        self.jumbo = jumbo
 
     def update(self) -> None:
         """
@@ -36,8 +37,7 @@ class GamePoop:
             surface: The Pygame surface where the poop is drawn.
         """
         # Alternate between "Poop1" and "Poop2" every 30 frames
-        frame_index = (self.frame_counter // 30) % 2
-        sprite = runtime_globals.misc_sprites.get(f"Poop{frame_index + 1}")
-
-        if sprite:
-            surface.blit(sprite, (self.x, self.y))
+        self.frame_index = (self.frame_counter // 30) % 2
+        sprite_key = f"JumboPoop{self.frame_index + 1}" if self.jumbo else f"Poop{self.frame_index + 1}"
+        sprite = runtime_globals.misc_sprites.get(sprite_key)
+        surface.blit(sprite, (self.x, self.y))

@@ -1,3 +1,4 @@
+import hashlib
 import os
 import pygame
 
@@ -123,16 +124,26 @@ def distribute_pets_evenly():
         pet.x = int(center_positions[i] - PET_WIDTH / 2)  # Center pet in its section
         pet.subpixel_x = float(pet.x)
 
-def blit_with_shadow(surface, sprite, pos, offset=(2, 2), shadow_color=(0, 0, 0, 100)):
-    """Draw a shadow behind a sprite."""
-    # Create a copy of the sprite
-    shadow = sprite.copy()
-    # Fill it with shadow color while preserving alpha
-    shadow.fill(shadow_color, special_flags=pygame.BLEND_RGBA_MULT)
-    # Blit the shadow first, slightly offset
+# Global cache for shadows
+shadow_cache = {}
+
+def get_surface_hash(surface):
+    """Generate a hash of the surface’s pixel data to uniquely identify it."""
+    return hashlib.md5(pygame.image.tostring(surface, "RGBA")).hexdigest()
+
+def get_shadow(sprite, shadow_color=(0, 0, 0, 100)):
+    key = get_surface_hash(sprite)
+    if key not in shadow_cache:
+        shadow = sprite.copy()
+        shadow.fill(shadow_color, special_flags=pygame.BLEND_RGBA_MULT)
+        shadow_cache[key] = shadow
+    return shadow_cache[key]
+
+def blit_with_shadow(surface, sprite, pos, offset=(2, 2)):
+    shadow = get_shadow(sprite)
     surface.blit(shadow, (pos[0] + offset[0], pos[1] + offset[1]))
-    # Blit the real sprite on top
     surface.blit(sprite, pos)
+
 
 def load_attack_sprites():
     attack_sprites = {}
@@ -165,6 +176,8 @@ def load_modules() -> list:
                 runtime_globals.dmc_enabled = True
             if module.ruleset == "penc":
                 runtime_globals.penc_enabled = True
+            if module.ruleset == "dmx":
+                runtime_globals.dmx_enabled = True
 
             # 🔥 Manage adventure mode modules
             if module.adventure_mode and game_globals.battle_area.get(module.name) is None:
