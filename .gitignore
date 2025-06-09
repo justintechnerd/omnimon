@@ -14,7 +14,8 @@ dist/
 downloads/
 PreRelease/
 Released/
-save/
+save/*
+.vscode/
 eggs/
 .eggs/
 lib/
