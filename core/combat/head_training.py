@@ -11,7 +11,9 @@ from core import runtime_globals
 from core.animation import PetFrame
 from core.combat.training import Training
 from core.constants import *
-from core.utils import blit_with_shadow, change_scene, get_font, get_training_targets, sprite_load
+from core.utils.pet_utils import get_training_targets
+from core.utils.pygame_utils import blit_with_shadow, get_font, sprite_load_percent
+from core.utils.scene_utils import change_scene
 
 class HeadToHeadTraining(Training):
     """
@@ -23,9 +25,8 @@ class HeadToHeadTraining(Training):
         "ABBAA", "BABAB", "ABABA"
     ]
 
-    ATTACK_SPEED = 4
-    ATTACK_OFFSET_Y = 48
-    RESULT_TIME_FRAMES = 90
+    ATTACK_SPEED = int((3* UI_SCALE) * (SCREEN_WIDTH / (PET_WIDTH*3)))
+    ATTACK_OFFSET_Y = int(48 * UI_SCALE)
 
     def __init__(self) -> None:
         super().__init__()
@@ -41,18 +42,15 @@ class HeadToHeadTraining(Training):
 
         self.is_collision = False
 
-        self.head_training_img = sprite_load(HEADTRAINING_PATH, scale=2)
-        self.vs_img = sprite_load(VS_PATH, scale=2)
-        self.strikes_back = sprite_load(STRIKES_BACK_PATH, scale=1)
-        self.strikes = sprite_load(STRIKE_PATH, scale=1)
+        # Use sprite_load_percent for all images, scale appropriately
+        self.head_training_img = sprite_load_percent(HEADTRAINING_PATH, percent=60, keep_proportion=True, base_on="width")
+        self.vs_img = sprite_load_percent(VS_PATH, percent=17, keep_proportion=True, base_on="width")
+        
+        self.strikes = sprite_load_percent(STRIKE_PATH, percent=7, keep_proportion=True, base_on="width")
+        self.strikes_back = sprite_load_percent(STRIKES_BACK_PATH, percent=40, keep_proportion=True, base_on="width")
 
         self.select_pets()
         self.select_pattern()
-
-    def load_and_scale(self, path, factor):
-        """Helper to load and scale an image."""
-        img = pygame.image.load(path).convert_alpha()
-        return pygame.transform.scale(img, (img.get_width() * factor, img.get_height() * factor))
 
     def select_pets(self):
         """Select two random pets eligible for training."""
@@ -73,11 +71,13 @@ class HeadToHeadTraining(Training):
             return
 
         if self.phase != "result":
-            blit_with_shadow(surface, self.strikes_back, (145, 215))
+            starting_x = SCREEN_WIDTH - self.strikes_back.get_width() - int(5 * UI_SCALE)
+            starting_y = SCREEN_HEIGHT - self.strikes_back.get_height() - int(5 * UI_SCALE)
+            blit_with_shadow(surface, self.strikes_back, (starting_x, starting_y))
 
             for i in range(5 - self.current_index):
-                x = 149 + (4 - i) * 16  # right to left
-                y = 219
+                x = starting_x + 7 + (4 - i) * self.strikes.get_width()
+                y = starting_y + (6 * UI_SCALE)
                 blit_with_shadow(surface, self.strikes, (x, y))
 
             self.draw_pets(surface)
@@ -98,35 +98,39 @@ class HeadToHeadTraining(Training):
 
         left_sprite = pygame.transform.flip(left_sprite, True, False)
 
-        blit_with_shadow(surface, left_sprite, (0, SCREEN_HEIGHT // 2 - PET_HEIGHT // 2))
-        blit_with_shadow(surface, right_sprite, (SCREEN_WIDTH - PET_WIDTH, SCREEN_HEIGHT // 2 - PET_HEIGHT // 2))
+        blit_with_shadow(surface, left_sprite, (0 + (5*UI_SCALE), SCREEN_HEIGHT // 2 - int(PET_HEIGHT) // 2))
+        blit_with_shadow(surface, right_sprite, (SCREEN_WIDTH - PET_WIDTH - (5*UI_SCALE), SCREEN_HEIGHT // 2 - int(PET_HEIGHT) // 2))
 
     def draw_attacks(self, surface):
         """Draw attack projectiles."""
         for sprite, (x, y) in self.attack_positions:
-            blit_with_shadow(surface, sprite, (x, y))
+            blit_with_shadow(surface, sprite, (int(x), int(y)))
 
     def draw_result(self, surface):
         """Draw final result after all attack phases."""
         center_x = SCREEN_WIDTH // 2
         center_y = SCREEN_HEIGHT // 2
 
-        blit_with_shadow(surface, self.head_training_img, (center_x - self.head_training_img.get_width() // 2, center_y - self.head_training_img.get_height() - 20))
+        blit_with_shadow(
+            surface,
+            self.head_training_img,
+            (center_x - self.head_training_img.get_width() // 2, center_y - self.head_training_img.get_height() - int(20 * UI_SCALE))
+        )
 
-        font = get_font(55)
+        font = get_font(int(55 * UI_SCALE))
         wins_text = font.render(str(self.victories), True, FONT_COLOR_DEFAULT)
         losses_text = font.render(str(self.failures), True, FONT_COLOR_DEFAULT)
 
-        total_width = wins_text.get_width() + self.vs_img.get_width() + losses_text.get_width() + 20
+        total_width = wins_text.get_width() + self.vs_img.get_width() + losses_text.get_width() + int(20 * UI_SCALE)
         start_x = center_x - total_width // 2
-        y = center_y + 20
+        y = center_y + int(20 * UI_SCALE)
 
         blit_with_shadow(surface, wins_text, (start_x, y))
-        blit_with_shadow(surface, self.vs_img, (start_x + wins_text.get_width() + 10, y))
-        blit_with_shadow(surface, losses_text, (start_x + wins_text.get_width() + self.vs_img.get_width() + 20, y))
+        blit_with_shadow(surface, self.vs_img, (start_x + wins_text.get_width() + int(10 * UI_SCALE), y))
+        blit_with_shadow(surface, losses_text, (start_x + wins_text.get_width() + self.vs_img.get_width() + int(20 * UI_SCALE), y))
 
     def move_attacks(self):
-        """Move attacks according to collision type."""
+        """Move attacks according to collision type, frame-rate independent."""
         finished = False
 
         if self.is_collision:
@@ -138,27 +142,36 @@ class HeadToHeadTraining(Training):
             self.process_attack_result()
 
     def update_collision(self):
-        """Update attacks for a collision (meet in center)."""
+        """Update attacks for a collision (meet in center), frame-rate independent."""
         for atk in self.attack_positions:
             sprite, (x, y) = atk
-            if x < SCREEN_WIDTH // 2 - 12:
-                x += self.ATTACK_SPEED
-            elif x > SCREEN_WIDTH // 2 - 12:
-                x -= self.ATTACK_SPEED
+            if x < SCREEN_WIDTH // 2 - int(12 * UI_SCALE):
+                x += self.ATTACK_SPEED * (30 / FRAME_RATE)
+            elif x > SCREEN_WIDTH // 2 - int(12 * UI_SCALE):
+                x -= self.ATTACK_SPEED * (30 / FRAME_RATE)
             atk[1] = (x, y)
 
         left_x, _ = self.attack_positions[0][1]
         right_x, _ = self.attack_positions[1][1]
-        return abs(left_x - (SCREEN_WIDTH//2 - 12)) <= 10 and abs(right_x - (SCREEN_WIDTH//2 - 12)) <= 10
+        return (
+            abs(left_x - (SCREEN_WIDTH // 2 - int(12 * UI_SCALE))) <= int(10 * UI_SCALE)
+            and abs(right_x - (SCREEN_WIDTH // 2 - int(12 * UI_SCALE))) <= int(10 * UI_SCALE)
+        )
 
     def update_cross_attack(self):
-        """Update attacks for cross fire (no collision)."""
-        self.attack_positions[0][1] = (self.attack_positions[0][1][0] + self.ATTACK_SPEED, self.attack_positions[0][1][1])
-        self.attack_positions[1][1] = (self.attack_positions[1][1][0] - self.ATTACK_SPEED, self.attack_positions[1][1][1])
+        """Update attacks for cross fire (no collision), frame-rate independent."""
+        self.attack_positions[0][1] = (
+            self.attack_positions[0][1][0] + self.ATTACK_SPEED * (30 / FRAME_RATE),
+            self.attack_positions[0][1][1]
+        )
+        self.attack_positions[1][1] = (
+            self.attack_positions[1][1][0] - self.ATTACK_SPEED * (30 / FRAME_RATE),
+            self.attack_positions[1][1][1]
+        )
 
         return (
-            self.attack_positions[0][1][0] >= SCREEN_WIDTH - PET_WIDTH or
-            self.attack_positions[1][1][0] <= PET_WIDTH
+            self.attack_positions[0][1][0] >= SCREEN_WIDTH - PET_WIDTH - (5 * UI_SCALE)
+            or self.attack_positions[1][1][0] <= PET_WIDTH + (5 * UI_SCALE)
         )
 
     def handle_event(self, input_action):
@@ -192,8 +205,8 @@ class HeadToHeadTraining(Training):
         y_up = y_base
         y_down = y_base + self.ATTACK_OFFSET_Y
 
-        left_x = PET_WIDTH
-        right_x = SCREEN_WIDTH - PET_WIDTH - 24
+        left_x = PET_WIDTH + (5*UI_SCALE)
+        right_x = SCREEN_WIDTH - PET_WIDTH - (5*UI_SCALE)
 
         self.attack_positions.append([left_sprite, (left_x, y_up if left_dir == "A" else y_down)])
         self.attack_positions.append([right_sprite, (right_x, y_up if right_dir == "A" else y_down)])

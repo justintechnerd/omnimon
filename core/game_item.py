@@ -2,6 +2,12 @@ from dataclasses import dataclass
 
 @dataclass
 class GameItem:
-    id: int
+    id: str
     name: str
-    sprite_id: int
+    description: str
+    sprite_name: str
+    module: str
+    effect: str
+    status: str
+    amount: int
+    boost_time: int

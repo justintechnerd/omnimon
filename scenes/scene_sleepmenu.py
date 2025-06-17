@@ -1,12 +1,14 @@
 import pygame
-from datetime import datetime, timedelta
+from datetime import datetime
 
 from components.window_background import WindowBackground
 from components.window_horizontalmenu import WindowHorizontalMenu
 from components.window_petview import WindowPetList
-from core import game_globals, runtime_globals
+from core import runtime_globals
 from core.constants import *
-from core.utils import change_scene, distribute_pets_evenly, get_selected_pets
+from core.utils.pet_utils import distribute_pets_evenly, get_selected_pets
+from core.utils.pygame_utils import sprite_load_percent
+from core.utils.scene_utils import change_scene
 
 
 #=====================================================================
@@ -15,8 +17,11 @@ from core.utils import change_scene, distribute_pets_evenly, get_selected_pets
 class SceneSleepMenu:
     def __init__(self) -> None:
         self.background = WindowBackground()
-        self.options = [("Sleep", pygame.image.load("resources/SleepIcon.png").convert_alpha()),
-                        ("Wake", pygame.image.load("resources/WakeIcon.png").convert_alpha())]
+        # Use new method for icons, scale to option icon size and keep proportions
+        self.options = [
+            ("Sleep", sprite_load_percent("resources/SleepIcon.png", percent=(OPTION_ICON_SIZE / SCREEN_HEIGHT) * 100, keep_proportion=True, base_on="height")),
+            ("Wake", sprite_load_percent("resources/WakeIcon.png", percent=(OPTION_ICON_SIZE / SCREEN_HEIGHT) * 100, keep_proportion=True, base_on="height"))
+        ]
 
         self.selected_index = 0
         runtime_globals.strategy_index = 0
@@ -47,8 +52,8 @@ class SceneSleepMenu:
     def draw(self, surface: pygame.Surface) -> None:
         self.background.draw(surface)
 
-        # Desenha menu horizontal
-        self.menu_window.draw(surface, x=16, y=16, spacing=16)
+        # Desenha menu horizontal (positions scaled)
+        self.menu_window.draw(surface, x=int(16 * UI_SCALE), y=int(16 * UI_SCALE), spacing=int(16 * UI_SCALE))
 
         # Desenha pets na parte inferior
         self.pet_list_window.draw(surface)

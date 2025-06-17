@@ -1,26 +1,32 @@
 import pygame
-from .window_xai import WindowXai
-import random
-from core.utils import blit_with_shadow
+
+from core.constants import *
+from core.utils.pygame_utils import blit_with_shadow, sprite_load_percent
+
 
 XAIARROW_ICON_PATH = "resources/XaiArrow.png"  # Update this path as needed
 
 class WindowXaiBar:
-    WIDTH = 152   # 132 + 20 for extra width
-    HEIGHT = 72   # 68 + 4 for border (doubled)
-    INNER_WIDTH = 148  # 128 + 20 for extra width
-    INNER_HEIGHT = 68
+    WIDTH = 152 * UI_SCALE   # 132 + 20 for extra width
+    HEIGHT = 72 * UI_SCALE  # 68 + 4 for border (doubled)
+    INNER_WIDTH = 148 * UI_SCALE # 128 + 20 for extra width
+    INNER_HEIGHT = 68 * UI_SCALE
 
     def __init__(self, x, y, xai_number, pet):
         self.x = x
         self.y = y
         self.xai_number = xai_number
         self.pet = pet
-        # Load and scale arrow sprite once
-        arrow_img = pygame.image.load(XAIARROW_ICON_PATH).convert_alpha()
-        self.arrow_height = 32  # quadruple the original 8px (was doubled, now doubled again)
-        self.arrow_width = arrow_img.get_width() * 4
-        self.arrow_sprite = pygame.transform.scale(arrow_img, (self.arrow_width, self.arrow_height))
+        # Load and scale arrow sprite using the new method, scale to fit the extension height
+        ext_height = 30 * UI_SCALE
+        self.arrow_height = int(ext_height * 0.8)
+        self.arrow_sprite = sprite_load_percent(
+            XAIARROW_ICON_PATH,
+            percent=(self.arrow_height / SCREEN_HEIGHT) * 100,
+            keep_proportion=True,
+            base_on="height"
+        )
+        self.arrow_width = self.arrow_sprite.get_width()
         self.arrow_animating = False
         self.arrow_anim_dir = 1  # 1 = right, -1 = left
         self.arrow_anim_x = 0
@@ -44,7 +50,7 @@ class WindowXaiBar:
         if self.arrow_animating:
             # Speed: 1 (fastest) to 7 (slowest)
             speed = max(1, 8 - self.xai_number)
-            self.arrow_anim_x += self.arrow_anim_dir * speed
+            self.arrow_anim_x += self.arrow_anim_dir * speed * UI_SCALE
             if self.arrow_anim_x <= self.arrow_anim_min:
                 self.arrow_anim_x = self.arrow_anim_min
                 self.arrow_anim_dir = 1

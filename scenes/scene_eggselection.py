@@ -4,14 +4,16 @@ from core import game_globals, runtime_globals
 from core.constants import *
 from core.game_digidex import register_digidex_entry
 from core.game_pet import GamePet
-from core.utils import blit_with_shadow, change_scene, get_font, get_module
-from core.utils_unlocks import is_unlocked, unlock_item
+from core.utils.module_utils import get_module
+from core.utils.pygame_utils import blit_with_shadow, get_font, sprite_load_percent
+from core.utils.scene_utils import change_scene
+from core.utils.utils_unlocks import is_unlocked, unlock_item
 
 class SceneEggSelection:
     GRID_COLUMNS = 3
     GRID_ROWS = 2  # Number of visible rows per page
-    EGG_SIZE = (40, 40)
-    LOGO_SIZE = (160, 80)
+    EGG_SIZE = (int(40 * UI_SCALE), int(40 * UI_SCALE))
+    LOGO_SIZE = (int(160 * UI_SCALE), int(80 * UI_SCALE))
 
     def __init__(self) -> None:
         self.eggs_by_module = self.load_eggs_by_module()
@@ -23,11 +25,12 @@ class SceneEggSelection:
         self.module_logo = None
         self.font = get_font(FONT_SIZE_SMALL)
 
-        self.unknown_sprite = pygame.image.load("resources/Unknown.png").convert_alpha()
-        self.unknown_sprite = pygame.transform.scale(self.unknown_sprite, self.EGG_SIZE)
+        # Use new method for unknown sprite and scale
+        self.unknown_sprite = sprite_load_percent("resources/Unknown.png", percent=(self.EGG_SIZE[1] / SCREEN_HEIGHT) * 100, keep_proportion=True, base_on="height")
 
         runtime_globals.game_console.log(f"[SceneEggSelection] Modules loaded: {len(self.eggs_by_module)}")
-        self.bg_sprite = pygame.image.load("resources/Digidex.png").convert()
+        # Use new method for background, scale to screen height
+        self.bg_sprite = sprite_load_percent("resources/Digidex.png", percent=100, keep_proportion=True, base_on="height")
         self.bg_frame = 0
         self.bg_timer = 0
         self.bg_frame_width = self.bg_sprite.get_width() // 6
@@ -36,6 +39,9 @@ class SceneEggSelection:
         self.load_module_logo()
         self.locked_special_eggs = {}
         self.cache_locked_special_eggs()
+
+        self._last_cache = None
+        self._last_cache_key = None
 
     def load_eggs_by_module(self):
         eggs_by_module = {}
@@ -59,10 +65,15 @@ class SceneEggSelection:
                 folder_path = os.path.join(get_module(egg["module"]).folder_path, "monsters", f"{egg_name}_dmc")
                 frame_path = os.path.join(folder_path, "0.png")
                 try:
-                    frame = pygame.image.load(frame_path).convert_alpha()
-                    self.egg_sprites[egg_name] = pygame.transform.scale(frame, self.EGG_SIZE)
+                    # Use new method for egg sprite, scale to EGG_SIZE height
+                    self.egg_sprites[egg_name] = sprite_load_percent(
+                        frame_path,
+                        percent=(self.EGG_SIZE[1] / SCREEN_HEIGHT) * 100,
+                        keep_proportion=True,
+                        base_on="height"
+                    )
                     runtime_globals.game_console.log(f"[SceneEggSelection] Loaded sprite for {egg_name}")
-                except pygame.error:
+                except Exception:
                     self.egg_sprites[egg_name] = None
                     runtime_globals.game_console.log(f"[SceneEggSelection] Failed to load {frame_path}")
 
@@ -81,10 +92,15 @@ class SceneEggSelection:
         module_path = get_module(module_name).folder_path
         logo_path = os.path.join(module_path, "logo.png")
         try:
-            logo = pygame.image.load(logo_path).convert_alpha()
-            self.module_logo = pygame.transform.scale(logo, self.LOGO_SIZE)
+            # Use new method for logo, scale to LOGO_SIZE height
+            self.module_logo = sprite_load_percent(
+                logo_path,
+                percent=(self.LOGO_SIZE[1] / SCREEN_HEIGHT) * 100,
+                keep_proportion=True,
+                base_on="height"
+            )
             runtime_globals.game_console.log(f"[SceneEggSelection] Loaded module logo: {logo_path}")
-        except pygame.error:
+        except Exception:
             self.module_logo = None
             runtime_globals.game_console.log(f"[SceneEggSelection] Failed to load logo: {logo_path}")
 
@@ -160,58 +176,100 @@ class SceneEggSelection:
 
         runtime_globals.game_console.log(f"[SceneEggSelection] Module: {module_name}, Position: ({self.current_egg_row}, {self.current_egg_col}), Scroll Offset: {self.scroll_offset}")
 
+    def invalidate_cache(self):
+        self._last_cache = None
+        self._last_cache_key = None
+
     def draw(self, surface):
+        # Always update background animation
         frame_rect = pygame.Rect(self.bg_frame * self.bg_frame_width, 0, self.bg_frame_width, SCREEN_HEIGHT)
         surface.blit(self.bg_sprite, (0, 0), frame_rect)
 
-        if self.module_logo:
-            logo_x = (SCREEN_WIDTH - self.LOGO_SIZE[0]) // 2
-            surface.blit(self.module_logo, (logo_x, 10))
+        # Cache key includes module, row, col, scroll, and UI/layout
+        cache_key = (
+            self.current_module_index,
+            self.current_egg_row,
+            self.current_egg_col,
+            self.scroll_offset,
+            SCREEN_WIDTH,
+            SCREEN_HEIGHT,
+            UI_SCALE
+        )
+        if self._last_cache_key != cache_key or self._last_cache is None:
+            cached_surface = pygame.Surface((SCREEN_WIDTH, SCREEN_HEIGHT), pygame.SRCALPHA)
 
+            # Draw module logo
+            if self.module_logo:
+                logo_x = (SCREEN_WIDTH - self.module_logo.get_width()) // 2
+                cached_surface.blit(self.module_logo, (logo_x, int(10 * UI_SCALE)))
+
+            module_name = list(self.eggs_by_module.keys())[self.current_module_index]
+            eggs = self.eggs_by_module[module_name]
+
+            start_y = SCREEN_HEIGHT - int(150 * UI_SCALE)
+            col_width = SCREEN_WIDTH // self.GRID_COLUMNS
+
+            for index, egg in enumerate(eggs):
+                row = index // self.GRID_COLUMNS
+                col = index % self.GRID_COLUMNS
+
+                if not (self.scroll_offset <= row < self.scroll_offset + self.GRID_ROWS):
+                    continue  # Skip rows outside of the visible range
+
+                visible_row = row - self.scroll_offset
+                x = (col_width * col) + (col_width // 2 - self.EGG_SIZE[0] // 2)
+                y = start_y + (visible_row * (self.EGG_SIZE[1] + int(35 * UI_SCALE)))
+
+                egg_name = egg["name"]
+                egg_sprite = self.egg_sprites.get(egg_name, None)
+
+                # Check if special and locked
+                module = egg.get("module", module_name)
+                is_locked_special = self.locked_special_eggs.get((module, egg_name), False)
+
+                # Semi-transparent background rectangle
+                rect_surface = pygame.Surface((self.EGG_SIZE[0] + int(30 * UI_SCALE), self.EGG_SIZE[1] + int(30 * UI_SCALE)), pygame.SRCALPHA)
+                rect_surface.fill((206, 202, 239, 128))  # RGBA with alpha 128 (~50%)
+                cached_surface.blit(rect_surface, (x - int(15 * UI_SCALE), y))
+
+                if is_locked_special:
+                    blit_with_shadow(cached_surface, self.unknown_sprite, (x, y))
+                elif egg_sprite:
+                    blit_with_shadow(cached_surface, egg_sprite, (x, y))
+
+                display_name = "???" if is_locked_special else egg_name.replace("DmC", "").replace("PenC", "").replace("Version", "")
+                text = self.font.render(display_name, True, FONT_COLOR_DEFAULT)
+                blit_with_shadow(cached_surface, text, (x + (self.EGG_SIZE[0] // 2) - (text.get_width() // 2), y + self.EGG_SIZE[1]))
+
+            self._last_cache = cached_surface
+            self._last_cache_key = cache_key
+
+        # Blit cached content (eggs, logo, names)
+        surface.blit(self._last_cache, (0, 0))
+
+        # Draw cursor highlight (always on top, not cached)
         module_name = list(self.eggs_by_module.keys())[self.current_module_index]
         eggs = self.eggs_by_module[module_name]
-
-        start_y = SCREEN_HEIGHT - 150
+        start_y = SCREEN_HEIGHT - int(150 * UI_SCALE)
         col_width = SCREEN_WIDTH // self.GRID_COLUMNS
-
-        for index, egg in enumerate(eggs):
-            row = index // self.GRID_COLUMNS
-            col = index % self.GRID_COLUMNS
-
-            if not (self.scroll_offset <= row < self.scroll_offset + self.GRID_ROWS):
-                continue  # Skip rows outside of the visible range
-
+        index = self.current_egg_row * self.GRID_COLUMNS + self.current_egg_col
+        if 0 <= index < len(eggs):
+            row = self.current_egg_row
+            col = self.current_egg_col
             visible_row = row - self.scroll_offset
-            x = (col_width * col) + (col_width // 2 - self.EGG_SIZE[0] // 2)
-            y = start_y + (visible_row * (self.EGG_SIZE[1] + 35))
-
-            egg_name = egg["name"]
-            egg_sprite = self.egg_sprites.get(egg_name, None)
-
-            # Check if special and locked
-            module = egg.get("module", module_name)
-            is_locked_special = self.locked_special_eggs.get((module, egg_name), False)
-
-            # Semi-transparent background rectangle
-            rect_surface = pygame.Surface((self.EGG_SIZE[0] + 30, self.EGG_SIZE[1] + 30), pygame.SRCALPHA)
-            rect_surface.fill((206, 202, 239, 128))  # RGBA with alpha 128 (~50%)
-            surface.blit(rect_surface, (x - 15, y))
-
-            if is_locked_special:
-                blit_with_shadow(surface, self.unknown_sprite, (x, y))
-            elif egg_sprite:
-                blit_with_shadow(surface, egg_sprite, (x, y))
-
-            if row == self.current_egg_row and col == self.current_egg_col:
-                pygame.draw.rect(surface, FONT_COLOR_GREEN, (x - 15, y, self.EGG_SIZE[0] + 30, self.EGG_SIZE[1] + 30), 3)
-
-            display_name = "???" if is_locked_special else egg_name.replace("DmC", "").replace("PenC", "").replace("Version", "")
-            text = self.font.render(display_name, True, FONT_COLOR_DEFAULT)
-            blit_with_shadow(surface, text, (x + (self.EGG_SIZE[0] // 2) - (text.get_width() // 2), y + self.EGG_SIZE[1]))
+            if 0 <= visible_row < self.GRID_ROWS:
+                x = (col_width * col) + (col_width // 2 - self.EGG_SIZE[0] // 2)
+                y = start_y + (visible_row * (self.EGG_SIZE[1] + int(35 * UI_SCALE)))
+                pygame.draw.rect(
+                    surface,
+                    FONT_COLOR_GREEN,
+                    (x - int(15 * UI_SCALE), y, self.EGG_SIZE[0] + int(30 * UI_SCALE), self.EGG_SIZE[1] + int(30 * UI_SCALE)),
+                    3
+                )
 
     def update(self):
         self.bg_timer += 1
-        if self.bg_timer >= 3:
+        if self.bg_timer >= int (3 * (FRAME_RATE / 30)):  # Change frame every 3 seconds
             self.bg_timer = 0
             self.bg_frame = (self.bg_frame + 1) % 6
 
@@ -230,7 +288,6 @@ class SceneEggSelection:
                 if self.locked_special_eggs.get((module, selected_egg["name"]), False):
                     runtime_globals.game_console.log("[SceneEggSelection] This egg is locked!")
                     return
-                
                 self.select_egg(eggs[index])
 
     def select_egg(self, selected_egg):
@@ -242,17 +299,15 @@ class SceneEggSelection:
             game_globals.traited.remove(egg_key)
         game_globals.pet_list.append(pet)
         bg_name = f"ver{selected_egg['version']}"
+
+        # Only unlock objects of type "egg" with no version or matching the egg's version
         module_unlockables = get_module(selected_egg["module"]).unlocks
-        backgrounds = module_unlockables.get("backgrounds", [])
-        if any(bg.get("name") == bg_name for bg in backgrounds):
-            unlock_item(selected_egg["module"], "backgrounds", bg_name)
-        if selected_egg["module"] == "DMC":
-            unlock_item(selected_egg["module"], "backgrounds", "file_island")
-            unlock_item(selected_egg["module"], "backgrounds", "abandoned_office")
-            unlock_item(selected_egg["module"], "backgrounds", "blank")
-        elif selected_egg["module"] == "PenC":
-            unlock_item(selected_egg["module"], "backgrounds", "folder_continent")
-            unlock_item(selected_egg["module"], "backgrounds", "living_quarters")
+        unlocks = module_unlockables if isinstance(module_unlockables, list) else []
+        for unlock in unlocks:
+            if unlock.get("type") == "egg":
+                if "version" not in unlock or unlock.get("version") == selected_egg["version"]:
+                    unlock_item(selected_egg["module"], "egg", unlock["name"])
+
         if not game_globals.game_background:
             game_globals.game_background = bg_name
             game_globals.background_module_name = selected_egg["module"]

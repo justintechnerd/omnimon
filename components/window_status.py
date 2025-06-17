@@ -3,35 +3,31 @@ import pygame
 from components.scrolling_text import ScrollingText
 from core import runtime_globals
 from core.constants import *
-from core.utils import blit_with_shadow, get_font, get_module
+from core.utils.module_utils import get_module
+from core.utils.pygame_utils import blit_with_shadow, get_font, sprite_load_percent
 
-PAGE_MARGIN = 16
 
-import pygame
-from core import runtime_globals
-from core.constants import *
-from core.utils import blit_with_shadow, get_font, get_module
-
-PAGE_MARGIN = 16
+PAGE_MARGIN = int(16 * UI_SCALE)
 
 class WindowStatus:
-    """Handles the detailed pet status pages with optimized performance."""
+    """Handles the detailed pet status pages with optimized performance and caching."""
 
     def __init__(self, pet):
         """Initialize pet data and pre-load sprites."""
         self.pet = pet
-        self.font_large = get_font(40)
-        self.font_small = get_font(30)
-        self.right_align_x = 220
+        scale = UI_SCALE
+        self.font_large = get_font(int(40 * UI_SCALE))
+        self.font_small = get_font(int(30 * UI_SCALE))
+        self.right_align_x = int(SCREEN_WIDTH - (20 * scale))
 
         self.scrolling_name = ScrollingText(
                 self.font_large.render(self.pet.name, True, FONT_COLOR_DEFAULT),
-                max_width=SCREEN_WIDTH - 80,
+                max_width=int(SCREEN_WIDTH - (80 * scale)),
                 speed=1
             )
         self.scrolling_stage = ScrollingText(
             self.font_small.render(f"{STAGES[self.pet.stage]}", True, FONT_COLOR_DEFAULT),
-            max_width=99,
+            max_width=int(SCREEN_WIDTH - (99 * scale)),
             speed=1
         )
 
@@ -40,6 +36,10 @@ class WindowStatus:
 
         # Pre-load sprites once
         self.sprites = self.load_sprites()
+
+        # Caching
+        self._last_cache = None
+        self._last_cache_key = None
 
     @classmethod
     def load_sprites(cls):
@@ -52,27 +52,73 @@ class WindowStatus:
             "sick": SICK_ICON_PATH, "sleep Dist.": SLEEP_DISTURBANCES_ICON_PATH,
             "heart_empty": HEART_EMPTY_ICON_PATH, "heart_half": HEART_HALF_ICON_PATH,
             "heart_full": HEART_FULL_ICON_PATH, "energy_bar": ENERGY_BAR_ICON_PATH,
-            "energy_bar_back": ENERGY_BAR_BACK_ICON_PATH, "level": LEVEL_ICON_PATH,"exp": EXP_ICON_PATH,
+            "energy_bar_back": ENERGY_BAR_BACK_ICON_PATH, "level": LEVEL_ICON_PATH, "exp": EXP_ICON_PATH,
         }
-        return {key: pygame.image.load(path).convert_alpha() for key, path in sprite_paths.items()}
+        # Use sprite_load_percent for all icons, scale to MENU_ICON_SIZE height, keep proportions
+        return {
+            key: sprite_load_percent(path, percent=(MENU_ICON_SIZE / SCREEN_HEIGHT) * 100, keep_proportion=True, base_on="height")
+            for key, path in sprite_paths.items()
+        }
+
+    def set_pet(self, pet):
+        """Call this when the viewed pet changes."""
+        self.pet = pet
+        self.scrolling_name = ScrollingText(
+            self.font_large.render(self.pet.name, True, FONT_COLOR_DEFAULT),
+            max_width=int(SCREEN_WIDTH - (80 * UI_SCALE)),
+            speed=1
+        )
+        self.scrolling_stage = ScrollingText(
+            self.font_small.render(f"{STAGES[self.pet.stage]}", True, FONT_COLOR_DEFAULT),
+            max_width=int(SCREEN_WIDTH - (99 * UI_SCALE)),
+            speed=1
+        )
+        self.pet_sprite = pygame.transform.scale(runtime_globals.pet_sprites[pet][0], (PET_ICON_SIZE, PET_ICON_SIZE))
+        self._last_cache = None
+        self._last_cache_key = None
 
     def draw_page(self, surface, page_number):
-        """Selects the correct page drawing method."""
-        draw_methods = {1: self.draw_page_1, 2: self.draw_page_2, 3: self.draw_page_3, 4: self.draw_page_4}
-        if page_number in draw_methods:
-            draw_methods[page_number](surface)
+        """Draws the requested page, using cache if possible.
+        On page 1, scrolling name and stage are always updated and redrawn every frame.
+        """
+        cache_key = (
+            id(self.pet),  # Unique per pet object
+            page_number,
+            UI_SCALE,
+            SCREEN_WIDTH,
+            SCREEN_HEIGHT
+        )
+        if self._last_cache_key != cache_key or self._last_cache is None:
+            # Redraw and cache
+            page_surface = pygame.Surface((SCREEN_WIDTH, SCREEN_HEIGHT), pygame.SRCALPHA)
+            draw_methods = {1: self.draw_page_1, 2: self.draw_page_2, 3: self.draw_page_3, 4: self.draw_page_4}
+            if page_number in draw_methods:
+                draw_methods[page_number](page_surface)
+            self._last_cache = page_surface
+            self._last_cache_key = cache_key
+
+        # Blit cached static content
+        surface.blit(self._last_cache, (0, 0))
+
+        # On page 1, always update and redraw scrolling name and stage
+        if page_number == 1:
+            spacing = int(30 * UI_SCALE)
+            self.scrolling_name.update()
+            self.scrolling_name.draw(surface, (int(75 * UI_SCALE), PAGE_MARGIN))
+            self.scrolling_stage.update()
+            self.scrolling_stage.draw(surface, (int(139 * UI_SCALE), PAGE_MARGIN + spacing))
 
     def draw_page_1(self, surface: pygame.Surface) -> None:
         """Draws page 1: Basic pet info (name, stage, age, weight, module, version)."""
-        spacing = 30
+        spacing = int(30 * UI_SCALE)
         blit_with_shadow(surface, self.pet_sprite, (PAGE_MARGIN, PAGE_MARGIN))
 
-        self.scrolling_name.update()
-        self.scrolling_name.draw(surface, (75, PAGE_MARGIN))
+        #self.scrolling_name.update()
+        #self.scrolling_name.draw(surface, (int(75 * UI_SCALE), PAGE_MARGIN))
 
-        blit_with_shadow(surface, self.font_small.render(f"Stage:", True, FONT_COLOR_DEFAULT), (75, PAGE_MARGIN + spacing))
-        self.scrolling_stage.update()
-        self.scrolling_stage.draw(surface, (139, PAGE_MARGIN + spacing))
+        blit_with_shadow(surface, self.font_small.render(f"Stage:", True, FONT_COLOR_DEFAULT), (int(75 * UI_SCALE), PAGE_MARGIN + spacing))
+        #self.scrolling_stage.update()
+        #self.scrolling_stage.draw(surface, (int(139 * UI_SCALE), PAGE_MARGIN + spacing))
         
         pygame.draw.line(surface, FONT_COLOR_DEFAULT, (0, PAGE_MARGIN + PET_ICON_SIZE + spacing), (SCREEN_WIDTH, PAGE_MARGIN + PET_ICON_SIZE + spacing), 2)
 
@@ -82,8 +128,8 @@ class WindowStatus:
 
         for i, label in enumerate(labels):
             y_pos = PAGE_MARGIN + (spacing * 3) + i * spacing
-            blit_with_shadow(surface, self.sprites[label], (10, y_pos))
-            blit_with_shadow(surface, self.font_small.render(f"{label.capitalize()}:", True, FONT_COLOR_DEFAULT), (40, y_pos))
+            blit_with_shadow(surface, self.sprites[label], (int(10 * UI_SCALE), y_pos))
+            blit_with_shadow(surface, self.font_small.render(f"{label.capitalize()}:", True, FONT_COLOR_DEFAULT), (int(40 * UI_SCALE), y_pos))
 
             value_surf = self.font_small.render(values[i], True, FONT_COLOR_DEFAULT)
             value_x = self.right_align_x - value_surf.get_width()
@@ -91,15 +137,15 @@ class WindowStatus:
 
     def draw_page_2(self, surface: pygame.Surface) -> None:
         """Draws page 2: Hunger, strength, care mistakes and sleep disturbances."""
-        distance = 37
+        distance = int(37 * UI_SCALE)
         module = get_module(self.pet.module)
 
         # Hunger and strength
         blit_with_shadow(surface, self.font_small.render("Hunger:", True, FONT_COLOR_DEFAULT), (PAGE_MARGIN, PAGE_MARGIN))
-        self.draw_hearts(surface, 130, PAGE_MARGIN + 5, self.pet.hunger)
+        self.draw_hearts(surface, int(SCREEN_WIDTH - (110 * UI_SCALE)), PAGE_MARGIN + int(5 * UI_SCALE), self.pet.hunger)
 
         blit_with_shadow(surface, self.font_small.render("Strength:", True, FONT_COLOR_DEFAULT), (PAGE_MARGIN, PAGE_MARGIN + distance))
-        self.draw_hearts(surface, 130, PAGE_MARGIN + distance + 5, self.pet.strength)
+        self.draw_hearts(surface, int(SCREEN_WIDTH - (110 * UI_SCALE)), PAGE_MARGIN + distance + int(5 * UI_SCALE), self.pet.strength)
 
         if module.ruleset == "dmc":
             self.draw_dmc_stats(surface, distance)
@@ -115,14 +161,14 @@ class WindowStatus:
 
         for i, label in enumerate(labels):
             y_pos = PAGE_MARGIN + (distance * (2 + i))
-            blit_with_shadow(surface, self.sprites[label], (10, y_pos))
-            blit_with_shadow(surface, self.font_small.render(label.capitalize() + ":", True, FONT_COLOR_DEFAULT), (40, y_pos))
+            blit_with_shadow(surface, self.sprites[label], (int(10 * UI_SCALE), y_pos))
+            blit_with_shadow(surface, self.font_small.render(label.capitalize() + ":", True, FONT_COLOR_DEFAULT), (int(40 * UI_SCALE), y_pos))
             blit_with_shadow(surface, self.font_small.render(str(values[i]), True, FONT_COLOR_DEFAULT), (self.right_align_x, y_pos))
 
     def draw_penc_stats(self, surface, distance):
         """Draws PenC-specific stats (condition hearts, jogress, battle availability)."""
         blit_with_shadow(surface, self.font_small.render("Condition:", True, FONT_COLOR_DEFAULT), (PAGE_MARGIN, PAGE_MARGIN + (distance * 2)))
-        self.draw_hearts(surface, 130, PAGE_MARGIN + (distance * 2) + 5, self.pet.condition_hearts)
+        self.draw_hearts(surface, int(SCREEN_WIDTH - (110 * UI_SCALE)), PAGE_MARGIN + (distance * 2) + int(5 * UI_SCALE), self.pet.condition_hearts)
 
         labels = ["jogress", "battle"]
         values = [self.pet.jogress_avaliable, self.pet.can_battle()]
@@ -130,13 +176,13 @@ class WindowStatus:
 
         for i, label in enumerate(labels):
             y_pos = PAGE_MARGIN + (distance * (3 + i))
-            blit_with_shadow(surface, self.sprites[label], (10, y_pos))
-            blit_with_shadow(surface, self.font_small.render(label.capitalize() + ":", True, FONT_COLOR_DEFAULT), (40, y_pos))
+            blit_with_shadow(surface, self.sprites[label], (int(10 * UI_SCALE), y_pos))
+            blit_with_shadow(surface, self.font_small.render(label.capitalize() + ":", True, FONT_COLOR_DEFAULT), (int(40 * UI_SCALE), y_pos))
             blit_with_shadow(surface, self.font_small.render(yes_no_values[i], True, FONT_COLOR_DEFAULT), (self.right_align_x, y_pos))    
 
         y_pos = PAGE_MARGIN + (distance * (5))
-        blit_with_shadow(surface, self.sprites["sick"], (10, y_pos))
-        blit_with_shadow(surface, self.font_small.render("Sick" + ":", True, FONT_COLOR_DEFAULT), (40, y_pos))
+        blit_with_shadow(surface, self.sprites["sick"], (int(10 * UI_SCALE), y_pos))
+        blit_with_shadow(surface, self.font_small.render("Sick" + ":", True, FONT_COLOR_DEFAULT), (int(40 * UI_SCALE), y_pos))
         blit_with_shadow(surface, self.font_small.render(str(self.pet.injuries), True, FONT_COLOR_DEFAULT), (self.right_align_x, y_pos))  
 
     def draw_dmx_stats(self, surface, distance):
@@ -146,21 +192,21 @@ class WindowStatus:
 
         for i, label in enumerate(labels):
             y_pos = PAGE_MARGIN + (distance * (2 + i))
-            blit_with_shadow(surface, self.sprites[label], (10, y_pos))
-            blit_with_shadow(surface, self.font_small.render(label.capitalize() + ":", True, FONT_COLOR_DEFAULT), (40, y_pos))
+            blit_with_shadow(surface, self.sprites[label], (int(10 * UI_SCALE), y_pos))
+            blit_with_shadow(surface, self.font_small.render(label.capitalize() + ":", True, FONT_COLOR_DEFAULT), (int(40 * UI_SCALE), y_pos))
             blit_with_shadow(surface, self.font_small.render(str(values[i]), True, FONT_COLOR_DEFAULT), (self.right_align_x, y_pos))
 
     def draw_page_3(self, surface: pygame.Surface) -> None:
         """
         Draws page 3: Effort, power, DP bar, battles, and win rates.
         """
-        distance = 37
+        distance = int(37 * UI_SCALE)
         y = PAGE_MARGIN
 
         # Effort
         effort_label = self.font_small.render("Effort:", True, FONT_COLOR_DEFAULT)
         blit_with_shadow(surface, effort_label, (PAGE_MARGIN, y))
-        self.draw_hearts(surface, 130, y + 5, self.pet.effort, factor=2)
+        self.draw_hearts(surface, int(SCREEN_WIDTH - (110 * UI_SCALE)), y + int(5 * UI_SCALE), self.pet.effort, factor=2)
 
         # Power
         y += distance
@@ -176,7 +222,7 @@ class WindowStatus:
         y += distance
         dp_label = self.font_small.render("DP:", True, FONT_COLOR_DEFAULT)
         blit_with_shadow(surface, dp_label, (PAGE_MARGIN, y))
-        self.draw_energy_bar(surface, 86, y, self.pet.dp, self.pet.energy)
+        self.draw_energy_bar(surface, SCREEN_WIDTH, y, self.pet.dp, self.pet.energy)
 
         # Battles
         y += distance
@@ -205,7 +251,7 @@ class WindowStatus:
         """
         Draws page 4: Evolution time, sleep/wake times, poop/feed times, and flags.
         """
-        distance = 37
+        distance = int(37 * UI_SCALE)
         y = PAGE_MARGIN
 
         def format_seconds(seconds: int) -> str:
@@ -265,14 +311,14 @@ class WindowStatus:
         blit_with_shadow(surface, flags_label, (PAGE_MARGIN, y))
         blit_with_shadow(surface, flags_value, (self.right_align_x - flags_value.get_width(), y))
 
-        current_x = PAGE_MARGIN + 70
-        flag_y = y + 5
+        current_x = PAGE_MARGIN + int(70 * UI_SCALE)
+        flag_y = y + int(5 * UI_SCALE)
 
         # Draw flag icons if present, spacing them horizontally by 24 pixels
         for flag_name in ["special", "shook", "traited", "shiny"]:
             if getattr(self.pet, flag_name, False):
                 blit_with_shadow(surface, self.sprites[flag_name], (current_x, flag_y))
-                current_x += 24
+                current_x += int(24 * UI_SCALE)
 
 
     def draw_hearts(self, surface: pygame.Surface, x: int, y: int, value: int, factor: int = 1) -> None:
@@ -281,7 +327,7 @@ class WindowStatus:
         Displays full, half, or empty hearts based on the `value` and `factor`.
         """
         total_hearts = 4
-        heart_spacing = 24
+        heart_spacing = int(24 * UI_SCALE)
 
         heart_full = self.sprites["heart_full"]
         heart_half = self.sprites["heart_half"]
@@ -304,12 +350,10 @@ class WindowStatus:
         Draws the DP energy bar showing current energy `value` out of `max_value`.
         The bar consists of multiple blocks with background and filled blocks.
         """
-        # Draw background of the energy bar (offset for border effect)
-        surface.blit(self.sprites["energy_bar_back"], (x + 3, y + 4))
-
+        
         max_energy = max(1, max_value)  # Prevent division by zero
         visible_blocks = 13
-        block_spacing = 2
+        block_spacing = int(2 * UI_SCALE)
         block_width = self.sprites["energy_bar"].get_width()
 
         # Calculate how many blocks to fill
@@ -321,7 +365,10 @@ class WindowStatus:
             # Scale value proportionally to the number of visible blocks
             filled_blocks = ((value - 1) * visible_blocks) // (max_energy - 1) + 1
 
+        # Draw background of the energy bar (offset for border effect)
+        #surface.blit(self.sprites["energy_bar_back"], ((x - 5) - (visible_blocks * (block_width + block_spacing) * UI_SCALE), y + int(4 * UI_SCALE)))
+
         # Draw filled energy blocks
         for i in range(filled_blocks):
-            bar_x = x + 14 + i * (block_width + block_spacing)
-            surface.blit(self.sprites["energy_bar"], (bar_x, y + 11))
+            bar_x = (x - 5) - (i + 1) * (block_width + block_spacing)
+            surface.blit(self.sprites["energy_bar"], (bar_x, y + int(5 * UI_SCALE)))

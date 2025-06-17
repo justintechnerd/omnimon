@@ -4,6 +4,7 @@
 #=====================================================================
 
 from core import runtime_globals
+from core.constants import FRAME_RATE
 
 class GamePoop:
     """
@@ -37,7 +38,7 @@ class GamePoop:
             surface: The Pygame surface where the poop is drawn.
         """
         # Alternate between "Poop1" and "Poop2" every 30 frames
-        self.frame_index = (self.frame_counter // 30) % 2
+        self.frame_index = (self.frame_counter // FRAME_RATE) % 2
         sprite_key = f"JumboPoop{self.frame_index + 1}" if self.jumbo else f"Poop{self.frame_index + 1}"
         sprite = runtime_globals.misc_sprites.get(sprite_key)
         surface.blit(sprite, (self.x, self.y))

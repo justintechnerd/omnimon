@@ -11,7 +11,8 @@ import time
 # Scenes
 from core import game_globals, runtime_globals
 from core.constants import *
-from core.utils import load_modules
+from core.utils.module_utils import load_modules
+from core.utils.pygame_utils import load_misc_sprites
 from scenes.scene_battle import SceneBattle
 from scenes.scene_boot import SceneBoot
 from scenes.scene_digidex import SceneDigidex
@@ -26,7 +27,7 @@ from scenes.scene_feedingmenu import SceneFeedingMenu
 from scenes.scene_training import SceneTraining
 
 # Game Version
-runtime_globals.VERSION = "0.9.3"
+runtime_globals.VERSION = "0.9.4"
 
 # Initialize Pygame
 pygame.init()
@@ -52,7 +53,7 @@ class VirtualPetGame:
     """
 
     def __init__(self) -> None:
-        runtime_globals.load_misc_sprites()
+        runtime_globals.misc_sprites = load_misc_sprites()
         load_modules()
         game_globals.load()
         self.scene = SceneBoot()

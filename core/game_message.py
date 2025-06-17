@@ -1,6 +1,6 @@
 import pygame
 from core.constants import *
-from core.utils import blit_with_shadow, get_font
+from core.utils.pygame_utils import blit_with_shadow, get_font
 
 
 class GameMessage:
@@ -9,7 +9,7 @@ class GameMessage:
         self.slide_queue = []  # List of (text, color, y, font_size)
         self.current_slide = None  # Current sliding message data
         self.slide_timer = 0
-        self.slide_duration = 60  # 2 seconds at 30fps
+        self.slide_duration = FRAME_RATE * 2  # 2 seconds at 30fps
         self.slide_speed = 6  # Pixels per frame
 
     def add(self, text: str, pos: tuple[int, int], color: tuple[int, int, int], font_size=FONT_SIZE_MEDIUM_LARGE):
@@ -27,8 +27,8 @@ class GameMessage:
         # === Floating Messages ===
         updated_messages = []
         for surf, pos, alpha, dy in self.messages:
-            dy += 0.5
-            alpha -= 5
+            dy += 0.5 * (30 / FRAME_RATE)
+            alpha -= 5 * (30 / FRAME_RATE)
             if alpha > 0:
                 surf.set_alpha(alpha)
                 updated_messages.append([surf, [pos[0], pos[1] - dy], alpha, dy])

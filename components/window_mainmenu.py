@@ -3,7 +3,7 @@ import pygame
 
 from core import game_globals, runtime_globals
 from core.constants import *
-from core.utils import pets_need_care
+from core.utils.pet_utils import pets_need_care
 
 #=====================================================================
 # WindowMenu - Main Menu Icon Bar (Optimized)
@@ -59,7 +59,7 @@ class WindowMenu:
     def calculate_spacing(self):
         """Precomputes icon positions to avoid unnecessary calculations."""
         self.spacing_x = (SCREEN_WIDTH - (4 * MENU_ICON_SIZE * 2)) // 5
-        self.top_y = 20 if game_globals.showClock else 4
+        self.top_y = 20 * UI_SCALE if game_globals.showClock else 4
 
         self.top_positions = [
             (self.spacing_x + i * (MENU_ICON_SIZE * 2 + self.spacing_x), 0) for i in range(4)

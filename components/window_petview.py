@@ -1,13 +1,20 @@
 import pygame
 from core import game_globals, runtime_globals
 from core.constants import *
-from core.utils import blit_with_shadow, get_font
+from core.utils.pygame_utils import blit_with_shadow, get_font, sprite_load_percent_wh
+
 
 class WindowPetList:
     def __init__(self, get_targets_callback, strategy_options=["Selected pets", "Pets in need"]):
         self.get_targets_callback = get_targets_callback
         self.strategy_options = strategy_options
-        self.selectionBackground = pygame.image.load(PET_SELECTION_BACKGROUND_PATH).convert_alpha()
+        # Use new method for background, scale to screen width, keep proportions
+        self.selectionBackground = sprite_load_percent_wh(
+            PET_SELECTION_BACKGROUND_PATH,
+            percent_w=100,
+            percent_h=40,
+            keep_proportion=False
+        )
 
         # Cache processed sprites to avoid recalculating every frame
         self.scaled_sprites = {}
@@ -34,45 +41,56 @@ class WindowPetList:
         return self.transparent_sprites[pet]
 
     def draw(self, surface: pygame.Surface):
-        """Draws the pet selection screen with optimized transparency handling."""
         pets = game_globals.pet_list
-        targets = self.get_targets_callback()
-
-        if pets:
-            available_width = SCREEN_WIDTH  # SCREEN_WIDTH - margins
+        targets = tuple(self.get_targets_callback())
+        cache_key = (
+            tuple(pet.name for pet in pets),
+            tuple(self.selected_indices),
+            self.cursor_index,
+            self.select_mode,
+            runtime_globals.strategy_index,
+            targets,
+            UI_SCALE,
+            SCREEN_WIDTH,
+            SCREEN_HEIGHT,
+        )
+        if not hasattr(self, "_last_cache_key") or self._last_cache_key != cache_key:
+            # Redraw and cache
+            available_width = SCREEN_WIDTH
             spacing = available_width // max(1, len(pets))
             start_x = 0
-            y = SCREEN_HEIGHT - self.selectionBackground.get_height() + 24
+            bg_height = self.selectionBackground.get_height()
+            y = SCREEN_HEIGHT - bg_height + int(24 * UI_SCALE)
 
-            surface.blit(self.selectionBackground, (start_x, SCREEN_HEIGHT - self.selectionBackground.get_height()))
+            cached_surface = pygame.Surface((SCREEN_WIDTH, SCREEN_HEIGHT), pygame.SRCALPHA)
+            cached_surface.blit(self.selectionBackground, (start_x, SCREEN_HEIGHT - bg_height))
+            font = get_font(FONT_SIZE_SMALL)
             if self.select_mode:
-                font = get_font(FONT_SIZE_SMALL)
                 strategy_text = font.render("Jogress", True, FONT_COLOR_DEFAULT)
-                strategy_x, strategy_y = 10, SCREEN_HEIGHT - self.selectionBackground.get_height()
-                blit_with_shadow(surface, strategy_text, (strategy_x, strategy_y))
             else:
-                font = get_font(FONT_SIZE_SMALL)
                 strategy_text = font.render(self.strategy_options[runtime_globals.strategy_index], True, FONT_COLOR_DEFAULT)
-                strategy_x, strategy_y = 10, SCREEN_HEIGHT - self.selectionBackground.get_height()
-                blit_with_shadow(surface, strategy_text, (strategy_x, strategy_y))
+            strategy_x = int(10 * UI_SCALE)
+            strategy_y = SCREEN_HEIGHT - bg_height
+            blit_with_shadow(cached_surface, strategy_text, (strategy_x, strategy_y))
 
             for i, pet in enumerate(pets):
                 if pet in targets:
-                    sprite = self.get_scaled_sprite(pet)  # Normal sprite
+                    sprite = self.get_scaled_sprite(pet)
                 else:
-                    sprite = self.get_transparent_sprite(pet)  # Cached transparent sprite
-
+                    sprite = self.get_transparent_sprite(pet)
                 x = start_x + i * spacing + (spacing - sprite.get_width()) // 2
-                blit_with_shadow(surface, sprite, (x, y))
+                blit_with_shadow(cached_surface, sprite, (x, y))
 
                 if self.select_mode:
-                    # Draw selection highlight (blue)
-                    if i in getattr(self, "selected_indices", []):
-                        pygame.draw.rect(surface, FONT_COLOR_GREEN, (x - 2, y - 2, sprite.get_width() + 4, sprite.get_height() + 4), 2)
+                    if i in self.selected_indices:
+                        pygame.draw.rect(cached_surface, FONT_COLOR_GREEN, (x - int(2 * UI_SCALE), y - int(2 * UI_SCALE), sprite.get_width() + int(4 * UI_SCALE), sprite.get_height() + int(4 * UI_SCALE)), 2)
+                    if i == self.cursor_index:
+                        pygame.draw.rect(cached_surface, FONT_COLOR_YELLOW, (x - int(4 * UI_SCALE), y - int(4 * UI_SCALE), sprite.get_width() + int(8 * UI_SCALE), sprite.get_height() + int(8 * UI_SCALE)), 2)
 
-                    # Draw cursor highlight (yellow)
-                    if i == getattr(self, "cursor_index", -1):
-                        pygame.draw.rect(surface, FONT_COLOR_YELLOW, (x - 4, y - 4, sprite.get_width() + 8, sprite.get_height() + 8), 2)
+            self._last_cache = cached_surface
+            self._last_cache_key = cache_key
+
+        surface.blit(self._last_cache, (0, 0))
 
     def get_selected_pets(self):
         return [game_globals.pet_list[i] for i in self.selected_indices]

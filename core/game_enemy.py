@@ -19,6 +19,10 @@ class GameEnemy:
     atk_alt: int
     handicap: int
     id: int
+    stage: int
+    hp: int
+    unlock: str
+    prize: str
 
     def load_sprite(self, module_path: str):
         """

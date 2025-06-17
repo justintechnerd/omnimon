@@ -2,12 +2,14 @@
 
 import random
 import pygame
-from core.combat.battle_encounter import ALERT_DURATION_FRAMES, BattleEncounter, IDLE_ANIM_DURATION
+from core.combat.battle_encounter import BattleEncounter
 from core.animation import PetFrame
 from core import runtime_globals
-from core.utils import blit_with_shadow, change_scene
+from core.combat.combat_constants import ALERT_DURATION_FRAMES
 from core.constants import *
-from core.utils_unlocks import unlock_item
+from core.utils.pygame_utils import blit_with_shadow
+from core.utils.scene_utils import change_scene
+from core.utils.utils_unlocks import unlock_item
 
 class BattleEncounterVersus(BattleEncounter):
     def __init__(self, pet1, pet2):
@@ -27,7 +29,7 @@ class BattleEncounterVersus(BattleEncounter):
         self.frame_counter = 0
         self.result_timer = 0
         # skip enemy loading logic in base init by calling last
-        super().__init__(module=None)
+        super().__init__(self.attacking_pet.module, 1, 1, 1)
 
         self.attacking_pet = self.pet1
         self.attacking_enemy = self.pet2
@@ -134,23 +136,26 @@ class BattleEncounterVersus(BattleEncounter):
             # Determina número de ataques com base na força
             hits = random.randint(1, 3)
             pet_index = 0
-            y_base = self.get_y(pet_index, 1)
+            y = self.get_y(pet_index, 1)
+            x = SCREEN_WIDTH - PET_WIDTH - 2 - self.forward_distance
 
             self.projectiles = []
-            for i in range(hits):
-                x = SCREEN_WIDTH - PET_WIDTH - 2 - self.forward_distance
-                y = y_base + i * 16
-                self.projectiles.append([atk_sprite.copy(), [x, y]])
+            self.projectiles.append([atk_sprite.copy(), [x, y]])
+
+            if hits > 1:
+                self.projectiles.append([atk_sprite.copy(), [x - (20 * UI_SCALE), y - (10 * UI_SCALE)]])
+            if hits == 3:
+                self.projectiles.append([atk_sprite.copy(), [x - (40 * UI_SCALE), y + (10 * UI_SCALE)]])
 
             # Calcula se o ataque acerta ANTES de mover os projéteis
             self.attack_hit = self.check_hit(self.attacking_pet, self.attacking_enemy, is_player=True)
             runtime_globals.game_sound.play("attack")
 
-        # Move os projéteis
+        # Move os projéteis (frame-rate independent)
         done = True
         for sprite_data in self.projectiles:
             sprite, (x, y) = sprite_data
-            x -= 4  # Velocidade
+            x -= 4 * UI_SCALE * (30 / FRAME_RATE)  # Frame-rate independent speed
             sprite_data[1][0] = x
             enemy_index = 0
             target_x = self.enemy_positions[enemy_index][1] + PET_WIDTH // 2
@@ -167,13 +172,13 @@ class BattleEncounterVersus(BattleEncounter):
                 enemy_index = 0
                 enemy_y = self.get_y(enemy_index, 1)
                 enemy_x = self.enemy_positions[enemy_index][1] + PET_WIDTH // 2
-                self.hit_animations.append([0, [enemy_x+ 16, enemy_y+24]])
+                self.hit_animations.append([0, [enemy_x + (16 * UI_SCALE), enemy_y + (24 * UI_SCALE)]])
             else:
                 runtime_globals.game_sound.play("attack_fail")
                 enemy_index = 0
                 enemy_y = self.get_y(enemy_index, 1)
                 enemy_x = self.enemy_positions[enemy_index][1]
-                runtime_globals.game_message.add("MISS", (enemy_x + 16, enemy_y - 10), (255, 0, 0))
+                runtime_globals.game_message.add("MISS", (enemy_x + (16 * UI_SCALE), enemy_y - (10 * UI_SCALE)), (255, 0, 0))
 
             if self.enemy_health <= 0 or self.player_health <= 0:
                 self.phase = "result"
@@ -209,11 +214,11 @@ class BattleEncounterVersus(BattleEncounter):
             self.enemy_hit = self.check_hit(self.attacking_enemy, self.attacking_pet, is_player=True)
             runtime_globals.game_sound.play("attack")
 
-        # Move os projéteis
+        # Move os projéteis (frame-rate independent)
         done = True
         for sprite_data in self.enemy_projectiles:
             sprite, (x, y) = sprite_data
-            x += 4  # Velocidade para a direita
+            x += 4 * UI_SCALE * (30 / FRAME_RATE)  # Frame-rate independent speed
             sprite_data[1][0] = x
             pet_index = 0
             target_x = SCREEN_WIDTH - PET_WIDTH - 2 - self.forward_distance
@@ -230,13 +235,13 @@ class BattleEncounterVersus(BattleEncounter):
                 pet_index = 0
                 pet_y = self.get_y(pet_index, 1)
                 pet_x = SCREEN_WIDTH - PET_WIDTH - 2 - self.forward_distance + PET_WIDTH // 2
-                self.hit_animations.append([0, [pet_x, pet_y+24]])
+                self.hit_animations.append([0, [pet_x, pet_y + (24 * UI_SCALE)]])
             else:
                 runtime_globals.game_sound.play("attack_fail")
                 pet_index = 0
                 pet_y = self.get_y(pet_index, 1)
                 pet_x = SCREEN_WIDTH - PET_WIDTH - 2 - self.forward_distance
-                runtime_globals.game_message.add("MISS", (pet_x + 16, pet_y - 10), (255, 0, 0))
+                runtime_globals.game_message.add("MISS", (pet_x + (16 * UI_SCALE), pet_y - (10 * UI_SCALE)), (255, 0, 0))
 
             if self.enemy_health <= 0 or self.player_health <= 0:
                 self.phase = "result"
@@ -246,7 +251,6 @@ class BattleEncounterVersus(BattleEncounter):
                 self.after_attack_phase = "retreat"
                 runtime_globals.game_console.log("Entering post_attack_delay phase")
 
-
     def prepare_attacks(self):
         """
         Prepara listas de ataque e escolhe o primeiro par para iniciar a sequência.
@@ -255,7 +259,7 @@ class BattleEncounterVersus(BattleEncounter):
 
     def update_result(self):
         self.result_timer += 1
-        if self.result_timer < 30:
+        if self.result_timer < int(30 * (FRAME_RATE / 30)):
             return
 
         winner = self.pet1 if self.enemy_health <= 0 else self.pet2
@@ -268,10 +272,10 @@ class BattleEncounterVersus(BattleEncounter):
         winner.set_state("happy2")
         loser.set_state("lose")
 
-        if self.pet1.module == "PenC" and self.pet2.module == "PenC":
-            unlock_item("PenC", "evolutions", f"Slot{self.pet1.version}")
-            unlock_item("PenC", "evolutions", f"Slot{self.pet2.version}")
+        # Unlock "versus" items for both pets if they are from the same module
+        if self.pet1.module == self.pet2.module:
+            module_name = self.pet1.module
+            for pet in (self.pet1, self.pet2):
+                unlock_item(module_name, "versus", f"Slot{pet.version}")
 
-
-        #distribute_pets_evenly()
         change_scene("game")

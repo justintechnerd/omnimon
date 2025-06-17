@@ -26,6 +26,8 @@ battle_round = {}
 rotated = False
 xai = 1
 xai_date = datetime.date.today()
+inventory = {}
+battle_effects = {}
 
 # Internal timer for autosave
 _last_save_time = time.time()
@@ -49,6 +51,8 @@ def save() -> None:
         "debug": debug,
         "xai": xai,
         "xai_date": xai_date,
+        "inventory": inventory,
+        "battle_effects": battle_effects,
     }
 
     with open(SAVE_FILE, "wb") as f:
@@ -61,7 +65,7 @@ def load() -> None:
     Loads the global game state from the save file, if it exists.
     """
     global pet_list, poop_list, traited, unlocks, battle_area, battle_round, xai, xai_date
-    global game_background, background_module_name, showClock, sound, debug
+    global game_background, background_module_name, showClock, sound, debug, inventory, battle_effects
 
     if os.path.exists(SAVE_FILE):
         with open(SAVE_FILE, "rb") as f:
@@ -80,6 +84,8 @@ def load() -> None:
             debug = data.get("debug", True)
             xai = data.get("xai", random.randint(1, 7))
             xai_date = data.get("xai_date", datetime.date.today())
+            inventory = data.get("inventory", {})
+            battle_effects = data.get("battle_effects", {})
 
 def autosave() -> None:
     """

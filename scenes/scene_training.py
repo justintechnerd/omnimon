@@ -15,20 +15,9 @@ from core.combat.dummy_training import DummyTraining
 from core.combat.excite_training import ExciteTraining
 from core.combat.head_training import HeadToHeadTraining
 from core.constants import *
-from core.utils import change_scene, get_font, get_training_targets
-
-
-#=====================================================================
-# Training Constants
-#=====================================================================
-
-ALERT_DURATION_FRAMES = 50
-WAIT_AFTER_BAR_FRAMES = 30
-IMPACT_DURATION_FRAMES = 60
-WAIT_ATTACK_READY_FRAMES = 10
-RESULT_SCREEN_FRAMES = 90
-BAR_HOLD_TIME_MS = 2500
-ATTACK_SPEED = 5
+from core.utils.pet_utils import get_training_targets
+from core.utils.pygame_utils import get_font, sprite_load_percent
+from core.utils.scene_utils import change_scene
 
 #=====================================================================
 # SceneTraining (Training Menu)
@@ -48,21 +37,25 @@ class SceneTraining:
 
         self.options = []
         if runtime_globals.dmc_enabled:
-            self.options.append(("Dummy", pygame.image.load(DUMMY_TRAINING_ICON_PATH).convert_alpha()))
-            self.options.append(("HeadtoHead", pygame.image.load(HEAD_TRAINING_ICON_PATH).convert_alpha()))
+            self.options.append(("Dummy", sprite_load_percent(DUMMY_TRAINING_ICON_PATH, percent=(OPTION_ICON_SIZE / SCREEN_HEIGHT) * 100, keep_proportion=True, base_on="height")))
+            self.options.append(("HeadtoHead", sprite_load_percent(HEAD_TRAINING_ICON_PATH, percent=(OPTION_ICON_SIZE / SCREEN_HEIGHT) * 100, keep_proportion=True, base_on="height")))
 
         if runtime_globals.penc_enabled:
-            self.options.append(("CountMatch", pygame.image.load(SHAKE_MATCH_ICON_PATH).convert_alpha()))
+            self.options.append(("CountMatch", sprite_load_percent(SHAKE_MATCH_ICON_PATH, percent=(OPTION_ICON_SIZE / SCREEN_HEIGHT) * 100, keep_proportion=True, base_on="height")))
 
         if runtime_globals.dmx_enabled:
-            self.options.append(("Excite", pygame.image.load(EXCITE_MATCH_ICON_PATH).convert_alpha()))
+            self.options.append(("Excite", sprite_load_percent(EXCITE_MATCH_ICON_PATH, percent=(OPTION_ICON_SIZE / SCREEN_HEIGHT) * 100, keep_proportion=True, base_on="height")))
 
-        self.selectionBackground = pygame.image.load(PET_SELECTION_BACKGROUND_PATH).convert_alpha()
-        self.backgroundIm = pygame.image.load(TRAINING_BACKGROUND_PATH).convert_alpha()
+        self.selectionBackground = sprite_load_percent(PET_SELECTION_BACKGROUND_PATH, percent=100, keep_proportion=True, base_on="width")
+        self.backgroundIm = sprite_load_percent(TRAINING_BACKGROUND_PATH, percent=100, keep_proportion=True, base_on="width")
 
         self.pet_list_window = WindowPetList(lambda: get_training_targets())
 
-        self.xai_window = WindowXai(191, 123, 48, 48, game_globals.xai)
+        # Xai window position and size scaled
+        xai_x = int(SCREEN_WIDTH - (79 * UI_SCALE))
+        xai_y = int(123 * UI_SCALE)
+        xai_size = int(48 * UI_SCALE)
+        self.xai_window = WindowXai(xai_x, xai_y, xai_size, xai_size, game_globals.xai)
 
         self.menu_window = WindowHorizontalMenu(
             options=self.options,
@@ -80,17 +73,16 @@ class SceneTraining:
         if self.phase == "menu":
             # Desenha menu horizontal
             if len(self.options) > 2:
-                self.menu_window.draw(surface, x=72, y=16, spacing=30)
+                self.menu_window.draw(surface, x=int(72 * UI_SCALE), y=int(16 * UI_SCALE), spacing=int(30 * UI_SCALE))
             else:
-                self.menu_window.draw(surface, x=16, y=16, spacing=16)
+                self.menu_window.draw(surface, x=int(16 * UI_SCALE), y=int(16 * UI_SCALE), spacing=int(16 * UI_SCALE))
 
             # Desenha pets na parte inferior
             self.pet_list_window.draw(surface)
             if self.options[runtime_globals.training_index][0] == "Excite":
                 self.xai_window.draw(surface)
         elif self.mode:
-            surface.blit(self.backgroundIm, (0,0))
-            
+            surface.blit(self.backgroundIm, (0, 0))
             self.mode.draw(surface)
 
     def handle_event(self, input_action):
