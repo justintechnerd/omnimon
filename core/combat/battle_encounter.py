@@ -1182,7 +1182,7 @@ class BattleEncounter:
                     self.strength = min(self.strength + 1, self.bar_level)
         elif self.module.ruleset == 'dmx':
             if self.phase == "charge":
-                if self.xai_phase == 1 and input_action == "A":
+                if self.xai_phase == 1 and input_action == "A" and not self.window_xai.stopping:
                     # --- Seven Switch: force XAI roll to 7 if status_boost is active ---
                     if (
                         "xai_roll" in game_globals.battle_effects

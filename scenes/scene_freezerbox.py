@@ -16,10 +16,10 @@ class SceneFreezerBox:
     def __init__(self):
         self.font = get_font(FONT_SIZE_SMALL)
         # Use new method for background, scale to screen height, keep proportions
-        self.bg_sprite = sprite_load_percent("resources/Digidex.png", percent=100, keep_proportion=True, base_on="height")
+        self.bg_sprite = sprite_load_percent(DIGIDEX_BACKGROUND_PATH, percent=600, keep_proportion=True, base_on="width")
         self.bg_frame = 0
         self.bg_timer = 0
-        self.bg_frame_width = self.bg_sprite.get_width() / 6
+        self.bg_frame_width = self.bg_sprite.get_width() // 6  # 326
         self.mode = "party"
         self.party_view = WindowParty()
         self.freezer_pets = self.load_freezer_data()
@@ -186,9 +186,11 @@ class SceneFreezerBox:
         self.party_view.handle_event(input_action)
         if input_action == "A" and self.party_view.selected_index < len(game_globals.pet_list):
             runtime_globals.game_sound.play("menu")
-            x, y = [(20, 40), (130, 40), (20, 140), (130, 140)][self.party_view.selected_index]
-            x *= UI_SCALE
-            y *= UI_SCALE
+            # Dynamically calculate pet position in a 2-column grid
+            col = self.party_view.selected_index % 2
+            row = self.party_view.selected_index // 2
+            x = (20 + col * 110) * UI_SCALE
+            y = (40 + row * 100) * UI_SCALE
             menu_x = 20 if x > SCREEN_WIDTH // 2 else SCREEN_WIDTH - 120
             menu_y = SCREEN_HEIGHT - 100
             self.menu.open((menu_x, menu_y), ["Store", "Stats"])

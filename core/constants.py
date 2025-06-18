@@ -178,6 +178,7 @@ EXP_ICON_PATH = "resources/Exp.png"
 #=====================================================================
 SPLASH_PATH = "resources/Splash.png"
 MAIN_MENU_PATH = "resources/Menu.png"
+DIGIDEX_BACKGROUND_PATH = "resources/Digidex.png"
 
 #=====================================================================
 # Paths: Battle Scene Sprites
@@ -277,7 +278,7 @@ __all__ = [
     "ENERGY_BAR_ICON_PATH", "ENERGY_BAR_BACK_ICON_PATH",
 
     # Paths: Scene Backgrounds
-    "SPLASH_PATH", "MAIN_MENU_PATH",
+    "SPLASH_PATH", "MAIN_MENU_PATH", "DIGIDEX_BACKGROUND_PATH",
 
     # Paths: Battle Scene Sprites
     "BATTLE_SPRITE_PATH", "BATTLE_LEVEL_SPRITE_PATH", "BAR_BACK_PATH",

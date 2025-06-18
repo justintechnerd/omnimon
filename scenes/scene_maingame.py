@@ -314,7 +314,7 @@ class SceneMainGame:
             return
 
         if not all_pets_hatched():
-            runtime_globals.main_menu_index = -1
+            #runtime_globals.main_menu_index = -1
             if input_action == "Y" or input_action == "SHAKE":
                 for pet in game_globals.pet_list:
                     pet.shake_counter += 1

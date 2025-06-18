@@ -229,10 +229,18 @@ class SceneFeedingMenu:
                     if anim_path and os.path.exists(anim_path):
                         anim_image = pygame.image.load(anim_path).convert_alpha()
                         w, h = anim_image.get_width() // 4, anim_image.get_height()
-                        anim_frames = [anim_image.subsurface((i * w, 0, w, h)).copy() for i in range(4)]
+                        anim_frames = [
+                            pygame.transform.smoothscale(
+                                anim_image.subsurface((i * w, 0, w, h)).copy(),
+                                (int(PET_WIDTH * 0.75), int(PET_HEIGHT * 0.75))
+                            )
+                            for i in range(4)
+                        ]
                     runtime_globals.game_pet_eating[pet_index] = {
                         "item": item_obj,
-                        "sprite": icon,
+                        "sprite": pygame.transform.smoothscale(
+                            icon, (int(PET_WIDTH * 0.75), int(PET_HEIGHT * 0.75))
+                        ),
                         "anim_frames": anim_frames  # None if not found
                     }
 

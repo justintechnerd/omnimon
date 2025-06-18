@@ -1,146 +1,100 @@
+import math
 import pygame
-from components.scrolling_text import ScrollingText
-from core import game_globals, runtime_globals
 from core.constants import *
+from core import game_globals, runtime_globals
 from core.utils.pygame_utils import blit_with_shadow, get_font
+
+def get_grid_dimensions(max_pets):
+    if max_pets == 1:
+        return (1, 1)
+    elif max_pets == 2:
+        return (1, 2)
+    else:
+        cols = math.ceil(math.sqrt(max_pets))
+        rows = math.ceil(max_pets / cols)
+        if (rows - 1) * cols >= max_pets:
+            rows -= 1
+        return (rows, cols)
 
 class WindowParty:
     def __init__(self):
-        self.font = get_font(FONT_SIZE_SMALL)
-        self.option_font = get_font(FONT_SIZE_MEDIUM)
         self.selected_index = 0
-        self.scaled_pet_sprites = {}
-        self.scaled_module_flags = {}
-        self.name_scrolls = {}
-        self._last_cache = None
-        self._last_cache_key = None
-        self.generate_pet_sprites()
-        self.generate_module_flags()
-
-    def generate_pet_sprites(self):
-        for pet in game_globals.pet_list:
-            original_sprite = runtime_globals.pet_sprites[pet][0]
-            # Scale pet sprite proportionally
-            self.scaled_pet_sprites[pet.name] = pygame.transform.scale(
-                original_sprite, (int(60 * UI_SCALE), int(60 * UI_SCALE))
-            )
-
-    def generate_module_flags(self):
-        for module in runtime_globals.game_modules.values():
-            flag_img = runtime_globals.game_module_flag[module.name]
-            # Scale module flag proportionally
-            self.scaled_module_flags[module.name] = pygame.transform.scale(
-                flag_img, (int(60 * UI_SCALE), int(60 * UI_SCALE))
-            )
-
-    def _precompute_party_surface(self):
-        # Cache key includes selected index, pet list, and UI_SCALE
-        cache_key = (
-            tuple(pet.name for pet in game_globals.pet_list),
-            self.selected_index,
-            UI_SCALE,
-            SCREEN_WIDTH,
-            SCREEN_HEIGHT
-        )
-        if self._last_cache_key == cache_key and self._last_cache is not None:
-            return self._last_cache
-
-        width_scale = SCREEN_WIDTH / 240
-        height_scale = SCREEN_HEIGHT / 240
-        slot_positions = [
-            (int(20 * width_scale), int(40 * height_scale)),
-            (int(130 * width_scale), int(40 * height_scale)),
-            (int(20 * width_scale), int(140 * height_scale)),
-            (int(130 * width_scale), int(140 * height_scale)),
-        ]
-        slot_size = int(90 * UI_SCALE)
-        party_surface = pygame.Surface((SCREEN_WIDTH, SCREEN_HEIGHT), pygame.SRCALPHA)
-
-        for i in range(4):
-            x, y = slot_positions[i]
-            is_filled = i < len(game_globals.pet_list)
-            attr_color = (
-                ATTR_COLORS.get(game_globals.pet_list[i].attribute, (171, 71, 188))
-                if is_filled else (50, 50, 50)
-            )
-            pygame.draw.rect(party_surface, attr_color, (x, y, slot_size, slot_size))
-            if i == self.selected_index:
-                pygame.draw.rect(party_surface, FONT_COLOR_GREEN, (x, y, slot_size, slot_size), 3)
-
-            if is_filled:
-                pet = game_globals.pet_list[i]
-                # Scaled module flag
-                module_flag = self.scaled_module_flags.get(pet.module)
-                if module_flag:
-                    blit_with_shadow(party_surface, module_flag, (x + int(15 * width_scale), y + int(3 * height_scale)))
-
-                # Scaled pet sprite
-                pet_sprite = self.scaled_pet_sprites.get(pet.name)
-                if pet_sprite:
-                    party_surface.blit(pet_sprite, (x + int(15 * width_scale), y + int(15 * height_scale)))
-            else:
-                instructions = ["+", "Press A", "Add Egg"]
-                for j, line in enumerate(instructions):
-                    text_surface = self.font.render(line, True, FONT_COLOR_GRAY)
-                    text_x = x + (slot_size - text_surface.get_width()) // 2
-                    blit_with_shadow(party_surface, text_surface, (text_x, y + int(10 * width_scale) + j * int(20 * height_scale)))
-
-        self._last_cache = party_surface
-        self._last_cache_key = cache_key
-        return party_surface
 
     def draw(self, surface):
-        # Draw static/cached party surface
-        party_surface = self._precompute_party_surface()
-        surface.blit(party_surface, (0, 0))
+        # Get current resolution
+        win_w, win_h = surface.get_width(), surface.get_height()
+        margin = int(20 * (win_w / 240))
+        top_margin = int(40 * (win_h / 240))
+        grid_area_w = win_w - 2 * margin
+        grid_area_h = win_h - top_margin - margin
 
-        # Draw dynamic name scrolls (always update every frame)
-        width_scale = SCREEN_WIDTH / 240
-        height_scale = SCREEN_HEIGHT / 240
-        slot_positions = [
-            (int(20 * width_scale), int(40 * height_scale)),
-            (int(130 * width_scale), int(40 * height_scale)),
-            (int(20 * width_scale), int(140 * height_scale)),
-            (int(130 * width_scale), int(140 * height_scale)),
-        ]
-        slot_size = int(90 * UI_SCALE)
-        for i in range(4):
-            x, y = slot_positions[i]
-            is_filled = i < len(game_globals.pet_list)
-            if is_filled:
+        max_pets = MAX_PETS
+        rows, cols = get_grid_dimensions(max_pets)
+
+        slot_w = grid_area_w // cols
+        slot_h = grid_area_h // rows
+
+        # Scale sprite and font sizes
+        sprite_size = int(min(slot_w, slot_h) * 0.6)
+        font_size = max(10, int(slot_h * 0.18))
+        font = get_font(font_size)
+
+        for i in range(max_pets):
+            row = i // cols
+            col = i % cols
+            x = margin + col * slot_w
+            y = top_margin + row * slot_h
+
+            # Draw background rectangle for slot
+            rect = pygame.Rect(x, y, slot_w, slot_h)
+            pygame.draw.rect(surface, (60, 60, 60), rect, border_radius=8)
+
+            # Draw pet if present
+            if i < len(game_globals.pet_list):
                 pet = game_globals.pet_list[i]
-                text_surface = self.font.render(pet.name, True, FONT_COLOR_DEFAULT)
-                max_name_width = int(80 * UI_SCALE)
-                if pet.name not in self.name_scrolls or \
-                   (self.name_scrolls[pet.name] and self.name_scrolls[pet.name].max_width != max_name_width):
-                    if text_surface.get_width() > max_name_width:
-                        self.name_scrolls[pet.name] = ScrollingText(text_surface, max_name_width, speed=0.5)
-                    else:
-                        self.name_scrolls[pet.name] = None
+                # Draw attribute color overlay
+                attr_color = ATTR_COLORS.get(getattr(pet, "attribute", None), (171, 71, 188))
+                pygame.draw.rect(surface, attr_color, rect, 0, border_radius=8)
 
-                scroll_obj = self.name_scrolls[pet.name]
-                name_y = y + int(65 * height_scale)
-                if scroll_obj:
-                    scroll_obj.update()
-                    scroll_obj.draw(surface, (x + int(5 * width_scale), name_y))
-                else:
-                    text_x = x + (slot_size - text_surface.get_width()) // 2
-                    blit_with_shadow(surface, text_surface, (text_x, name_y))
+                # Draw pet sprite (scaled)
+                sprite_obj = runtime_globals.pet_sprites.get(pet)[0]
+                sprite = pygame.transform.smoothscale(sprite_obj, (sprite_size, sprite_size))
+                sprite_x = x + (slot_w - sprite_size) // 2
+                sprite_y = y + int(slot_h * 0.12)
+                blit_with_shadow(surface, sprite, (sprite_x, sprite_y))
+
+                # Draw module flag (scaled)
+                flag_sprite = runtime_globals.game_module_flag.get(pet.module)
+                flag = pygame.transform.smoothscale(flag_sprite, (sprite_size, sprite_size))
+                blit_with_shadow(surface, flag, (sprite_x, sprite_y))
+
+                # Draw pet name (centered)
+                name_surface = font.render(pet.name, True, (255, 255, 255))
+                name_x = x + (slot_w - name_surface.get_width()) // 2
+                name_y = y + slot_h - font_size - 6
+                blit_with_shadow(surface, name_surface, (name_x, name_y))
+            else:
+                # Draw empty slot
+                plus_surface = font.render("+", True, FONT_COLOR_GRAY)
+                plus_x = x + (slot_w - plus_surface.get_width()) // 2
+                plus_y = y + (slot_h - plus_surface.get_height()) // 2
+                blit_with_shadow(surface, plus_surface, (plus_x, plus_y))
+            
+            if i == self.selected_index:
+                pygame.draw.rect(surface, FONT_COLOR_GREEN, rect, 3, border_radius=8)
 
     def handle_event(self, input_action):
-        prev_index = self.selected_index
+        max_pets = MAX_PETS
+        rows, cols = get_grid_dimensions(max_pets)
         if input_action == "LEFT":
             runtime_globals.game_sound.play("menu")
-            self.selected_index = (self.selected_index - 1) % 4
+            self.selected_index = (self.selected_index - 1) % max_pets
         elif input_action == "RIGHT":
             runtime_globals.game_sound.play("menu")
-            self.selected_index = (self.selected_index + 1) % 4
-        if input_action == "UP":
+            self.selected_index = (self.selected_index + 1) % max_pets
+        elif input_action == "UP":
             runtime_globals.game_sound.play("menu")
-            self.selected_index = (self.selected_index - 2) % 4
+            self.selected_index = (self.selected_index - cols) % max_pets
         elif input_action == "DOWN":
             runtime_globals.game_sound.play("menu")
-            self.selected_index = (self.selected_index + 2) % 4
-        # Invalidate cache if index changed
-        if self.selected_index != prev_index:
-            self._last_cache = None
+            self.selected_index = (self.selected_index + cols) % max_pets

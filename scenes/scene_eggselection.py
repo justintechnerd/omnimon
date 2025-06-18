@@ -30,10 +30,10 @@ class SceneEggSelection:
 
         runtime_globals.game_console.log(f"[SceneEggSelection] Modules loaded: {len(self.eggs_by_module)}")
         # Use new method for background, scale to screen height
-        self.bg_sprite = sprite_load_percent("resources/Digidex.png", percent=100, keep_proportion=True, base_on="height")
+        self.bg_sprite = sprite_load_percent(DIGIDEX_BACKGROUND_PATH, percent=600, keep_proportion=True, base_on="width")
         self.bg_frame = 0
         self.bg_timer = 0
-        self.bg_frame_width = self.bg_sprite.get_width() // 6
+        self.bg_frame_width = self.bg_sprite.get_width() // 6  # 326
 
         self.load_egg_sprites()
         self.load_module_logo()

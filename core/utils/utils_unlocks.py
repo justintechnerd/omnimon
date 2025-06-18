@@ -1,5 +1,5 @@
 from core import game_globals, runtime_globals
-from core.constants import FONT_SIZE_MEDIUM_LARGE, FONT_SIZE_SMALL
+from core.constants import FONT_SIZE_MEDIUM_LARGE, FONT_SIZE_SMALL, UI_SCALE
 
 # Use a single list of unlocks per module, each unlock has a "type" field
 def ensure_module_key(module: str):
@@ -34,7 +34,7 @@ def unlock_item(module: str, unlock_type: str, name: str, label: str = None):
         if entry_label:
             unlock_entry["label"] = entry_label
         game_globals.unlocks[module].append(unlock_entry)
-        runtime_globals.game_message.add_slide(f"{entry_label} unlocked!", (255, 255, 0), 56, FONT_SIZE_SMALL)
+        runtime_globals.game_message.add_slide(f"{entry_label} unlocked!", (255, 255, 0), 56 * UI_SCALE, FONT_SIZE_SMALL)
 
 def is_unlocked(module: str, unlock_type: str, name: str) -> bool:
     """

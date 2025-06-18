@@ -308,8 +308,7 @@ class GamePet:
         self.animation_counter += 1
         if self.state not in ("moving", "idle", "nap", "dead"):
             if self.state != "nap" and self.animation_counter > int(4 * FRAME_RATE):
-                self.set_state("happy" if self.food_type == 1 or (self.food_type == 0 and hasattr(self, 'overfeed_timer') and self.overfeed_timer == 0) else "idle")
-                self.food_type = -1
+                self.set_state("happy"if self.state == "eat" else "idle")
 
         # Handle hatching animation
         if self.stage == 0 and self.timer >= 1750:
