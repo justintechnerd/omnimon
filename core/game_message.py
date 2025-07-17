@@ -10,7 +10,7 @@ class GameMessage:
         self.current_slide = None  # Current sliding message data
         self.slide_timer = 0
         self.slide_duration = FRAME_RATE * 2  # 2 seconds at 30fps
-        self.slide_speed = 6  # Pixels per frame
+        self.slide_speed = 6 * (30 / FRAME_RATE)  # Pixels per frame
 
     def add(self, text: str, pos: tuple[int, int], color: tuple[int, int, int], font_size=FONT_SIZE_MEDIUM_LARGE):
         font = pygame.font.Font(None, font_size)

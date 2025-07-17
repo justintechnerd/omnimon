@@ -34,7 +34,10 @@ class SceneDigidex:
         self.tree_color_map = {}
 
         # Use new method for background, scale to screen height
-        self.bg_sprite = sprite_load_percent(DIGIDEX_BACKGROUND_PATH, percent=600, keep_proportion=True, base_on="width")
+        if SCREEN_WIDTH > SCREEN_HEIGHT:
+            self.bg_sprite = sprite_load_percent(DIGIDEX_BACKGROUND_PATH, percent=600, keep_proportion=True, base_on="width")
+        else:
+            self.bg_sprite = sprite_load_percent(DIGIDEX_BACKGROUND_PATH, percent=100, keep_proportion=True, base_on="height")
         self.bg_frame = 0
         self.bg_timer = 0
         self.bg_frame_width = self.bg_sprite.get_width() // 6  # 326

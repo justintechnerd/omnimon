@@ -15,7 +15,7 @@ def get_training_targets():
     Returns pets eligible for training based on the current strategy.
     """
     if runtime_globals.strategy_index == 0:
-        return [pet for pet in game_globals.pet_list if pet.can_train()]
+        return [pet for pet in get_selected_pets() if pet.can_train()]
     else:
         return [pet for pet in get_selected_pets() if pet.can_train() and pet.effort < 16]
 

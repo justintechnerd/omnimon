@@ -54,7 +54,8 @@ default_items = {
         effect="status_change",
         status="hunger",
         amount=1,
-        boost_time=0
+        boost_time=0,
+        component_item=""
     ),
     "vitamin": GameItem(
         id="default-vitamin",
@@ -65,7 +66,8 @@ default_items = {
         effect="status_change",
         status="strength",
         amount=1,
-        boost_time=0
+        boost_time=0,
+        component_item=""
     )
 }
 

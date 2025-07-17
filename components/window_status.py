@@ -22,12 +22,12 @@ class WindowStatus:
 
         self.scrolling_name = ScrollingText(
                 self.font_large.render(self.pet.name, True, FONT_COLOR_DEFAULT),
-                max_width=int(SCREEN_WIDTH - (80 * scale)),
+                max_width=int((162 * UI_SCALE)),
                 speed=1
             )
         self.scrolling_stage = ScrollingText(
             self.font_small.render(f"{STAGES[self.pet.stage]}", True, FONT_COLOR_DEFAULT),
-            max_width=int(SCREEN_WIDTH - (99 * scale)),
+            max_width=int((98 * UI_SCALE)),
             speed=1
         )
 
@@ -65,12 +65,12 @@ class WindowStatus:
         self.pet = pet
         self.scrolling_name = ScrollingText(
             self.font_large.render(self.pet.name, True, FONT_COLOR_DEFAULT),
-            max_width=int(SCREEN_WIDTH - (80 * UI_SCALE)),
+            max_width=int((162 * UI_SCALE)),
             speed=1
         )
         self.scrolling_stage = ScrollingText(
             self.font_small.render(f"{STAGES[self.pet.stage]}", True, FONT_COLOR_DEFAULT),
-            max_width=int(SCREEN_WIDTH - (99 * UI_SCALE)),
+            max_width=int((98 * UI_SCALE)),
             speed=1
         )
         self.pet_sprite = pygame.transform.scale(runtime_globals.pet_sprites[pet][0], (PET_ICON_SIZE, PET_ICON_SIZE))
@@ -136,23 +136,74 @@ class WindowStatus:
             blit_with_shadow(surface, value_surf, (value_x, y_pos))
 
     def draw_page_2(self, surface: pygame.Surface) -> None:
-        """Draws page 2: Hunger, strength, care mistakes and sleep disturbances."""
+        """Draws page 2: Hunger, strength, level, exp, and compact status for all rulesets, with icons for level, exp, and mistakes."""
         distance = int(37 * UI_SCALE)
         module = get_module(self.pet.module)
 
-        # Hunger and strength
+        # Hunger
         blit_with_shadow(surface, self.font_small.render("Hunger:", True, FONT_COLOR_DEFAULT), (PAGE_MARGIN, PAGE_MARGIN))
         self.draw_hearts(surface, int(SCREEN_WIDTH - (110 * UI_SCALE)), PAGE_MARGIN + int(5 * UI_SCALE), self.pet.hunger)
 
+        # Strength
         blit_with_shadow(surface, self.font_small.render("Strength:", True, FONT_COLOR_DEFAULT), (PAGE_MARGIN, PAGE_MARGIN + distance))
         self.draw_hearts(surface, int(SCREEN_WIDTH - (110 * UI_SCALE)), PAGE_MARGIN + distance + int(5 * UI_SCALE), self.pet.strength)
 
-        if module.ruleset == "dmc":
-            self.draw_dmc_stats(surface, distance)
-        elif module.ruleset == "penc":
-            self.draw_penc_stats(surface, distance)
-        elif module.ruleset == "dmx":
-            self.draw_dmx_stats(surface, distance)
+        # Level and Experience (on the same line, with icons)
+        level_exp_y = PAGE_MARGIN + distance * 2
+        icon_spacing = int(40 * UI_SCALE)
+        icon_y = level_exp_y - int(2 * UI_SCALE)
+        # Level icon and value
+        blit_with_shadow(surface, self.sprites["level"], (PAGE_MARGIN, icon_y))
+        level_text = self.font_small.render(f"Lv: {getattr(self.pet, 'level', '-')}", True, FONT_COLOR_DEFAULT)
+        blit_with_shadow(surface, level_text, (PAGE_MARGIN + icon_spacing, level_exp_y))
+        # Exp icon and value
+        exp_icon_x = PAGE_MARGIN + icon_spacing * 2
+        exp_val = getattr(self.pet, 'exp', getattr(self.pet, 'experience', '-'))
+        exp_text = self.font_small.render(f"EXP: {exp_val}", True, FONT_COLOR_DEFAULT)
+        blit_with_shadow(surface, exp_text, (exp_icon_x + icon_spacing, level_exp_y))
+
+        # Condition hearts or mistakes (next line, with icon for mistakes)
+        y_pos = PAGE_MARGIN + distance * 3
+        if getattr(module, "use_condition_hearts", False):
+            blit_with_shadow(surface, self.font_small.render("Condition:", True, FONT_COLOR_DEFAULT), (PAGE_MARGIN, y_pos))
+            self.draw_hearts(surface, int(SCREEN_WIDTH - (110 * UI_SCALE)), y_pos + int(5 * UI_SCALE), getattr(self.pet, "condition_hearts", 0))
+        else:
+            mistakes = getattr(self.pet, "mistakes", 0)
+            blit_with_shadow(surface, self.sprites["mistakes"], (PAGE_MARGIN, y_pos))
+            mistakes_text = self.font_small.render(f"Mistakes: {mistakes}", True, FONT_COLOR_DEFAULT)
+            blit_with_shadow(surface, mistakes_text, (PAGE_MARGIN + icon_spacing, y_pos))
+
+        # Sleep disturbances, overfeed, sick (all on the same line, with icons)
+        y_pos2 = PAGE_MARGIN + distance * 4
+        icon_spacing = int(80 * UI_SCALE)
+        x_icon = PAGE_MARGIN
+
+        # Sleep Disturbances
+        blit_with_shadow(surface, self.sprites["sleep Dist."], (x_icon, y_pos2))
+        sleep_dist = getattr(self.pet, "sleep_disturbances", 0)
+        sleep_text = self.font_small.render(str(sleep_dist), True, FONT_COLOR_DEFAULT)
+        blit_with_shadow(surface, sleep_text, (x_icon + int(32 * UI_SCALE), y_pos2))
+
+        # Overfeed
+        x_icon += icon_spacing
+        blit_with_shadow(surface, self.sprites["overfeed"], (x_icon, y_pos2))
+        overfeed = getattr(self.pet, "overfeed", 0)
+        overfeed_text = self.font_small.render(str(overfeed), True, FONT_COLOR_DEFAULT)
+        blit_with_shadow(surface, overfeed_text, (x_icon + int(32 * UI_SCALE), y_pos2))
+
+        # Sick
+        x_icon += icon_spacing
+        blit_with_shadow(surface, self.sprites["sick"], (x_icon, y_pos2))
+        sick = getattr(self.pet, "injuries", 0)
+        sick_text = self.font_small.render(str(sick), True, FONT_COLOR_DEFAULT)
+        blit_with_shadow(surface, sick_text, (x_icon + int(32 * UI_SCALE), y_pos2))
+
+        # Can Battle and Can Jogress (on the same line, compact)
+        y_pos3 = PAGE_MARGIN + distance * 5
+        can_battle = "Y" if getattr(self.pet, "can_battle", lambda: False)() else "N"
+        can_jogress = "Y" if getattr(self.pet, "jogress_avaliable", False) else "N"
+        battle_jogress_text = f"Battle: {can_battle}   Jogress: {can_jogress}"
+        blit_with_shadow(surface, self.font_small.render(battle_jogress_text, True, FONT_COLOR_DEFAULT), (PAGE_MARGIN, y_pos3))
 
     def draw_dmc_stats(self, surface, distance):
         """Draws DMC-specific stats (mistakes, sleep disturbances, sickness)."""
@@ -234,7 +285,7 @@ class WindowStatus:
         # Win rates
         y += distance
         stage_win_rate = (self.pet.win * 100 // self.pet.battles) if self.pet.battles > 0 else 0
-        total_win_rate = (self.pet.totalWin * 100 // self.pet.battles) if self.pet.battles > 0 else 0
+        total_win_rate = (self.pet.totalWin * 100 // self.pet.totalBattles) if self.pet.totalBattles > 0 else 0
 
         win_stage_label = self.font_small.render("Win Rate:", True, FONT_COLOR_DEFAULT)
         win_total_label = self.font_small.render("Win Rate T.:", True, FONT_COLOR_DEFAULT)

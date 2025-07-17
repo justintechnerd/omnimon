@@ -37,7 +37,7 @@ class GameSound:
             14: "battle_online",
             15: "fail",
             16: "death",
-            #17: "happy",
+            17: "happy2",
             18: "evolution_plus",
             19: "evolution_2020",
         }

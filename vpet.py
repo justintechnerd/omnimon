@@ -27,7 +27,7 @@ from scenes.scene_feedingmenu import SceneFeedingMenu
 from scenes.scene_training import SceneTraining
 
 # Game Version
-runtime_globals.VERSION = "0.9.4"
+runtime_globals.VERSION = "0.9.6"
 
 # Initialize Pygame
 pygame.init()

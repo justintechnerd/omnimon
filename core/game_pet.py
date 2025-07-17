@@ -146,11 +146,11 @@ class GamePet:
     def get_sprite(self, index):
         return runtime_globals.pet_sprites[self][index]
 
-    def set_state(self, new_state):
+    def set_state(self, new_state, force=False):
         if self.state == "dead":
             return
 
-        if self.state != new_state:
+        if self.state != new_state or force:
             self.state = new_state
             self.animation_counter = 0
             self.animation_frames = getattr(Animation, new_state.upper(), Animation.IDLE)
@@ -189,12 +189,15 @@ class GamePet:
         overlay = None
         anim_phase = (self.animation_counter // FRAME_RATE) % 2  # precompute phase
 
+        sick = False
+
         if self.state == "nap":
             overlay = runtime_globals.misc_sprites.get(f"Sleep{anim_phase + 1}")
         elif self.state in {"happy2", "happy3"} and anim_phase == 0:
             overlay = runtime_globals.misc_sprites.get("Cheer")
         elif self.sick > 0 and self.state != "dead":
             overlay = runtime_globals.misc_sprites.get(f"Sick{anim_phase + 1}")
+            sick = True
         elif self.state == "angry":
             overlay = runtime_globals.misc_sprites.get(f"Mad{anim_phase + 1}")
         
@@ -206,7 +209,7 @@ class GamePet:
             base_pos = (x, y)
             surface.blit(overlay, base_pos)
             
-            if self.state == "happy3":
+            if self.state == "happy3" and not sick:
                 # Draw additional overlay positions
                 surface.blit(overlay, (x, y + (24 * UI_SCALE)))
                 surface.blit(overlay, (x - PET_WIDTH - (24 * UI_SCALE), y))
@@ -311,7 +314,7 @@ class GamePet:
                 self.set_state("happy"if self.state == "eat" else "idle")
 
         # Handle hatching animation
-        if self.stage == 0 and self.timer >= 1750:
+        if self.stage == 0 and (self.timer * FRAME_RATE/30) >= 1750:
             self.set_state("hatch")
 
     def evolve_to(self, name, version):
@@ -439,7 +442,7 @@ class GamePet:
                     self.overfeed += 1
                 self.set_state("nope")
             else:
-                self.set_state("eat")
+                self.set_state("eat", True)
                 self.hunger = min(self.stomach, self.hunger + amount)
                 if self.stage > 1 and self.weight < 99:
                     self.weight += module.meat_weight_gain
@@ -481,12 +484,12 @@ class GamePet:
         for evo in self.evolve:
             def in_range(val, r): return r[0] <= val <= r[1]
             if (
-                ("jogress" in evo) or
+                ("jogress" in evo) or ("item" in evo) or
                 ("mistakes" in evo and not in_range(self.mistakes, evo["mistakes"])) or
                 ("condition_hearts" in evo and not in_range(self.condition_hearts, evo["condition_hearts"])) or
                 ("training" in evo and not in_range(self.effort // 4, evo["training"])) or
                 ("overfeed" in evo and not in_range(self.overfeed, evo["overfeed"])) or
-                ("special_encounter" in evo and not self.special_encounter) or
+                #("special_encounter" in evo and not self.special_encounter) or
                 ("level" in evo and not in_range(self.level, evo["level"])) or
                 ("stage-5" in evo and not in_range(self.enemy_kills[5], evo["stage-5"])) or
                 ("stage-6" in evo and not in_range(self.enemy_kills[6], evo["stage-6"])) or
@@ -777,7 +780,7 @@ class GamePet:
             self.win += 1
             self.totalWin += 1
 
-    def finish_battle(self, won, enemy, area, round, xp_multiplier, boss=False):
+    def finish_battle(self, won, enemy, area):
         self.battles += 1
         self.dp -= 1
         self.totalBattles += 1
@@ -798,13 +801,6 @@ class GamePet:
                 self.enemy_kills = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 
             self.enemy_kills[enemy.stage] += 1
-            if self.level == MAX_LEVEL[self.stage]:
-                runtime_globals.game_console.log(f"[!] {self.name} at max level {self.level} at stage {self.stage}!")
-            else:
-                xp = int((2.83 * enemy.stage) + (0.81 * enemy.power) + (0.17 * round) + ((0.67 * area) * (6.39 if boss else 0)))
-                xp = int(xp * xp_multiplier)
-                runtime_globals.game_console.log(f"[DEBUG] XP Gained: {xp} (Stage: {enemy.stage}, Power: {enemy.power}, Round: {round}, Area: {area}, Boss: {boss})")
-                self.add_experience(xp)
         else:
             sick_chance = get_module(self.module).battle_base_sick_chance_lose
             if self.protein_overdose > get_module(self.module).protein_overdose_max:
@@ -823,10 +819,12 @@ class GamePet:
 
     def add_experience(self, xp):
         self.experience += xp
+        if self.level == MAX_LEVEL[self.stage]:
+            self.experience = 0
         if self.experience >= EXPERIENCE_LEVEL[self.level+1]:
             self.experience -= EXPERIENCE_LEVEL[self.level+1]
             self.level += 1
-            runtime_globals.game_message.add(f"Level UP!", (self.x + (PET_WIDTH // 2), self.y), FONT_COLOR_GREEN)
+            #runtime_globals.game_message.add(f"Level UP!", (self.x + (PET_WIDTH // 2), self.y), FONT_COLOR_GREEN)
             if self.level == MAX_LEVEL[self.stage]:
                 self.experience = 0
 

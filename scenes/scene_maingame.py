@@ -368,12 +368,14 @@ class SceneMainGame:
                 if get_module(pet.module).use_condition_hearts:
                     if pet.condition_hearts > 0:
                         pet.condition_hearts -= 1
-                        runtime_globals.game.console.log(f"[DEBUG] {pet.name} lost a condition heart, current: {pet.condition_hearts}")
+                        runtime_globals.game_console.log(f"[DEBUG] {pet.name} lost a condition heart, current: {pet.condition_hearts}")
                 else:
                     pet.mistakes += 1
-                    runtime_globals.game.console.log(f"[DEBUG] {pet.name} got a care mistake , current: {pet.mistakes}")
+                    runtime_globals.game_console.log(f"[DEBUG] {pet.name} got a care mistake , current: {pet.mistakes}")
         elif input_action == "F6":
-            runtime_globals.evolution_pet = get_selected_pets()[0]
+            for pet in get_selected_pets():
+                pet.dp = pet.energy
+            #runtime_globals.evolution_pet = get_selected_pets()[0]
             return
             if len(game_globals.pet_list) > 1:
                 runtime_globals.game_sound.play("evolution_plus")

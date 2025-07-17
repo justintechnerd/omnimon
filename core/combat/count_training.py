@@ -1,5 +1,6 @@
 import pygame
 import time
+import random
 
 from core import runtime_globals
 from core.animation import PetFrame
@@ -66,33 +67,65 @@ class CountMatchTraining(Training):
 
     def get_first_pet_attribute(self):
         pet = get_training_targets()[0]
-        if pet.attribute in ["", "Vi"]:
+        if pet.attribute in ["", "Va"]:
             return 1
-        elif pet.attribute == "Va":
-            return 2
         elif pet.attribute == "Da":
+            return 2
+        elif pet.attribute == "Vi":
             return 3
         return 1
 
     def calculate_results(self):
         self.correct_color = self.get_first_pet_attribute()
         self.final_color = self.rotation_index
-        for pet in get_training_targets():
-            shakes = self.press_counter
-            color_ok = self.final_color == self.correct_color
-            if shakes >= 12 and color_ok:
-                hits = 5
-            elif 7 <= shakes <= 11 and color_ok:
-                hits = 4
-            elif 7 <= shakes <= 1 or color_ok:
-                hits = 3
-            elif 2 <= shakes <= 8 and color_ok:
-                hits = 2
-            elif 2 <= shakes <= 8 or color_ok:
-                hits = 1
+        pets = get_training_targets()
+        if not pets:
+            return
+
+        # Calculate hits for the first pet only
+        pet = pets[0]
+        shakes = self.press_counter
+        attr_type = getattr(pet, "attribute", "")
+
+
+        if shakes < 2:
+            hits = 0
+        else:
+            # Color mapping: 1=Red, 2=Yellow, 3=Blue
+            color = self.final_color
+            if attr_type in ("", "Va"):
+                if color == 1:      # Red
+                    hits = 5
+                elif color == 2:    # Yellow
+                    hits = random.choice([3, 4])
+                elif color == 3:    # Blue
+                    hits = 2
+                else:
+                    hits = 1
+            elif attr_type == "Da":
+                if color == 2:      # Yellow
+                    hits = 5
+                elif color == 1:    # Red
+                    hits = random.choice([3, 4])
+                elif color == 3:    # Blue
+                    hits = 2
+                else:
+                    hits = 1
+            elif attr_type == "Vi":
+                if color == 3:      # Blue
+                    hits = 5
+                elif color == 2:    # Yellow
+                    hits = random.choice([3, 4])
+                elif color == 1:    # Red
+                    hits = 2
+                else:
+                    hits = 1
             else:
-                hits = 0
-            self.super_hits[pet] = hits
+                hits = 1
+
+        # Assign the same result to all pets
+        for p in pets:
+            self.super_hits[p] = hits
 
     def prepare_attack(self):
         self.attack_phase = 0

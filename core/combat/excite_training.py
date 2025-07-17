@@ -2,6 +2,7 @@
 # ExciteTraining (Simple Strength Bar Training)
 #=====================================================================
 
+import pygame
 from core import game_globals, runtime_globals
 from core.animation import PetFrame
 from core.combat.combat_constants import ATTACK_SPEED
@@ -20,7 +21,7 @@ class ExciteTraining(Training):
     def __init__(self) -> None:
         super().__init__()
 
-        self.xaibar = WindowXaiBar(10, SCREEN_HEIGHT // 2 - 18, game_globals.xai, get_training_targets()[0])
+        self.xaibar = WindowXaiBar(10 * UI_SCALE, SCREEN_HEIGHT // 2 - (18 * UI_SCALE), game_globals.xai, get_training_targets()[0])
         self.xaibar.start()
 
     def update_charge_phase(self):
@@ -84,7 +85,7 @@ class ExciteTraining(Training):
             for sprite, kind, x, y in wave:
                 if x < SCREEN_WIDTH - (90 * UI_SCALE):
                     blit_with_shadow(surface, sprite, (x, y))
-                    if kind > 1:
+                    if kind in [2,3]:
                         blit_with_shadow(surface, sprite, (x - (20 * UI_SCALE), y - (10 * UI_SCALE)))
                     if kind == 3:
                         blit_with_shadow(surface, sprite, (x - (40 * UI_SCALE), y + (10 * UI_SCALE)))
@@ -114,12 +115,13 @@ class ExciteTraining(Training):
 
         # Determine super-hit pattern based on selected_strength
         strength = self.xaibar.selected_strength
+
         if strength == 3:
-            pattern = [3] * 5  # 5 super-hits (megahit)
+            pattern = [4, 3, 3, 3, 3]  # 5 super-hits (megahit)
         elif strength == 2:
-            pattern = [3, 3, 3, 1, 1]  # 3 super-hits, 2 normal
+            pattern = [3, 3, 3, 2, 2]  # 3 super-hits, 2 normal
         elif strength == 1:
-            pattern = [3, 1, 1, 1, 1]  # 1 super-hit, 4 normal
+            pattern = [3, 2, 1, 1, 1]  # 1 super-hit, 4 normal
         else:
             pattern = [1] * 5  # all normal, fail
 
@@ -133,7 +135,11 @@ class ExciteTraining(Training):
                 # Start to the right of the pet sprite (aligned horizontally)
                 x = SCREEN_WIDTH - OPTION_ICON_SIZE - (20 * UI_SCALE)
                 y = pet_y
-                self.attack_waves[j].append((sprite, kind, x, y))
+                if kind == 4:
+                    sprite2 = pygame.transform.scale2x(sprite)
+                    self.attack_waves[j].append((sprite2, kind, x, y))
+                else:
+                    self.attack_waves[j].append((sprite, kind, x, y))
 
     def get_attack_count(self):
         if self.xaibar.selected_strength < 1:

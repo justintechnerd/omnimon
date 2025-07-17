@@ -11,3 +11,4 @@ class GameItem:
     status: str
     amount: int
     boost_time: int
+    component_item: str

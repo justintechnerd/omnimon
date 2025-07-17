@@ -75,12 +75,10 @@ class WindowBackground:
             suffix = f"_{self.time_of_day}" if day_night else ""
             base_filename = f"bg_{name}{suffix}"
 
-            # Check for high-res background if screen is 720p or higher
-            use_high = SCREEN_WIDTH >= 1280 or SCREEN_HEIGHT >= 720
             high_path = os.path.join(module.folder_path, "backgrounds", f"{base_filename}_high.png")
             normal_path = os.path.join(module.folder_path, "backgrounds", f"{base_filename}.png")
 
-            if use_high and os.path.exists(high_path):
+            if game_globals.background_high_res and os.path.exists(high_path):
                 path = high_path
             else:
                 path = normal_path

@@ -88,6 +88,11 @@ class GameModule:
                     self.death_care_mistake = int(data.get("death_care_mistake",999999))
                     self.death_save_by_b_press = int(data.get("death_save_by_b_press",0))
                     self.death_save_by_shake = int(data.get("death_save_by_shake",0))
+
+                    if self.battle_global_hit_points > 0:
+                        self.battle_damage_limit = 1 + (self.battle_global_hit_points // 2)
+                    else:
+                        self.battle_damage_limit = 99
                     
                     self.unlocks = data.get("unlocks", {
                         "eggs": [],
@@ -115,24 +120,45 @@ class GameModule:
         else:
             self.items = {}
 
-    def load_items_from_json(self, json_data, module_name):
+    def load_items_from_json(self, data, module_name):
         """
         Loads items from a JSON list for a given module.
         Each item in the JSON should have: id, name, description, sprite_name, effect, status, amount, boost_time.
         """
-        items = {}
-        for entry in json_data:
-            items[entry["id"]] = GameItem(
+        # If data is a string, parse it as JSON
+        if isinstance(data, str):
+            import json
+            data = json.loads(data)
+        # If data is a dict, extract the first list value (e.g., "item" or "items")
+        if isinstance(data, dict):
+            # Try common keys, fallback to first list found
+            for key in ("items", "item"):
+                if key in data and isinstance(data[key], list):
+                    data = data[key]
+                    break
+            else:
+                # Fallback: find the first list value in the dict
+                for v in data.values():
+                    if isinstance(v, list):
+                        data = v
+                        break
+        # Now data should be a list of dicts
+        items = []
+        for entry in data:
+            if not isinstance(entry, dict):
+                continue  # ski p invalid entries
+            items.append(GameItem(
                 id=entry["id"],
                 name=entry["name"],
                 description=entry.get("description", ""),
-                sprite_name=entry.get("sprite_name", entry["name"]),
-                module=module_name,
+                sprite_name=entry.get("sprite_name", ""),
                 effect=entry.get("effect", ""),
                 status=entry.get("status", ""),
                 amount=entry.get("amount", 0),
-                boost_time=entry.get("boost_time", 0)
-            )
+                boost_time=entry.get("boost_time", 0),
+                module=module_name,
+                component_item=entry.get("component_item", "")
+            ))
         return items
 
     def load_sprites(self):
@@ -179,50 +205,106 @@ class GameModule:
             runtime_globals.game_console.log(f"⚠️ Failed to parse {json_path}")
         return None
 
+    def _parse_battle_json(self, path):
+        """Helper to load and normalize battle.json data to a list of dicts."""
+        if not os.path.exists(path):
+            return []
+        try:
+            with open(path, "r", encoding="utf-8") as file:
+                data = json.load(file)
+                if isinstance(data, dict) and "enemies" in data and isinstance(data["enemies"], list):
+                    return data["enemies"]
+                elif isinstance(data, list):
+                    return data
+                else:
+                    return []
+        except Exception as e:
+            runtime_globals.game_console.log(f"⚠️ Failed to parse {path}: {e}")
+            return []
+
     def get_enemies(self, area: int, round: int, versions: List[int]) -> List[Optional[GameEnemy]]:
         battle_path = os.path.join(self.folder_path, "battle.json")
-
-        if not os.path.exists(battle_path):
-            runtime_globals.game_console.log(f"⚠️ Enemy file {battle_path} not found.")
+        all_enemies = self._parse_battle_json(battle_path)
+        if not all_enemies:
+            runtime_globals.game_console.log(f"⚠️ Enemy file {battle_path} not found or empty.")
             return [None] * len(versions)
 
-        try:
-            id = 1
-            with open(battle_path, "r", encoding="utf-8") as file:
-                data = json.load(file)
+        id = 1
+        selected = []
+        for v in versions:
+            match = next(
+                (e for e in all_enemies
+                 if int(e.get("area", -1)) == int(area)
+                 and int(e.get("round", -1)) == int(round)
+                 and int(e.get("version", -1)) == int(v)),
+                None
+            )
+            if match:
+                if "handicap" not in match:
+                    match["handicap"] = 0
+                match["id"] = id
+                # Ensure required fields for GameEnemy
+                if "unlock" not in match:
+                    match["unlock"] = None
+                if "prize" not in match:
+                    match["prize"] = None
+                if "hp" not in match:
+                    match["hp"] = 0
+                id += 1
+                selected.append(copy.deepcopy(GameEnemy(**match)))
+            else:
+                selected.append(None)
+        return selected
 
-                for entry in data:
-                    entry.setdefault("handicap", 0)
-                    entry.setdefault("id", 0)
-                    entry.setdefault("hp", 0)
-                    entry.setdefault("prize", "")
-                    entry.setdefault("unlock", "")
+    def get_enemy_versions(self, area: int, round_: int) -> list[int]:
+        battle_path = os.path.join(self.folder_path, "battle.json")
+        all_enemies = self._parse_battle_json(battle_path)
+        if not all_enemies:
+            runtime_globals.game_console.log(f"⚠️ Enemy file {battle_path} not found or empty.")
+            return []
+        versions = set()
+        for entry in all_enemies:
+            if int(entry.get("area", -1)) == int(area) and int(entry.get("round", -1)) == int(round_):
+                v = entry.get("version")
+                if v is not None:
+                    versions.add(v)
+        return sorted(versions)
 
-                all_enemies = [GameEnemy(**entry) for entry in data]
+    def area_exists(self, area: int) -> bool:
+        battle_path = os.path.join(self.folder_path, "battle.json")
+        all_enemies = self._parse_battle_json(battle_path)
+        if not all_enemies:
+            runtime_globals.game_console.log(f"⚠️ Enemy file {battle_path} not found or empty.")
+            return False
+        for entry in all_enemies:
+            if int(entry.get("area", -1)) == int(area):
+                return True
+        return False
 
-                selected = []
-                for v in versions:
-                    match = next(
-                        (e for e in all_enemies
-                        if int(e.area) == int(area) and int(e.round) == int(round) and int(e.version) == int(v)),
-                        None
-                    )
-
-                    if match:
-                        # Ensure 'handicap' exists and defaults to 0 if missing
-                        if not hasattr(match, "handicap"):
-                            match.handicap = 0
-
-                    match.id = id
-                    id += 1
-                    selected.append(copy.deepcopy(match))
-
-                # Save to runtime
-                return selected
-        except Exception as e:
-            runtime_globals.game_console.log(f"⚠️ Failed to parse {battle_path}: {e}")
-            return [None] * len(versions)
+    def get_area_round_counts(self) -> dict:
+        battle_path = os.path.join(self.folder_path, "battle.json")
+        all_enemies = self._parse_battle_json(battle_path)
+        if not all_enemies:
+            runtime_globals.game_console.log(f"⚠️ Enemy file {battle_path} not found or empty.")
+            return {}
+        area_rounds = {}
+        for entry in all_enemies:
+            area = int(entry.get("area", -1))
+            round_ = int(entry.get("round", -1))
+            if area == -1 or round_ == -1:
+                continue
+            if area not in area_rounds:
+                area_rounds[area] = set()
+            area_rounds[area].add(round_)
+        return {area: len(rounds) for area, rounds in area_rounds.items()}
         
+    def is_boss(self, area, round, version):
+        """
+        Checks if the enemy in the specified area, round, and version is a boss.
+        """
+        enemies = self.get_enemies(area, round + 1, [version])
+        return enemies[0] == None
+    
     def get_all_monsters(self) -> list[dict]:
         """
         Retorna todos os monstros listados no monster.json deste módulo.
@@ -239,85 +321,6 @@ class GameModule:
         except json.JSONDecodeError:
             runtime_globals.game_console.log(f"⚠️ Failed to parse {json_path}")
             return []
-        
-    def is_boss(self, area, round, version):
-        """
-        Checks if the enemy in the specified area, round, and version is a boss.
-        """
-        enemies = self.get_enemies(area, round + 1, [version])
-        return enemies[0] == None
-    
-    def get_enemy_versions(self, area: int, round_: int) -> list[int]:
-        """
-        Returns a sorted list of all unique versions for enemies in a specific area and round.
-        """
-        battle_path = os.path.join(self.folder_path, "battle.json")
-        if not os.path.exists(battle_path):
-            runtime_globals.game_console.log(f"⚠️ Enemy file {battle_path} not found.")
-            return []
-
-        try:
-            with open(battle_path, "r", encoding="utf-8") as file:
-                data = json.load(file)
-                versions = set()
-                for entry in data:
-                    if entry.get("area") == area and entry.get("round") == round_:
-                        v = entry.get("version")
-                        if v is not None:
-                            versions.add(v)
-                return sorted(versions)
-        except Exception as e:
-            runtime_globals.game_console.log(f"⚠️ Failed to parse {battle_path}: {e}")
-            return []
-        
-    def area_exists(self, area: int) -> bool:
-        """
-        Checks if the given area exists in this module's battle.json.
-        Returns True if at least one entry with the given area is found.
-        """
-        battle_path = os.path.join(self.folder_path, "battle.json")
-        if not os.path.exists(battle_path):
-            runtime_globals.game_console.log(f"⚠️ Enemy file {battle_path} not found.")
-            return False
-
-        try:
-            with open(battle_path, "r", encoding="utf-8") as file:
-                data = json.load(file)
-                for entry in data:
-                    if int(entry.get("area", -1)) == int(area):
-                        return True
-                return False
-        except Exception as e:
-            runtime_globals.game_console.log(f"⚠️ Failed to parse {battle_path}: {e}")
-            return False
-        
-    def get_area_round_counts(self) -> dict:
-        """
-        Returns a dictionary mapping each area to the number of unique rounds it has in battle.json.
-        Example: {1: 3, 2: 5}
-        """
-        battle_path = os.path.join(self.folder_path, "battle.json")
-        if not os.path.exists(battle_path):
-            runtime_globals.game_console.log(f"⚠️ Enemy file {battle_path} not found.")
-            return {}
-
-        area_rounds = {}
-        try:
-            with open(battle_path, "r", encoding="utf-8") as file:
-                data = json.load(file)
-                for entry in data:
-                    area = int(entry.get("area", -1))
-                    round_ = int(entry.get("round", -1))
-                    if area == -1 or round_ == -1:
-                        continue
-                    if area not in area_rounds:
-                        area_rounds[area] = set()
-                    area_rounds[area].add(round_)
-            # Convert sets to counts
-            return {area: len(rounds) for area, rounds in area_rounds.items()}
-        except Exception as e:
-            runtime_globals.game_console.log(f"⚠️ Failed to parse {battle_path}: {e}")
-            return {}
         
 def sprite_load(path, size=None, scale=1):
     """Loads a sprite and optionally scales it to a fixed size or by a scale factor."""

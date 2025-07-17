@@ -1,8 +1,6 @@
 #=====================================================================
 # DummyTraining (Simple Strength Bar Training)
 #=====================================================================
-
-import random
 import pygame
 
 from core import runtime_globals
@@ -92,7 +90,7 @@ class Training:
             runtime_globals.game_sound.play("attack")
 
     def animate_attack(self, delay=0):
-        print(f"Frame: {self.frame_counter}")
+        #print(f"Frame: {self.frame_counter}")
         appear_frame = int(delay * (FRAME_RATE / 30))
         anim_window = int(20 * (FRAME_RATE / 30))
         anim_start = appear_frame - anim_window

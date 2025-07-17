@@ -159,9 +159,9 @@ class SceneSettingsMenu:
                             )
 
                 # Show navigation hints
-                nav_hint = "←/→: Change Module   ↑/↓: Scroll   B/START: Back"
-                nav_surface = option_font.render(nav_hint, True, (180, 180, 180))
-                blit_with_shadow(cached_surface, nav_surface, (SCREEN_WIDTH // 2 - nav_surface.get_width() // 2, SCREEN_HEIGHT - int(30 * UI_SCALE)))
+                #nav_hint = "←/→: Change Module   ↑/↓: Scroll   B/START: Back"
+                #nav_surface = option_font.render(nav_hint, True, (180, 180, 180))
+                #blit_with_shadow(cached_surface, nav_surface, (SCREEN_WIDTH // 2 - nav_surface.get_width() // 2, SCREEN_HEIGHT - int(30 * UI_SCALE)))
 
             elif self.mode == "menu":
                 blit_with_shadow(cached_surface, overlay, (0, 0))
@@ -174,6 +174,17 @@ class SceneSettingsMenu:
             elif self.mode == "background":
                 title_surface = title_font.render("Select Background", True, (255, 200, 50))
                 options_list = []  # No list needed for background selection
+
+                # Draw the current background label
+                if self.unlocked_backgrounds:
+                    mod, name, label = self.unlocked_backgrounds[self.current_bg_index]
+                    bg_surface = option_font.render(label, True, (255, 255, 0))
+                    blit_with_shadow(cached_surface, bg_surface, (SCREEN_WIDTH // 2 - bg_surface.get_width() // 2, SCREEN_HEIGHT // 2))
+
+                # Display the high-resolution toggle status
+                high_res_status = "High-Res: ON" if game_globals.background_high_res else "High-Res: OFF"
+                high_res_surface = option_font.render(high_res_status, True, (200, 200, 200))
+                blit_with_shadow(cached_surface, high_res_surface, (SCREEN_WIDTH // 2 - high_res_surface.get_width() // 2, SCREEN_HEIGHT // 2 + int(40 * UI_SCALE)))
 
             blit_with_shadow(cached_surface, title_surface, (SCREEN_WIDTH // 2 - title_surface.get_width() // 2, int(10 * UI_SCALE)))
 
@@ -225,6 +236,13 @@ class SceneSettingsMenu:
                 elif input_action in ("LEFT", "RIGHT"):
                     runtime_globals.game_sound.play("menu")
                     self.change_background(increase=(input_action == "RIGHT"))
+                    self.invalidate_cache()
+                elif input_action == "SELECT":
+                    # Toggle high-resolution backgrounds
+                    game_globals.background_high_res = not game_globals.background_high_res
+                    runtime_globals.game_console.log(f"[SceneSettingsMenu] High-Resolution Backgrounds set to {game_globals.background_high_res}")
+                    self.background.load_sprite(False)  # Reload background with updated resolution
+                    runtime_globals.game_sound.play("menu")
                     self.invalidate_cache()
                 return
             elif self.mode == "unlockables":

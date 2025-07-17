@@ -13,6 +13,7 @@ SAVE_FILE = "save/save_data.dat"
 # Persistent variables
 game_background = None
 background_module_name = None
+background_high_res = False
 
 pet_list = []
 poop_list = []
@@ -53,6 +54,7 @@ def save() -> None:
         "xai_date": xai_date,
         "inventory": inventory,
         "battle_effects": battle_effects,
+        "background_high_res": background_high_res,
     }
 
     with open(SAVE_FILE, "wb") as f:
@@ -64,7 +66,7 @@ def load() -> None:
     """
     Loads the global game state from the save file, if it exists.
     """
-    global pet_list, poop_list, traited, unlocks, battle_area, battle_round, xai, xai_date
+    global pet_list, poop_list, traited, unlocks, battle_area, battle_round, xai, xai_date, background_high_res
     global game_background, background_module_name, showClock, sound, debug, inventory, battle_effects
 
     if os.path.exists(SAVE_FILE):
@@ -86,6 +88,7 @@ def load() -> None:
             xai_date = data.get("xai_date", datetime.date.today())
             inventory = data.get("inventory", {})
             battle_effects = data.get("battle_effects", {})
+            background_high_res = data.get("background_high_res", False)
 
 def autosave() -> None:
     """

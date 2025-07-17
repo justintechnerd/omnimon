@@ -2,280 +2,211 @@
 
 import random
 import pygame
-from core.combat.battle_encounter import BattleEncounter
+from core.combat.battle_encounter import BattleEncounter, GameBattle
+from core.combat.sim.battle_simulator import BattleSimulator, BattleProtocol
 from core.animation import PetFrame
-from core import runtime_globals
-from core.combat.combat_constants import ALERT_DURATION_FRAMES
+from core.combat.sim.models import Digimon
 from core.constants import *
 from core.utils.pygame_utils import blit_with_shadow
 from core.utils.scene_utils import change_scene
-from core.utils.utils_unlocks import unlock_item
+from core import runtime_globals
+
 
 class BattleEncounterVersus(BattleEncounter):
-    def __init__(self, pet1, pet2):
+    def __init__(self, pet1, pet2, protocol: BattleProtocol):
+        """
+        Initializes the Versus encounter for PvP battles.
+        """
         self.pet1 = pet1
         self.pet2 = pet2
+        self.pet2.x = 2 * (SCREEN_WIDTH / 240)
+        self.protocol = protocol
+        # Call the base class initializer
+        module = "DMC"
 
-        # Set initial attacker/defender
-        self.attacking_pet = self.pet1
-        self.attacking_enemy = self.pet2
-        self.attacking_pets = [self.pet1]
-        self.attacking_enemies = [self.pet2]
+        super().__init__(module, 0, 0)
 
-        # Versus-specific setup
-        self.enemies = [self.pet2]
-        self.enemy_positions = [[self.pet2, -PET_WIDTH - 2]]
+        # Initialize the BattlePlayer with the two pets
+        self.battle_player = GameBattle([pet1], [pet2], 0, 0, self.module)
+        fixed_hp = None
+        if protocol in [BattleProtocol.DMC_BS]:
+            fixed_hp = 6
+            self.turn_limit = 5
+        elif protocol in [BattleProtocol.DM20_BS]:
+            fixed_hp = 4
+            self.turn_limit = 6
+        elif protocol in [BattleProtocol.PEN20_BS]:
+            fixed_hp = 3
+            self.turn_limit = 6
+        elif protocol in [BattleProtocol.DMX_BS]:
+            self.turn_limit = 5
 
-        self.frame_counter = 0
-        self.result_timer = 0
-        # skip enemy loading logic in base init by calling last
-        super().__init__(self.attacking_pet.module, 1, 1, 1)
+        if fixed_hp is not None:
+            self.battle_player.team1_hp[0] = fixed_hp
+            self.battle_player.team2_hp[0] = fixed_hp
+            self.battle_player.team1_max_hp[0] = fixed_hp
+            self.battle_player.team2_max_hp[0] = fixed_hp
+            self.battle_player.team1_total_hp = fixed_hp
+            self.battle_player.team2_total_hp = fixed_hp
+            self.battle_player.team1_max_total_hp = fixed_hp
+            self.battle_player.team2_max_total_hp = fixed_hp
+        else:
+            team1hp = pet1.get_hp()
+            team2hp = pet2.get_hp()
+            self.battle_player.team1_hp[0] = team1hp
+            self.battle_player.team2_hp[0] = team2hp
+            self.battle_player.team1_max_hp[0] = team1hp
+            self.battle_player.team2_max_hp[0] = team2hp
+            self.battle_player.team1_total_hp = team1hp
+            self.battle_player.team2_total_hp = team2hp
+            self.battle_player.team1_max_total_hp = team1hp
+            self.battle_player.team2_max_total_hp = team2hp
 
-        self.attacking_pet = self.pet1
-        self.attacking_enemy = self.pet2
-        self.attacking_pets = [self.pet1]
-        self.attacking_enemies = [self.pet2]
+        # Initialize the BattleSimulator with the given protocol
+        self.simulator = BattleSimulator(protocol)
+
+        # Set initial state
         self.phase = "alert"
 
-        self.player_health = 3
-        self.enemy_health = 3
+    def calculate_combat_for_pairs(self):
+        self.simulate_combat()
 
-    def load_enemies(self):
-        self.enemy_positions.append([self.pet1, 22])
+        self.process_battle_results()
+        runtime_globals.game_sound.play("battle_online")
 
-    def select_next_pair(self):
-        self.attacking_pet = self.pet2
-        self.attacking_enemy = self.pet1
+    def simulate_combat(self):
+        strength_bonus = 3
 
-        self.phase = "move_pair"
-        runtime_globals.game_console.log("Entering move_pair phase")
-        self.frame_counter = 0
-        self.attack_offset = 0
+        # Attribute mapping
+        attribute_mapping = {
+            "Va": 0,  # Vaccine
+            "Da": 1,  # Data
+            "Vi": 2,  # Virus
+            "Free": 3  # Free
+        }
 
-    def draw(self, surface: pygame.Surface):
-        super().draw(surface)
-        if self.phase in ["intimidate", "alert"]:
-            surface.blit(self.battle_sprite, (0, 0))
+        # Create Digimon instance for the attacker
+        attacker = Digimon(
+            name=self.battle_player.team1[0].name,
+            order=0,
+            traited=1 if self.battle_player.team1[0].traited else 0,
+            egg_shake=1 if self.battle_player.team1[0].shook else 0,
+            index=0,
+            hp=self.battle_player.team1_hp[0],
+            attribute=attribute_mapping.get(self.battle_player.team1[0].attribute, 3),  # Default to Free if not found
+            power=self.battle_player.team1[0].get_power(),
+            handicap=0,
+            buff=0,
+            mini_game=strength_bonus,
+            level=self.battle_player.team1[0].level,
+            stage=self.battle_player.team1[0].stage,
+            sick=1 if self.battle_player.team1[0].sick else 0,
+            shot1=self.battle_player.team1[0].atk_main,
+            shot2=self.battle_player.team1[0].atk_alt,
+            tag_meter=2
+        )
 
+        # Create Digimon instance for the defender
+        defender = Digimon(
+            name=self.battle_player.team2[0].name,
+            order=1,
+            traited=1 if self.battle_player.team2[0].traited else 0,
+            egg_shake=1 if self.battle_player.team2[0].shook else 0,
+            index=1,
+            hp=self.battle_player.team2_hp[0],
+            attribute=attribute_mapping.get(self.battle_player.team2[0].attribute, 3),  # Default to Free if not found
+            power=self.battle_player.team2[0].get_power(),
+            handicap=0,
+            buff=0,
+            mini_game=strength_bonus,
+            level=self.battle_player.team2[0].level,
+            stage=self.battle_player.team2[0].stage,
+            sick=1 if self.battle_player.team2[0].sick else 0,
+            shot1=self.battle_player.team2[0].atk_main,
+            shot2=self.battle_player.team2[0].atk_alt,
+            tag_meter=2
+        )
 
-    def draw_pets(self, surface: pygame.Surface):
-        anim_toggle = (self.frame_counter + 5) // 15 % 2
+        # Run simulation
+        self.global_battle_log = self.simulator.simulate(attacker, defender)
 
-        if self.phase in ["alert"]:
-            frame_id = PetFrame.ANGRY.value
-        elif self.enemy_health <= 0:
-            frame_id = PetFrame.HAPPY.value
-        elif self.player_health <= 0:
-            frame_id = PetFrame.LOSE.value
-        elif self.phase == "pet_attack" :
-            frame_id = PetFrame.ATK2.value
-        else:
-            frame_id = PetFrame.IDLE1.value if anim_toggle == 0 else PetFrame.IDLE2.value
-
-        sprite = runtime_globals.pet_sprites[self.pet2][frame_id]
-        sprite = pygame.transform.scale(sprite, (PET_WIDTH, PET_HEIGHT))
-        x = SCREEN_WIDTH - PET_WIDTH - 2
-
-        x -= 20
-
-        y = self.get_y(0, 1)
-        blit_with_shadow(surface, sprite, (x, y))
-
-    def draw_enemies(self, surface: pygame.Surface):
-        total = len(self.enemy_positions)
-        for i, (enemy, x) in enumerate(self.enemy_positions):
-            y = self.get_y(i, total)
-            anim_toggle = (self.frame_counter + i * 5) // 15 % 2  # Varia com o índice
-
-            if self.phase == "enemy_attack" and enemy == self.attacking_enemy:
-                frame_id = PetFrame.ATK2.value
-            elif self.enemy_health <= 0:
-                frame_id = PetFrame.ANGRY.value
-            elif self.phase in ["move_pair", "retreat", "post_attack_delay", "alert", "charge", "enemy_attack"]:
-                frame_id = PetFrame.IDLE1.value if anim_toggle == 0 else PetFrame.IDLE2.value
-            else:
-                frame_id = PetFrame.IDLE1.value
-
-            sprite = enemy.get_sprite(frame_id)
-
-            if sprite:
-                sprite = pygame.transform.flip(sprite, True, False)
-                blit_with_shadow(surface, sprite, (x + 1, y))
-
-    def update_retreat(self):
-        self.forward_distance = 0
-        self.phase = "prepare_attack"
-        runtime_globals.game_console.log("Entering prepare_attack phase")
-        self.frame_counter = 0
-        self.prepare_attacks()
+        # Store the attacker's turns as the combat log for animation
+        self.victory_status = "Victory" if self.global_battle_log.winner == "device1" else "Defeat"
 
     def update_alert(self):
-        # Skip alert/charge — go straight to attack
-        if self.frame_counter == 1:
-            runtime_globals.game_sound.play("battle")
-        self.frame_counter += 1
-        
-        if self.frame_counter > ALERT_DURATION_FRAMES:
-            self.frame_counter = 0
-            self.phase = "move_pair"
-
-    def prepare_attacks(self):
-        # Skip full prepare logic — we already know both pets
-        self.phase = "move_pair"
-        self.frame_counter = 0
-
-    def update_pet_attack(self):
-        if not hasattr(self, "projectiles"):
-            # Início do ataque: define os projéteis com base na força
-            if self.attacking_pet.atk_alt > 0 and random.random() < 0.3:
-                atk_id = str(self.attacking_pet.atk_alt)
-            else:
-                atk_id = str(self.attacking_pet.atk_main)
-            atk_sprite = self.attack_sprites.get(atk_id)
-
-            # Determina número de ataques com base na força
-            hits = random.randint(1, 3)
-            pet_index = 0
-            y = self.get_y(pet_index, 1)
-            x = SCREEN_WIDTH - PET_WIDTH - 2 - self.forward_distance
-
-            self.projectiles = []
-            self.projectiles.append([atk_sprite.copy(), [x, y]])
-
-            if hits > 1:
-                self.projectiles.append([atk_sprite.copy(), [x - (20 * UI_SCALE), y - (10 * UI_SCALE)]])
-            if hits == 3:
-                self.projectiles.append([atk_sprite.copy(), [x - (40 * UI_SCALE), y + (10 * UI_SCALE)]])
-
-            # Calcula se o ataque acerta ANTES de mover os projéteis
-            self.attack_hit = self.check_hit(self.attacking_pet, self.attacking_enemy, is_player=True)
-            runtime_globals.game_sound.play("attack")
-
-        # Move os projéteis (frame-rate independent)
-        done = True
-        for sprite_data in self.projectiles:
-            sprite, (x, y) = sprite_data
-            x -= 4 * UI_SCALE * (30 / FRAME_RATE)  # Frame-rate independent speed
-            sprite_data[1][0] = x
-            enemy_index = 0
-            target_x = self.enemy_positions[enemy_index][1] + PET_WIDTH // 2
-            if x > target_x:
-                done = False
-
-        if done:
-            del self.projectiles
-            self.frame_counter = 0
-            if self.attack_hit:
-                runtime_globals.game_sound.play("attack_hit")
-                self.enemy_health = max(0, self.enemy_health - 1)
-
-                enemy_index = 0
-                enemy_y = self.get_y(enemy_index, 1)
-                enemy_x = self.enemy_positions[enemy_index][1] + PET_WIDTH // 2
-                self.hit_animations.append([0, [enemy_x + (16 * UI_SCALE), enemy_y + (24 * UI_SCALE)]])
-            else:
-                runtime_globals.game_sound.play("attack_fail")
-                enemy_index = 0
-                enemy_y = self.get_y(enemy_index, 1)
-                enemy_x = self.enemy_positions[enemy_index][1]
-                runtime_globals.game_message.add("MISS", (enemy_x + (16 * UI_SCALE), enemy_y - (10 * UI_SCALE)), (255, 0, 0))
-
-            if self.enemy_health <= 0 or self.player_health <= 0:
-                self.phase = "result"
-                runtime_globals.game_console.log("Entering result phase")
-            else:
-                self.phase = "post_attack_delay"
-                self.after_attack_phase = "enemy"
-                runtime_globals.game_console.log("Entering post_attack_delay phase")
-
-    def update_enemy_attack(self):
-        self.attacking_pet = self.pet2
-        self.attacking_enemy = self.pet1
-        if not hasattr(self, "enemy_projectiles"):
-            # Início do ataque inimigo
-            if self.attacking_enemy.atk_alt > 0 and random.random() < 0.3:
-                atk_id = str(self.attacking_enemy.atk_alt)
-            else:
-                atk_id = str(self.attacking_enemy.atk_main)
-            atk_sprite = self.attack_sprites.get(atk_id)
-
-            # Define número de projéteis
-            hits = random.randint(1, 3)
-            enemy_index = 0
-            y_base = self.get_y(enemy_index, 1)
-
-            self.enemy_projectiles = []
-            for i in range(hits):
-                x = self.enemy_positions[enemy_index][1] + PET_WIDTH
-                y = y_base + i * 16
-                sprite = pygame.transform.flip(atk_sprite.copy(), True, False)
-                self.enemy_projectiles.append([sprite, [x, y]])
-
-            self.enemy_hit = self.check_hit(self.attacking_enemy, self.attacking_pet, is_player=True)
-            runtime_globals.game_sound.play("attack")
-
-        # Move os projéteis (frame-rate independent)
-        done = True
-        for sprite_data in self.enemy_projectiles:
-            sprite, (x, y) = sprite_data
-            x += 4 * UI_SCALE * (30 / FRAME_RATE)  # Frame-rate independent speed
-            sprite_data[1][0] = x
-            pet_index = 0
-            target_x = SCREEN_WIDTH - PET_WIDTH - 2 - self.forward_distance
-            if x < target_x:
-                done = False
-
-        if done:
-            del self.enemy_projectiles
-            self.frame_counter = 0
-            if self.enemy_hit:
-                runtime_globals.game_sound.play("attack_hit")
-                self.player_health = max(0, self.player_health - 1)
-
-                pet_index = 0
-                pet_y = self.get_y(pet_index, 1)
-                pet_x = SCREEN_WIDTH - PET_WIDTH - 2 - self.forward_distance + PET_WIDTH // 2
-                self.hit_animations.append([0, [pet_x, pet_y + (24 * UI_SCALE)]])
-            else:
-                runtime_globals.game_sound.play("attack_fail")
-                pet_index = 0
-                pet_y = self.get_y(pet_index, 1)
-                pet_x = SCREEN_WIDTH - PET_WIDTH - 2 - self.forward_distance
-                runtime_globals.game_message.add("MISS", (pet_x + (16 * UI_SCALE), pet_y - (10 * UI_SCALE)), (255, 0, 0))
-
-            if self.enemy_health <= 0 or self.player_health <= 0:
-                self.phase = "result"
-                runtime_globals.game_console.log("Entering result phase")
-            else:
-                self.phase = "post_attack_delay"
-                self.after_attack_phase = "retreat"
-                runtime_globals.game_console.log("Entering post_attack_delay phase")
-
-    def prepare_attacks(self):
         """
-        Prepara listas de ataque e escolhe o primeiro par para iniciar a sequência.
+        Handles the alert phase, transitioning to the battle phase.
         """
-        self.select_next_pair()
+        if self.frame_counter > 60:  # Wait for 1 second (assuming 60 FPS)
+            self.frame_counter = 0
+            self.phase = "battle"
+            self.calculate_combat_for_pairs()
 
     def update_result(self):
+        """
+        Handles the result phase, displaying the winner and transitioning back to the main scene.
+        """
         self.result_timer += 1
-        if self.result_timer < int(30 * (FRAME_RATE / 30)):
-            return
+        if self.result_timer > 90:  # Wait for 1.5 seconds (assuming 60 FPS)
+            # Process the result
+            winner = self.pet1 if self.global_battle_log.winner == "device1" else self.pet2
+            loser = self.pet2 if winner == self.pet1 else self.pet1
 
-        winner = self.pet1 if self.enemy_health <= 0 else self.pet2
-        loser = self.pet2 if winner == self.pet1 else self.pet1
+            runtime_globals.game_sound.play("happy")
 
-        runtime_globals.game_sound.play("happy")
+            winner.finish_versus(True)
+            loser.finish_versus(False)
 
-        winner.finish_versus(True)
-        loser.finish_versus(False)
-        winner.set_state("happy2")
-        loser.set_state("lose")
+            # Return to the main scene
+            change_scene("game")
 
-        # Unlock "versus" items for both pets if they are from the same module
-        if self.pet1.module == self.pet2.module:
-            module_name = self.pet1.module
-            for pet in (self.pet1, self.pet2):
-                unlock_item(module_name, "versus", f"Slot{pet.version}")
+    def draw_result(self, surface: pygame.Surface):
+        """
+        Draws the result phase, showing the winner or indicating a draw.
+        """
+        # Determine winner and loser
+        if self.global_battle_log.winner == "device1":
+            result_text = f"Winner: {self.pet1.name}"
+            color = FONT_COLOR_GREEN
+        elif self.global_battle_log.winner == "device2":
+            result_text = f"Winner: {self.pet2.name}"
+            color = FONT_COLOR_GREEN
+        else:
+            result_text = "Draw"
+            color = FONT_COLOR_YELLOW
 
-        change_scene("game")
+        # Render the result text
+        result_render = self.font.render(result_text, True, color).convert_alpha()
+        blit_with_shadow(surface, result_render, (SCREEN_WIDTH // 2 - result_render.get_width() // 2, 30 * UI_SCALE))
+
+        # Draw sprites for both battlers
+        sprite_width = PET_WIDTH // 2
+        sprite_height = PET_HEIGHT // 2
+        spacing = int(20 * UI_SCALE)
+
+        # Position for pet1 (left side)
+        pet1_x = SCREEN_WIDTH // 4 - sprite_width // 2
+        pet1_y = SCREEN_HEIGHT // 2 - sprite_height // 2
+
+        # Position for pet2 (right side)
+        pet2_x = 3 * SCREEN_WIDTH // 4 - sprite_width // 2
+        pet2_y = SCREEN_HEIGHT // 2 - sprite_height // 2
+
+        # Animate pet1
+        anim_toggle = (self.frame_counter // (15 * FRAME_RATE // 30)) % 2
+        if self.global_battle_log.winner == "device1":
+            frame_id = PetFrame.HAPPY.value if anim_toggle == 0 else PetFrame.IDLE1.value
+        else:
+            frame_id = PetFrame.LOSE.value
+        pet1_sprite = self.pet1.get_sprite(frame_id)
+        pet1_sprite = pygame.transform.scale(pet1_sprite, (sprite_width, sprite_height))
+        blit_with_shadow(surface, pet1_sprite, (pet1_x, pet1_y))
+
+        # Animate pet2
+        if self.global_battle_log.winner == "device2":
+            frame_id = PetFrame.HAPPY.value if anim_toggle == 0 else PetFrame.IDLE1.value
+        else:
+            frame_id = PetFrame.LOSE.value
+        pet2_sprite = self.pet2.get_sprite(frame_id)
+        pet2_sprite = pygame.transform.scale(pet2_sprite, (sprite_width, sprite_height))
+        blit_with_shadow(surface, pet2_sprite, (pet2_x, pet2_y))

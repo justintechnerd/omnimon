@@ -23,6 +23,7 @@ class WindowPetList:
         self.cursor_index = 0
         self.max_selection = 2
         self.select_mode = False
+        self.selection_label = "Jogress"
 
     def get_scaled_sprite(self, pet):
         """Returns a cached version of the scaled sprite."""
@@ -66,7 +67,7 @@ class WindowPetList:
             cached_surface.blit(self.selectionBackground, (start_x, SCREEN_HEIGHT - bg_height))
             font = get_font(FONT_SIZE_SMALL)
             if self.select_mode:
-                strategy_text = font.render("Jogress", True, FONT_COLOR_DEFAULT)
+                strategy_text = font.render(self.selection_label, True, FONT_COLOR_DEFAULT)
             else:
                 strategy_text = font.render(self.strategy_options[runtime_globals.strategy_index], True, FONT_COLOR_DEFAULT)
             strategy_x = int(10 * UI_SCALE)

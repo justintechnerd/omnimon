@@ -16,7 +16,10 @@ class SceneFreezerBox:
     def __init__(self):
         self.font = get_font(FONT_SIZE_SMALL)
         # Use new method for background, scale to screen height, keep proportions
-        self.bg_sprite = sprite_load_percent(DIGIDEX_BACKGROUND_PATH, percent=600, keep_proportion=True, base_on="width")
+        if SCREEN_WIDTH > SCREEN_HEIGHT:
+            self.bg_sprite = sprite_load_percent(DIGIDEX_BACKGROUND_PATH, percent=600, keep_proportion=True, base_on="width")
+        else:
+            self.bg_sprite = sprite_load_percent(DIGIDEX_BACKGROUND_PATH, percent=100, keep_proportion=True, base_on="height")
         self.bg_frame = 0
         self.bg_timer = 0
         self.bg_frame_width = self.bg_sprite.get_width() // 6  # 326
@@ -153,18 +156,30 @@ class SceneFreezerBox:
                 row, col = self.freezer_view.cursor_row, self.freezer_view.cursor_col
                 selected_pet = self.freezer_view.pet_grid[row][col]
 
-            if self.menu.menu_index == 0:  # Add or Store
+            if self.menu.menu_index == 0:  # Add, Store, or Clear
                 if self.mode == "party":
-                    # Store to freezer
-                    game_globals.pet_list.pop(self.party_view.selected_index)
-                    self.freezer_pets[self.current_freezer_page].pets.append(selected_pet)
-                    runtime_globals.game_console.log(f"Stored {selected_pet.name}.")
+                    # Party mode: Store or Clear
+                    if getattr(selected_pet, "state", None) == "dead":
+                        # Clear (delete) the pet from party
+                        game_globals.pet_list.pop(self.party_view.selected_index)
+                        runtime_globals.game_console.log(f"Cleared {selected_pet.name} from party.")
+                    else:
+                        # Store to freezer
+                        game_globals.pet_list.pop(self.party_view.selected_index)
+                        self.freezer_pets[self.current_freezer_page].pets.append(selected_pet)
+                        runtime_globals.game_console.log(f"Stored {selected_pet.name}.")
                 else:
-                    # Move from freezer to party
-                    if len(game_globals.pet_list) < MAX_PETS:
+                    # In freezer mode
+                    if getattr(selected_pet, "state", None) == "dead":
+                        # Clear (delete) the pet
                         self.freezer_pets[self.current_freezer_page].pets.remove(selected_pet)
-                        game_globals.pet_list.append(selected_pet)
-                        runtime_globals.game_console.log(f"Moved {selected_pet.name} to party.")
+                        runtime_globals.game_console.log(f"Cleared {selected_pet.name} from freezer.")
+                    else:
+                        # Move from freezer to party
+                        if len(game_globals.pet_list) < MAX_PETS:
+                            self.freezer_pets[self.current_freezer_page].pets.remove(selected_pet)
+                            game_globals.pet_list.append(selected_pet)
+                            runtime_globals.game_console.log(f"Moved {selected_pet.name} to party.")
 
                 # Save updated freezer state
                 self.save_freezer_data()
@@ -193,7 +208,11 @@ class SceneFreezerBox:
             y = (40 + row * 100) * UI_SCALE
             menu_x = 20 if x > SCREEN_WIDTH // 2 else SCREEN_WIDTH - 120
             menu_y = SCREEN_HEIGHT - 100
-            self.menu.open((menu_x, menu_y), ["Store", "Stats"])
+            pet = game_globals.pet_list[self.party_view.selected_index]
+            if getattr(pet, "state", None) == "dead":
+                self.menu.open((menu_x, menu_y), ["Clear", "Stats"])
+            else:
+                self.menu.open((menu_x, menu_y), ["Store", "Stats"])
         elif input_action == "A":
             runtime_globals.game_sound.play("menu")
             self.clean_unused_pet_sprites()
@@ -248,7 +267,11 @@ class SceneFreezerBox:
                     pet_x = col * (CELL_SIZE + MARGIN) + (20 * UI_SCALE)
                     menu_x = (20 * UI_SCALE) if pet_x > SCREEN_WIDTH // 2 else SCREEN_WIDTH - (120 * UI_SCALE)
                     menu_y = SCREEN_HEIGHT - (100 * UI_SCALE)
-                    self.menu.open((menu_x, menu_y), ["Add", "Stats"])
+                    if getattr(pet, "state", None) == "dead":
+                        self.menu.open((menu_x, menu_y), ["Clear", "Stats"])
+                    else:
+                        self.menu.open((menu_x, menu_y), ["Add", "Stats"])
+   
             return
         elif input_action == "B":
             runtime_globals.game_sound.play("cancel")

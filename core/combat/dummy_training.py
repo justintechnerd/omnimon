@@ -150,18 +150,17 @@ class DummyTraining(Training):
 
         for i, pet in enumerate(targets):
             atk_sprite = self.attack_sprites.get(str(pet.atk_main))
-            if atk_sprite:
-                for j in range(attack_count):
-                    x = SCREEN_WIDTH - OPTION_ICON_SIZE - int(70 * UI_SCALE)
-                    y = start_y + i * spacing
-                    if j == 1:
-                        x -= int(20 * UI_SCALE)
-                        y -= int(10 * UI_SCALE)
-                    elif j == 2:
-                        x -= int(40 * UI_SCALE)
-                        y += int(10 * UI_SCALE)
-                    self.attack_positions.append((atk_sprite, (x, y)))
-
+            x = SCREEN_WIDTH - OPTION_ICON_SIZE - int(70 * UI_SCALE)
+            y = start_y + i * spacing
+            if attack_count == 1:
+                self.attack_positions.append((atk_sprite, (x, y)))
+            elif attack_count == 2:
+                self.attack_positions.append((atk_sprite, (x, y)))
+                self.attack_positions.append((atk_sprite, (x + int(20 * UI_SCALE), y + int(10 * UI_SCALE))))
+            elif attack_count == 3:
+                atk_sprite = pygame.transform.scale2x(atk_sprite)
+                self.attack_positions.append((atk_sprite, (x, y)))
+                
     def get_attack_count(self):
         if self.strength < 10:
             return 1

@@ -10,6 +10,7 @@ import pygame
 from components.window_background import WindowBackground
 from core import game_globals, runtime_globals
 from core.constants import *
+from core.utils.module_utils import get_module
 from core.utils.pet_utils import distribute_pets_evenly
 from core.utils.pygame_utils import sprite_load_percent
 from core.utils.scene_utils import change_scene
@@ -75,8 +76,12 @@ class SceneBoot:
             change_scene("game")
             runtime_globals.game_console.log("[SceneBoot] Transitioning to MainGame (pets found)")
             for pet in game_globals.pet_list:
+                # Refresh evolution data from module
+                module = get_module(pet.module)
+                pet_data = module.get_monster(pet.name, pet.version)
+                if pet_data:
+                    pet.evolve = pet_data.get("evolve", [])
                 pet.begin_position()
-                pet.food_type = -1
                 if pet.state not in ["dead", "hatch", "nap"]:
                     pet.set_state("idle")
             distribute_pets_evenly()

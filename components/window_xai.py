@@ -1,10 +1,9 @@
 import pygame
 from core import runtime_globals
 from core.constants import *
-from core.utils.pygame_utils import sprite_load_percent
+from core.utils.pygame_utils import sprite_load_percent, sprite_load
 
 class WindowXai:
-    FRAME_SIZE = 48 * UI_SCALE
     FRAME_COUNT = 7
 
     def __init__(self, x, y, width, height, xai_number):
@@ -13,17 +12,12 @@ class WindowXai:
         self.width = width
         self.height = height
         self.xai_number = max(1, min(self.FRAME_COUNT, xai_number))
-        # Load and scale the sprite sheet using the new method, scale to fit the icon height
-        self.sprite_sheet = sprite_load_percent(
-            XAI_ICON_PATH,
-            percent=(self.height / SCREEN_HEIGHT) * 100,
-            keep_proportion=True,
-            base_on="height"
-        )
+        # Load the sprite sheet at its original size (no scaling)
+        self.sprite_sheet = sprite_load(XAI_ICON_PATH)
         self.current_frame = self.xai_number - 1
         self.rolling = False
         self.roll_timer = 0
-        self.roll_speed = int(5 * (30 / FRAME_RATE)) # frames per sprite change
+        self.roll_speed = int(5 * (FRAME_RATE / 30)) # frames per sprite change
 
         # Animation state for stop effect
         self.stopping = False

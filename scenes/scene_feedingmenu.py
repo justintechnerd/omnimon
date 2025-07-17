@@ -11,6 +11,7 @@ from components.window_horizontalmenu import WindowHorizontalMenu
 from components.window_petview import WindowPetList
 from core import game_globals, runtime_globals
 from core.constants import *
+from core.utils.inventory_utils import add_to_inventory, get_inventory_value, remove_from_inventory
 from core.utils.pet_utils import distribute_pets_evenly, get_selected_pets
 from core.utils.pygame_utils import sprite_load_percent
 from core.utils.scene_utils import change_scene
@@ -45,17 +46,22 @@ class SceneFeedingMenu:
         # Add items from inventory (from all modules)
         for module in runtime_globals.game_modules.values():
             if hasattr(module, "items"):
-                for item in module.items.values():
+                for item in module.items:
+                    if getattr(item, "effect", "") == "digimental":
+                        continue
                     amount = game_globals.inventory.get(item.id, 0)
                     if amount > 0:
-                        sprite_path = os.path.join(module.folder_path, "items", item.sprite_name)
-                        anim_path = os.path.join(module.folder_path, "items", f"{item.sprite_name.split('.')[0]}_anim.png")
+                        sprite_name = item.sprite_name
+                        if not sprite_name.lower().endswith(".png"):
+                            sprite_name += ".png"
+                        sprite_path = os.path.join(module.folder_path, "items", sprite_name)
+                        anim_path = os.path.join(module.folder_path, "items", f"{sprite_name.split('.')[0]}_anim.png")
                         if os.path.exists(sprite_path):
                             icon = pygame.image.load(sprite_path).convert_alpha()
                         else:
                             icon = pygame.Surface((48 * UI_SCALE, 48 * UI_SCALE), pygame.SRCALPHA)
                         # For inventory items, include amount
-                        self.options.append((item.name, icon, amount, anim_path if os.path.exists(anim_path) else None))
+                        self.options.append((item.name, icon, amount, anim_path if os.path.exists(anim_path) else None, item.id))
 
         
 
@@ -80,12 +86,13 @@ class SceneFeedingMenu:
         if runtime_globals.food_index >= len(self.options):
             runtime_globals.food_index = 0
 
-    def get_targets(self) -> list:
+    def get_selected_item(self):
         """
-        Returns a list of pets to feed based on the selected strategy and food type.
+        Returns the currently selected food item based on the food index.
         """
         selected_option = self.options[runtime_globals.food_index]
         food_name = selected_option[0]
+        food_id = selected_option[4] if len(selected_option) > 4 else None
 
         # Find the corresponding GameItem object (default or module)
         item_obj = None
@@ -96,16 +103,33 @@ class SceneFeedingMenu:
         if not item_obj:
             for module in runtime_globals.game_modules.values():
                 if hasattr(module, "items"):
-                    for item in module.items.values():
-                        if item.name == food_name:
+                    for item in module.items:
+                        if food_id and item.id == food_id:
+                            item_obj = item
+                            break
+                        if not food_id and item.name == food_name:
                             item_obj = item
                             break
                     if item_obj:
                         break
 
+        return item_obj if item_obj else None
+    
+    def get_targets(self) -> list:
+        """
+        Returns a list of pets to feed based on the selected strategy and food type.
+        """
+        item_obj = self.get_selected_item()
+
         # Fallback: if not found, treat as default hunger
         food_status = getattr(item_obj, "status", "hunger")
         effect = getattr(item_obj, "effect", "status_change")
+
+        if effect == "component":
+            if get_inventory_value(item_obj.id) >= item_obj.amount:
+                return get_selected_pets()
+            else:
+                return []
 
         if runtime_globals.strategy_index == 0:
             # Manual selection
@@ -183,29 +207,37 @@ class SceneFeedingMenu:
             anim_path = selected_option[3] if len(selected_option) > 3 else None
 
             # Find the corresponding GameItem object (default or module)
-            item_obj = None
+            item_obj = self.get_selected_item()
             food_status = None
             food_amount = 1
-
-            # Look for the GameItem in default_items
-            for item in runtime_globals.default_items.values():
-                if item.name == food_name:
-                    item_obj = item
-                    break
-            # If not found, look in module items
-            if not item_obj:
+            
+            food_status = item_obj.status
+            food_amount = item_obj.amount
+                
+             # Check for component effect
+            if item_obj and item_obj.effect == "component":
+                # Remove the required amount (already validated in get_targets)
+                remove_from_inventory(item_obj.id, item_obj.amount)
+                # Find the component item in the same module
+                component_item = None
                 for module in runtime_globals.game_modules.values():
                     if hasattr(module, "items"):
-                        for item in module.items.values():
-                            if item.name == food_name:
-                                item_obj = item
+                        for it in module.items:
+                            if it.name == item_obj.component_item:
+                                component_item = it
                                 break
-                        if item_obj:
+                        if component_item:
                             break
-
-            if item_obj:
-                food_status = item_obj.status
-                food_amount = item_obj.amount
+                if component_item:
+                    # Add the component item to inventory
+                    add_to_inventory(component_item.id, 1)
+                    runtime_globals.game_console.log(f"[SceneFeedingMenu] Crafted {component_item.name} from {item_obj.name}")
+                    runtime_globals.game_message.add_slide(f"{component_item.name} obtained!", FONT_COLOR_GREEN, 56 * UI_SCALE, FONT_SIZE_SMALL)
+                else:
+                    runtime_globals.game_console.log(f"[SceneFeedingMenu] Component item '{item_obj.component_item}' not found in module.")
+                change_scene("game")
+                runtime_globals.game_sound.play("happy2")
+                return
 
             # If the item is a status_boost, update global battle_effects
             if item_obj and item_obj.effect == "status_boost":
@@ -225,6 +257,7 @@ class SceneFeedingMenu:
 
                 accepted = pet.set_eating(food_status, food_amount)
                 if accepted:
+                    pet.animation_counter = 0  # <-- Reset animation for new food!
                     anim_frames = None
                     if anim_path and os.path.exists(anim_path):
                         anim_image = pygame.image.load(anim_path).convert_alpha()
