@@ -5,6 +5,7 @@ The main scene where pets live, eat, sleep, move, and interact.
 import random
 import pygame
 import datetime
+import os
 
 from components.window_background import WindowBackground
 from components.window_clock import WindowClock
@@ -12,10 +13,11 @@ from components.window_mainmenu import WindowMenu
 from core import game_globals, runtime_globals
 from core.constants import *
 from core.game_evolution_entity import GameEvolutionEntity
-from core.utils import all_pets_hatched, change_scene, distribute_pets_evenly, draw_pet_outline, get_module, get_selected_pets
+from core.utils.module_utils import get_module
+from core.utils.pet_utils import all_pets_hatched, distribute_pets_evenly, draw_pet_outline, get_selected_pets
+from core.utils.scene_utils import change_scene
 
-
-HEARTS_SIZE = 8
+HEARTS_SIZE = 8 * UI_SCALE
 #=====================================================================
 # SceneMainGame
 #=====================================================================
@@ -54,6 +56,9 @@ class SceneMainGame:
             game_globals.xai_date = today
             game_globals.xai_date = today
 
+        self.food_anims = {}  # {pet_index: [frames]} for animated food sprites
+        self.load()
+
     def update(self) -> None:
         """
         Updates all game objects (pets, background, poops, cleaning effect).
@@ -68,7 +73,7 @@ class SceneMainGame:
         for poop in game_globals.poop_list:
             poop.update()
 
-        if runtime_globals.evolution_pet:
+        if self.fade_out_timer > 0:
             self.fade_out_timer -= 1
             if self.fade_out_timer <= 0:
                 runtime_globals.main_menu_index = -1
@@ -152,36 +157,101 @@ class SceneMainGame:
                 pet.set_state("happy2")
             runtime_globals.game_console.log("[SceneMainGame] Cleaning complete.")
 
+    def load(self):
+        """
+        Loads the scene, preparing pets, background, and any necessary resources.
+        """
+        # Prepare food animations for pets that are eating
+        self.food_anims = {}
+        for pet_index, food_info in getattr(runtime_globals, "game_pet_eating", {}).items():
+            # Use preloaded anim_frames if available, otherwise fallback to icon sprite
+            anim_frames = food_info.get("anim_frames")
+            icon = food_info.get("sprite")
+            if anim_frames and isinstance(anim_frames, list) and len(anim_frames) == 4:
+                self.food_anims[pet_index] = anim_frames
+            else:
+                # Fallback: use the icon itself as all frames
+                self.food_anims[pet_index] = [icon] * 4
+
     def draw(self, surface: pygame.Surface) -> None:
         """
         Draws background, menu, pets, poops, clock and cleaning animation if active.
+        Optimized to minimize unnecessary drawing and logic.
         """
         self.background.draw(surface)
         self.menu.draw(surface)
 
-        for i, pet in enumerate(game_globals.pet_list):
-            self.draw_pet(surface, pet, i)
+        # Draw pets and their overlays
+        pets = game_globals.pet_list
+        pets_len = len(pets)
+        selected_pets = set(runtime_globals.selected_pets) if runtime_globals.selected_pets else set()
+        show_hearts = runtime_globals.show_hearts
 
+        for i, pet in enumerate(pets):
+            self.draw_pet(surface, pet, i)
+            # Draw overlays only if needed
+            frame_enum = pet.animation_frames[pet.frame_index]
+            frame = runtime_globals.pet_sprites[pet][frame_enum.value]
+            if pet.direction == 1:
+                frame = pygame.transform.flip(frame, True, False)
+            if pet in selected_pets:
+                draw_pet_outline(surface, frame, pet.x, pet.y, color=FONT_COLOR_BLUE)
+            if self.selection_mode == "pet" and i == self.pet_selection_index:
+                draw_pet_outline(surface, frame, pet.x, pet.y, color=FONT_COLOR_YELLOW)
+            if show_hearts:
+                self.draw_hearts(surface, pet.x + (PET_WIDTH//4), pet.y + PET_HEIGHT, pet.hunger)
+                self.draw_hearts(surface, pet.x + (PET_WIDTH//4), pet.y + PET_HEIGHT + (6 * UI_SCALE), pet.strength)
+
+        # Draw clock only if enabled
         if game_globals.showClock:
             self.clock.draw(surface)
 
-        for poop in game_globals.poop_list:
-            poop.draw(surface)
+        # Draw poops if any
+        if game_globals.poop_list:
+            for poop in game_globals.poop_list:
+                poop.draw(surface)
 
+        # Draw cleaning animation if active
         if self.cleaning:
             wash_sprite = runtime_globals.misc_sprites.get("Wash")
             if wash_sprite:
-                surface.blit(wash_sprite, (self.cleaning_x, (SCREEN_HEIGHT // 2) - 24))
+                pet_x = (24 * UI_SCALE) + (SCREEN_HEIGHT - PET_HEIGHT) // 2
+                surface.blit(wash_sprite, (self.cleaning_x, pet_x - (wash_sprite.get_height() - PET_HEIGHT)))
 
+        # Draw fade overlay and evolved pets only if fading
         if self.lock_inputs and self.fade_alpha > 0:
             fade_overlay = pygame.Surface((SCREEN_WIDTH, SCREEN_HEIGHT))
             fade_overlay.fill((0, 0, 0))
             fade_overlay.set_alpha(self.fade_alpha)
             surface.blit(fade_overlay, (0, 0))
-
-            for i, pet in enumerate(game_globals.pet_list):
+            for i, pet in enumerate(pets):
                 self.draw_pet_evolved(surface, pet, i)
 
+        # Draw food animation for eating pets (only if needed)
+        game_pet_eating = getattr(runtime_globals, "game_pet_eating", None)
+        if game_pet_eating:
+            for idx, pet in enumerate(pets):
+                if idx in game_pet_eating and pet.state == "eat":
+                    anim_frames = self.food_anims.get(idx)
+                    if anim_frames:
+                        frame_duration = FRAME_RATE
+                        total_frames = 4
+                        total_anim_time = frame_duration * total_frames
+                        # Clamp frame_idx to last frame if animation_counter exceeds total_anim_time
+                        if pet.animation_counter >= total_anim_time:
+                            frame_idx = total_frames - 1
+                        else:
+                            frame_idx = (pet.animation_counter // frame_duration) % total_frames
+                        food_sprite = anim_frames[frame_idx]
+                        x = pet.x + PET_WIDTH
+                        y = pet.y + (PET_HEIGHT // 4) - (food_sprite.get_height() // 2)
+                        surface.blit(food_sprite, (x, y))
+                elif idx in self.food_anims:
+                    # Clean up if pet is no longer eating
+                    game_pet_eating.pop(idx, None)
+                    self.food_anims.pop(idx, None)
+
+        # Draw game messages last
         runtime_globals.game_message.draw(surface)
 
     def draw_pet(self, surface: pygame.Surface, pet, index: int) -> None:
@@ -203,7 +273,7 @@ class SceneMainGame:
 
         if runtime_globals.show_hearts:
             self.draw_hearts(surface, pet.x + (PET_WIDTH//4), pet.y + PET_HEIGHT, pet.hunger)
-            self.draw_hearts(surface, pet.x + (PET_WIDTH//4), pet.y + PET_HEIGHT + 6, pet.strength)
+            self.draw_hearts(surface, pet.x + (PET_WIDTH//4), pet.y + PET_HEIGHT + (6 * UI_SCALE), pet.strength)
 
     def draw_pet_evolved(self, surface: pygame.Surface, pet, index: int) -> None:
         """
@@ -244,11 +314,11 @@ class SceneMainGame:
             return
 
         if not all_pets_hatched():
-            runtime_globals.main_menu_index = -1
+            #runtime_globals.main_menu_index = -1
             if input_action == "Y" or input_action == "SHAKE":
                 for pet in game_globals.pet_list:
                     pet.shake_counter += 1
-            return
+            #return
             
         if input_action == "B":
             for pet in game_globals.pet_list:
@@ -276,25 +346,25 @@ class SceneMainGame:
         #    return
     
         if input_action == "F1":
-            for pet in game_globals.pet_list:
-                pet.timer += 108000
-                pet.age_timer += 108000
+            for pet in get_selected_pets():
+                pet.timer += FRAME_RATE * 60 * 60
+                pet.age_timer += FRAME_RATE * 60 * 60
                 runtime_globals.game_console.log(f"[DEBUG] {pet.name} age {(pet.timer // 30) // 60}/{(pet.age_timer // 30) // 60}")
         elif input_action == "F2":
-            for pet in game_globals.pet_list:
+            for pet in get_selected_pets():
                 pet.sick += 1
                 pet.injuries += 1
                 runtime_globals.game_console.log(f"[DEBUG] {pet.name} forced to get sick")
         elif input_action == "F3":
-            for pet in game_globals.pet_list:
+            for pet in get_selected_pets():
                 pet.set_state("nap")
                 runtime_globals.game_console.log(f"[DEBUG] {pet.name} forced to nap")
         elif input_action == "F4":
-            for pet in game_globals.pet_list:
+            for pet in get_selected_pets():
                 pet.force_poop()
                 runtime_globals.game_console.log(f"[DEBUG] {pet.name} forced to poop")
         elif input_action == "F5":
-            for pet in game_globals.pet_list:
+            for pet in get_selected_pets():
                 if get_module(pet.module).use_condition_hearts:
                     if pet.condition_hearts > 0:
                         pet.condition_hearts -= 1
@@ -303,7 +373,9 @@ class SceneMainGame:
                     pet.mistakes += 1
                     runtime_globals.game_console.log(f"[DEBUG] {pet.name} got a care mistake , current: {pet.mistakes}")
         elif input_action == "F6":
-            runtime_globals.evolution_pet = game_globals.pet_list[0]
+            for pet in get_selected_pets():
+                pet.dp = pet.energy
+            #runtime_globals.evolution_pet = get_selected_pets()[0]
             return
             if len(game_globals.pet_list) > 1:
                 runtime_globals.game_sound.play("evolution_plus")
@@ -319,7 +391,7 @@ class SceneMainGame:
                 runtime_globals.evolution_data = [evo]
                 change_scene("evolution")
         elif input_action == "F7":
-            for pet in game_globals.pet_list:
+            for pet in get_selected_pets():
                 pet.battles += 1
                 pet.totalBattles += 1
                 pet.win += 1
@@ -327,13 +399,25 @@ class SceneMainGame:
                 runtime_globals.game_console.log(f"[DEBUG] {pet.battles} battle counter")
 
         elif input_action == "F8":
-            for pet in game_globals.pet_list:
+            for pet in get_selected_pets():
                 pet.effort += 1
                 runtime_globals.game_console.log(f"[DEBUG] {pet.effort} strength up")
         elif input_action == "F9":
-            for pet in game_globals.pet_list:
+            for pet in get_selected_pets():
                 pet.level += 1
                 runtime_globals.game_console.log(f"[DEBUG] {pet.level} level up")
+        elif input_action == "F10":
+            for pet in get_selected_pets():
+                pet.enemy_kills[5] += 1
+                runtime_globals.game_console.log(f"[DEBUG] {pet.enemy_kills[5]} stage 5 kills")
+        elif input_action == "F11":
+            for pet in get_selected_pets():
+                pet.overfeed += 1
+                runtime_globals.game_console.log(f"[DEBUG] {pet.name} overfeed counter: {pet.overfeed}")
+        elif input_action == "F12":
+            for pet in get_selected_pets():
+                pet.sleep_disturbances += 1
+                runtime_globals.game_console.log(f"[DEBUG] {pet.name} sleep_disturbances counter: {pet.sleep_disturbances}")
 
     def handle_navigation_keys(self, input_action) -> None:
         """Handles cyclic LEFT, RIGHT, UP, DOWN for menu navigation."""

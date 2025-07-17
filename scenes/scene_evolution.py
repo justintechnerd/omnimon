@@ -3,7 +3,8 @@ import pygame
 import random
 from core import runtime_globals
 from core.constants import *
-from core.utils import change_scene, get_font, get_font_alt
+from core.utils.pygame_utils import get_font, get_font_alt, sprite_load_percent
+from core.utils.scene_utils import change_scene
 
 PARTICLE_SPEED = 2
 PARTICLE_LIFE = 30
@@ -19,10 +20,10 @@ class SceneEvolution:
         self.phase = "flash"
         if self.evolutions[0].stage == 5:
             self.phase = "mega_intro"
-            # 🔹 Draw the background sprite
-            self.evo_background = pygame.image.load("resources/Evo5.png").convert_alpha()
-            self.from_sprite_scaled = pygame.transform.scale(self.evolutions[0].from_sprite, (100, 100))
-            self.to_sprite_scaled = pygame.transform.scale(self.evolutions[0].to_sprite, (100, 100))
+            # 🔹 Draw the background sprite using the new method, scaled to screen width
+            self.evo_background = sprite_load_percent("resources/Evo5.png", percent=100, keep_proportion=True, base_on="width")
+            self.from_sprite_scaled = pygame.transform.scale(self.evolutions[0].from_sprite, (int(100 * UI_SCALE), int(100 * UI_SCALE)))
+            self.to_sprite_scaled = pygame.transform.scale(self.evolutions[0].to_sprite, (int(100 * UI_SCALE), int(100 * UI_SCALE)))
             self.sectors = self.get_non_transparent_sectors(self.from_sprite_scaled)
             self.active_green_pixels = []
             self.active_particles = []
@@ -37,7 +38,8 @@ class SceneEvolution:
         self.font = get_font(FONT_SIZE_MEDIUM)
         self.fonts = [get_font(20), get_font(26), get_font_alt(20), get_font_alt(26)]
 
-        self.fog_image = pygame.image.load("resources/Fog.png").convert_alpha()
+        # Use new method for fog image, scale to screen width
+        self.fog_image = sprite_load_percent("resources/Fog.png", percent=100, keep_proportion=True, base_on="width")
         self.fog_x, self.fog_y = 0, 0  # Starting position
 
 
@@ -46,30 +48,30 @@ class SceneEvolution:
         self.prepare_scrolling_texts(self.evolutions[0].from_name)
 
         # Background & beams
-        self.bg_base = self.load_and_tint_image("resources/Evo2.png")
+        self.bg_base = sprite_load_percent("resources/Evo2.png", percent=100, keep_proportion=True, base_on="width")
         self.bg_angle = 0
 
         if runtime_globals.evolution_pet.stage == 3:
-            self.beam_sprite = pygame.image.load("resources/Evo3.png").convert_alpha()
+            self.beam_sprite = sprite_load_percent("resources/Evo3.png", percent=100, keep_proportion=True, base_on="width")
             self.beams = []
             self.prepare_beams()
 
         self.rain_drops = []
 
-        self.orb_sprite = pygame.image.load("resources/Orb.png").convert_alpha()
+        self.orb_sprite = sprite_load_percent("resources/Orb.png", percent=100, keep_proportion=True, base_on="width")
 
-        self.evo_text_image = pygame.image.load("resources/Evo1.png").convert_alpha()
-        self.evo_text_size = 480  # Initial size
+        self.evo_text_image = sprite_load_percent("resources/Evo1.png", percent=100, keep_proportion=True, base_on="width")
+        self.evo_text_size = int(480 * UI_SCALE)  # Initial size
         self.evo_text_angle = 0
 
         self.explosion_flash = None
         self.light_particles = []
-        self.light_source = pygame.image.load("resources/LightSource.png").convert_alpha()
-        self.light_particle1 = pygame.transform.scale(self.light_source, (8,8))
-        self.light_particle2 = pygame.transform.scale(pygame.image.load("resources/LightParticle.png").convert_alpha(), (8,8))
+        self.light_source = sprite_load_percent("resources/LightSource.png", percent=100, keep_proportion=True, base_on="width")
+        self.light_particle1 = pygame.transform.scale(self.light_source, (int(8 * UI_SCALE), int(8 * UI_SCALE)))
+        self.light_particle2 = pygame.transform.scale(sprite_load_percent("resources/LightParticle.png", percent=100, keep_proportion=True, base_on="width"), (int(8 * UI_SCALE), int(8 * UI_SCALE)))
 
         self.dna_particles = []  # List of falling DNA sprites
-        self.dna_sprite = pygame.image.load("resources/Dna.png").convert_alpha()
+        self.dna_sprite = sprite_load_percent("resources/Dna.png", percent=100, keep_proportion=True, base_on="width")
 
         self.color_list = self.extract_sprite_colors(self.evolutions[0].to_sprite)
 
@@ -607,22 +609,22 @@ class SceneEvolution:
 
     def draw_phase_mega_transformation(self, surface):
         """Draws scaled sprite, green overlay, and explosion particles during transformation."""
-        sprite_x, sprite_y = (SCREEN_WIDTH - 100) // 2, (SCREEN_HEIGHT - 100) // 2
+        sprite_x, sprite_y = (SCREEN_WIDTH - int(100 * UI_SCALE)) // 2, (SCREEN_HEIGHT - int(100 * UI_SCALE)) // 2
         
         # 🔹 Draw base scaled-up sprite
         surface.blit(self.evolutions[0].from_sprite, (sprite_x, sprite_y))
 
         # 🔹 Draw green pixels replacing exploded sectors
         for pixel in self.active_green_pixels:
-            green_surface = pygame.Surface((5, 5), pygame.SRCALPHA)
+            green_surface = pygame.Surface((int(5 * UI_SCALE), int(5 * UI_SCALE)), pygame.SRCALPHA)
             green_surface.fill((0, 255, 0))
             green_surface.set_alpha(pixel["alpha"])
             surface.blit(green_surface, (pixel["x"] + sprite_x, pixel["y"] + sprite_y))
 
         for p in self.particles:
             if p[5] > 0:
-                pygame.draw.circle(surface, p[4], (int(p[0]), int(p[1])), 1)
-                
+                pygame.draw.circle(surface, p[4], (int(p[0]), int(p[1])), int(1 * UI_SCALE))
+
     def draw_phase_mega_intro(self, surface):
         surface.blit(self.evolutions[0].from_sprite, (runtime_globals.evolution_pet.x, runtime_globals.evolution_pet.y))
 

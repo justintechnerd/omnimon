@@ -1,9 +1,9 @@
 import pygame
-from core.constants import XAI_ICON_PATH
-
+from core import runtime_globals
+from core.constants import *
+from core.utils.pygame_utils import sprite_load_percent, sprite_load
 
 class WindowXai:
-    FRAME_SIZE = 48
     FRAME_COUNT = 7
 
     def __init__(self, x, y, width, height, xai_number):
@@ -12,24 +12,28 @@ class WindowXai:
         self.width = width
         self.height = height
         self.xai_number = max(1, min(self.FRAME_COUNT, xai_number))
-        self.sprite_sheet = pygame.image.load(XAI_ICON_PATH).convert_alpha()
+        # Load the sprite sheet at its original size (no scaling)
+        self.sprite_sheet = sprite_load(XAI_ICON_PATH)
         self.current_frame = self.xai_number - 1
         self.rolling = False
         self.roll_timer = 0
-        self.roll_speed = 5  # frames per sprite change
+        self.roll_speed = int(5 * (FRAME_RATE / 30)) # frames per sprite change
 
         # Animation state for stop effect
         self.stopping = False
         self.stop_target_frame = None
         self.rect_anim_progress = 0
-        self.rect_anim_speed = 8  # pixels per frame
+        self.rect_anim_speed = 2 * (30 / FRAME_RATE)  # pixels per frame
         self.rect_anim_max = self.height // 2
         self.rect_anim_phase = 0  # 0: expanding, 1: shrinking
 
         # Cache scaled sprites
         self.scaled_sprites = []
+        sheet_width, sheet_height = self.sprite_sheet.get_size()
+        frame_width = sheet_width // self.FRAME_COUNT
+        frame_height = sheet_height
         for i in range(self.FRAME_COUNT):
-            frame_rect = pygame.Rect(i * self.FRAME_SIZE, 0, self.FRAME_SIZE, self.FRAME_SIZE)
+            frame_rect = pygame.Rect(i * frame_width, 0, frame_width, frame_height)
             icon = self.sprite_sheet.subsurface(frame_rect)
             icon = pygame.transform.scale(icon, (self.width, self.height))
             self.scaled_sprites.append(icon)
@@ -73,6 +77,18 @@ class WindowXai:
                 if self.rect_anim_progress <= 0:
                     self.rect_anim_progress = 0
                     self.stopping = False  # Animation done
+
+        # Play sound every half second while rolling
+        if self.rolling:
+            if not hasattr(self, "_last_sound_tick"):
+                self._last_sound_tick = pygame.time.get_ticks()
+            now = pygame.time.get_ticks()
+            if now - self._last_sound_tick >= 500:
+                runtime_globals.game_sound.play("cancel")
+                self._last_sound_tick = now
+        else:
+            if hasattr(self, "_last_sound_tick"):
+                del self._last_sound_tick
 
     def draw(self, surface):
         icon = self.scaled_sprites[self.current_frame]

@@ -1,11 +1,10 @@
-import platform
 import pygame
 import time
 import os
 
 from core import runtime_globals
 from core.constants import *
-from core.utils import get_font
+from core.utils.pygame_utils import get_font, sprite_load_percent
 
 class WindowClock:
     """
@@ -14,9 +13,9 @@ class WindowClock:
 
     def __init__(self):
         self.font = get_font(FONT_SIZE_SMALL)
-        self.x = 10
+        self.x = int(10 * UI_SCALE)
         self.y = 0
-        self.height = 22
+        self.height = int(22 * UI_SCALE)
         self.padding = 0
 
         self.battery_icons = self.load_battery_icons()
@@ -42,8 +41,9 @@ class WindowClock:
         for name in names:
             try:
                 path = os.path.join("resources", f"{name}.png")
-                icons[name] = pygame.image.load(path).convert_alpha()
-            except pygame.error:
+                # Use the new sprite loading method, scale to UI bar height, keep proportions
+                icons[name] = sprite_load_percent(path, percent=(self.height / SCREEN_HEIGHT) * 100, keep_proportion=True, base_on="height")
+            except Exception:
                 runtime_globals.game_console.log(f"⚠️ Failed to load {name}.png")
                 icons[name] = None
         return icons

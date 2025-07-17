@@ -1,7 +1,7 @@
 import pygame
 from core import runtime_globals
 from core.constants import *
-from core.utils import get_font
+from core.utils.pygame_utils import get_font
 
 
 class WindowMenu:
@@ -11,12 +11,15 @@ class WindowMenu:
         self.menu_index = 0
         self.active = False
         self.position = (0, 0)
+        self._last_cache = None
+        self._last_cache_key = None
 
     def open(self, position, options):
         self.active = True
         self.menu_index = 0
         self.position = position
         self.options = options
+        self._last_cache = None  # Invalidate cache
 
     def close(self):
         self.active = False
@@ -25,20 +28,40 @@ class WindowMenu:
         if input_action == "UP":
             runtime_globals.game_sound.play("menu")
             self.menu_index = (self.menu_index - 1) % len(self.options)
+            self._last_cache = None  # Invalidate cache
         elif input_action == "DOWN":
             runtime_globals.game_sound.play("menu")
             self.menu_index = (self.menu_index + 1) % len(self.options)
+            self._last_cache = None  # Invalidate cache
+
+    def _precompute_menu_surface(self):
+        # Cache key includes options, index, position, and UI_SCALE
+        x, y = self.position
+        cache_key = (tuple(self.options), self.menu_index, x, y, UI_SCALE)
+        if self._last_cache_key == cache_key and self._last_cache is not None:
+            return self._last_cache
+
+        menu_width = int(120 * UI_SCALE)
+        option_height = int(25 * UI_SCALE)
+        menu_height = int(10 * UI_SCALE) + len(self.options) * option_height + int(10 * UI_SCALE)
+        menu_surface = pygame.Surface((menu_width, menu_height), pygame.SRCALPHA)
+        menu_surface.set_alpha(200)
+        menu_surface.fill((0, 0, 0, 220))
+
+        for i, option in enumerate(self.options):
+            color = FONT_COLOR_GREEN if i == self.menu_index else FONT_COLOR_DEFAULT
+            text_surface = self.font.render(option, True, color)
+            text_x = int(10 * UI_SCALE)
+            text_y = int(10 * UI_SCALE) + i * option_height
+            menu_surface.blit(text_surface, (text_x, text_y))
+
+        self._last_cache = menu_surface
+        self._last_cache_key = cache_key
+        return menu_surface
 
     def draw(self, surface):
         if not self.active:
             return
         x, y = self.position
-        menu_height = 30 + len(self.options) * 25
-        menu_surface = pygame.Surface((100, menu_height))
-        menu_surface.set_alpha(180)
-        menu_surface.fill((0, 0, 0))
+        menu_surface = self._precompute_menu_surface()
         surface.blit(menu_surface, (x, y))
-        for i, option in enumerate(self.options):
-            color = FONT_COLOR_GREEN if i == self.menu_index else FONT_COLOR_DEFAULT
-            text_surface = self.font.render(option, True, color)
-            surface.blit(text_surface, (x + 10, y + 10 + i * 25))

@@ -9,15 +9,20 @@ from components.window_status import WindowStatus
 from core import game_globals, runtime_globals
 from core.constants import *
 from core.game_freezer import GameFreezer
-from core.utils import blit_with_shadow, change_scene, get_font
+from core.utils.pygame_utils import blit_with_shadow, get_font, sprite_load_percent
+from core.utils.scene_utils import change_scene
 
 class SceneFreezerBox:
     def __init__(self):
         self.font = get_font(FONT_SIZE_SMALL)
-        self.bg_sprite = pygame.image.load("resources/Digidex.png").convert()
+        # Use new method for background, scale to screen height, keep proportions
+        if SCREEN_WIDTH > SCREEN_HEIGHT:
+            self.bg_sprite = sprite_load_percent(DIGIDEX_BACKGROUND_PATH, percent=600, keep_proportion=True, base_on="width")
+        else:
+            self.bg_sprite = sprite_load_percent(DIGIDEX_BACKGROUND_PATH, percent=100, keep_proportion=True, base_on="height")
         self.bg_frame = 0
         self.bg_timer = 0
-        self.bg_frame_width = self.bg_sprite.get_width() // 6
+        self.bg_frame_width = self.bg_sprite.get_width() // 6  # 326
         self.mode = "party"
         self.party_view = WindowParty()
         self.freezer_pets = self.load_freezer_data()
@@ -63,15 +68,17 @@ class SceneFreezerBox:
 
     def update(self):
         self.bg_timer += 1
-        if self.bg_timer >= 3:
+        if self.bg_timer >= 3 * (FRAME_RATE / 30):
             self.bg_timer = 0
             self.bg_frame = (self.bg_frame + 1) % 6
 
     def draw(self, surface):
-        
-        
-        frame_rect = pygame.Rect(self.bg_frame * self.bg_frame_width, 0, self.bg_frame_width, SCREEN_HEIGHT)
-        surface.blit(self.bg_sprite, (0, 0), frame_rect)
+        # Draw animated background, scaled and positioned
+        width_scale = SCREEN_WIDTH / 240
+        height_scale = SCREEN_HEIGHT / 240
+        frame_rect = pygame.Rect(int(self.bg_frame * self.bg_frame_width), 0, self.bg_frame_width, self.bg_sprite.get_height())
+        bg_scaled = pygame.transform.smoothscale(self.bg_sprite.subsurface(frame_rect), (SCREEN_WIDTH, SCREEN_HEIGHT))
+        surface.blit(bg_scaled, (0, 0))
 
         if self.window_status:
             self.window_status.draw_page(surface, self.current_page)
@@ -85,14 +92,15 @@ class SceneFreezerBox:
             option1Color = FONT_COLOR_GRAY
             self.freezer_view.draw(surface)
 
-        pygame.draw.rect(surface, option1Color, (20, 10, 90, 25))
-        pygame.draw.rect(surface, option2Color, (130, 10, 90, 25))
+        # Draw mode switch buttons, scaled and positioned
+        pygame.draw.rect(surface, option1Color, (int(20 * width_scale), int(10 * height_scale), int(90 * width_scale), int(25 * height_scale)))
+        pygame.draw.rect(surface, option2Color, (int(130 * width_scale), int(10 * height_scale), int(90 * width_scale), int(25 * height_scale)))
 
         view_surface = self.font.render(f"Party", True, FONT_COLOR_DEFAULT)
-        blit_with_shadow(surface, view_surface, (21 + view_surface.get_width() // 2, 11))
+        blit_with_shadow(surface, view_surface, (int(25 * width_scale), int(11 * height_scale)))
 
         view_surface = self.font.render(f"Box {self.current_freezer_page+1}/10", True, FONT_COLOR_DEFAULT)
-        blit_with_shadow(surface, view_surface, (101 + view_surface.get_width() // 2, 11))
+        blit_with_shadow(surface, view_surface, (int(135 * width_scale), int(11 * height_scale)))
         
         self.menu.draw(surface)
 
@@ -148,17 +156,30 @@ class SceneFreezerBox:
                 row, col = self.freezer_view.cursor_row, self.freezer_view.cursor_col
                 selected_pet = self.freezer_view.pet_grid[row][col]
 
-            if self.menu.menu_index == 0:  # Add or Store
+            if self.menu.menu_index == 0:  # Add, Store, or Clear
                 if self.mode == "party":
-                    # Store to freezer
-                    game_globals.pet_list.pop(self.party_view.selected_index)
-                    self.freezer_pets[self.current_freezer_page].pets.append(selected_pet)
-                    runtime_globals.game_console.log(f"Stored {selected_pet.name}.")
+                    # Party mode: Store or Clear
+                    if getattr(selected_pet, "state", None) == "dead":
+                        # Clear (delete) the pet from party
+                        game_globals.pet_list.pop(self.party_view.selected_index)
+                        runtime_globals.game_console.log(f"Cleared {selected_pet.name} from party.")
+                    else:
+                        # Store to freezer
+                        game_globals.pet_list.pop(self.party_view.selected_index)
+                        self.freezer_pets[self.current_freezer_page].pets.append(selected_pet)
+                        runtime_globals.game_console.log(f"Stored {selected_pet.name}.")
                 else:
-                    # Move from freezer to party
-                    self.freezer_pets[self.current_freezer_page].pets.remove(selected_pet)
-                    game_globals.pet_list.append(selected_pet)
-                    runtime_globals.game_console.log(f"Moved {selected_pet.name} to party.")
+                    # In freezer mode
+                    if getattr(selected_pet, "state", None) == "dead":
+                        # Clear (delete) the pet
+                        self.freezer_pets[self.current_freezer_page].pets.remove(selected_pet)
+                        runtime_globals.game_console.log(f"Cleared {selected_pet.name} from freezer.")
+                    else:
+                        # Move from freezer to party
+                        if len(game_globals.pet_list) < MAX_PETS:
+                            self.freezer_pets[self.current_freezer_page].pets.remove(selected_pet)
+                            game_globals.pet_list.append(selected_pet)
+                            runtime_globals.game_console.log(f"Moved {selected_pet.name} to party.")
 
                 # Save updated freezer state
                 self.save_freezer_data()
@@ -180,10 +201,18 @@ class SceneFreezerBox:
         self.party_view.handle_event(input_action)
         if input_action == "A" and self.party_view.selected_index < len(game_globals.pet_list):
             runtime_globals.game_sound.play("menu")
-            x, y = [(20, 40), (130, 40), (20, 140), (130, 140)][self.party_view.selected_index]
+            # Dynamically calculate pet position in a 2-column grid
+            col = self.party_view.selected_index % 2
+            row = self.party_view.selected_index // 2
+            x = (20 + col * 110) * UI_SCALE
+            y = (40 + row * 100) * UI_SCALE
             menu_x = 20 if x > SCREEN_WIDTH // 2 else SCREEN_WIDTH - 120
             menu_y = SCREEN_HEIGHT - 100
-            self.menu.open((menu_x, menu_y), ["Store", "Stats"])
+            pet = game_globals.pet_list[self.party_view.selected_index]
+            if getattr(pet, "state", None) == "dead":
+                self.menu.open((menu_x, menu_y), ["Clear", "Stats"])
+            else:
+                self.menu.open((menu_x, menu_y), ["Store", "Stats"])
         elif input_action == "A":
             runtime_globals.game_sound.play("menu")
             self.clean_unused_pet_sprites()
@@ -235,10 +264,14 @@ class SceneFreezerBox:
                 pet = self.freezer_view.pet_grid[row][col]
                 if pet:
                     runtime_globals.game_sound.play("menu")
-                    pet_x = col * (CELL_SIZE + MARGIN) + 20
-                    menu_x = 20 if pet_x > SCREEN_WIDTH // 2 else SCREEN_WIDTH - 120
-                    menu_y = SCREEN_HEIGHT - 100
-                    self.menu.open((menu_x, menu_y), ["Add", "Stats"])
+                    pet_x = col * (CELL_SIZE + MARGIN) + (20 * UI_SCALE)
+                    menu_x = (20 * UI_SCALE) if pet_x > SCREEN_WIDTH // 2 else SCREEN_WIDTH - (120 * UI_SCALE)
+                    menu_y = SCREEN_HEIGHT - (100 * UI_SCALE)
+                    if getattr(pet, "state", None) == "dead":
+                        self.menu.open((menu_x, menu_y), ["Clear", "Stats"])
+                    else:
+                        self.menu.open((menu_x, menu_y), ["Add", "Stats"])
+   
             return
         elif input_action == "B":
             runtime_globals.game_sound.play("cancel")

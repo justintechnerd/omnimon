@@ -1,15 +1,15 @@
 #=====================================================================
 # DummyTraining (Simple Strength Bar Training)
 #=====================================================================
-
-import random
 import pygame
 
 from core import runtime_globals
 from core.animation import PetFrame
+from core.combat.combat_constants import ALERT_DURATION_FRAMES, IMPACT_DURATION_FRAMES, RESULT_SCREEN_FRAMES, WAIT_ATTACK_READY_FRAMES
 from core.constants import *
-from core.utils import blit_with_shadow, change_scene, distribute_pets_evenly, get_training_targets, load_attack_sprites, sprite_load
-from scenes.scene_battle import ALERT_DURATION_FRAMES, ATTACK_SPEED, BAR_HOLD_TIME_MS, IMPACT_DURATION_FRAMES, RESULT_SCREEN_FRAMES, WAIT_ATTACK_READY_FRAMES
+from core.utils.pet_utils import distribute_pets_evenly, get_training_targets
+from core.utils.pygame_utils import blit_with_shadow, load_attack_sprites, sprite_load_percent
+from core.utils.scene_utils import change_scene
 
 class Training:
     """
@@ -31,21 +31,23 @@ class Training:
         self.impact_counter = 0
         self.attacks_prepared = False
 
-        self.ready_sprite = sprite_load(READY_SPRITE_PATH, scale=2.5)
-        self.go_sprite = sprite_load(GO_SPRITE_PATH, scale=2.5)
-        self.bar_piece = sprite_load(BAR_PIECE_PATH, size=(24, 12))
-        self.training_max = sprite_load(TRAINING_MAX_PATH, size=(60, 60))
-        self.bar_back = sprite_load(BAR_BACK_PATH, size=(30, 170))
-        self.battle1 = sprite_load(BATTLE1_PATH)  # No scaling applied
-        self.battle2 = sprite_load(BATTLE2_PATH)  # No scaling applied
+        # Use new method for all sprites, scale appropriately
+        self.ready_sprite = sprite_load_percent(READY_SPRITE_PATH, 100, keep_proportion=True, base_on="width")
+        self.go_sprite = sprite_load_percent(GO_SPRITE_PATH, percent=100, keep_proportion=True, base_on="width")
+        self.bar_piece = sprite_load_percent(BAR_PIECE_PATH, percent=(int(12 * UI_SCALE) / SCREEN_HEIGHT) * 100, keep_proportion=True, base_on="height")
+        self.training_max = sprite_load_percent(TRAINING_MAX_PATH, percent=(int(60 * UI_SCALE) / SCREEN_HEIGHT) * 100, keep_proportion=True, base_on="height")
+        self.bar_back = sprite_load_percent(BAR_BACK_PATH, percent=(int(170 * UI_SCALE) / SCREEN_HEIGHT) * 100, keep_proportion=True, base_on="height")
+        self.battle1 = sprite_load_percent(BATTLE1_PATH, percent=100, keep_proportion=True, base_on="width")
+        self.battle2 = sprite_load_percent(BATTLE2_PATH, percent=100, keep_proportion=True, base_on="width")
 
-        self.bad_sprite = sprite_load(BAD_SPRITE_PATH, scale=2.5)
-        self.good_sprite = sprite_load(GOOD_SPRITE_PATH, scale=2.5)
-        self.great_sprite = sprite_load(GREAT_SPRITE_PATH, scale=2.5)
-        self.excellent_sprite = sprite_load(EXCELLENT_SPRITE_PATH, scale=2.5)
+        self.bad_sprite = sprite_load_percent(BAD_SPRITE_PATH, percent=100, keep_proportion=True, base_on="width")
+        self.good_sprite = sprite_load_percent(GOOD_SPRITE_PATH, percent=100, keep_proportion=True, base_on="width")
+        self.great_sprite = sprite_load_percent(GREAT_SPRITE_PATH, percent=100, keep_proportion=True, base_on="width")
+        self.excellent_sprite = sprite_load_percent(EXCELLENT_SPRITE_PATH, percent=100, keep_proportion=True, base_on="width")
 
         self.attack_jump = 0
         self.attack_forward = 0
+        self.attack_frame = None
         
         self.attack_sprites = load_attack_sprites()
 
@@ -68,7 +70,7 @@ class Training:
         self.frame_counter += 1
 
     def update_alert_phase(self):
-        if self.frame_counter == 30:
+        if self.frame_counter == int(30 * (FRAME_RATE / 30)):
             runtime_globals.game_sound.play("happy")
         if self.frame_counter >= ALERT_DURATION_FRAMES:
             self.phase = "charge"
@@ -79,19 +81,50 @@ class Training:
         pass
 
     def update_wait_attack_phase(self):
-        if self.frame_counter <= 9:
-            self.attack_forward += 1
-            if self.frame_counter < 5:
-                self.attack_jump += 1
-            elif self.frame_counter > 5:
-                self.attack_jump -= 1
-        else:
-            self.attack_forward -= 1
-
+        self.attack_frame = self.animate_attack(20)
+        
         if self.frame_counter >= WAIT_ATTACK_READY_FRAMES:
+            self.attack_frame = None
             self.phase = "attack_move"
             self.frame_counter = 0
             runtime_globals.game_sound.play("attack")
+
+    def animate_attack(self, delay=0):
+        #print(f"Frame: {self.frame_counter}")
+        appear_frame = int(delay * (FRAME_RATE / 30))
+        anim_window = int(20 * (FRAME_RATE / 30))
+        anim_start = appear_frame - anim_window
+        anim_end = appear_frame
+
+        progress = 0
+        if anim_start <= self.frame_counter < anim_end:
+            progress = (self.frame_counter - anim_start) / max(1, (anim_end - anim_start))
+            # Jump up for first half, down for second half
+            if progress < 0.5:
+                self.attack_forward += 1 * (30 / FRAME_RATE)
+                if progress < 0.25:
+                    self.attack_jump += 1 * (30 / FRAME_RATE)
+                else:
+                    self.attack_jump -= 1 * (30 / FRAME_RATE)
+            else:
+                self.attack_forward -= 1 * (30 / FRAME_RATE)
+        else:
+            self.attack_forward = 0
+            self.attack_jump = 0
+
+        train2_frames = 6 * (FRAME_RATE / 30)
+        # Only last 5 frames if delay == 20, otherwise first 5 and last 5
+        if delay == 20:
+            if self.frame_counter > anim_end - train2_frames:
+                frame_enum = PetFrame.TRAIN2
+            else:
+                frame_enum = PetFrame.TRAIN1
+        else:
+            if (self.frame_counter > anim_end - train2_frames) or (self.frame_counter < train2_frames):
+                frame_enum = PetFrame.TRAIN2
+            else:
+                frame_enum = PetFrame.TRAIN1
+        return frame_enum 
 
     def update_impact_phase(self):
         self.flash_frame += 1
@@ -139,7 +172,8 @@ class Training:
         Draws pets vertically aligned, using the specified animation frame.
         Dynamically adjusts spacing based on number of targets.
         """
-
+        if self.attack_frame:
+            frame_enum = self.attack_frame
         if frame_enum != self.pet_state:
             self.pet_sprites = []
             for pet in get_training_targets():
@@ -147,17 +181,17 @@ class Training:
                 sprite = pygame.transform.scale(sprite, (OPTION_ICON_SIZE, OPTION_ICON_SIZE))
                 self.pet_sprites.append(sprite)
         self.pet_state = frame_enum
-        
-        total_pets = len(self.pet_sprites)
 
-        available_height = SCREEN_HEIGHT  # Padding
+        total_pets = len(self.pet_sprites)
+        available_height = SCREEN_HEIGHT
         spacing = available_height // total_pets
-        spacing = min(spacing, OPTION_ICON_SIZE + 20)  # Avoid too large gaps
+        spacing = min(spacing, OPTION_ICON_SIZE + int(20 * UI_SCALE))  # Avoid too large gaps
         start_y = (SCREEN_HEIGHT - (spacing * total_pets)) // 2
 
         for i, pet in enumerate(self.pet_sprites):
-            x = SCREEN_WIDTH - OPTION_ICON_SIZE - 16 + self.attack_forward
-            y = start_y + i * spacing - self.attack_jump
+            # Use frame-rate independent movement for attack_forward and attack_jump
+            x = SCREEN_WIDTH - OPTION_ICON_SIZE - int(16 * UI_SCALE) + int(self.attack_forward * UI_SCALE)
+            y = start_y + i * spacing - int(self.attack_jump * UI_SCALE)
             blit_with_shadow(surface, pet, (x, y))
 
     def draw_alert(self, screen):
@@ -165,7 +199,7 @@ class Training:
         blit_with_shadow(screen, self.ready_sprite, (0, center_y))
 
     def draw_attack_ready(self, surface):
-        self.draw_pets(surface, PetFrame.ATK2)
+        self.draw_pets(surface, PetFrame.ATK1)
 
     def draw_charge(self, surface):
         pass
@@ -174,7 +208,7 @@ class Training:
         pass
 
     def draw_impact(self, screen):
-        flash = self.battle1 if (self.flash_frame // 2) % 2 == 0 else self.battle2
+        flash = self.battle1 if (self.flash_frame // int(2 * (FRAME_RATE / 30))) % 2 == 0 else self.battle2
         flash = pygame.transform.scale(flash, (SCREEN_WIDTH, SCREEN_HEIGHT))
         screen.blit(flash, (0, 0))
 

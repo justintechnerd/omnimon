@@ -3,29 +3,23 @@ Scene Training
 Handles both Dummy and Head-to-Head training modes for pets.
 """
 import pygame
+import os
 
 from components.window_background import WindowBackground
 from components.window_horizontalmenu import WindowHorizontalMenu
+from components.window_menu import WindowMenu
 from components.window_petview import WindowPetList
 from core import game_globals, runtime_globals
-from core.combat.battle_encounter_dmc import BattleEncounterDMC
-from core.combat.battle_encounter_penc import BattleEncounterPENC
+from core.combat.battle_encounter import BattleEncounter
 from core.combat.battle_encounter_versus import BattleEncounterVersus
+from core.combat.sim.battle_simulator import BattleProtocol
 from core.constants import *
-from core.utils import blit_with_shadow, change_scene, get_battle_targets, get_font, sprite_load
-
-
-#=====================================================================
-# Training Constants
-#=====================================================================
-
-ALERT_DURATION_FRAMES = 50
-WAIT_AFTER_BAR_FRAMES = 30
-IMPACT_DURATION_FRAMES = 60
-WAIT_ATTACK_READY_FRAMES = 19
-RESULT_SCREEN_FRAMES = 60
-BAR_HOLD_TIME_MS = 2500
-ATTACK_SPEED = 4
+from core.game_module import sprite_load
+from core.utils.module_utils import get_module
+from core.utils.pet_utils import get_battle_targets
+from core.utils.pygame_utils import blit_with_shadow, get_font, sprite_load_percent
+from core.utils.scene_utils import change_scene
+from core.utils.inventory_utils import remove_from_inventory
 
 #=====================================================================
 # SceneTraining (Training Menu)
@@ -42,38 +36,63 @@ class SceneBattle:
 
         self.phase = "menu"
         self.mode = None
+        self.area = 0
+        self.round = 0
 
-        self.selectionBackground = sprite_load(PET_SELECTION_BACKGROUND_PATH)
-        self.jogress_slot_on = sprite_load(PET_SELECTION_SMALL_ON_PATH)
-        self.jogress_slot_off = sprite_load(PET_SELECTION_SMALL_OFF_PATH)
+        # Use new method for backgrounds and icons, scale appropriately
+        self.selectionBackground = sprite_load_percent(PET_SELECTION_BACKGROUND_PATH, percent=100, keep_proportion=True, base_on="width")
+        self.jogress_slot_on = sprite_load_percent(PET_SELECTION_SMALL_ON_PATH, percent=40, keep_proportion=True, base_on="height")
+        self.jogress_slot_off = sprite_load_percent(PET_SELECTION_SMALL_OFF_PATH, percent=40, keep_proportion=True, base_on="height")
+        self.backgroundIm = sprite_load_percent(TRAINING_BACKGROUND_PATH, percent=100, keep_proportion=True, base_on="width")
 
+        self.options1 = [
+            ("Adventure", sprite_load_percent(BATTLE_ICON_PATH, percent=(OPTION_ICON_SIZE / SCREEN_HEIGHT) * 100, keep_proportion=True, base_on="height")),
+            ("Versus", sprite_load_percent(VERSUS_BATTLE_ICON_PATH, percent=(OPTION_ICON_SIZE / SCREEN_HEIGHT) * 100, keep_proportion=True, base_on="height")),
+            ("Jogress", sprite_load_percent(JOGRESS_ICON_PATH, percent=(OPTION_ICON_SIZE / SCREEN_HEIGHT) * 100, keep_proportion=True, base_on="height")),
+            ("Armor", sprite_load_percent(ARMOR_EVOLUTION_ICON_PATH, percent=(OPTION_ICON_SIZE / SCREEN_HEIGHT) * 100, keep_proportion=True, base_on="height"))
+        ]
 
-        self.options1 = [("Adventure", sprite_load(BATTLE_ICON_PATH)),
-                         ("Versus", sprite_load(HEAD_TRAINING_ICON_PATH)),
-                        ("Jogress", sprite_load(JOGRESS_ICON_PATH))]
-        
+        # Track selected area/round per module (do not overwrite game_globals.battle_area/battle_round)
+        self.selected_area = {}
+        self.selected_round = {}
+        self.area_round_counts = {}  # <-- Store area/round limits per module
+
+        for module in runtime_globals.game_modules.values():
+            if module.name not in game_globals.battle_round:
+                game_globals.battle_round[module.name] = 1
+                game_globals.battle_area[module.name] = 1
+
+            # Initialize selection to max unlocked
+            self.selected_area[module.name] = game_globals.battle_area[module.name]
+            self.selected_round[module.name] = game_globals.battle_round[module.name]
+            # Store area/round counts for this module
+            if hasattr(module, "get_area_round_counts"):
+                self.area_round_counts[module.name] = module.get_area_round_counts()
+            else:
+                self.area_round_counts[module.name] = {}
+
         self.options2 = []
         self.module_lookup = []
-        self.jogress_ready = False
-        self.versus_ready = False
-         
         for module in runtime_globals.game_modules.values():
             if module.adventure_mode:
-                self.options2.append((module.name, sprite_load(module.folder_path + "/BattleIcon.png")))
+                area = self.selected_area[module.name]
+                round_ = self.selected_round[module.name]
+                if module.battle_sequential_rounds:
+                    label = f"Area {area}"
+                else:
+                    label = f"Area {area}-{round_}"
+                self.options2.append((label, sprite_load_percent(module.folder_path + "/BattleIcon.png", percent=(OPTION_ICON_SIZE / SCREEN_HEIGHT) * 100, keep_proportion=True, base_on="height")))
                 self.module_lookup.append(module.name)
-        
-        self.selected_module = None
 
-        self.selectionBackground = sprite_load(PET_SELECTION_BACKGROUND_PATH)
-        self.backgroundIm = sprite_load(TRAINING_BACKGROUND_PATH)
+        self.selected_module = None
 
         self.pet_list_window = WindowPetList(lambda: get_battle_targets())
 
-        if runtime_globals.battle_index.get("menu") == None:
+        if runtime_globals.battle_index.get("menu") is None:
             runtime_globals.battle_index["menu"] = 0
-        if runtime_globals.battle_index.get("module") == None:
+        if runtime_globals.battle_index.get("module") is None:
             runtime_globals.battle_index["module"] = 0
-        if runtime_globals.battle_index.get("battle_select") == None:
+        if runtime_globals.battle_index.get("battle_select") is None:
             runtime_globals.battle_index["battle_select"] = 0
 
         self.menu_window1 = WindowHorizontalMenu(
@@ -89,6 +108,13 @@ class SceneBattle:
         self.menu = self.menu_window1
         runtime_globals.game_console.log("[SceneTraining] Training scene initialized.")
 
+        self.versus_ready = False
+        self.jogress_ready = False
+        self.armor_ready = False
+
+        self.armor_selected_item_index = 0
+        self.armor_digimental_items = self.get_digimental_items()
+
     def update(self):
         if self.mode:
             self.mode.update()
@@ -97,13 +123,13 @@ class SceneBattle:
         self.background.draw(surface)
 
         if self.phase in ["menu", "module", "battle_select"]:
-            # Desenha menu horizontal
+            # Draw horizontal menu
             if len(self.menu.options) > 2:
-                self.menu.draw(surface, x=72, y=16, spacing=30)
+                self.menu.draw(surface, x=int(72 * UI_SCALE), y=int(16 * UI_SCALE), spacing=int(30 * UI_SCALE))
             else:
-                self.menu.draw(surface, x=16, y=16, spacing=16)
+                self.menu.draw(surface, x=int(16 * UI_SCALE), y=int(16 * UI_SCALE), spacing=int(16 * UI_SCALE))
 
-            # Desenha pets na parte inferior
+            # Draw pets at the bottom
             self.pet_list_window.draw(surface)
         elif self.phase == "jogress":
             self.draw_selection_phase(
@@ -117,6 +143,14 @@ class SceneBattle:
                 prompt_text="Press START to begin Battle",
                 require_compatibility=False
             )
+        elif self.phase == "protocol_selection":
+            # Draw protocol selection menu
+            self.protocol_menu.draw(surface)
+        elif self.phase == "armor":
+            self.draw_armor_selection_phase(
+                surface,
+                prompt_text="Press START to evolve"
+            )
         elif self.mode:
             self.mode.draw(surface)
 
@@ -126,15 +160,16 @@ class SceneBattle:
         selected = self.pet_list_window.selected_indices  # 0–2 indices
         is_compatible = self.check_jogress_compatibility(selected) if require_compatibility else True
 
+        spacing = (SCREEN_WIDTH - (2*self.jogress_slot_off.get_width())) // 3
         for i in range(2):
-            x = 16 + i * (self.jogress_slot_off.get_width() + 16)
-            y = 16
+            x = spacing + i * (self.jogress_slot_off.get_width() + spacing)
+            y = int(16 * UI_SCALE)
 
             # Slot sprite (ON if selected and valid, else OFF)
             if i < len(selected) and is_compatible:
-                blit_with_shadow(surface,self.jogress_slot_on, (x, y))
+                blit_with_shadow(surface, self.jogress_slot_on, (x, y))
             else:
-                blit_with_shadow(surface,self.jogress_slot_off, (x, y))
+                blit_with_shadow(surface, self.jogress_slot_off, (x, y))
 
             # Draw pet sprite inside slot
             if i < len(selected):
@@ -142,15 +177,117 @@ class SceneBattle:
                 sprite = self.pet_list_window.get_scaled_sprite(pet)
                 sprite_x = x + (self.jogress_slot_on.get_width() - sprite.get_width()) // 2
                 sprite_y = y + (self.jogress_slot_on.get_height() - sprite.get_height()) // 2
-                blit_with_shadow(surface,sprite, (sprite_x, sprite_y))
+                blit_with_shadow(surface, sprite, (sprite_x, sprite_y))
 
         # Show prompt if ready
         ready = (self.jogress_ready if require_compatibility else self.versus_ready)
         if ready:
-            font = get_font(20)
+            font = get_font(int(20 * UI_SCALE))
             text = font.render(prompt_text, True, FONT_COLOR_GREEN)
             text_x = (SCREEN_WIDTH - text.get_width()) // 2
-            text_y = SCREEN_HEIGHT - 120
+            text_y = SCREEN_HEIGHT - int(120 * UI_SCALE)
+            blit_with_shadow(surface, text, (text_x, text_y))
+
+    def draw_armor_selection_phase(self, surface, prompt_text):
+        self.pet_list_window.draw(surface)
+        selected = self.pet_list_window.selected_indices  # Should be 0 or 1 index
+
+        spacing = (SCREEN_WIDTH - (2*self.jogress_slot_off.get_width())) // 3
+        for i in range(2):
+            x = spacing + i * (self.jogress_slot_off.get_width() + spacing)
+            y = int(16 * UI_SCALE)
+
+            # Slot sprite
+            if i == 0 and len(selected) > 0:
+                if self.armor_ready:
+                    blit_with_shadow(surface, self.jogress_slot_on, (x, y))
+                else:
+                    blit_with_shadow(surface, self.jogress_slot_off, (x, y))
+            elif i == 1 and self.armor_digimental_items:
+                # Use ON if ready, OFF if not
+                slot_sprite = self.jogress_slot_on if self.armor_ready else self.jogress_slot_off
+                blit_with_shadow(surface, slot_sprite, (x, y))
+            else:
+                blit_with_shadow(surface, self.jogress_slot_off, (x, y))
+
+            # Draw pet sprite in left slot
+            if i == 0 and len(selected) > 0:
+                pet = game_globals.pet_list[selected[0]]
+                sprite = self.pet_list_window.get_scaled_sprite(pet)
+                sprite_x = x + (self.jogress_slot_on.get_width() - sprite.get_width()) // 2
+                sprite_y = y + (self.jogress_slot_on.get_height() - sprite.get_height()) // 2
+                blit_with_shadow(surface, sprite, (sprite_x, sprite_y))
+
+            # Draw digimental item in right slot
+            if i == 1:
+                if self.armor_digimental_items:
+                    idx = self.armor_selected_item_index % len(self.armor_digimental_items)
+                    digimental = self.armor_digimental_items[idx]
+                    icon = digimental["icon"]
+                    icon_x = x + (self.jogress_slot_on.get_width() - icon.get_width()) // 2
+                    icon_y = y + (self.jogress_slot_on.get_height() - icon.get_height()) // 2
+
+                    # Dim icon if not ready
+                    if not self.armor_ready:
+                        icon = icon.copy()
+                        icon.fill((120, 120, 120, 180), special_flags=pygame.BLEND_RGBA_MULT)
+                    blit_with_shadow(surface, icon, (icon_x, icon_y - (5 * UI_SCALE)))
+
+                    # Draw item name (centered under icon)
+                    font = get_font(int(16 * UI_SCALE))
+                    name_text = font.render(digimental["item"].name, True, (255, 255, 255))
+                    name_x = x + (self.jogress_slot_on.get_width() - name_text.get_width()) // 2
+                    name_y = y + self.jogress_slot_on.get_height() - name_text.get_height() - 24 * UI_SCALE
+                    # Add shadow for visibility
+                    surface.blit(font.render(digimental["item"].name, True, (0, 0, 0)), (name_x+2, name_y+2))
+                    surface.blit(name_text, (name_x, name_y))
+
+                    # Draw quantity (bottom right)
+                    qty_text = font.render(f"x{digimental['amount']}", True, (255, 255, 255))
+                    qty_x = x + self.jogress_slot_on.get_width() - qty_text.get_width() - 8
+                    qty_y = y + self.jogress_slot_on.get_height() - qty_text.get_height() - 8
+                    surface.blit(font.render(f"x{digimental['amount']}", True, (0, 0, 0)), (qty_x+2, qty_y+2))
+                    surface.blit(qty_text, (qty_x, qty_y))
+
+                    # Draw up/down triangles (white, with black border for visibility)
+                    tri_color = (255, 255, 255)
+                    border_color = (0, 0, 0)
+                    tri_size = int(10 * UI_SCALE)
+                    # Up triangle
+                    up_center = (x + self.jogress_slot_on.get_width() // 2, y + 8)
+                    up_points = [
+                        (up_center[0], up_center[1]),
+                        (up_center[0] - tri_size, up_center[1] + tri_size),
+                        (up_center[0] + tri_size, up_center[1] + tri_size)
+                    ]
+                    pygame.draw.polygon(surface, border_color, up_points, 0)
+                    pygame.draw.polygon(surface, tri_color, [(p[0], p[1]-2) for p in up_points], 0)
+                    # Down triangle
+                    down_center = (x + self.jogress_slot_on.get_width() // 2, y + self.jogress_slot_on.get_height() - 8)
+                    down_points = [
+                        (down_center[0], down_center[1]),
+                        (down_center[0] - tri_size, down_center[1] - tri_size),
+                        (down_center[0] + tri_size, down_center[1] - tri_size)
+                    ]
+                    pygame.draw.polygon(surface, border_color, down_points, 0)
+                    pygame.draw.polygon(surface, tri_color, [(p[0], p[1]+2) for p in down_points], 0)
+                else:
+                    # No digimental items: show "no item" message in the square
+                    blit_with_shadow(surface, self.jogress_slot_off, (x, y))
+                    font = get_font(int(16 * UI_SCALE))
+                    no_item_text = font.render("no item", True, (255, 255, 255))
+                    text_x = x + (self.jogress_slot_off.get_width() - no_item_text.get_width()) // 2
+                    text_y = y + (self.jogress_slot_off.get_height() - no_item_text.get_height()) // 2
+                    # Add shadow for visibility
+                    surface.blit(font.render("no item", True, (0, 0, 0)), (text_x+2, text_y+2))
+                    surface.blit(no_item_text, (text_x, text_y))
+
+        # Show prompt
+        font = get_font(int(20 * UI_SCALE))
+        if self.armor_ready:
+            text = font.render(prompt_text, True, FONT_COLOR_GREEN)
+            text_x = (SCREEN_WIDTH - text.get_width()) // 2
+            text_y = SCREEN_HEIGHT - int(120 * UI_SCALE)
             blit_with_shadow(surface, text, (text_x, text_y))
 
     def handle_event(self, input_action):
@@ -164,6 +301,10 @@ class SceneBattle:
             self.handle_jogress_input(input_action)
         elif self.phase == "versus":
             self.handle_versus_input(input_action)
+        elif self.phase == "protocol_selection":
+            self.handle_protocol_selection_input(input_action)
+        elif self.phase == "armor":
+            self.handle_armor_input(input_action)
         elif self.mode:
             self.mode.handle_event(input_action)
 
@@ -182,12 +323,60 @@ class SceneBattle:
                 self.menu = self.menu_window2
             elif runtime_globals.battle_index[self.phase] == 1: #Versus
                 self.phase = "versus"
+                self.pet_list_window.selection_label = "Versus"
+                self.pet_list_window.max_selection = 2
                 self.pet_list_window.select_mode = True
             elif runtime_globals.battle_index[self.phase] == 2: #Jogress
                 self.phase = "jogress"
+                self.pet_list_window.selection_label = "Jogress"
                 self.pet_list_window.select_mode = True
+                self.pet_list_window.max_selection = 2
+            elif runtime_globals.battle_index[self.phase] == 3: # Armor
+                self.phase = "armor"
+                self.pet_list_window.selection_label = "Armor"
+                self.pet_list_window.select_mode = True
+                self.armor_selected_item_index = 0
+                self.pet_list_window.max_selection = 1
+                self.armor_digimental_items = self.get_digimental_items()
 
     def handle_module_input(self, input_action):
+        """
+        Optimized: Caches unlocked area/round pairs per module and avoids rebuilding them every call.
+        """
+        selected_index = runtime_globals.battle_index["module"]
+        module_name = self.module_lookup[selected_index]
+        module = get_module(module_name)
+        max_area = game_globals.battle_area[module_name]
+        area_round_counts = self.area_round_counts.get(module_name, {})
+
+        # Cache unlocked pairs per module to avoid rebuilding every call
+        if not hasattr(self, "_unlocked_pairs_cache"):
+            self._unlocked_pairs_cache = {}
+        cache_key = (module_name, max_area, game_globals.battle_round[module_name])
+        if cache_key not in self._unlocked_pairs_cache:
+            unlocked = []
+            for a in range(1, max_area + 1):
+                if a == max_area:
+                    max_round = game_globals.battle_round[module_name]
+                else:
+                    max_round = area_round_counts.get(a, 1)
+                for r in range(1, max_round + 1):
+                    unlocked.append((a, r))
+            if not unlocked:
+                unlocked = [(1, 1)]
+            self._unlocked_pairs_cache[cache_key] = unlocked
+        else:
+            unlocked = self._unlocked_pairs_cache[cache_key]
+
+        def get_next_area_round(area, round_, direction):
+            """Cycles through unlocked area/round pairs in the correct order."""
+            try:
+                idx = unlocked.index((area, round_))
+            except ValueError:
+                idx = 0
+            idx = (idx + direction) % len(unlocked)
+            return unlocked[idx]
+
         if input_action == "B":
             runtime_globals.game_sound.play("cancel")
             self.phase = "menu"
@@ -196,23 +385,45 @@ class SceneBattle:
             runtime_globals.game_sound.play("menu")
             delta = -1 if input_action == "LEFT" else 1
             runtime_globals.battle_index[self.phase] = (runtime_globals.battle_index[self.phase] + delta) % len(self.menu.options)
+        elif input_action == "UP":
+            if module.battle_sequential_rounds:
+                area = self.selected_area[module_name]
+                area = area + 1 if area < max_area else 1
+                self.selected_area[module_name] = area
+            else:
+                area = self.selected_area[module_name]
+                round_ = self.selected_round[module_name]
+                next_area, next_round = get_next_area_round(area, round_, 1)
+                self.selected_area[module_name] = next_area
+                self.selected_round[module_name] = next_round
+            self.update_module_label(selected_index)
+        elif input_action == "DOWN":
+            if module.battle_sequential_rounds:
+                area = self.selected_area[module_name]
+                area = area - 1 if area > 1 else max_area
+                self.selected_area[module_name] = area
+            else:
+                area = self.selected_area[module_name]
+                round_ = self.selected_round[module_name]
+                prev_area, prev_round = get_next_area_round(area, round_, -1)
+                self.selected_area[module_name] = prev_area
+                self.selected_round[module_name] = prev_round
+            self.update_module_label(selected_index)
         elif input_action == "A":
             runtime_globals.game_sound.play("menu")
-            selected_index = runtime_globals.battle_index["module"]
-            self.selected_module = self.module_lookup[selected_index]
-            runtime_globals.battle_index[self.phase] = 0
-            self.phase = "battle_select"
-            if self.selected_module == "DMC":
-                self.options3 = [(f"Area {game_globals.battle_round[self.selected_module]}-{game_globals.battle_area[self.selected_module]}", sprite_load(NEXT_BATTLE_ICON_PATH)),
-                        ("Restart", sprite_load(RESTART_BATTLE_ICON_PATH))]
-            else:
-                self.options3 = [(f"Area {game_globals.battle_area[self.selected_module]}", sprite_load(NEXT_BATTLE_ICON_PATH)),
-                        ("Restart", sprite_load(RESTART_BATTLE_ICON_PATH))]
-            self.menu_window3 = WindowHorizontalMenu(
-                options=self.options3,
-                get_selected_index_callback=lambda: runtime_globals.battle_index["battle_select"],
+            self.selected_module = module_name
+            self.area = self.selected_area[module_name]
+            self.round = self.selected_round[module_name]
+            for pet in get_battle_targets():
+                pet.check_disturbed_sleep()
+            self.mode = BattleEncounter(
+                self.selected_module,
+                self.area,
+                1 if module.battle_sequential_rounds else self.round,
+                1
             )
-            self.menu = self.menu_window3
+            self.phase = "next"
+            runtime_globals.game_console.log("Starting Battle.")
 
     def handle_battle_select_input(self, input_action):
         if input_action == "B":
@@ -231,11 +442,7 @@ class SceneBattle:
             self.phase = "next"
             for pet in get_battle_targets():
                 pet.check_disturbed_sleep()
-            if self.selected_module == "DMC":
-                self.mode = BattleEncounterDMC(self.selected_module)
-            elif self.selected_module == "PenC":
-                game_globals.battle_round[self.selected_module] = 1
-                self.mode = BattleEncounterPENC(self.selected_module)
+            self.mode = BattleEncounter(self.selected_module, self.area, 1 if get_module(self.selected_module).battle_sequential_rounds else self.round, 1)
             runtime_globals.game_console.log("Starting Battle.")
 
     def handle_jogress_input(self, input_action):
@@ -273,15 +480,96 @@ class SceneBattle:
             runtime_globals.game_sound.play("cancel")
         elif input_action == "START":
             if self.versus_ready:
-                # Transition to Versus battle mode here
-                selected = [game_globals.pet_list[i] for i in self.pet_list_window.selected_indices]
-                self.mode = BattleEncounterVersus(selected[0],selected[1])  # or your actual Versus class
-                selected[0].check_disturbed_sleep()
-                selected[1].check_disturbed_sleep()
-                self.phase = "next"
-                runtime_globals.game_console.log("Starting Versus Battle.")
+                # Show protocol selection menu
+                self.protocol_menu = WindowMenu()
+                self.protocol_menu.open(
+                    position=((SCREEN_WIDTH - int(120 * UI_SCALE)) // 2, (SCREEN_HEIGHT - int(100 * UI_SCALE)) // 2),
+                    options=["DM20", "Pen20", "DMX/PenZ", "DMC"]
+                )
+                self.phase = "protocol_selection"
             else:
                 runtime_globals.game_sound.play("fail")
+
+    def handle_protocol_selection_input(self, input_action):
+        if input_action == "B":
+            # Cancel protocol selection and return to Versus setup
+            self.protocol_menu.close()
+            self.phase = "versus"
+            runtime_globals.game_sound.play("cancel")
+        elif input_action in ("UP", "DOWN"):
+            self.protocol_menu.handle_event(input_action)
+        elif input_action == "A":
+            # Confirm protocol selection and start the battle
+            selected_protocol = self.protocol_menu.options[self.protocol_menu.menu_index]
+            protocol_mapping = {
+                "DM20": BattleProtocol.DM20_BS,
+                "Pen20": BattleProtocol.PEN20_BS,
+                "DMX/PenZ": BattleProtocol.DMX_BS,
+                "DMC": BattleProtocol.DMC_BS
+            }
+            protocol = protocol_mapping[selected_protocol]
+
+            # Transition to Versus battle mode
+            selected = [game_globals.pet_list[i] for i in self.pet_list_window.selected_indices]
+            self.mode = BattleEncounterVersus(selected[0], selected[1], protocol)
+            selected[0].check_disturbed_sleep()
+            selected[1].check_disturbed_sleep()
+            self.phase = "next"
+            runtime_globals.game_console.log(f"Starting Versus Battle with protocol: {selected_protocol}")
+
+    def handle_armor_input(self, input_action):
+        if input_action in ("LEFT", "RIGHT"):
+            self.pet_list_window.handle_input(input_action)
+        elif input_action == "UP":
+            runtime_globals.game_sound.play("menu")
+            if self.armor_digimental_items:
+                self.armor_selected_item_index = (self.armor_selected_item_index - 1) % len(self.armor_digimental_items)
+                self.update_armor_digimental_items()
+        elif input_action == "DOWN":
+            runtime_globals.game_sound.play("menu")
+            if self.armor_digimental_items:
+                self.armor_selected_item_index = (self.armor_selected_item_index + 1) % len(self.armor_digimental_items)
+                self.update_armor_digimental_items()
+        elif input_action == "A":
+            self.pet_list_window.handle_input(input_action)
+            # Check for armor evolution compatibility
+            self.update_armor_digimental_items()
+        elif input_action == "B":
+            self.pet_list_window.selected_indices.clear()
+            self.phase = "menu"
+            self.pet_list_window.select_mode = False
+            runtime_globals.game_sound.play("cancel")
+        elif input_action == "START":
+            if self.armor_ready:
+                pet = game_globals.pet_list[self.pet_list_window.selected_indices[0]]
+                idx = self.armor_selected_item_index % len(self.armor_digimental_items)
+                digimental_item = self.armor_digimental_items[idx]["item"]
+                # Find the correct evolution
+                for evo in getattr(pet, "evolve", []):
+                    if "item" in evo and evo["item"] == digimental_item.name:
+                        # Evolve the pet
+                        pet.evolve_to(evo["to"], pet.version)
+                        # Remove the digimental from inventory
+                        remove_from_inventory(digimental_item.id, 1)
+                        runtime_globals.game_sound.play("evolution")
+                        runtime_globals.game_console.log(f"[Armor Evolution] {pet.name} evolved to {evo['to']} using {digimental_item.name}!")
+                        runtime_globals.game_message.add_slide(f"{pet.name} evolved to {evo['to']}!", FONT_COLOR_GREEN, 56 * UI_SCALE, FONT_SIZE_SMALL)
+                        break
+                # Return to game scene
+                change_scene("game")
+            else:
+                runtime_globals.game_sound.play("fail")
+
+    def update_armor_digimental_items(self):
+        self.armor_ready = False
+        if len(self.pet_list_window.selected_indices) == 1 and self.armor_digimental_items:
+            pet = game_globals.pet_list[self.pet_list_window.selected_indices[0]]
+            idx = self.armor_selected_item_index % len(self.armor_digimental_items)
+            digimental_item = self.armor_digimental_items[idx]["item"]
+            for evo in getattr(pet, "evolve", []):
+                if "item" in evo and evo["item"] == digimental_item.name:
+                    self.armor_ready = True
+                    break
 
     def check_jogress_compatibility(self, selected_indices):
         if len(selected_indices) != 2:
@@ -298,6 +586,10 @@ class SceneBattle:
         for evo in pet1.evolve:
             if "jogress" not in evo:
                 continue
+
+            if evo.get("jogress_prefix", False):
+                if pet2.name.startswith(evo["jogress"]):
+                    return True
 
             # 🔸 Standard jogress
             if evo["jogress"] != "PenC":
@@ -328,6 +620,22 @@ class SceneBattle:
         for evo in pet1.evolve:
             if "jogress" not in evo:
                 continue
+
+            if evo.get("jogress_prefix", False):
+                if pet2.name.startswith(evo["jogress"]):
+                    pet1.evolve_to(evo["to"], pet1.version)
+                    pet2.evolve_to(evo["to"], pet2.version)
+                    if pet2.traited:
+                        pet1.trated = True
+                    if pet2.shiny:
+                        pet1.shiny = True
+                    if pet2.shook:
+                        pet1.shook = True
+                    game_globals.pet_list.remove(pet2)
+                    runtime_globals.game_sound.play("evolution")
+                    runtime_globals.game_console.log(f"[Jogress] {pet1.name} jogressed to {evo['to']}!")
+                    change_scene("game")
+                    return
 
             if evo["jogress"] != "PenC":
                 if pet2.name == evo["jogress"] and pet2.version == evo.get("version", pet1.version):
@@ -360,3 +668,37 @@ class SceneBattle:
 
         runtime_globals.game_console.log("[Jogress] Invalid combination.")
         runtime_globals.game_sound.play("fail")
+
+    def update_module_label(self, index):
+        module_name = self.module_lookup[index]
+        module = get_module(module_name)
+        area = self.selected_area[module_name]
+        round_ = self.selected_round[module_name]
+        if module.battle_sequential_rounds:
+            label = f"Area {area}"
+        else:
+            label = f"Area {area}-{round_}"
+        self.menu_window2.set_option_label(index, label)
+
+    def get_digimental_items(self):
+        digimental_items = []
+        for module in runtime_globals.game_modules.values():
+            if hasattr(module, "items"):
+                for item in module.items:
+                    if getattr(item, "effect", "") == "digimental":
+                        amount = game_globals.inventory.get(item.id, 0)
+                        if amount > 0:
+                            sprite_name = item.sprite_name
+                            if not sprite_name.lower().endswith(".png"):
+                                sprite_name += ".png"
+                            sprite_path = os.path.join(module.folder_path, "items", sprite_name)
+                            if os.path.exists(sprite_path):
+                                icon = pygame.image.load(sprite_path).convert_alpha()
+                            else:
+                                icon = pygame.Surface((48 * UI_SCALE, 48 * UI_SCALE), pygame.SRCALPHA)
+                            digimental_items.append({
+                                "item": item,
+                                "icon": icon,
+                                "amount": amount
+                            })
+        return digimental_items

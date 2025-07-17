@@ -10,7 +10,10 @@ import pygame
 from components.window_background import WindowBackground
 from core import game_globals, runtime_globals
 from core.constants import *
-from core.utils import change_scene, distribute_pets_evenly, sprite_load
+from core.utils.module_utils import get_module
+from core.utils.pet_utils import distribute_pets_evenly
+from core.utils.pygame_utils import sprite_load_percent
+from core.utils.scene_utils import change_scene
 
 
 #=====================================================================
@@ -31,7 +34,8 @@ class SceneBoot:
             image_path = "resources/ControllersPC.png"
         else:
             image_path = "resources/ControllersPi.png"
-        self.controller_sprite = sprite_load(image_path)
+        # Use the new method to cover the screen, keeping proportions
+        self.controller_sprite = sprite_load_percent(image_path, percent=100, keep_proportion=True, base_on="width")
         self.boot_timer = BOOT_TIMER_FRAMES
         runtime_globals.game_console.log("[SceneBoot] Initialized")
 
@@ -48,8 +52,10 @@ class SceneBoot:
         """
         Draws the boot background.
         """
-        if self.boot_timer <= 80:
-            surface.blit(self.controller_sprite, (0,0))
+        if self.boot_timer <= 80 * (FRAME_RATE / 30):
+            # Center the controller sprite on screen
+            sprite_rect = self.controller_sprite.get_rect(center=(SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2))
+            surface.blit(self.controller_sprite, sprite_rect)
         else:
             self.background.draw(surface)
 
@@ -70,8 +76,12 @@ class SceneBoot:
             change_scene("game")
             runtime_globals.game_console.log("[SceneBoot] Transitioning to MainGame (pets found)")
             for pet in game_globals.pet_list:
+                # Refresh evolution data from module
+                module = get_module(pet.module)
+                pet_data = module.get_monster(pet.name, pet.version)
+                if pet_data:
+                    pet.evolve = pet_data.get("evolve", [])
                 pet.begin_position()
-                pet.food_type = -1
                 if pet.state not in ["dead", "hatch", "nap"]:
                     pet.set_state("idle")
             distribute_pets_evenly()

@@ -19,8 +19,12 @@ class GameEnemy:
     atk_alt: int
     handicap: int
     id: int
+    stage: int
+    hp: int
+    unlock: str
+    prize: str
 
-    def load_sprite(self, module_path: str):
+    def load_sprite(self, module_path: str, boss: bool = False):
         """
         Loads specific animation frames for the enemy: IDLE1, IDLE2, ANGRY, ATK1, ATK2.
 
@@ -38,6 +42,8 @@ class GameEnemy:
             frame_file = os.path.join(folder, f"{i}.png")
             if os.path.exists(frame_file):
                 self.frames[i] = sprite_load(frame_file, size=(PET_WIDTH, PET_HEIGHT))
+                if boss:
+                    self.frames[i] = pygame.transform.scale(self.frames[i], (PET_WIDTH * BOSS_MULTIPLIER, PET_HEIGHT * BOSS_MULTIPLIER))
 
     def get_sprite(self, index: int):
         if hasattr(self, "frames") and 0 <= index < len(self.frames):

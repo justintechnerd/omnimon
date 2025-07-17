@@ -10,10 +10,10 @@ from components.window_petselector import WindowPetSelector
 from components.window_status import WindowStatus
 from core import runtime_globals
 from core.constants import *
-from core.utils import change_scene
+from core.utils.pygame_utils import sprite_load_percent
+from core.utils.scene_utils import change_scene
 
-
-PAGE_MARGIN = 16
+PAGE_MARGIN = int(16 * UI_SCALE)
 
 #=====================================================================
 # SceneStatusMenu
@@ -25,7 +25,13 @@ class SceneStatusMenu:
 
     def __init__(self) -> None:
         self.background = WindowBackground(False)
-        self.overlay_image = pygame.image.load(MENU_BACKGROUND_PATH).convert_alpha()
+        # Use new method for overlay, scale to screen width, keep proportions
+        self.overlay_image = sprite_load_percent(
+            MENU_BACKGROUND_PATH,
+            percent=100,
+            keep_proportion=True,
+            base_on="width"
+        )
 
         self.selector = WindowPetSelector()
         self.selecting_pet = True
@@ -43,7 +49,9 @@ class SceneStatusMenu:
 
     def draw(self, surface):
         self.background.draw(surface)
-        surface.blit(self.overlay_image, (0, 0))
+        # Center overlay image on screen
+        overlay_rect = self.overlay_image.get_rect(center=(SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2))
+        surface.blit(self.overlay_image, overlay_rect)
 
         if self.selecting_pet:
             self.selector.draw(surface)

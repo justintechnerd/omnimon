@@ -1,26 +1,34 @@
 import pygame
-from .window_xai import WindowXai
-import random
-from core.utils import blit_with_shadow
+
+from core.constants import *
+from core.utils.pygame_utils import blit_with_shadow, sprite_load_percent
+
 
 XAIARROW_ICON_PATH = "resources/XaiArrow.png"  # Update this path as needed
 
 class WindowXaiBar:
-    WIDTH = 152   # 132 + 20 for extra width
-    HEIGHT = 72   # 68 + 4 for border (doubled)
-    INNER_WIDTH = 148  # 128 + 20 for extra width
-    INNER_HEIGHT = 68
+    SCALE_WIDTH = SCREEN_WIDTH / 240
+    SCALE_HEIGHT = SCREEN_HEIGHT / 240
+    WIDTH = int(152 * SCALE_WIDTH)   # 132 + 20 for extra width
+    HEIGHT = int(72 * SCALE_HEIGHT)  # 68 + 4 for border (doubled)
+    INNER_WIDTH = int(148 * SCALE_WIDTH) # 128 + 20 for extra width
+    INNER_HEIGHT = int(68 * SCALE_HEIGHT)
 
     def __init__(self, x, y, xai_number, pet):
         self.x = x
         self.y = y
         self.xai_number = xai_number
         self.pet = pet
-        # Load and scale arrow sprite once
-        arrow_img = pygame.image.load(XAIARROW_ICON_PATH).convert_alpha()
-        self.arrow_height = 32  # quadruple the original 8px (was doubled, now doubled again)
-        self.arrow_width = arrow_img.get_width() * 4
-        self.arrow_sprite = pygame.transform.scale(arrow_img, (self.arrow_width, self.arrow_height))
+        # Load and scale arrow sprite using the new method, scale to fit the extension height
+        ext_height = 30 * UI_SCALE
+        self.arrow_height = int(ext_height * 0.8)
+        self.arrow_sprite = sprite_load_percent(
+            XAIARROW_ICON_PATH,
+            percent=(self.arrow_height / SCREEN_HEIGHT) * 100,
+            keep_proportion=True,
+            base_on="height"
+        )
+        self.arrow_width = self.arrow_sprite.get_width()
         self.arrow_animating = False
         self.arrow_anim_dir = 1  # 1 = right, -1 = left
         self.arrow_anim_x = 0
@@ -43,8 +51,8 @@ class WindowXaiBar:
     def update(self):
         if self.arrow_animating:
             # Speed: 1 (fastest) to 7 (slowest)
-            speed = max(1, 8 - self.xai_number)
-            self.arrow_anim_x += self.arrow_anim_dir * speed
+            speed = max(1, 8 - self.xai_number) * (30 / FRAME_RATE)
+            self.arrow_anim_x += self.arrow_anim_dir * speed * UI_SCALE
             if self.arrow_anim_x <= self.arrow_anim_min:
                 self.arrow_anim_x = self.arrow_anim_min
                 self.arrow_anim_dir = 1
@@ -220,10 +228,10 @@ class WindowXaiBar:
 
     def getBars(self):
         # Returns: yellow_width, orange_width, orange_height, red_width, red_height
-        yellow_width = int(7 + (self.pet.level / 4))
-        orange_width = int(20 + (self.pet.level / 3))
-        orange_height = int(self.INNER_HEIGHT * 2 / 3)
-        red_width = int(26 + (self.pet.level / 4))
-        red_height = int(self.INNER_HEIGHT / 3)
+        yellow_width = int((7 + (self.pet.level / 4)) * self.SCALE_WIDTH)
+        orange_width = int((20 + (self.pet.level / 3)) * self.SCALE_WIDTH)
+        orange_height = int((self.INNER_HEIGHT * 2 / 3))
+        red_width = int((26 + (self.pet.level / 4)) * self.SCALE_WIDTH)
+        red_height = int((self.INNER_HEIGHT / 3))
         return yellow_width, orange_width, orange_height, red_width, red_height
 

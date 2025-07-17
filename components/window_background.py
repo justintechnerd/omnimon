@@ -4,7 +4,8 @@ import os
 
 from core import runtime_globals, game_globals
 from core.constants import *
-from core.utils import get_module
+from core.utils.module_utils import get_module
+from core.utils.pygame_utils import sprite_load_percent
 
 
 class WindowBackground:
@@ -15,12 +16,13 @@ class WindowBackground:
         self.last_background = None
         self.last_module = None
         self.last_image_path = None
+        self.center = None
         self.update()
         self.load_sprite(boot)
 
     def draw(self, surface):
         if self.image:
-            surface.blit(self.image, (0, 0))
+            surface.blit(self.image, self.center)
 
     def update(self):
         now = time.time()
@@ -71,18 +73,27 @@ class WindowBackground:
                     break
 
             suffix = f"_{self.time_of_day}" if day_night else ""
-            path = os.path.join(module.folder_path, "backgrounds", f"bg_{name}{suffix}.png")
+            base_filename = f"bg_{name}{suffix}"
+
+            high_path = os.path.join(module.folder_path, "backgrounds", f"{base_filename}_high.png")
+            normal_path = os.path.join(module.folder_path, "backgrounds", f"{base_filename}.png")
+
+            if game_globals.background_high_res and os.path.exists(high_path):
+                path = high_path
+            else:
+                path = normal_path
 
         # Avoid reloading if already loaded
         if path == self.last_image_path:
             return
 
         try:
-            loaded = pygame.image.load(path).convert()
-            self.image = pygame.transform.scale(loaded, (SCREEN_WIDTH, SCREEN_HEIGHT))
+            # Use the new sprite loading method to cover the screen, keeping proportions, base on width
+            self.image = sprite_load_percent(path, percent=100, keep_proportion=True, base_on="width")
             self.last_background = game_globals.game_background
             self.last_module = game_globals.background_module_name
             self.last_image_path = path
-        except pygame.error:
+            self.center = self.image.get_rect(center=(SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2))
+        except Exception:
             runtime_globals.game_console.log(f"[!] Error loading background: {path}")
             self.image = None

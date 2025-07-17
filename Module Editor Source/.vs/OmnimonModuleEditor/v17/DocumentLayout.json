@@ -1,0 +1,121 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\Ander\\Documents\\Meus Projetos\\omnimon\\Module Editor Source\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{6406E85F-2D31-427C-B174-80A92ADEDD4C}|OmnimonModuleEditor\\OmnimonModuleEditor.csproj|C:\\Users\\Ander\\Documents\\Meus Projetos\\omnimon\\Module Editor Source\\omnimonmoduleeditor\\tabs\\pettab.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6406E85F-2D31-427C-B174-80A92ADEDD4C}|OmnimonModuleEditor\\OmnimonModuleEditor.csproj|solutionrelative:omnimonmoduleeditor\\tabs\\pettab.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6406E85F-2D31-427C-B174-80A92ADEDD4C}|OmnimonModuleEditor\\OmnimonModuleEditor.csproj|c:\\users\\ander\\documents\\meus projetos\\omnimon\\module editor source\\omnimonmoduleeditor\\tabs\\editors\\evolutioncriteriaform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6406E85F-2D31-427C-B174-80A92ADEDD4C}|OmnimonModuleEditor\\OmnimonModuleEditor.csproj|solutionrelative:omnimonmoduleeditor\\tabs\\editors\\evolutioncriteriaform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6406E85F-2D31-427C-B174-80A92ADEDD4C}|OmnimonModuleEditor\\OmnimonModuleEditor.csproj|C:\\Users\\Ander\\Documents\\Meus Projetos\\omnimon\\Module Editor Source\\omnimonmoduleeditor\\tabs\\moduletab.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6406E85F-2D31-427C-B174-80A92ADEDD4C}|OmnimonModuleEditor\\OmnimonModuleEditor.csproj|solutionrelative:omnimonmoduleeditor\\tabs\\moduletab.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6406E85F-2D31-427C-B174-80A92ADEDD4C}|OmnimonModuleEditor\\OmnimonModuleEditor.csproj|C:\\Users\\Ander\\Documents\\Meus Projetos\\omnimon\\Module Editor Source\\omnimonmoduleeditor\\models\\item.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6406E85F-2D31-427C-B174-80A92ADEDD4C}|OmnimonModuleEditor\\OmnimonModuleEditor.csproj|solutionrelative:omnimonmoduleeditor\\models\\item.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6406E85F-2D31-427C-B174-80A92ADEDD4C}|OmnimonModuleEditor\\OmnimonModuleEditor.csproj|C:\\Users\\Ander\\Documents\\Meus Projetos\\omnimon\\Module Editor Source\\omnimonmoduleeditor\\tabs\\itemtab.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6406E85F-2D31-427C-B174-80A92ADEDD4C}|OmnimonModuleEditor\\OmnimonModuleEditor.csproj|solutionrelative:omnimonmoduleeditor\\tabs\\itemtab.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6406E85F-2D31-427C-B174-80A92ADEDD4C}|OmnimonModuleEditor\\OmnimonModuleEditor.csproj|C:\\Users\\Ander\\Documents\\Meus Projetos\\omnimon\\Module Editor Source\\omnimonmoduleeditor\\tabs\\battletab.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6406E85F-2D31-427C-B174-80A92ADEDD4C}|OmnimonModuleEditor\\OmnimonModuleEditor.csproj|solutionrelative:omnimonmoduleeditor\\tabs\\battletab.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 3,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "EvolutionCriteriaForm.cs",
+              "DocumentMoniker": "C:\\Users\\Ander\\Documents\\Meus Projetos\\omnimon\\Module Editor Source\\OmnimonModuleEditor\\tabs\\editors\\EvolutionCriteriaForm.cs",
+              "RelativeDocumentMoniker": "OmnimonModuleEditor\\tabs\\editors\\EvolutionCriteriaForm.cs",
+              "ToolTip": "C:\\Users\\Ander\\Documents\\Meus Projetos\\omnimon\\Module Editor Source\\OmnimonModuleEditor\\tabs\\editors\\EvolutionCriteriaForm.cs",
+              "RelativeToolTip": "OmnimonModuleEditor\\tabs\\editors\\EvolutionCriteriaForm.cs",
+              "ViewState": "AgIAADwBAAAAAAAAAAAiwGEBAAAIAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-17T12:54:11.165Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Item.cs",
+              "DocumentMoniker": "C:\\Users\\Ander\\Documents\\Meus Projetos\\omnimon\\Module Editor Source\\OmnimonModuleEditor\\models\\Item.cs",
+              "RelativeDocumentMoniker": "OmnimonModuleEditor\\models\\Item.cs",
+              "ToolTip": "C:\\Users\\Ander\\Documents\\Meus Projetos\\omnimon\\Module Editor Source\\OmnimonModuleEditor\\models\\Item.cs",
+              "RelativeToolTip": "OmnimonModuleEditor\\models\\Item.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-08T16:33:22.992Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "BattleTab.cs",
+              "DocumentMoniker": "C:\\Users\\Ander\\Documents\\Meus Projetos\\omnimon\\Module Editor Source\\OmnimonModuleEditor\\tabs\\BattleTab.cs",
+              "RelativeDocumentMoniker": "OmnimonModuleEditor\\tabs\\BattleTab.cs",
+              "ToolTip": "C:\\Users\\Ander\\Documents\\Meus Projetos\\omnimon\\Module Editor Source\\OmnimonModuleEditor\\tabs\\BattleTab.cs",
+              "RelativeToolTip": "OmnimonModuleEditor\\tabs\\BattleTab.cs",
+              "ViewState": "AgIAACUAAAAAAAAAAAAgwAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-05T17:12:45.393Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "PetTab.cs",
+              "DocumentMoniker": "C:\\Users\\Ander\\Documents\\Meus Projetos\\omnimon\\Module Editor Source\\OmnimonModuleEditor\\tabs\\PetTab.cs",
+              "RelativeDocumentMoniker": "OmnimonModuleEditor\\tabs\\PetTab.cs",
+              "ToolTip": "C:\\Users\\Ander\\Documents\\Meus Projetos\\omnimon\\Module Editor Source\\OmnimonModuleEditor\\tabs\\PetTab.cs",
+              "RelativeToolTip": "OmnimonModuleEditor\\tabs\\PetTab.cs",
+              "ViewState": "AgIAAOkBAAAAAAAAAAAowF0AAAAQAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-05T17:02:33.942Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "ModuleTab.cs",
+              "DocumentMoniker": "C:\\Users\\Ander\\Documents\\Meus Projetos\\omnimon\\Module Editor Source\\OmnimonModuleEditor\\tabs\\ModuleTab.cs",
+              "RelativeDocumentMoniker": "OmnimonModuleEditor\\tabs\\ModuleTab.cs",
+              "ToolTip": "C:\\Users\\Ander\\Documents\\Meus Projetos\\omnimon\\Module Editor Source\\OmnimonModuleEditor\\tabs\\ModuleTab.cs",
+              "RelativeToolTip": "OmnimonModuleEditor\\tabs\\ModuleTab.cs",
+              "ViewState": "AgIAAB8DAAAAAAAAAAAawHMAAAAIAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-05T17:02:30.336Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "ItemTab.cs",
+              "DocumentMoniker": "C:\\Users\\Ander\\Documents\\Meus Projetos\\omnimon\\Module Editor Source\\OmnimonModuleEditor\\tabs\\ItemTab.cs",
+              "RelativeDocumentMoniker": "OmnimonModuleEditor\\tabs\\ItemTab.cs",
+              "ToolTip": "C:\\Users\\Ander\\Documents\\Meus Projetos\\omnimon\\Module Editor Source\\OmnimonModuleEditor\\tabs\\ItemTab.cs",
+              "RelativeToolTip": "OmnimonModuleEditor\\tabs\\ItemTab.cs",
+              "ViewState": "AgIAAKIAAAAAAAAAAAAAAJoAAAArAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-05T17:02:25.437Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

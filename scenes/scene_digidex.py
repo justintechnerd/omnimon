@@ -7,18 +7,21 @@ from core import runtime_globals
 from core.constants import *
 from core.game_digidex import is_pet_unlocked, load_digidex
 from core.game_digidex_entry import GameDigidexEntry
-from core.utils import blit_with_shadow, change_scene, get_font, get_module
-from core.utils_unlocks import unlock_item
-
+from core.utils.module_utils import get_module
+from core.utils.pygame_utils import blit_with_shadow, get_font, sprite_load_percent
+from core.utils.scene_utils import change_scene
+from core.utils.utils_unlocks import unlock_item
 
 UNKNOWN_SPRITE_PATH = "resources/Unknown.png"
 SPRITE_BUFFER = 10 
 SPRITE_FRAME = "0.png"
+SPRITE_SIZE = int(48 * UI_SCALE)
 
 class SceneDigidex:
     def __init__(self):
-        self.font = get_font(14)
-        self.unknown_sprite = pygame.image.load(UNKNOWN_SPRITE_PATH).convert_alpha()
+        self.font = get_font(int(14 * UI_SCALE))
+        # Use new method for unknown sprite and scale
+        self.unknown_sprite = sprite_load_percent(UNKNOWN_SPRITE_PATH, percent=(SPRITE_SIZE / SCREEN_HEIGHT) * 100, keep_proportion=True, base_on="height")
         self.digidex_data = load_digidex()
         self.pets = self.build_pet_list()
         self.selector = WindowPetSelector()
@@ -30,7 +33,11 @@ class SceneDigidex:
         self.tree_node_grid = {}
         self.tree_color_map = {}
 
-        self.bg_sprite = pygame.image.load("resources/Digidex.png").convert()
+        # Use new method for background, scale to screen height
+        if SCREEN_WIDTH > SCREEN_HEIGHT:
+            self.bg_sprite = sprite_load_percent(DIGIDEX_BACKGROUND_PATH, percent=600, keep_proportion=True, base_on="width")
+        else:
+            self.bg_sprite = sprite_load_percent(DIGIDEX_BACKGROUND_PATH, percent=100, keep_proportion=True, base_on="height")
         self.bg_frame = 0
         self.bg_timer = 0
         self.bg_frame_width = self.bg_sprite.get_width() // 6  # 326
@@ -49,7 +56,7 @@ class SceneDigidex:
                 name_format = module.name_format
                 known = is_pet_unlocked(name, module.name, version)
 
-                if known == False:
+                if not known:
                     name = "????"
                     attribute = "???"
                     sprite = self.unknown_sprite
@@ -59,8 +66,15 @@ class SceneDigidex:
                 entry = GameDigidexEntry(name, attribute, stage, module.name, version, sprite, known, name_format)
                 all_entries.append(entry)
 
-        if knowncount > 9:
-            unlock_item("PenC", "backgrounds", "swimmer")
+        # Generic unlock logic for digidex unlocks
+        for module in runtime_globals.game_modules.values():
+            unlocks = getattr(module, "unlocks", [])
+            if isinstance(unlocks, list):
+                for unlock in unlocks:
+                    if unlock.get("type") == "digidex" and "amout" in unlock:
+                        if knowncount >= unlock["amout"]:
+                            unlock_item(module.name, "digidex", unlock["name"])
+
         # Ordena: estágio, nome do módulo, versão
         all_entries.sort(key=lambda e: (e.stage, e.module.lower(), e.version))
         return all_entries
@@ -88,9 +102,8 @@ class SceneDigidex:
                         folder = f"modules/{module.name}/monsters/{module.name_format}"
                         folder = folder.replace("$", pet.name)
                         sprite_path = os.path.join(folder, "0.png")
-
-                        frame = pygame.image.load(sprite_path).convert_alpha()
-                        pet.sprite = pygame.transform.scale(frame, (48, 48))
+                        # Use new method for pet sprite and scale
+                        pet.sprite = sprite_load_percent(sprite_path, percent=(SPRITE_SIZE / SCREEN_HEIGHT) * 100, keep_proportion=True, base_on="height")
                     except Exception as e:
                         runtime_globals.game_console.log(f"[Digidex] Falha ao carregar {sprite_path}: {e}")
                         pet.sprite = self.unknown_sprite
@@ -102,7 +115,7 @@ class SceneDigidex:
             self.update_visible_tree_sprites()
         
         self.bg_timer += 1
-        if self.bg_timer >= 3:
+        if self.bg_timer >= 3 * (FRAME_RATE / 30):
             self.bg_timer = 0
             self.bg_frame = (self.bg_frame + 1) % 6
 
@@ -181,8 +194,7 @@ class SceneDigidex:
                     module = get_module(pet.module)
                     folder = f"modules/{module.name}/monsters/{module.name_format}".replace("$", pet.name)
                     sprite_path = os.path.join(folder, "0.png")
-                    frame = pygame.image.load(sprite_path).convert_alpha()
-                    pet.sprite = pygame.transform.scale(frame, (48, 48))
+                    pet.sprite = sprite_load_percent(sprite_path, percent=(SPRITE_SIZE / SCREEN_HEIGHT) * 100, keep_proportion=True, base_on="height")
                 except Exception as e:
                     runtime_globals.game_console.log(f"[Digidex] Falha ao carregar {sprite_path}: {e}")
                     pet.sprite = self.unknown_sprite
@@ -209,9 +221,9 @@ class SceneDigidex:
             for child in self.tree_data.get(current, []):
                 queue.append((child, depth + 1))
 
-        sprite_size = 48
-        vertical_spacing = 100
-        horizontal_spacing = 80
+        sprite_size = SPRITE_SIZE
+        vertical_spacing = int(100 * UI_SCALE)
+        horizontal_spacing = int(80 * UI_SCALE)
 
         if not hasattr(self, "tree_cursor"):
             self.tree_cursor = (0, 0)
@@ -265,7 +277,7 @@ class SceneDigidex:
                 px2 = child_x * horizontal_spacing + offset_x + child_adjust + sprite_size // 2
                 py2 = child_y * vertical_spacing + offset_y + sprite_size // 2
 
-                pygame.draw.line(surface, color, (px1, py1), (px2, py2), 3)
+                pygame.draw.line(surface, color, (px1, py1), (px2, py2), int(3 * UI_SCALE))
 
         # 3. Desenhar pets e nomes por cima
         attr_colors = {
@@ -299,24 +311,17 @@ class SceneDigidex:
             screen_y = py * vertical_spacing + offset_y
 
             # Caixa de fundo
-            pygame.draw.rect(surface, color, (screen_x - 4, screen_y - 4, sprite_size + 8, sprite_size + 8))
+            pygame.draw.rect(surface, color, (screen_x - int(4 * UI_SCALE), screen_y - int(4 * UI_SCALE), sprite_size + int(8 * UI_SCALE), sprite_size + int(8 * UI_SCALE)))
             surface.blit(sprite, (screen_x, screen_y))
-            sprite_rect = pygame.Rect(screen_x - 4, screen_y - 4, sprite_size + 8, sprite_size + 8)
-            pygame.draw.rect(surface, color2, sprite_rect, 2)
+            sprite_rect = pygame.Rect(screen_x - int(4 * UI_SCALE), screen_y - int(4 * UI_SCALE), sprite_size + int(8 * UI_SCALE), sprite_size + int(8 * UI_SCALE))
+            pygame.draw.rect(surface, color2, sprite_rect, int(2 * UI_SCALE))
 
             if pet and pet.known:
                 label = self.font.render(pet.name, True, color)
-                blit_with_shadow(surface, label, (screen_x, screen_y + sprite_size + 2))
-
-        
-
-    def get_entry_by_name(self, name):
-        for pet in self.pets:
-            if pet.name == name and pet.module == self.tree_root.module and pet.version == self.tree_root.version:
-                return pet
-        return None
+                blit_with_shadow(surface, label, (screen_x, screen_y + sprite_size + int(2 * UI_SCALE)))
 
     def load_evolution_tree(self, root_entry):
+
         """
         Carrega a árvore de evolução completa do pet (por módulo e versão).
         Retorna um dicionário onde cada chave é o nome do pet e o valor é uma lista de nomes dos filhos.
@@ -371,3 +376,9 @@ class SceneDigidex:
                 py = y_idx
                 self.tree_node_grid[(px, py)] = name
                 self.tree_node_pos[name] = (px, py)
+
+    def get_entry_by_name(self, name):
+        for pet in self.pets:
+            if pet.name == name and pet.module == self.tree_root.module and pet.version == self.tree_root.version:
+                return pet
+        return None

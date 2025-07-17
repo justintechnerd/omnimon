@@ -13,12 +13,13 @@ SAVE_FILE = "save/save_data.dat"
 # Persistent variables
 game_background = None
 background_module_name = None
+background_high_res = False
 
 pet_list = []
 poop_list = []
 traited = []
 unlocks = {}
-debug = True
+debug = False
 showClock = True
 sound = 1
 battle_area = {}
@@ -26,6 +27,8 @@ battle_round = {}
 rotated = False
 xai = 1
 xai_date = datetime.date.today()
+inventory = {}
+battle_effects = {}
 
 # Internal timer for autosave
 _last_save_time = time.time()
@@ -49,6 +52,9 @@ def save() -> None:
         "debug": debug,
         "xai": xai,
         "xai_date": xai_date,
+        "inventory": inventory,
+        "battle_effects": battle_effects,
+        "background_high_res": background_high_res,
     }
 
     with open(SAVE_FILE, "wb") as f:
@@ -60,8 +66,8 @@ def load() -> None:
     """
     Loads the global game state from the save file, if it exists.
     """
-    global pet_list, poop_list, traited, unlocks, battle_area, battle_round, xai, xai_date
-    global game_background, background_module_name, showClock, sound, debug
+    global pet_list, poop_list, traited, unlocks, battle_area, battle_round, xai, xai_date, background_high_res
+    global game_background, background_module_name, showClock, sound, debug, inventory, battle_effects
 
     if os.path.exists(SAVE_FILE):
         with open(SAVE_FILE, "rb") as f:
@@ -80,6 +86,9 @@ def load() -> None:
             debug = data.get("debug", True)
             xai = data.get("xai", random.randint(1, 7))
             xai_date = data.get("xai_date", datetime.date.today())
+            inventory = data.get("inventory", {})
+            battle_effects = data.get("battle_effects", {})
+            background_high_res = data.get("background_high_res", False)
 
 def autosave() -> None:
     """
