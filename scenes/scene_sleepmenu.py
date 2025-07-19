@@ -17,7 +17,6 @@ from core.utils.scene_utils import change_scene
 class SceneSleepMenu:
     def __init__(self) -> None:
         self.background = WindowBackground()
-        # Use new method for icons, scale to option icon size and keep proportions
         self.options = [
             ("Sleep", sprite_load_percent("resources/SleepIcon.png", percent=(OPTION_ICON_SIZE / SCREEN_HEIGHT) * 100, keep_proportion=True, base_on="height")),
             ("Wake", sprite_load_percent("resources/WakeIcon.png", percent=(OPTION_ICON_SIZE / SCREEN_HEIGHT) * 100, keep_proportion=True, base_on="height"))
@@ -31,6 +30,9 @@ class SceneSleepMenu:
             options=self.options,
             get_selected_index_callback=lambda: self.selected_index,
         )
+
+        self._cache_surface = None
+        self._cache_key = None
 
         runtime_globals.game_console.log("[SceneSleepMenu] Sleep menu initialized.")
 
@@ -50,29 +52,36 @@ class SceneSleepMenu:
         return [pet for pet in get_selected_pets() if pet.state == "nap"]
     
     def draw(self, surface: pygame.Surface) -> None:
-        self.background.draw(surface)
+        # Use a cache key for the current state that affects rendering
+        cache_key = (self.selected_index, tuple(pet.name for pet in self.pets_can()))
 
-        # Desenha menu horizontal (positions scaled)
-        self.menu_window.draw(surface, x=int(16 * UI_SCALE), y=int(16 * UI_SCALE), spacing=int(16 * UI_SCALE))
+        if cache_key != self._cache_key or self._cache_surface is None:
+            # Redraw full scene on new state
+            cache_surface = pygame.Surface((SCREEN_WIDTH, SCREEN_HEIGHT), pygame.SRCALPHA)
 
-        # Desenha pets na parte inferior
-        self.pet_list_window.draw(surface)
+            self.background.draw(cache_surface)
+            self.menu_window.draw(cache_surface, x=int(16 * UI_SCALE), y=int(16 * UI_SCALE), spacing=int(16 * UI_SCALE))
+            self.pet_list_window.draw(cache_surface)
+
+            self._cache_surface = cache_surface
+            self._cache_key = cache_key
+
+        # Blit cached surface every frame
+        surface.blit(self._cache_surface, (0, 0))
 
     def handle_event(self, input_action) -> None:
-        """
-        Handles keyboard and GPIO button inputs for menu navigation and selection.
-        """
         if input_action:
-            if input_action == "B":  # Maps to ESC (PC) & START button (Pi)
+            if input_action == "B":  # ESC or START
                 runtime_globals.game_sound.play("cancel")
                 change_scene("game")
 
-            elif input_action in ("LEFT", "RIGHT"):  # Navigate menu left/right
+            elif input_action in ("LEFT", "RIGHT"):
                 runtime_globals.game_sound.play("menu")
                 direction = 1 if input_action == "RIGHT" else -1
                 self.selected_index = (self.selected_index + direction) % len(self.options)
+                self._cache_surface = None  # Invalidate cache to redraw
 
-            elif input_action == "A":  # Maps to ENTER (PC) & A button (Pi)
+            elif input_action == "A":
                 self.confirm_selection()
 
     def confirm_selection(self) -> None:
@@ -83,7 +92,6 @@ class SceneSleepMenu:
 
     def put_pets_to_sleep(self) -> None:
         now = datetime.now()
-
         pets = self.pets_can_sleep()
         if len(pets) > 0:
             runtime_globals.game_sound.play("menu")
@@ -100,7 +108,6 @@ class SceneSleepMenu:
 
     def wake_pets(self) -> None:
         now = datetime.now()
-
         pets = self.pets_can_wake()
         if len(pets) > 0:
             runtime_globals.game_sound.play("menu")

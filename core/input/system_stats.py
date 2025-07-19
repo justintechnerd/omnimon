@@ -3,23 +3,23 @@ import psutil
 import os
 import platform
 
-# Cache system stats and update every second
+# Cache system stats and update every 3 seconds to reduce overhead
 last_update_time = 0
 cached_temp, cached_cpu, cached_memory = None, None, None
 
 def get_system_stats():
-    """Fetch system stats only if at least 1 second has passed. Never crash if a value can't be obtained."""
+    """Fetch system stats only if at least 3 seconds have passed. Never crash if a value can't be obtained."""
     global last_update_time, cached_temp, cached_cpu, cached_memory
     now = time.time()
 
-    if now - last_update_time >= 1:  # Limit updates to once per second
+    if now - last_update_time >= 3:  # Limit updates to once every 3 seconds to reduce overhead
         last_update_time = now
 
         # Detect OS
         is_windows = platform.system() == "Windows"
         is_linux = platform.system() == "Linux"
 
-        # Get CPU usage
+        # Get CPU usage (non-blocking)
         try:
             cached_cpu = psutil.cpu_percent(interval=0)
         except Exception:

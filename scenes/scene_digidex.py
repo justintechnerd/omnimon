@@ -42,6 +42,9 @@ class SceneDigidex:
         self.bg_timer = 0
         self.bg_frame_width = self.bg_sprite.get_width() // 6  # 326
 
+        self._cache_surface = None
+        self._cache_key = None
+
     def build_pet_list(self):
         all_entries = []
         knowncount = 0
@@ -120,14 +123,41 @@ class SceneDigidex:
             self.bg_frame = (self.bg_frame + 1) % 6
 
     def draw(self, surface: pygame.Surface):
+        # Always draw animated background first
         frame_rect = pygame.Rect(self.bg_frame * self.bg_frame_width, 0, self.bg_frame_width, SCREEN_HEIGHT)
         surface.blit(self.bg_sprite, (0, 0), frame_rect)
-        
+
+        # Compose cache key based on state
         if self.state == "menu":
-            self.selector.draw(surface)
-            selected = self.selector.get_selected_pet()
+            cache_key = (
+                "menu",
+                self.selector.selected_index,
+                tuple(pet.name for pet in self.pets),
+            )
         elif self.state == "tree":
-            self.draw_tree(surface)
+            # Use tree_root and tree_cursor for cache key
+            cache_key = (
+                "tree",
+                getattr(self.tree_root, "name", None),
+                getattr(self.tree_root, "module", None),
+                getattr(self.tree_root, "version", None),
+                getattr(self, "tree_cursor", (0, 0)),
+            )
+        else:
+            cache_key = ("other",)
+
+        # Only redraw if cache key changes or cache is empty
+        if cache_key != self._cache_key or self._cache_surface is None:
+            cache_surface = pygame.Surface((SCREEN_WIDTH, SCREEN_HEIGHT), pygame.SRCALPHA)
+            if self.state == "menu":
+                self.selector.draw(cache_surface)
+            elif self.state == "tree":
+                self.draw_tree(cache_surface)
+            self._cache_surface = cache_surface
+            self._cache_key = cache_key
+
+        # Blit cached scene (menu or tree) over the background
+        surface.blit(self._cache_surface, (0, 0))
 
     def handle_event(self, input_action):
         """

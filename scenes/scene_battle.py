@@ -115,43 +115,64 @@ class SceneBattle:
         self.armor_selected_item_index = 0
         self.armor_digimental_items = self.get_digimental_items()
 
+        self._cache_surface = None
+        self._cache_key = None
+
     def update(self):
         if self.mode:
             self.mode.update()
 
     def draw(self, surface: pygame.Surface):
-        self.background.draw(surface)
+        # Compose a cache key that reflects the dynamic state of the menu
+        cache_key = (
+            self.phase,
+            getattr(self.menu, "get_selected_index_callback", lambda: None)(),
+            tuple(pet.name for pet in self.pet_list_window.targets) if hasattr(self.pet_list_window, "targets") else tuple(),
+            tuple(self.pet_list_window.selected_indices) if hasattr(self.pet_list_window, "selected_indices") else tuple(),
+            self.armor_selected_item_index if self.phase == "armor" else None,
+        )
 
-        if self.phase in ["menu", "module", "battle_select"]:
-            # Draw horizontal menu
-            if len(self.menu.options) > 2:
-                self.menu.draw(surface, x=int(72 * UI_SCALE), y=int(16 * UI_SCALE), spacing=int(30 * UI_SCALE))
-            else:
-                self.menu.draw(surface, x=int(16 * UI_SCALE), y=int(16 * UI_SCALE), spacing=int(16 * UI_SCALE))
+        # Only cache menu phases, not self.mode
+        if self.phase in ["menu", "module", "battle_select", "jogress", "versus", "protocol_selection", "armor"]:
+            if cache_key != self._cache_key or self._cache_surface is None:
+                cache_surface = pygame.Surface((SCREEN_WIDTH, SCREEN_HEIGHT), pygame.SRCALPHA)
+                self.background.draw(cache_surface)
 
-            # Draw pets at the bottom
-            self.pet_list_window.draw(surface)
-        elif self.phase == "jogress":
-            self.draw_selection_phase(
-                surface,
-                prompt_text="Press START to confirm Jogress",
-                require_compatibility=True
-            )
-        elif self.phase == "versus":
-            self.draw_selection_phase(
-                surface,
-                prompt_text="Press START to begin Battle",
-                require_compatibility=False
-            )
-        elif self.phase == "protocol_selection":
-            # Draw protocol selection menu
-            self.protocol_menu.draw(surface)
-        elif self.phase == "armor":
-            self.draw_armor_selection_phase(
-                surface,
-                prompt_text="Press START to evolve"
-            )
+                if self.phase in ["menu", "module", "battle_select"]:
+                    # Draw horizontal menu
+                    if len(self.menu.options) > 2:
+                        self.menu.draw(cache_surface, x=int(72 * UI_SCALE), y=int(16 * UI_SCALE), spacing=int(30 * UI_SCALE))
+                    else:
+                        self.menu.draw(cache_surface, x=int(16 * UI_SCALE), y=int(16 * UI_SCALE), spacing=int(16 * UI_SCALE))
+                    # Draw pets at the bottom
+                    self.pet_list_window.draw(cache_surface)
+                elif self.phase == "jogress":
+                    self.draw_selection_phase(
+                        cache_surface,
+                        prompt_text="Press START to confirm Jogress",
+                        require_compatibility=True
+                    )
+                elif self.phase == "versus":
+                    self.draw_selection_phase(
+                        cache_surface,
+                        prompt_text="Press START to begin Battle",
+                        require_compatibility=False
+                    )
+                elif self.phase == "protocol_selection":
+                    self.protocol_menu.draw(cache_surface)
+                elif self.phase == "armor":
+                    self.draw_armor_selection_phase(
+                        cache_surface,
+                        prompt_text="Press START to evolve"
+                    )
+
+                self._cache_surface = cache_surface
+                self._cache_key = cache_key
+
+            # Blit cached menu scene
+            surface.blit(self._cache_surface, (0, 0))
         elif self.mode:
+            self.background.draw(surface)
             self.mode.draw(surface)
 
     def draw_selection_phase(self, surface, prompt_text, require_compatibility=False):
@@ -291,6 +312,7 @@ class SceneBattle:
             blit_with_shadow(surface, text, (text_x, text_y))
 
     def handle_event(self, input_action):
+        self._cache_surface = None
         if self.phase == "menu":
             self.handle_menu_input(input_action)
         elif self.phase == "module":

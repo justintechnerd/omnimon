@@ -1,6 +1,6 @@
 import pygame
 from core.constants import *
-from core.utils.pygame_utils import blit_with_shadow, get_font, sprite_load_percent
+from core.utils.pygame_utils import blit_with_cache, blit_with_shadow, get_font, sprite_load_percent
 
 
 class WindowHorizontalMenu:
@@ -22,6 +22,8 @@ class WindowHorizontalMenu:
         # Cache for draw layout
         self._last_screen_size = (SCREEN_WIDTH, SCREEN_HEIGHT)
         self._layout_cache = {}
+        self._last_selected_index = None  # Cache for selected index
+        self._sprite_cache = {}  # Cache for pre-rendered sprites
 
     def _cache_surfaces(self):
         # Pre-scale icons using the new method
@@ -95,11 +97,59 @@ class WindowHorizontalMenu:
         self._layout_cache["layout"] = layout
         return layout
 
-    def draw(self, surface: pygame.Surface, x: int, y: int, spacing: int = 16):
-        layout = self._precompute_layout(y, spacing)
+    def _cache_draw_sprites(self, layout):
+        """
+        Pre-render sprites for the current layout to minimize per-frame rendering.
+        """
+        self._sprite_cache = {}
         for size, idx, draw_x, draw_y, selected in layout:
             label, icon, amount = self.scaled_options[size][idx]
-            self.draw_option(surface, draw_x, draw_y, label, icon, selected, large=(size == "normal"), amount=amount)
+            frame = (
+                self.selection_on if selected else self.selection_off
+            ) if size == "normal" else (
+                self.selection_on_small if selected else self.selection_off_small
+            )
+            font = self.font_large if size == "normal" else self.font_small
+
+            # Render frame and icon
+            frame_surface = pygame.Surface(frame.get_size(), pygame.SRCALPHA)
+            blit_with_shadow(frame_surface, frame, (0, 0))
+            icon_x = (frame.get_width() - icon.get_width()) // 2
+            icon_y = int(20 * UI_SCALE)
+            blit_with_shadow(frame_surface, icon, (icon_x, icon_y))
+
+            # Render label
+            text_surface = font.render(label, True, FONT_COLOR_DEFAULT)
+            text_x = (frame.get_width() - text_surface.get_width()) // 2
+            text_y = icon_y + icon.get_height() + int(6 * UI_SCALE)
+            blit_with_shadow(frame_surface, text_surface, (text_x, text_y))
+
+            # Render amount if present
+            if amount is not None:
+                if isinstance(amount, (list, tuple)):
+                    amount_value = amount[0]  # Extract first value if iterable
+                else:
+                    amount_value = amount
+
+                if amount_value > 0:  # Perform comparison only on valid numeric values
+                    amount_font = self.font_small if size == "normal" else get_font(int(FONT_SIZE_SMALL * 0.6))
+                    amount_surface = amount_font.render(f"x{amount_value}", True, FONT_COLOR_GREEN)
+                    amount_x = frame.get_width() - amount_surface.get_width() - int(8 * UI_SCALE)
+                    amount_y = int(8 * UI_SCALE)
+                    blit_with_shadow(frame_surface, amount_surface, (amount_x, amount_y))
+
+            self._sprite_cache[idx] = (frame_surface, draw_x, draw_y)
+
+    def draw(self, surface: pygame.Surface, x: int, y: int, spacing: int = 16):
+        selected_index = self.get_index()
+        if self._last_selected_index != selected_index:
+            layout = self._precompute_layout(y, spacing)
+            self._cache_draw_sprites(layout)
+            self._last_selected_index = selected_index
+
+        for idx, (sprite, draw_x, draw_y) in self._sprite_cache.items():
+            #surface.blit(sprite, (draw_x, draw_y))
+            blit_with_cache(surface, sprite, (draw_x, draw_y))
 
     def draw_option(self, surface, x, y, label, icon, selected, large=True, amount=None):
         frame = (

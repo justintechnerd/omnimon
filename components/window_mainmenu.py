@@ -4,6 +4,7 @@ import pygame
 from core import game_globals, runtime_globals
 from core.constants import *
 from core.utils.pet_utils import pets_need_care
+from core.utils.pygame_utils import blit_with_cache
 
 #=====================================================================
 # WindowMenu - Main Menu Icon Bar (Optimized)
@@ -108,9 +109,11 @@ class WindowMenu:
 
         self.update_cache()
         if self.top_cache:
-            surface.blit(self.top_cache, (0, self.top_y))
+            #surface.blit(self.top_cache, (0, self.top_y))
+            blit_with_cache(surface, self.top_cache, (0, self.top_y))
         if self.bottom_cache:
-            surface.blit(self.bottom_cache, (0, self.bottom_y))
+            #surface.blit(self.bottom_cache, (0, self.bottom_y))
+            blit_with_cache(surface, self.bottom_cache, (0, self.bottom_y))
 
 
     def move_selection(self, direction):

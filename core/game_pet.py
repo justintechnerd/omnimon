@@ -12,6 +12,7 @@ from core.game_digidex import register_digidex_entry
 from core.game_module import sprite_load
 from core.game_poop import GamePoop
 from core.utils.module_utils import get_module
+from core.utils.pygame_utils import blit_with_cache
 from core.utils.scene_utils import change_scene
 from core.utils.utils_unlocks import is_unlocked, unlock_item
 
@@ -183,7 +184,8 @@ class GamePet:
             frame = pygame.transform.flip(frame, True, False)
         
         # Draw base pet sprite
-        surface.blit(frame, (self.x, self.y))
+        #surface.blit(frame, (self.x, self.y))
+        blit_with_cache(surface, frame, (self.x, self.y))
         
         # Determine overlay, if any
         overlay = None
@@ -207,13 +209,14 @@ class GamePet:
             if self.state in ["happy2", "happy3"]:
                 y = self.y
             base_pos = (x, y)
-            surface.blit(overlay, base_pos)
+            #surface.blit(overlay, base_pos)
+            blit_with_cache(surface, overlay, base_pos)
             
             if self.state == "happy3" and not sick:
                 # Draw additional overlay positions
-                surface.blit(overlay, (x, y + (24 * UI_SCALE)))
-                surface.blit(overlay, (x - PET_WIDTH - (24 * UI_SCALE), y))
-                surface.blit(overlay, (x - PET_WIDTH - (24 * UI_SCALE), y + (24 * UI_SCALE)))
+                blit_with_cache(surface, overlay, (x, y + (24 * UI_SCALE)))
+                blit_with_cache(surface, overlay, (x - PET_WIDTH - (24 * UI_SCALE), y))
+                blit_with_cache(surface, overlay, (x - PET_WIDTH - (24 * UI_SCALE), y + (24 * UI_SCALE)))
 
     def update(self):
         self.timer += 1

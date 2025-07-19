@@ -28,7 +28,7 @@
   "battle_base_sick_chance_lose": 10,
   "battle_atribute_advantage": 5,
   "battle_global_hit_points": 0,
-  "battle_sequential_rounds": false,
+  "battle_sequential_rounds": true,
   "death_max_injuries": 15,
   "death_care_mistake": 20,
   "death_sick_timer": 360,

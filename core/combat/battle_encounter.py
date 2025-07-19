@@ -19,7 +19,7 @@ from core.constants import *
 from core.game_module import sprite_load
 from core.utils.module_utils import get_module
 from core.utils.pet_utils import distribute_pets_evenly, get_battle_targets
-from core.utils.pygame_utils import blit_with_shadow, get_font, load_attack_sprites, sprite_load_percent
+from core.utils.pygame_utils import blit_with_cache, get_font, load_attack_sprites, sprite_load_percent
 from core.utils.scene_utils import change_scene
 from core.utils.utils_unlocks import unlock_item
 from core.utils import inventory_utils
@@ -849,7 +849,7 @@ class BattleEncounter:
         """
         surface.blit(self.level_sprite, (0, SCREEN_HEIGHT // 2 - self.level_sprite.get_height() // 2))
         level_text = self.font.render(f"Round {self.round}", True, FONT_COLOR_GREEN).convert_alpha()
-        blit_with_shadow(surface, level_text, (6 * UI_SCALE, 116 * UI_SCALE))
+        blit_with_cache(surface, level_text, (6 * UI_SCALE, 116 * UI_SCALE))
 
     def draw_entry(self, surface):
         """
@@ -947,7 +947,7 @@ class BattleEncounter:
             True,
             FONT_COLOR_GREEN if self.victory_status == "Victory" else FONT_COLOR_RED
         ).convert_alpha()
-        blit_with_shadow(surface, header, (20 * UI_SCALE, 30 * UI_SCALE))
+        blit_with_cache(surface, header, (20 * UI_SCALE, 30 * UI_SCALE))
 
         # Draw pet sprites horizontally (half size)
         pets = self.battle_player.team1
@@ -967,7 +967,7 @@ class BattleEncounter:
             sprite = pet.get_sprite(frame_id)
             sprite = pygame.transform.scale(sprite, (sprite_width, sprite_height))
             x = offset_x + i * spacing
-            blit_with_shadow(surface, sprite, (x, y))
+            blit_with_cache(surface, sprite, (x, y))
 
         # Draw Level, Exp, Bonus headers and values (adjusted for new sprite size)
         label_y = y + sprite_height + int(10 * UI_SCALE)
@@ -975,7 +975,7 @@ class BattleEncounter:
         # Draw headers
         for idx, label in enumerate(["Lv", "Xp", "+"]):
             text = self.font_small.render(label, True, FONT_COLOR_GREEN).convert_alpha()
-            blit_with_shadow(surface, text, (20 * UI_SCALE, label_y + idx * 24 * UI_SCALE))
+            blit_with_cache(surface, text, (20 * UI_SCALE, label_y + idx * 24 * UI_SCALE))
         # Draw values for each pet
         for i, pet in enumerate(pets):
             # Level
@@ -985,7 +985,7 @@ class BattleEncounter:
                 FONT_COLOR_YELLOW if self.battle_player.level_up[i] else FONT_COLOR_DEFAULT
             ).convert_alpha()
             level_text_width = level_text.get_width()
-            blit_with_shadow(surface, level_text, (col_xs[i] - level_text_width // 2, label_y))
+            blit_with_cache(surface, level_text, (col_xs[i] - level_text_width // 2, label_y))
 
             # Exp (show XP gained this battle)
             exp = self.battle_player.xp if self.victory_status == "Victory" else 0
@@ -993,13 +993,13 @@ class BattleEncounter:
                 exp = 0
             exp_text = self.font_small.render(str(exp), True, FONT_COLOR_DEFAULT).convert_alpha()
             exp_text_width = exp_text.get_width()
-            blit_with_shadow(surface, exp_text, (col_xs[i] - exp_text_width // 2, label_y + 24 * UI_SCALE))
+            blit_with_cache(surface, exp_text, (col_xs[i] - exp_text_width // 2, label_y + 24 * UI_SCALE))
 
             # Bonus
             bonus = self.battle_player.bonus if self.victory_status == "Victory" else 0
             bonus_text = self.font_small.render(str(bonus), True, FONT_COLOR_DEFAULT).convert_alpha()
             bonus_text_width = bonus_text.get_width()
-            blit_with_shadow(surface, bonus_text, (col_xs[i] - bonus_text_width // 2, label_y + 48 * UI_SCALE))
+            blit_with_cache(surface, bonus_text, (col_xs[i] - bonus_text_width // 2, label_y + 48 * UI_SCALE))
 
         # Draw Prize
         if self.victory_status == "Victory" and getattr(self, "prize_item", None):
@@ -1007,7 +1007,7 @@ class BattleEncounter:
         else:
             prize_text = "None"
         prize_label = self.font_small.render(f"Prize: {prize_text}", True, FONT_COLOR_YELLOW).convert_alpha()
-        blit_with_shadow(surface, prize_label, (20 * UI_SCALE, SCREEN_HEIGHT - 40 * UI_SCALE))
+        blit_with_cache(surface, prize_label, (20 * UI_SCALE, SCREEN_HEIGHT - 40 * UI_SCALE))
         
     def draw_hit_animations(self, surface):
         """
@@ -1016,7 +1016,7 @@ class BattleEncounter:
         for frame_index, (x, y) in self.hit_animations:
             if 0 <= frame_index < len(self.hit_animation_frames):
                 sprite = self.hit_animation_frames[frame_index]
-                blit_with_shadow(surface, sprite, (x - sprite.get_width() // 2, y - 32))
+                blit_with_cache(surface, sprite, (x - sprite.get_width() // 2, y - 32))
 
     def draw_enemies(self, surface: pygame.Surface):
         """
@@ -1070,7 +1070,7 @@ class BattleEncounter:
 
             if sprite:
                 sprite = pygame.transform.flip(sprite, True, False)
-                blit_with_shadow(surface, sprite, (x + (2 * UI_SCALE), y))
+                blit_with_cache(surface, sprite, (x + (2 * UI_SCALE), y))
 
     def draw_pets(self, surface: pygame.Surface):
         """
@@ -1095,7 +1095,7 @@ class BattleEncounter:
                 sprite = pet.get_sprite(frame_id)
                 sprite = pygame.transform.scale(sprite, (PET_WIDTH, PET_HEIGHT))
                 x = offset_x + i * spacing
-                blit_with_shadow(surface, sprite, (x, y))
+                blit_with_cache(surface, sprite, (x, y))
         else:
             # Original vertical layout
             for i, pet in enumerate(self.battle_player.team1):
@@ -1140,7 +1140,7 @@ class BattleEncounter:
                 if attack_entry and self.battle_player.phase[i] == "pet_charge":
                     y -= int(self.battle_player.attack_jump[i] * UI_SCALE)
                     x += int(self.battle_player.attack_forward[i] * UI_SCALE)
-                blit_with_shadow(surface, sprite, (x, y))
+                blit_with_cache(surface, sprite, (x, y))
 
     def draw_projectiles(self, surface):
         """
@@ -1148,7 +1148,7 @@ class BattleEncounter:
         """
         for data in self.battle_player.team1_projectiles:
             for sprite, pos, target, dt in data:
-                blit_with_shadow(surface, sprite, (pos[0], pos[1])) 
+                blit_with_cache(surface, sprite, (pos[0], pos[1])) 
 
     def draw_enemy_projectiles(self, surface):
         """
@@ -1156,7 +1156,7 @@ class BattleEncounter:
         """
         for data in self.battle_player.team2_projectiles:
             for sprite, pos, target, dt in data:
-                blit_with_shadow(surface, sprite, (pos[0], pos[1]))
+                blit_with_cache(surface, sprite, (pos[0], pos[1]))
 
     def draw_strength_bar(self, surface):
         """
@@ -1168,7 +1168,7 @@ class BattleEncounter:
         if self.strength == 14:
             surface.blit(self.training_max, (bar_x - int(18 * UI_SCALE), bar_bottom_y - int(209 * UI_SCALE)))
 
-        blit_with_shadow(surface, self.bar_back, (bar_x - int(3 * UI_SCALE), bar_bottom_y - int(169 * UI_SCALE)))
+        blit_with_cache(surface, self.bar_back, (bar_x - int(3 * UI_SCALE), bar_bottom_y - int(169 * UI_SCALE)))
 
         for i in range(self.strength):
             y = bar_bottom_y - (i + 1) * self.bar_piece.get_height()

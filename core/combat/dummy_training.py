@@ -88,17 +88,21 @@ class DummyTraining(Training):
         return self.strength > 10
 
     def draw_charge(self, surface):
-        bar_x = (SCREEN_WIDTH // 2 - self.bar_piece.get_width() // 2) - int(40 * UI_SCALE)
+        bar_piece = self._sprite_cache['bar_piece']
+        training_max = self._sprite_cache['training_max']
+        bar_back = self._sprite_cache['bar_back']
+
+        bar_x = (SCREEN_WIDTH // 2 - bar_piece.get_width() // 2) - int(40 * UI_SCALE)
         bar_bottom_y = SCREEN_HEIGHT // 2 + int(110 * UI_SCALE)
 
         if self.strength == 14:
-            surface.blit(self.training_max, (bar_x - int(18 * UI_SCALE), bar_bottom_y - int(209 * UI_SCALE)))
+            surface.blit(training_max, (bar_x - int(18 * UI_SCALE), bar_bottom_y - int(209 * UI_SCALE)))
         
-        blit_with_shadow(surface, self.bar_back, (bar_x - int(3 * UI_SCALE), bar_bottom_y - int(169 * UI_SCALE)))
+        blit_with_shadow(surface, bar_back, (bar_x - int(3 * UI_SCALE), bar_bottom_y - int(169 * UI_SCALE)))
 
         for i in range(self.strength):
-            y = bar_bottom_y - (i + 1) * self.bar_piece.get_height()
-            blit_with_shadow(surface, self.bar_piece, (bar_x, y))
+            y = bar_bottom_y - (i + 1) * bar_piece.get_height()
+            blit_with_shadow(surface, bar_piece, (bar_x, y))
 
         self.draw_pets(surface, PetFrame.IDLE1)
 
@@ -115,6 +119,11 @@ class DummyTraining(Training):
             blit_with_shadow(surface, sprite, (int(x), int(y)))
 
     def draw_result(self, surface):
+        # Use cached result sprites
+        bad_sprite = self._sprite_cache['bad']
+        great_sprite = self._sprite_cache['great']
+        excellent_sprite = self._sprite_cache['excellent']
+
         result_img = None
         if 10 <= self.strength < 14:
             result_img = self.bag2
@@ -127,41 +136,45 @@ class DummyTraining(Training):
                 y = SCREEN_HEIGHT // 2 - result_img.get_height() // 2
                 blit_with_shadow(surface, result_img, (x, y))
         else:
-            y = SCREEN_HEIGHT // 2 - self.bad_sprite.get_height() // 2
+            y = SCREEN_HEIGHT // 2 - bad_sprite.get_height() // 2
             if self.strength < 10:
-                blit_with_shadow(surface, self.bad_sprite, (0, y))
+                blit_with_shadow(surface, bad_sprite, (0, y))
             elif self.strength < 14:
-                blit_with_shadow(surface, self.great_sprite, (0, y))
+                blit_with_shadow(surface, great_sprite, (0, y))
             elif self.strength >= 14:
-                blit_with_shadow(surface, self.excellent_sprite, (0, y))
+                blit_with_shadow(surface, excellent_sprite, (0, y))
 
     def prepare_attacks(self):
         """Prepare multiple attacks from each pet based on strength level."""
         attack_count = self.get_attack_count()
-        targets = get_training_targets()
+        targets = self.pets
         total_pets = len(targets)
         if total_pets == 0:
             return
 
         available_height = SCREEN_HEIGHT
-        spacing = available_height // total_pets
-        spacing = min(spacing, OPTION_ICON_SIZE + int(20 * UI_SCALE))
-        start_y = ((SCREEN_HEIGHT - (spacing * total_pets)) // 2)
+        spacing = min(available_height // total_pets, OPTION_ICON_SIZE + int(20 * UI_SCALE))
+        start_y = (SCREEN_HEIGHT - (spacing * total_pets)) // 2
 
         for i, pet in enumerate(targets):
             atk_sprite = self.attack_sprites.get(str(pet.atk_main))
             x = SCREEN_WIDTH - OPTION_ICON_SIZE - int(70 * UI_SCALE)
             y = start_y + i * spacing
+
             if attack_count == 1:
                 self.attack_positions.append((atk_sprite, (x, y)))
             elif attack_count == 2:
                 self.attack_positions.append((atk_sprite, (x, y)))
                 self.attack_positions.append((atk_sprite, (x + int(20 * UI_SCALE), y + int(10 * UI_SCALE))))
             elif attack_count == 3:
-                atk_sprite = pygame.transform.scale2x(atk_sprite)
-                self.attack_positions.append((atk_sprite, (x, y)))
-                
+                scaled_sprite = pygame.transform.scale2x(atk_sprite)
+                self.attack_positions.append((scaled_sprite, (x, y)))
+                # Optionally, add more positions for extra visual feedback:
+                #self.attack_positions.append((atk_sprite, (x + int(20 * UI_SCALE), y + int(10 * UI_SCALE))))
+                #self.attack_positions.append((atk_sprite, (x - int(20 * UI_SCALE), y - int(10 * UI_SCALE))))
+
     def get_attack_count(self):
+        """Returns the number of attacks based on strength."""
         if self.strength < 10:
             return 1
         elif self.strength < 14:

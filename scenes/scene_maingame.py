@@ -6,6 +6,7 @@ import random
 import pygame
 import datetime
 import os
+import time
 
 from components.window_background import WindowBackground
 from components.window_clock import WindowClock
@@ -15,6 +16,7 @@ from core.constants import *
 from core.game_evolution_entity import GameEvolutionEntity
 from core.utils.module_utils import get_module
 from core.utils.pet_utils import all_pets_hatched, distribute_pets_evenly, draw_pet_outline, get_selected_pets
+from core.utils.pygame_utils import blit_with_cache
 from core.utils.scene_utils import change_scene
 
 HEARTS_SIZE = 8 * UI_SCALE
@@ -49,7 +51,9 @@ class SceneMainGame:
         self.cleaning = False
         self.cleaning_x = SCREEN_WIDTH
         self.cleaning_speed = CLEANING_SPEED
-        
+        self._hearts_cache = {}
+        self._fade_overlay_cache = None  # Cache fade overlay surface
+
         today = datetime.date.today()
         if game_globals.xai_date < today:
             game_globals.xai = random.randint(1, 7)
@@ -66,22 +70,30 @@ class SceneMainGame:
         if self.lock_updates:
             self.check_evolution_start()
             return
-        
+
+        # Update pets and poops only if necessary
         for pet in game_globals.pet_list:
             pet.update()
 
         for poop in game_globals.poop_list:
             poop.update()
 
+        # Handle fade-out timer
         if self.fade_out_timer > 0:
             self.fade_out_timer -= 1
             if self.fade_out_timer <= 0:
                 runtime_globals.main_menu_index = -1
                 runtime_globals.selected_pets = []
 
-        self.background.update()
-        self.update_cleaning()
+        # Update cleaning animation only if active
+        if self.cleaning:
+            self.update_cleaning()
+
+        # Check evolution start
         self.check_evolution_start()
+
+        # Update background and game messages
+        self.background.update()
         runtime_globals.game_message.update()
 
     def check_evolution_start(self):
@@ -175,7 +187,7 @@ class SceneMainGame:
 
     def draw(self, surface: pygame.Surface) -> None:
         """
-        Draws background, menu, pets, poops, clock and cleaning animation if active.
+        Draws background, menu, pets, poops, clock, and cleaning animation if active.
         Optimized to minimize unnecessary drawing and logic.
         """
         self.background.draw(surface)
@@ -183,54 +195,85 @@ class SceneMainGame:
 
         # Draw pets and their overlays
         pets = game_globals.pet_list
-        pets_len = len(pets)
         selected_pets = set(runtime_globals.selected_pets) if runtime_globals.selected_pets else set()
         show_hearts = runtime_globals.show_hearts
 
         for i, pet in enumerate(pets):
-            self.draw_pet(surface, pet, i)
-            # Draw overlays only if needed
-            frame_enum = pet.animation_frames[pet.frame_index]
-            frame = runtime_globals.pet_sprites[pet][frame_enum.value]
-            if pet.direction == 1:
-                frame = pygame.transform.flip(frame, True, False)
-            if pet in selected_pets:
-                draw_pet_outline(surface, frame, pet.x, pet.y, color=FONT_COLOR_BLUE)
-            if self.selection_mode == "pet" and i == self.pet_selection_index:
-                draw_pet_outline(surface, frame, pet.x, pet.y, color=FONT_COLOR_YELLOW)
-            if show_hearts:
-                self.draw_hearts(surface, pet.x + (PET_WIDTH//4), pet.y + PET_HEIGHT, pet.hunger)
-                self.draw_hearts(surface, pet.x + (PET_WIDTH//4), pet.y + PET_HEIGHT + (6 * UI_SCALE), pet.strength)
+            self.draw_pet(surface, pet, i, selected_pets, show_hearts)
 
         # Draw clock only if enabled
         if game_globals.showClock:
             self.clock.draw(surface)
 
-        # Draw poops if any
+        # Draw poops only if present
         if game_globals.poop_list:
             for poop in game_globals.poop_list:
                 poop.draw(surface)
 
-        # Draw cleaning animation if active
+        # Draw cleaning animation only if active
         if self.cleaning:
-            wash_sprite = runtime_globals.misc_sprites.get("Wash")
-            if wash_sprite:
-                pet_x = (24 * UI_SCALE) + (SCREEN_HEIGHT - PET_HEIGHT) // 2
-                surface.blit(wash_sprite, (self.cleaning_x, pet_x - (wash_sprite.get_height() - PET_HEIGHT)))
+            self.draw_cleaning(surface)
 
         # Draw fade overlay and evolved pets only if fading
         if self.lock_inputs and self.fade_alpha > 0:
-            fade_overlay = pygame.Surface((SCREEN_WIDTH, SCREEN_HEIGHT))
-            fade_overlay.fill((0, 0, 0))
-            fade_overlay.set_alpha(self.fade_alpha)
-            surface.blit(fade_overlay, (0, 0))
+            self.draw_fade_overlay(surface)
             for i, pet in enumerate(pets):
                 self.draw_pet_evolved(surface, pet, i)
 
-        # Draw food animation for eating pets (only if needed)
+        # Draw food animation for eating pets
+        self.draw_food_anims(surface)
+
+        # Draw game messages last
+        runtime_globals.game_message.draw(surface)
+
+    def draw_pet(self, surface: pygame.Surface, pet, index: int, selected_pets: set, show_hearts: bool) -> None:
+        """
+        Draws a single pet with selection/outline indicators.
+        """
+        pet.draw(surface)
+
+        frame_enum = pet.animation_frames[pet.frame_index]
+        frame = runtime_globals.pet_sprites[pet][frame_enum.value]
+
+        if pet.direction == 1:
+            frame = pygame.transform.flip(frame, True, False)
+
+        if pet in selected_pets:
+            draw_pet_outline(surface, frame, pet.x, pet.y, color=FONT_COLOR_BLUE)  # blue outline
+        if self.selection_mode == "pet" and index == self.pet_selection_index:
+            draw_pet_outline(surface, frame, pet.x, pet.y, color=FONT_COLOR_YELLOW)  # yellow highlight
+
+        if show_hearts:
+            self.draw_hearts(surface, pet.x + (PET_WIDTH // 4), pet.y + PET_HEIGHT, pet.hunger)
+            self.draw_hearts(surface, pet.x + (PET_WIDTH // 4), pet.y + PET_HEIGHT + (6 * UI_SCALE), pet.strength)
+
+    def draw_cleaning(self, surface: pygame.Surface) -> None:
+        """
+        Draws the cleaning animation.
+        """
+        wash_sprite = runtime_globals.misc_sprites.get("Wash")
+        if wash_sprite:
+            pet_x = (24 * UI_SCALE) + (SCREEN_HEIGHT - PET_HEIGHT) // 2
+            surface.blit(wash_sprite, (self.cleaning_x, pet_x - (wash_sprite.get_height() - PET_HEIGHT)))
+
+    def draw_fade_overlay(self, surface: pygame.Surface) -> None:
+        """
+        Draws the fade overlay, caching the surface for efficiency.
+        """
+        if not self._fade_overlay_cache or self._fade_overlay_cache.get_alpha() != self.fade_alpha:
+            fade_overlay = pygame.Surface((SCREEN_WIDTH, SCREEN_HEIGHT))
+            fade_overlay.fill((0, 0, 0))
+            fade_overlay.set_alpha(self.fade_alpha)
+            self._fade_overlay_cache = fade_overlay
+        surface.blit(self._fade_overlay_cache, (0, 0))
+
+    def draw_food_anims(self, surface: pygame.Surface) -> None:
+        """
+        Draws food animations for eating pets.
+        """
         game_pet_eating = getattr(runtime_globals, "game_pet_eating", None)
         if game_pet_eating:
-            for idx, pet in enumerate(pets):
+            for idx, pet in enumerate(game_globals.pet_list):
                 if idx in game_pet_eating and pet.state == "eat":
                     anim_frames = self.food_anims.get(idx)
                     if anim_frames:
@@ -251,57 +294,34 @@ class SceneMainGame:
                     game_pet_eating.pop(idx, None)
                     self.food_anims.pop(idx, None)
 
-        # Draw game messages last
-        runtime_globals.game_message.draw(surface)
-
-    def draw_pet(self, surface: pygame.Surface, pet, index: int) -> None:
-        """
-        Draws a single pet with selection/outline indicators.
-        """
-        pet.draw(surface)
-
-        frame_enum = pet.animation_frames[pet.frame_index]
-        frame = runtime_globals.pet_sprites[pet][frame_enum.value]
-
-        if pet.direction == 1:
-            frame = pygame.transform.flip(frame, True, False)
-
-        if pet in runtime_globals.selected_pets:
-            draw_pet_outline(surface, frame, pet.x, pet.y, color=FONT_COLOR_BLUE)  # blue outline
-        if self.selection_mode == "pet" and index == self.pet_selection_index:
-            draw_pet_outline(surface, frame, pet.x, pet.y, color=FONT_COLOR_YELLOW)  # yellow highlight  # yellow highlight
-
-        if runtime_globals.show_hearts:
-            self.draw_hearts(surface, pet.x + (PET_WIDTH//4), pet.y + PET_HEIGHT, pet.hunger)
-            self.draw_hearts(surface, pet.x + (PET_WIDTH//4), pet.y + PET_HEIGHT + (6 * UI_SCALE), pet.strength)
-
-    def draw_pet_evolved(self, surface: pygame.Surface, pet, index: int) -> None:
-        """
-        Draws a single pet with selection/outline indicators.
-        """
-        if runtime_globals.evolution_pet != pet:
-            return
-        pet.draw(surface)
-
-        frame_enum = pet.animation_frames[pet.frame_index]
-        frame = runtime_globals.pet_sprites[pet][frame_enum.value]
-
-        if pet.direction == 1:
-            frame = pygame.transform.flip(frame, True, False)
-
     def draw_hearts(self, surface: pygame.Surface, x: int, y: int, value: int, factor: int = 1) -> None:
         """
         Draws heart icons to represent hunger, strength or effort.
+        Uses a cache to avoid redrawing every frame.
         """
-        total_hearts = 4
-        for i in range(total_hearts):
-            heart_x = x + i * HEARTS_SIZE
-            if value >= (i + 1) * factor:
-                surface.blit(self.sprites["heart_full"], (heart_x, y))
-            elif value >= i * factor + (factor / 2):
-                surface.blit(self.sprites["heart_half"], (heart_x, y))
-            else:
-                surface.blit(self.sprites["heart_empty"], (heart_x, y))  
+        cache_key = (x, y, value, factor)
+        now = time.time()
+        cache_entry = self._hearts_cache.get(cache_key)
+
+        # Refresh cache if older than 1 second or not present
+        if not cache_entry or now - cache_entry[1] > 1:
+            total_hearts = 4
+            heart_surface = pygame.Surface((total_hearts * HEARTS_SIZE, HEARTS_SIZE), pygame.SRCALPHA)
+            for i in range(total_hearts):
+                heart_x = i * HEARTS_SIZE
+                if value >= (i + 1) * factor:
+                    heart_sprite = self.sprites["heart_full"]
+                elif value >= i * factor + (factor / 2):
+                    heart_sprite = self.sprites["heart_half"]
+                else:
+                    heart_sprite = self.sprites["heart_empty"]
+                heart_surface.blit(heart_sprite, (heart_x, 0))
+            self._hearts_cache[cache_key] = (heart_surface, now)
+        else:
+            heart_surface = cache_entry[0]
+
+        #surface.blit(heart_surface, (x, y))
+        blit_with_cache(surface, heart_surface, (x, y))
 
     def handle_event(self, input_action) -> None:
         """
@@ -469,8 +489,10 @@ class SceneMainGame:
 
         if input_action == "A":
             if index == 0:
+                runtime_globals.game_sound.play("menu")
                 self.start_scene("status")
             elif index == 1:
+                runtime_globals.game_sound.play("menu")
                 self.start_scene("feeding")
             elif index == 2:
                 self.start_training()
@@ -542,6 +564,7 @@ class SceneMainGame:
         """
         can_train = any(pet.can_train() for pet in get_selected_pets())
         if can_train:
+            runtime_globals.game_sound.play("menu")
             self.start_scene("training")
         else:
             runtime_globals.game_sound.play("cancel")
@@ -553,6 +576,7 @@ class SceneMainGame:
         """
         can_train = any(pet.can_battle() for pet in get_selected_pets())
         if can_train:
+            runtime_globals.game_sound.play("menu")
             self.start_scene("battle")
         else:
             runtime_globals.game_sound.play("cancel")

@@ -9,9 +9,9 @@ XAIARROW_ICON_PATH = "resources/XaiArrow.png"  # Update this path as needed
 class WindowXaiBar:
     SCALE_WIDTH = SCREEN_WIDTH / 240
     SCALE_HEIGHT = SCREEN_HEIGHT / 240
-    WIDTH = int(152 * SCALE_WIDTH)   # 132 + 20 for extra width
-    HEIGHT = int(72 * SCALE_HEIGHT)  # 68 + 4 for border (doubled)
-    INNER_WIDTH = int(148 * SCALE_WIDTH) # 128 + 20 for extra width
+    WIDTH = int(152 * SCALE_WIDTH)
+    HEIGHT = int(72 * SCALE_HEIGHT)
+    INNER_WIDTH = int(148 * SCALE_WIDTH)
     INNER_HEIGHT = int(68 * SCALE_HEIGHT)
 
     def __init__(self, x, y, xai_number, pet):
@@ -19,7 +19,7 @@ class WindowXaiBar:
         self.y = y
         self.xai_number = xai_number
         self.pet = pet
-        # Load and scale arrow sprite using the new method, scale to fit the extension height
+
         ext_height = 30 * UI_SCALE
         self.arrow_height = int(ext_height * 0.8)
         self.arrow_sprite = sprite_load_percent(
@@ -30,13 +30,26 @@ class WindowXaiBar:
         )
         self.arrow_width = self.arrow_sprite.get_width()
         self.arrow_animating = False
-        self.arrow_anim_dir = 1  # 1 = right, -1 = left
+        self.arrow_anim_dir = 1
         self.arrow_anim_x = 0
-        # Arrow should move so its midpoint covers the entire inner region
         self.arrow_anim_min = self.x + 2 - self.arrow_width // 2
         self.arrow_anim_max = self.x + 2 + self.INNER_WIDTH - self.arrow_width // 2
         self.selected_strength = None
-        self.structures = self.get_bar_structures()
+
+        # Caches
+        self._bar_structures_cache = None
+        self._bar_surfaces_cache = None
+        self._cache_key = None
+
+        self._update_cache()
+
+    def _update_cache(self):
+        # Use pet name, level, stage, and window size as cache key
+        key = (self.pet.name, self.pet.level, self.pet.stage, SCREEN_WIDTH, SCREEN_HEIGHT)
+        if key != self._cache_key:
+            self._bar_structures_cache = self._compute_bar_structures()
+            self._bar_surfaces_cache = self._compute_bar_surfaces()
+            self._cache_key = key
 
     def start(self):
         self.arrow_animating = True
@@ -50,7 +63,6 @@ class WindowXaiBar:
 
     def update(self):
         if self.arrow_animating:
-            # Speed: 1 (fastest) to 7 (slowest)
             speed = max(1, 8 - self.xai_number) * (30 / FRAME_RATE)
             self.arrow_anim_x += self.arrow_anim_dir * speed * UI_SCALE
             if self.arrow_anim_x <= self.arrow_anim_min:
@@ -60,11 +72,7 @@ class WindowXaiBar:
                 self.arrow_anim_x = self.arrow_anim_max
                 self.arrow_anim_dir = -1
 
-    def get_bar_structures(self):
-        """
-        Returns a list of (rect, value) tuples for the current pet,
-        where value is 1 for red, 2 for orange, 3 for yellow.
-        """
+    def _compute_bar_structures(self):
         yellow_width, orange_width, orange_height, red_width, red_height = self.getBars()
         name_seed = sum(ord(c) for c in self.pet.name)
         base_y = self.y + 2
@@ -80,14 +88,12 @@ class WindowXaiBar:
             offset = (name_seed % (max_x - min_x + 1)) if (max_x - min_x) > 0 else 0
             group_x = min_x + offset
 
-            # Rects: red, orange, yellow, orange, red
             red_left_rect = pygame.Rect(group_x, base_y + self.INNER_HEIGHT - red_height, red_width, red_height)
             orange_left_rect = pygame.Rect(red_left_rect.right, base_y + self.INNER_HEIGHT - orange_height, orange_width, orange_height)
             yellow_rect = pygame.Rect(orange_left_rect.right, base_y, yellow_width, self.INNER_HEIGHT)
             orange_right_rect = pygame.Rect(yellow_rect.right, base_y + self.INNER_HEIGHT - orange_height, orange_width, orange_height)
             red_right_rect = pygame.Rect(orange_right_rect.right, base_y + self.INNER_HEIGHT - red_height, red_width, red_height)
 
-            # Truncate red bars if outside the boundaries
             if red_left_rect.left < bar_left:
                 clip = bar_left - red_left_rect.left
                 red_left_rect.width -= clip
@@ -104,7 +110,6 @@ class WindowXaiBar:
             if red_right_rect.width > 0:
                 rects.append((red_right_rect, 1))
         else:
-            # Stage 5 or higher: two yellow bars, each with an orange on one side and a red at the tip
             side = "left" if (name_seed % 2 == 0) else "right"
             order = "small_first" if (name_seed % 4 < 2) else "big_first"
 
@@ -132,35 +137,28 @@ class WindowXaiBar:
             offset = (name_seed % (max_x - min_x + 1)) if (max_x - min_x) > 0 else 0
             group_x = min_x + offset
 
-            # First structure
             if side == "left":
-                # red, orange, yellow (left to right)
                 red1 = pygame.Rect(group_x, base_y + self.INNER_HEIGHT - red_height, struct1["red"], red_height)
                 orange1 = pygame.Rect(red1.right, base_y + self.INNER_HEIGHT - orange_height, struct1["orange"], orange_height)
                 yellow1 = pygame.Rect(orange1.right, base_y, struct1["yellow"], self.INNER_HEIGHT)
             else:
-                # yellow, orange, red (left to right)
                 yellow1 = pygame.Rect(group_x, base_y, struct1["yellow"], self.INNER_HEIGHT)
                 orange1 = pygame.Rect(yellow1.right, base_y + self.INNER_HEIGHT - orange_height, struct1["orange"], orange_height)
                 red1 = pygame.Rect(orange1.right, base_y + self.INNER_HEIGHT - red_height, struct1["red"], red_height)
 
-            # Second structure
             group_x2 = (group_x + struct1["red"] + struct1["orange"] + struct1["yellow"] + gap
                         if side == "left"
                         else group_x + struct1["yellow"] + struct1["orange"] + struct1["red"] + gap)
 
             if side == "left":
-                # red, orange, yellow (left to right)
                 red2 = pygame.Rect(group_x2, base_y + self.INNER_HEIGHT - red_height, struct2["red"], red_height)
                 orange2 = pygame.Rect(red2.right, base_y + self.INNER_HEIGHT - orange_height, struct2["orange"], orange_height)
                 yellow2 = pygame.Rect(orange2.right, base_y, struct2["yellow"], self.INNER_HEIGHT)
             else:
-                # yellow, orange, red (left to right)
                 yellow2 = pygame.Rect(group_x2, base_y, struct2["yellow"], self.INNER_HEIGHT)
                 orange2 = pygame.Rect(yellow2.right, base_y + self.INNER_HEIGHT - orange_height, struct2["orange"], orange_height)
                 red2 = pygame.Rect(orange2.right, base_y + self.INNER_HEIGHT - red_height, struct2["red"], red_height)
 
-            # Only add red2 if its width > 1 (ignore dummy red)
             if side == "left":
                 if red1.width > 0: rects.append((red1, 1))
                 if orange1.width > 0: rects.append((orange1, 2))
@@ -173,16 +171,34 @@ class WindowXaiBar:
                 if red1.width > 0: rects.append((red1, 1))
                 if yellow2.width > 0: rects.append((yellow2, 3))
                 if orange2.width > 0: rects.append((orange2, 2))
-                # Only add red2 if it's not just a dummy
                 if struct2["red"] > 1 and red2.width > 0:
                     rects.append((red2, 1))
         return rects
 
+    def _compute_bar_surfaces(self):
+        # Pre-render colored bar surfaces for each rect
+        color_map = {1: (255, 0, 0), 2: (255, 165, 0), 3: (255, 255, 0)}
+        surfaces = []
+        for rect, val in self._bar_structures_cache:
+            if rect.width > 0 and rect.height > 0:
+                surf = pygame.Surface((rect.width, rect.height), pygame.SRCALPHA)
+                pygame.draw.rect(surf, color_map[val], (0, 0, rect.width, rect.height), 0)
+                surfaces.append((surf, rect.x, rect.y))
+        return surfaces
+
+    @property
+    def structures(self):
+        self._update_cache()
+        return self._bar_structures_cache
+
+    @property
+    def bar_surfaces(self):
+        self._update_cache()
+        return self._bar_surfaces_cache
+
     def _get_strength_from_arrow(self):
-        # Check which rectangle the arrow's midpoint is above
         arrow_mid = self.arrow_anim_x + self.arrow_width // 2
-        rects = self.structures
-        for rect, val in rects:
+        for rect, val in self.structures:
             if rect.left <= arrow_mid <= rect.right:
                 return val
         return 0
@@ -198,7 +214,7 @@ class WindowXaiBar:
         pygame.draw.rect(inner_surf, (255, 255, 255, 200), (0, 0, self.INNER_WIDTH, self.INNER_HEIGHT), 0)
         blit_with_shadow(surface, inner_surf, (self.x + 2, self.y + 2))
 
-        # --- Draw top extension rectangle (white with black border) with shadow ---
+        # Draw top extension rectangle (white with black border) with shadow
         ext_height = 30
         ext_y = self.y - ext_height
         ext_surf = pygame.Surface((self.WIDTH, ext_height), pygame.SRCALPHA)
@@ -214,20 +230,11 @@ class WindowXaiBar:
         arrow_y = ext_y + (ext_height - self.arrow_height) // 2
         blit_with_shadow(surface, self.arrow_sprite, (arrow_x, arrow_y))
 
-        # --- Draw rectangles inside the bar using pet's data, with shadow ---
-        orange_color = (255, 165, 0)
-        yellow_color = (255, 255, 0)
-        red_color = (255, 0, 0)
-
-        color_map = {1: red_color, 2: orange_color, 3: yellow_color}
-        for rect, val in self.structures:
-            if rect.width > 0 and rect.height > 0:
-                surf = pygame.Surface((rect.width, rect.height), pygame.SRCALPHA)
-                pygame.draw.rect(surf, color_map[val], (0, 0, rect.width, rect.height), 0)
-                blit_with_shadow(surface, surf, (rect.x, rect.y))
+        # Draw cached bar surfaces
+        for surf, x, y in self.bar_surfaces:
+            blit_with_shadow(surface, surf, (x, y))
 
     def getBars(self):
-        # Returns: yellow_width, orange_width, orange_height, red_width, red_height
         yellow_width = int((7 + (self.pet.level / 4)) * self.SCALE_WIDTH)
         orange_width = int((20 + (self.pet.level / 3)) * self.SCALE_WIDTH)
         orange_height = int((self.INNER_HEIGHT * 2 / 3))

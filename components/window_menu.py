@@ -1,7 +1,7 @@
 import pygame
 from core import runtime_globals
 from core.constants import *
-from core.utils.pygame_utils import get_font
+from core.utils.pygame_utils import blit_with_cache, get_font
 
 
 class WindowMenu:
@@ -64,4 +64,5 @@ class WindowMenu:
             return
         x, y = self.position
         menu_surface = self._precompute_menu_surface()
-        surface.blit(menu_surface, (x, y))
+        #surface.blit(menu_surface, (x, y))
+        blit_with_cache(surface, menu_surface, (x, y))

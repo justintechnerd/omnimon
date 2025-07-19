@@ -86,6 +86,53 @@ class SceneFeedingMenu:
         if runtime_globals.food_index >= len(self.options):
             runtime_globals.food_index = 0
 
+        self._last_food_index = None  # Cache for food index to avoid redundant updates
+        self._last_strategy_index = None  # Cache for strategy index
+        self._options_cache_key = None  # Cache key for options list
+        self._cache_surface = None
+        self._cache_key = None
+
+    def _update_options_cache(self):
+        """
+        Updates the cached options list only if necessary.
+        """
+        current_key = (runtime_globals.food_index, runtime_globals.strategy_index)
+        if self._options_cache_key != current_key:
+            self._options_cache_key = current_key
+            # Reload options dynamically
+            self.options = []
+            # Add default items (Protein and Vitamin) as the first options, without amount
+            default_sprite_folder = os.path.join("resources", "items")
+            for default_item in runtime_globals.default_items.values():
+                sprite_path = os.path.join(default_sprite_folder, default_item.sprite_name)
+                anim_path = os.path.join(default_sprite_folder, f"{default_item.sprite_name.split('.')[0]}_anim.png")
+                if os.path.exists(sprite_path):
+                    icon = pygame.image.load(sprite_path).convert_alpha()
+                else:
+                    icon = pygame.Surface((48 * UI_SCALE, 48 * UI_SCALE), pygame.SRCALPHA)
+                
+                self.options.append((default_item.name, icon, -1, anim_path if os.path.exists(anim_path) else None))
+
+            # Add items from inventory (from all modules)
+            for module in runtime_globals.game_modules.values():
+                if hasattr(module, "items"):
+                    for item in module.items:
+                        if getattr(item, "effect", "") == "digimental":
+                            continue
+                        amount = game_globals.inventory.get(item.id, 0)
+                        if amount > 0:
+                            sprite_name = item.sprite_name
+                            if not sprite_name.lower().endswith(".png"):
+                                sprite_name += ".png"
+                            sprite_path = os.path.join(module.folder_path, "items", sprite_name)
+                            anim_path = os.path.join(module.folder_path, "items", f"{sprite_name.split('.')[0]}_anim.png")
+                            if os.path.exists(sprite_path):
+                                icon = pygame.image.load(sprite_path).convert_alpha()
+                            else:
+                                icon = pygame.Surface((48 * UI_SCALE, 48 * UI_SCALE), pygame.SRCALPHA)
+                            # For inventory items, include amount
+                            self.options.append((item.name, icon, amount, anim_path if os.path.exists(anim_path) else None, item.id))
+
     def get_selected_item(self):
         """
         Returns the currently selected food item based on the food index.
@@ -153,23 +200,47 @@ class SceneFeedingMenu:
 
     def update(self) -> None:
         """
-        Updates the feeding menu scene (currently no dynamic behavior).
+        Updates the feeding menu scene, ensuring options and targets are refreshed only when necessary.
         """
-        pass
+        self._update_options_cache()
+
+        # Update pet list targets only if strategy or food index changes
+        if self._last_food_index != runtime_globals.food_index or self._last_strategy_index != runtime_globals.strategy_index:
+            self.pet_list_window.targets = self.get_targets()
+            self.pet_list_window._last_cache_key = None  # Invalidate cache to redraw
+            self._last_food_index = runtime_globals.food_index
+            self._last_strategy_index = runtime_globals.strategy_index
 
     def draw(self, surface: pygame.Surface) -> None:
         """
         Draws the feeding menu and pet list.
         """
-        self.background.draw(surface)
-        # Desenha menu horizontal (positions scaled)
-        if len(self.options) > 2:
-            self.menu_window.draw(surface, x=int(72 * UI_SCALE), y=int(16 * UI_SCALE), spacing=int(30 * UI_SCALE))
-        else:
-            self.menu_window.draw(surface, x=int(16 * UI_SCALE), y=int(16 * UI_SCALE), spacing=int(16 * UI_SCALE))
+        # Compose a cache key that reflects the dynamic state of the menu
+        cache_key = (
+            runtime_globals.food_index,
+            runtime_globals.strategy_index,
+            tuple(pet.name for pet in self.pet_list_window.targets),
+        )
 
-        # Desenha pets na parte inferior
-        self.pet_list_window.draw(surface)
+        if cache_key != self._cache_key or self._cache_surface is None:
+            # Redraw full menu scene once on state change
+            cache_surface = pygame.Surface((SCREEN_WIDTH, SCREEN_HEIGHT), pygame.SRCALPHA)
+            self.background.draw(cache_surface)
+
+            # Draw menu window
+            if len(self.options) > 2:
+                self.menu_window.draw(cache_surface, x=int(72 * UI_SCALE), y=int(16 * UI_SCALE), spacing=int(30 * UI_SCALE))
+            else:
+                self.menu_window.draw(cache_surface, x=int(16 * UI_SCALE), y=int(16 * UI_SCALE), spacing=int(16 * UI_SCALE))
+
+            # Draw pet list window
+            self.pet_list_window.draw(cache_surface)
+
+            self._cache_surface = cache_surface
+            self._cache_key = cache_key
+
+        # Blit cached menu scene
+        surface.blit(self._cache_surface, (0, 0))
 
     def handle_event(self, input_action) -> None:
         """
@@ -182,10 +253,14 @@ class SceneFeedingMenu:
         elif input_action == "LEFT":  # Move food selection left
             runtime_globals.game_sound.play("menu")
             runtime_globals.food_index = (runtime_globals.food_index - 1) % len(self.options)
+            self.pet_list_window.targets = self.get_targets()
+            self.pet_list_window._last_cache_key = None  # Invalidate cache to redraw
 
         elif input_action == "RIGHT":  # Move food selection right
             runtime_globals.game_sound.play("menu")
             runtime_globals.food_index = (runtime_globals.food_index + 1) % len(self.options)
+            self.pet_list_window.targets = self.get_targets()
+            self.pet_list_window._last_cache_key = None
 
         elif input_action == "SELECT":  # Cycle strategy
             runtime_globals.game_sound.play("menu")

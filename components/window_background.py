@@ -5,7 +5,7 @@ import os
 from core import runtime_globals, game_globals
 from core.constants import *
 from core.utils.module_utils import get_module
-from core.utils.pygame_utils import sprite_load_percent
+from core.utils.pygame_utils import blit_with_cache, sprite_load_percent
 
 
 class WindowBackground:
@@ -22,7 +22,8 @@ class WindowBackground:
 
     def draw(self, surface):
         if self.image:
-            surface.blit(self.image, self.center)
+            #surface.blit(self.image, self.center)
+            blit_with_cache(surface, self.image, self.center)
 
     def update(self):
         now = time.time()
@@ -89,7 +90,7 @@ class WindowBackground:
 
         try:
             # Use the new sprite loading method to cover the screen, keeping proportions, base on width
-            self.image = sprite_load_percent(path, percent=100, keep_proportion=True, base_on="width")
+            self.image = sprite_load_percent(path, percent=100, keep_proportion=True, base_on="width", alpha=False)
             self.last_background = game_globals.game_background
             self.last_module = game_globals.background_module_name
             self.last_image_path = path

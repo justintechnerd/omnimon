@@ -5,6 +5,7 @@
 
 from core import runtime_globals
 from core.constants import FRAME_RATE
+from core.utils.pygame_utils import blit_with_cache
 
 class GamePoop:
     """
@@ -41,4 +42,5 @@ class GamePoop:
         self.frame_index = (self.frame_counter // FRAME_RATE) % 2
         sprite_key = f"JumboPoop{self.frame_index + 1}" if self.jumbo else f"Poop{self.frame_index + 1}"
         sprite = runtime_globals.misc_sprites.get(sprite_key)
-        surface.blit(sprite, (self.x, self.y))
+        #surface.blit(sprite, (self.x, self.y))
+        blit_with_cache(surface, sprite, (self.x, self.y))

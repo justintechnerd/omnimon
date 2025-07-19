@@ -14,6 +14,12 @@ pip install --user pygame==2.5.2
 sudo apt-get install libsdl2-mixer-2.0-0
 sudo apt-get install libsdl2-ttf-2.0-0
 pip install psutil
+sudo apt install -y python3-dev python3-pip python3-setuptools \
+    python3-wheel git build-essential \
+    libfreetype6-dev libsdl2-dev libsdl2-image-dev libsdl2-mixer-dev \
+    libsdl2-ttf-dev libportmidi-dev libjpeg-dev libtiff-dev \
+    libwebp-dev libpng-dev libx11-dev libxcursor-dev \
+    libxrandr-dev libxi-dev libgles2-mesa-dev libegl1-mesa-dev
 
 # Create the Omnimon service
 echo "[Unit]

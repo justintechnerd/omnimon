@@ -1,7 +1,7 @@
 import pygame
 from core import runtime_globals
 from core.constants import *
-from core.utils.pygame_utils import blit_with_shadow, get_font, sprite_load_percent
+from core.utils.pygame_utils import blit_with_cache, blit_with_shadow, get_font, sprite_load_percent
 
 GRID_DIM = 5
 CELL_SIZE = int(40 * UI_SCALE)  # Includes content and margins
@@ -21,6 +21,8 @@ class WindowFreezer:
         self._background_cache = None
         self._placeholder_cache = {}
         self._last_screen_size = (SCREEN_WIDTH, SCREEN_HEIGHT)
+        self._scene_cache_surface = None
+        self._scene_cache_key = None
         self.set_page(freezer_page)
 
     def set_page(self, freezer_page):
@@ -78,39 +80,53 @@ class WindowFreezer:
         self._last_screen_size = (SCREEN_WIDTH, SCREEN_HEIGHT)
 
     def draw(self, surface):
-        self._precompute_background()
-        # Blit the cached background (grid + placeholders)
-        surface.blit(self._background_cache, (0, 0))
+        cache_key = (
+            self.page_index,
+            self.cursor_row,
+            self.cursor_col,
+        )
 
-        width_scale = SCREEN_WIDTH / 240
-        height_scale = SCREEN_HEIGHT / 240
-        mmargin = (SCREEN_WIDTH - (WINDOW_SIZE + (GRID_DIM * MARGIN))) / 2
+        if cache_key != self._scene_cache_key or self._scene_cache_surface is None:
+            # Redraw full grid scene once on state change
+            cache_surface = pygame.Surface((SCREEN_WIDTH, SCREEN_HEIGHT), pygame.SRCALPHA)
+            self._precompute_background()
+            blit_with_cache(cache_surface, self._background_cache, (0, 0))
 
-        # Only draw pets and flags (dynamic content)
-        for row in range(GRID_DIM):
-            for col in range(GRID_DIM):
-                x = mmargin + (col * CELL_SIZE)
-                y = int(35 * height_scale) + row * CELL_SIZE
-                pet = self._get_pet_at(row, col)
-                if pet:
-                    # Module flag (on top)
-                    flag = self.scaled_module_flags.get(pet.module)
-                    if flag:
-                        fx = x + (CELL_SIZE - CONTENT_SIZE) // 2
-                        fy = y + int(1 * height_scale)
-                        blit_with_shadow(surface, flag, (fx, fy))
+            height_scale = SCREEN_HEIGHT / 240
+            mmargin = (SCREEN_WIDTH - (WINDOW_SIZE + (GRID_DIM * MARGIN))) / 2
 
-                    # Pet sprite (below flag)
-                    pet_sprite = self.scaled_pet_sprites.get(pet.name)
-                    if pet_sprite:
-                        sx = x + (CELL_SIZE - CONTENT_SIZE) // 2
-                        sy = y + int(5 * height_scale)
-                        surface.blit(pet_sprite, (sx, sy))
+            # Only draw pets and flags (dynamic content)
+            for row in range(GRID_DIM):
+                for col in range(GRID_DIM):
+                    x = mmargin + (col * CELL_SIZE)
+                    y = int(35 * height_scale) + row * CELL_SIZE
+                    pet = self._get_pet_at(row, col)
+                    if pet:
+                        # Module flag (on top)
+                        flag = self.scaled_module_flags.get(pet.module)
+                        if flag:
+                            fx = x + (CELL_SIZE - CONTENT_SIZE) // 2
+                            fy = y + int(1 * height_scale)
+                            blit_with_shadow(cache_surface, flag, (fx, fy))
 
-        # Draw cursor overlay (always on top)
-        x = mmargin + (self.cursor_col * CELL_SIZE)
-        y = int(35 * height_scale) + self.cursor_row * CELL_SIZE
-        pygame.draw.rect(surface, FONT_COLOR_GREEN, (x, y, CELL_SIZE - MARGIN, CELL_SIZE - MARGIN), 2)
+                        # Pet sprite (below flag)
+                        pet_sprite = self.scaled_pet_sprites.get(pet.name)
+                        if pet_sprite:
+                            sx = x + (CELL_SIZE - CONTENT_SIZE) // 2
+                            sy = y + int(5 * height_scale)
+                            blit_with_cache(cache_surface, pet_sprite, (sx, sy))
+
+            # Draw cursor overlay (always on top)
+            x = mmargin + (self.cursor_col * CELL_SIZE)
+            y = int(35 * height_scale) + self.cursor_row * CELL_SIZE
+            pygame.draw.rect(cache_surface, FONT_COLOR_GREEN, (x, y, CELL_SIZE - MARGIN, CELL_SIZE - MARGIN), 2)
+
+            self._scene_cache_surface = cache_surface
+            self._scene_cache_key = cache_key
+
+        # Blit cached grid scene
+        #surface.blit(self._scene_cache_surface, (0, 0))
+        blit_with_cache(surface, self._scene_cache_surface, (0, 0))
 
     def _get_pet_at(self, row, col):
         if row < len(self.pet_grid) and col < len(self.pet_grid[row]):

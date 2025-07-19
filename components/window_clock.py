@@ -4,7 +4,7 @@ import os
 
 from core import runtime_globals
 from core.constants import *
-from core.utils.pygame_utils import get_font, sprite_load_percent
+from core.utils.pygame_utils import blit_with_cache, get_font, sprite_load_percent
 
 class WindowClock:
     """
@@ -90,11 +90,13 @@ class WindowClock:
 
         # Draw cached time surface
         if self.time_surface:
-            surface.blit(self.time_surface, (self.x, self.padding))
+            #surface.blit(self.time_surface, (self.x, self.padding))
+            blit_with_cache(surface, self.time_surface, (self.x, self.padding))
 
         # Update and draw battery icon
         self.update_battery_icon()
         if self.battery_icon:
             battery_x = SCREEN_WIDTH - self.battery_icon.get_width() - self.padding
             battery_y = self.y + (self.height - self.battery_icon.get_height()) // 2
-            surface.blit(self.battery_icon, (battery_x, battery_y))
+            #surface.blit(self.battery_icon, (battery_x, battery_y))
+            blit_with_cache(surface, self.battery_icon, (battery_x, battery_y))
