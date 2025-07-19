@@ -3,7 +3,7 @@ import os
 import pygame
 import time
 from core.constants import *
-from core import game_console, runtime_globals
+from core import game_console, game_globals, runtime_globals
 
 shadow_cache = {}
 
@@ -23,17 +23,18 @@ def blit_with_shadow(surface, sprite, pos, offset=(2, 2)):
     """
     Blits a sprite with a shadow effect and logs the number of calls per second.
     """
-    global _blit_shadow_calls, _last_log_time
+    if game_globals.debug:
+        global _blit_shadow_calls, _last_log_time
 
-    # Increment the counter
-    _blit_shadow_calls += 1
+        # Increment the counter
+        _blit_shadow_calls += 1
 
-    # Log the count every second
-    current_time = time.time()
-    if current_time - _last_log_time >= 1:
-        print(f"blit_with_shadow calls per second: {_blit_shadow_calls}")
-        _blit_shadow_calls = 0
-        _last_log_time = current_time
+        # Log the count every second
+        current_time = time.time()
+        if current_time - _last_log_time >= 1:
+            print(f"blit_with_shadow calls per second: {_blit_shadow_calls}")
+            _blit_shadow_calls = 0
+            _last_log_time = current_time
 
     # Perform the blit with shadow
     shadow = get_shadow(sprite)
@@ -138,24 +139,25 @@ def blit_with_cache(surface, sprite, pos):
     """
     Blits a sprite using caching and logs the number of calls per second.
     """
-    global _blit_cache_calls, _last_cache_log_time
+    if game_globals.debug:
+        global _blit_cache_calls, _last_cache_log_time
 
-    # Generate a hash for the sprite
-    key = get_surface_hash(sprite)
+        # Generate a hash for the sprite
+        key = get_surface_hash(sprite)
 
-    # Use cached sprite if available
-    if key not in blit_cache:
-        blit_cache[key] = sprite.copy()
+        # Use cached sprite if available
+        if key not in blit_cache:
+            blit_cache[key] = sprite.copy()
 
-    # Increment the counter
-    _blit_cache_calls += 1
+        # Increment the counter
+        _blit_cache_calls += 1
 
-    # Log the count every second
-    current_time = time.time()
-    if current_time - _last_cache_log_time >= 1:
-        print(f"blit_with_cache calls per second: {_blit_cache_calls}")
-        _blit_cache_calls = 0
-        _last_cache_log_time = current_time
+        # Log the count every second
+        current_time = time.time()
+        if current_time - _last_cache_log_time >= 1:
+            print(f"blit_with_cache calls per second: {_blit_cache_calls}")
+            _blit_cache_calls = 0
+            _last_cache_log_time = current_time
 
     # Perform the blit
-    surface.blit(blit_cache[key], pos)
+    surface.blit(sprite, pos)
