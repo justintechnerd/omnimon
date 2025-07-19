@@ -4,7 +4,7 @@ from components.scrolling_text import ScrollingText
 from core import runtime_globals
 from core.constants import *
 from core.utils.module_utils import get_module
-from core.utils.pygame_utils import blit_with_shadow, get_font, sprite_load_percent
+from core.utils.pygame_utils import blit_with_cache, blit_with_shadow, get_font, sprite_load_percent
 
 
 PAGE_MARGIN = int(16 * UI_SCALE)
@@ -98,7 +98,8 @@ class WindowStatus:
             self._last_cache_key = cache_key
 
         # Blit cached static content
-        surface.blit(self._last_cache, (0, 0))
+        #surface.blit(self._last_cache, (0, 0))
+        blit_with_cache(surface, self._last_cache, (0, 0))
 
         # On page 1, always update and redraw scrolling name and stage
         if page_number == 1:
@@ -422,4 +423,5 @@ class WindowStatus:
         # Draw filled energy blocks
         for i in range(filled_blocks):
             bar_x = (x - 5) - (i + 1) * (block_width + block_spacing)
-            surface.blit(self.sprites["energy_bar"], (bar_x, y + int(5 * UI_SCALE)))
+            #surface.blit(self.sprites["energy_bar"], (bar_x, y + int(5 * UI_SCALE)))
+            blit_with_cache(surface, self.sprites["energy_bar"], (bar_x, y + int(5 * UI_SCALE)))

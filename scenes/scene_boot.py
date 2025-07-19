@@ -12,7 +12,7 @@ from core import game_globals, runtime_globals
 from core.constants import *
 from core.utils.module_utils import get_module
 from core.utils.pet_utils import distribute_pets_evenly
-from core.utils.pygame_utils import sprite_load_percent
+from core.utils.pygame_utils import blit_with_cache, sprite_load_percent
 from core.utils.scene_utils import change_scene
 
 
@@ -55,7 +55,7 @@ class SceneBoot:
         if self.boot_timer <= 80 * (FRAME_RATE / 30):
             # Center the controller sprite on screen
             sprite_rect = self.controller_sprite.get_rect(center=(SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2))
-            surface.blit(self.controller_sprite, sprite_rect)
+            blit_with_cache(surface, self.controller_sprite, sprite_rect)
         else:
             self.background.draw(surface)
 

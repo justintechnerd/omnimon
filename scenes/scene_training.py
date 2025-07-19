@@ -24,10 +24,6 @@ from core.utils.scene_utils import change_scene
 #=====================================================================
 
 class SceneTraining:
-    """
-    Menu scene where players choose between Dummy or Head-to-Head training.
-    """
-
     def __init__(self) -> None:
         self.background = WindowBackground(False)
         self.font = get_font(FONT_SIZE_LARGE)
@@ -51,7 +47,6 @@ class SceneTraining:
 
         self.pet_list_window = WindowPetList(lambda: get_training_targets())
 
-        # Xai window position and size scaled
         xai_x = int(SCREEN_WIDTH - (79 * UI_SCALE))
         xai_y = int(123 * UI_SCALE)
         xai_size = int(48 * UI_SCALE)
@@ -62,6 +57,10 @@ class SceneTraining:
             get_selected_index_callback=lambda: runtime_globals.training_index,
         )
 
+        # Cache variables for menu phase only
+        self._cache_surface = None
+        self._cache_key = None
+
         runtime_globals.game_console.log("[SceneTraining] Training scene initialized.")
 
     def update(self):
@@ -69,26 +68,48 @@ class SceneTraining:
             self.mode.update()
 
     def draw(self, surface: pygame.Surface):
-        self.background.draw(surface)
         if self.phase == "menu":
-            # Desenha menu horizontal
-            if len(self.options) > 2:
-                self.menu_window.draw(surface, x=int(72 * UI_SCALE), y=int(16 * UI_SCALE), spacing=int(30 * UI_SCALE))
-            else:
-                self.menu_window.draw(surface, x=int(16 * UI_SCALE), y=int(16 * UI_SCALE), spacing=int(16 * UI_SCALE))
+            # Compose a cache key that reflects the dynamic state of the menu
+            cache_key = (
+                runtime_globals.training_index,
+                tuple(pet.name for pet in get_training_targets()),
+                len(self.options),
+            )
 
-            # Desenha pets na parte inferior
-            self.pet_list_window.draw(surface)
-            if self.options[runtime_globals.training_index][0] == "Excite":
-                self.xai_window.draw(surface)
+            if cache_key != self._cache_key or self._cache_surface is None:
+                # Redraw full menu scene once on state change
+                cache_surface = pygame.Surface((SCREEN_WIDTH, SCREEN_HEIGHT), pygame.SRCALPHA)
+
+                self.background.draw(cache_surface)
+
+                # Draw horizontal menu with spacing logic
+                if len(self.options) > 2:
+                    self.menu_window.draw(cache_surface, x=int(72 * UI_SCALE), y=int(16 * UI_SCALE), spacing=int(30 * UI_SCALE))
+                else:
+                    self.menu_window.draw(cache_surface, x=int(16 * UI_SCALE), y=int(16 * UI_SCALE), spacing=int(16 * UI_SCALE))
+
+                # Draw pets at bottom
+                self.pet_list_window.draw(cache_surface)
+
+                # Draw Xai window if option "Excite" selected
+                if self.options[runtime_globals.training_index][0] == "Excite":
+                    self.xai_window.draw(cache_surface)
+
+                self._cache_surface = cache_surface
+                self._cache_key = cache_key
+
+            # Blit cached menu scene
+            surface.blit(self._cache_surface, (0, 0))
+
         elif self.mode:
-            surface.blit(self.backgroundIm, (0, 0))
-            self.mode.draw(surface)
+            if self.mode.phase in ["alert", "impact"]:
+                self.mode.draw(surface)
+            else:
+                self.background.draw(surface)
+                surface.blit(self.backgroundIm, (0, 0))
+                self.mode.draw(surface)
 
     def handle_event(self, input_action):
-        """
-        Handles keyboard and GPIO button inputs for menu interactions.
-        """
         if input_action:
             if self.phase == "menu":
                 self.handle_menu_input(input_action)
@@ -103,6 +124,7 @@ class SceneTraining:
             runtime_globals.game_sound.play("menu")
             delta = -1 if input_action == "LEFT" else 1
             runtime_globals.training_index = (runtime_globals.training_index + delta) % len(self.options)
+            self._cache_surface = None  # Invalidate cache on selection change
         elif input_action == "A":
             if self.options[runtime_globals.training_index][0] == "Dummy":
                 if len(get_training_targets())  > 0:
@@ -147,3 +169,5 @@ class SceneTraining:
         elif input_action == "SELECT" and self.phase == "menu":
             runtime_globals.game_sound.play("menu")
             runtime_globals.strategy_index = (runtime_globals.strategy_index + 1) % 2
+            self._cache_surface = None  # Invalidate cache if strategy affects menu visuals
+

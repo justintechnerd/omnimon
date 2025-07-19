@@ -1,7 +1,7 @@
 import pygame
 from core import runtime_globals
 from core.constants import *
-from core.utils.pygame_utils import sprite_load_percent, sprite_load
+from core.utils.pygame_utils import blit_with_cache, sprite_load_percent, sprite_load
 
 class WindowXai:
     FRAME_COUNT = 7
@@ -92,7 +92,8 @@ class WindowXai:
 
     def draw(self, surface):
         icon = self.scaled_sprites[self.current_frame]
-        surface.blit(icon, (self.x, self.y))
+        #surface.blit(icon, (self.x, self.y))
+        blit_with_cache(surface, icon, (self.x, self.y))
 
         if self.stopping and self.rect_anim_progress > 0:
             # Draw expanding/shrinking rectangles from top and bottom

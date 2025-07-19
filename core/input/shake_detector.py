@@ -1,5 +1,6 @@
 import time
 
+
 class ShakeDetector:
     def __init__(self, i2c_utils, threshold=1.5, cooldown=0.1):
         """

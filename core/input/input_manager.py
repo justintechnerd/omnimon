@@ -12,7 +12,6 @@ except ImportError:
 class InputManager:
     def __init__(self):
         self.device = "PC" if platform.system() != "Linux" else "Pi"
-
         self.key_map = {
             pygame.K_LEFT: "LEFT",
             pygame.K_RIGHT: "RIGHT",

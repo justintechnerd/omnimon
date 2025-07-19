@@ -1,7 +1,7 @@
 import pygame
 from core import game_globals, runtime_globals
 from core.constants import *
-from core.utils.pygame_utils import blit_with_shadow, get_font, sprite_load_percent_wh
+from core.utils.pygame_utils import blit_with_cache, blit_with_shadow, get_font, sprite_load_percent_wh
 
 
 class WindowPetList:
@@ -24,6 +24,7 @@ class WindowPetList:
         self.max_selection = 2
         self.select_mode = False
         self.selection_label = "Jogress"
+        self.targets = tuple(self.get_targets_callback())
 
     def get_scaled_sprite(self, pet):
         """Returns a cached version of the scaled sprite."""
@@ -43,14 +44,13 @@ class WindowPetList:
 
     def draw(self, surface: pygame.Surface):
         pets = game_globals.pet_list
-        targets = tuple(self.get_targets_callback())
         cache_key = (
             tuple(pet.name for pet in pets),
             tuple(self.selected_indices),
             self.cursor_index,
             self.select_mode,
             runtime_globals.strategy_index,
-            targets,
+            self.targets,
             UI_SCALE,
             SCREEN_WIDTH,
             SCREEN_HEIGHT,
@@ -75,7 +75,7 @@ class WindowPetList:
             blit_with_shadow(cached_surface, strategy_text, (strategy_x, strategy_y))
 
             for i, pet in enumerate(pets):
-                if pet in targets:
+                if pet in self.targets:
                     sprite = self.get_scaled_sprite(pet)
                 else:
                     sprite = self.get_transparent_sprite(pet)
@@ -91,7 +91,8 @@ class WindowPetList:
             self._last_cache = cached_surface
             self._last_cache_key = cache_key
 
-        surface.blit(self._last_cache, (0, 0))
+        #surface.blit(self._last_cache, (0, 0))
+        blit_with_cache(surface, self._last_cache, (0, 0))
 
     def get_selected_pets(self):
         return [game_globals.pet_list[i] for i in self.selected_indices]
@@ -100,9 +101,13 @@ class WindowPetList:
         if input_action == "LEFT":
             runtime_globals.game_sound.play("menu")
             self.cursor_index = (self.cursor_index - 1) % len(game_globals.pet_list)
+            self.targets = tuple(self.get_targets_callback())
+            self._last_cache_key = None  # Invalidate cache to redraw
         elif input_action == "RIGHT":
             runtime_globals.game_sound.play("menu")
             self.cursor_index = (self.cursor_index + 1) % len(game_globals.pet_list)
+            self.targets = tuple(self.get_targets_callback())
+            self._last_cache_key = None
         elif input_action == "A":
             if game_globals.pet_list[self.cursor_index] in self.get_targets_callback():
                 runtime_globals.game_sound.play("menu")
