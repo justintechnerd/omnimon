@@ -82,7 +82,10 @@ class I2CUtils:
         return self.charging
 
     def get_battery_percentage(self):
-        return self.read_capacity() if IS_RPI else 100
+        value = self.read_capacity() if IS_RPI else 100
+        if value is None:
+            return 0.0
+        return value
 
     def test_battery(self):
         """ Run continuous battery monitoring """
