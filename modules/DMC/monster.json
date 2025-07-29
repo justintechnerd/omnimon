@@ -5,8 +5,6 @@
       "stage": 0,
       "version": 1,
       "special": false,
-      "sleeps": null,
-      "wakes": null,
       "atk_main": 0,
       "atk_alt": 0,
       "time": 1,
@@ -19,6 +17,9 @@
       "heal_doses": 0,
       "power": 0,
       "attribute": "",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
+      "hp": 0,
       "evolve": [
         {
           "to": "Botamon"
@@ -30,8 +31,6 @@
       "stage": 1,
       "version": 1,
       "special": false,
-      "sleeps": null,
-      "wakes": null,
       "atk_main": 0,
       "atk_alt": 0,
       "time": 10,
@@ -44,6 +43,9 @@
       "heal_doses": 0,
       "power": 0,
       "attribute": "",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
+      "hp": 0,
       "evolve": [
         {
           "to": "Koromon"
@@ -69,14 +71,23 @@
       "heal_doses": 1,
       "power": 0,
       "attribute": "",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
+      "hp": 0,
       "evolve": [
         {
           "to": "Agumon",
-          "mistakes": [0,3]
+          "mistakes": [
+            0,
+            3
+          ]
         },
         {
           "to": "Betamon",
-          "mistakes": [4,999999]
+          "mistakes": [
+            4,
+            999999
+          ]
         }
       ]
     },
@@ -99,61 +110,148 @@
       "heal_doses": 2,
       "power": 30,
       "attribute": "Va",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
+      "hp": 0,
       "evolve": [
         {
           "to": "Greymon",
-          "mistakes": [0,3],
-          "training": [8,999999]
+          "training": [
+            32,
+            999999
+          ],
+          "mistakes": [
+            0,
+            3
+          ]
         },
         {
           "to": "Tyrannomon",
-          "mistakes": [4,999999],
-          "training": [1,3],
-          "overfeed": [3,999999],
-          "sleep_disturbances": [4,5]
+          "training": [
+            5,
+            15
+          ],
+          "mistakes": [
+            4,
+            999999
+          ],
+          "overfeed": [
+            3,
+            999999
+          ],
+          "sleep_disturbances": [
+            4,
+            5
+          ]
         },
         {
           "to": "Devimon",
-          "mistakes": [0,3],
-          "training": [0,7]
+          "training": [
+            0,
+            31
+          ],
+          "mistakes": [
+            0,
+            3
+          ]
         },
         {
           "to": "Meramon",
-          "mistakes": [4,999999],
-          "training": [4,999999],
-          "overfeed": [3,999999],
-          "sleep_disturbances": [6,999999]
+          "training": [
+            16,
+            999999
+          ],
+          "mistakes": [
+            4,
+            999999
+          ],
+          "overfeed": [
+            3,
+            999999
+          ],
+          "sleep_disturbances": [
+            6,
+            999999
+          ]
         },
         {
           "to": "Numemon",
-          "mistakes": [4,999999],
-          "training": [0,1]
+          "training": [
+            0,
+            4
+          ],
+          "mistakes": [
+            4,
+            999999
+          ]
         },
         {
           "to": "Numemon",
-          "mistakes": [4,999999],
-          "overfeed": [0,2]
+          "mistakes": [
+            4,
+            999999
+          ],
+          "overfeed": [
+            0,
+            2
+          ]
         },
         {
           "to": "Numemon",
-          "mistakes": [4,999999],
-          "training": [1,3],
-          "overfeed": [3,999999],
-          "sleep_disturbances": [0,3]
+          "training": [
+            5,
+            15
+          ],
+          "mistakes": [
+            4,
+            999999
+          ],
+          "overfeed": [
+            3,
+            999999
+          ],
+          "sleep_disturbances": [
+            0,
+            3
+          ]
         },
         {
           "to": "Numemon",
-          "mistakes": [4,999999],
-          "training": [1,3],
-          "overfeed": [3,999999],
-          "sleep_disturbances": [6,999999]
+          "training": [
+            5,
+            15
+          ],
+          "mistakes": [
+            4,
+            999999
+          ],
+          "overfeed": [
+            3,
+            999999
+          ],
+          "sleep_disturbances": [
+            6,
+            999999
+          ]
         },
         {
           "to": "Numemon",
-          "mistakes": [4,999999],
-          "training": [4,999999],
-          "overfeed": [3,999999],
-          "sleep_disturbances": [0,5]
+          "training": [
+            16,
+            999999
+          ],
+          "mistakes": [
+            4,
+            999999
+          ],
+          "overfeed": [
+            3,
+            999999
+          ],
+          "sleep_disturbances": [
+            0,
+            5
+          ]
         }
       ]
     },
@@ -176,54 +274,125 @@
       "heal_doses": 2,
       "power": 25,
       "attribute": "Vi",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
+      "hp": 0,
       "evolve": [
         {
           "to": "Airdramon",
-          "mistakes": [4,999999],
-          "training": [2,7],
-          "overfeed": [0,3],
-          "sleep_disturbances": [9,999999]
+          "training": [
+            8,
+            31
+          ],
+          "mistakes": [
+            4,
+            999999
+          ],
+          "overfeed": [
+            0,
+            3
+          ],
+          "sleep_disturbances": [
+            9,
+            999999
+          ]
         },
         {
           "to": "Seadramon",
-          "mistakes": [4,999999],
-          "training": [2,7],
-          "overfeed": [4,999999],
-          "sleep_disturbances": [0,8]
+          "training": [
+            8,
+            31
+          ],
+          "mistakes": [
+            4,
+            999999
+          ],
+          "overfeed": [
+            4,
+            999999
+          ],
+          "sleep_disturbances": [
+            0,
+            8
+          ]
         },
         {
           "to": "Devimon",
-          "mistakes": [0,3],
-          "training": [12,999999]
+          "training": [
+            48,
+            999999
+          ],
+          "mistakes": [
+            0,
+            3
+          ]
         },
         {
           "to": "Meramon",
-          "mistakes": [0,3],
-          "min-training": [0,47]
+          "mistakes": [
+            0,
+            3
+          ]
         },
         {
           "to": "Numemon",
-          "mistakes": [4,999999],
-          "training": [0,1]
+          "training": [
+            0,
+            7
+          ],
+          "mistakes": [
+            4,
+            999999
+          ]
         },
         {
           "to": "Numemon",
-          "mistakes": [4,999999],
-          "training": [8,999999]
+          "training": [
+            32,
+            999999
+          ],
+          "mistakes": [
+            4,
+            999999
+          ]
         },
         {
           "to": "Numemon",
-          "mistakes": [4,999999],
-          "training": [2,7],
-          "overfeed": [4,999999],
-          "sleep_disturbances": [9,999999]
+          "training": [
+            8,
+            31
+          ],
+          "mistakes": [
+            4,
+            999999
+          ],
+          "overfeed": [
+            4,
+            999999
+          ],
+          "sleep_disturbances": [
+            9,
+            999999
+          ]
         },
         {
           "to": "Numemon",
-          "mistakes": [4,999999],
-          "training": [2,7],
-          "overfeed": [0,3],
-          "sleep_disturbances": [0,8]
+          "training": [
+            8,
+            31
+          ],
+          "mistakes": [
+            4,
+            999999
+          ],
+          "overfeed": [
+            0,
+            3
+          ],
+          "sleep_disturbances": [
+            0,
+            8
+          ]
         }
       ]
     },
@@ -246,11 +415,20 @@
       "heal_doses": 1,
       "power": 50,
       "attribute": "Va",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
+      "hp": 0,
       "evolve": [
         {
           "to": "MetalGreymon",
-          "battles": [15,999999],
-          "win_ratio": [80,100]
+          "battles": [
+            15,
+            999999
+          ],
+          "win_ratio": [
+            80,
+            100
+          ]
         }
       ]
     },
@@ -273,12 +451,20 @@
       "heal_doses": 1,
       "power": 50,
       "attribute": "Vi",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
+      "hp": 0,
       "evolve": [
         {
           "to": "MetalGreymon",
-          "time": 2160,
-          "battles": [15,999999],
-          "win_ratio": [80,100]
+          "battles": [
+            15,
+            999999
+          ],
+          "win_ratio": [
+            80,
+            100
+          ]
         }
       ]
     },
@@ -301,11 +487,20 @@
       "heal_doses": 1,
       "power": 50,
       "attribute": "Va",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
+      "hp": 0,
       "evolve": [
         {
           "to": "MetalGreymon",
-          "battles": [15,999999],
-          "win_ratio": [80,100]
+          "battles": [
+            15,
+            999999
+          ],
+          "win_ratio": [
+            80,
+            100
+          ]
         }
       ]
     },
@@ -328,11 +523,20 @@
       "heal_doses": 3,
       "power": 40,
       "attribute": "Vi",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
+      "hp": 0,
       "evolve": [
         {
           "to": "Monzaemon",
-          "battles": [15,999999],
-          "win_ratio": [80,100]
+          "battles": [
+            15,
+            999999
+          ],
+          "win_ratio": [
+            80,
+            100
+          ]
         }
       ]
     },
@@ -355,11 +559,20 @@
       "heal_doses": 2,
       "power": 45,
       "attribute": "Da",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
+      "hp": 0,
       "evolve": [
         {
           "to": "Mamemon",
-          "battles": [15,999999],
-          "win_ratio": [80,100]
+          "battles": [
+            15,
+            999999
+          ],
+          "win_ratio": [
+            80,
+            100
+          ]
         }
       ]
     },
@@ -382,11 +595,20 @@
       "heal_doses": 2,
       "power": 45,
       "attribute": "Da",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
+      "hp": 0,
       "evolve": [
         {
           "to": "Mamemon",
-          "battles": [15,999999],
-          "win_ratio": [80,100]
+          "battles": [
+            15,
+            999999
+          ],
+          "win_ratio": [
+            80,
+            100
+          ]
         }
       ]
     },
@@ -409,11 +631,20 @@
       "heal_doses": 2,
       "power": 45,
       "attribute": "Da",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
+      "hp": 0,
       "evolve": [
         {
           "to": "Mamemon",
-          "battles": [15,999999],
-          "win_ratio": [80,100]
+          "battles": [
+            15,
+            999999
+          ],
+          "win_ratio": [
+            80,
+            100
+          ]
         }
       ]
     },
@@ -436,12 +667,24 @@
       "heal_doses": 1,
       "power": 100,
       "attribute": "Vi",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
+      "hp": 0,
       "evolve": [
         {
           "to": "BlitzGreymon",
-          "mistakes": [0,1],
-          "battles": [15,999999],
-          "win_ratio": [80,100]
+          "battles": [
+            15,
+            999999
+          ],
+          "win_ratio": [
+            80,
+            100
+          ],
+          "mistakes": [
+            0,
+            1
+          ]
         }
       ]
     },
@@ -464,12 +707,24 @@
       "heal_doses": 1,
       "power": 100,
       "attribute": "Va",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
+      "hp": 0,
       "evolve": [
         {
           "to": "ShinMonzaemon",
-          "mistakes": [0,1],
-          "battles": [15,999999],
-          "win_ratio": [80,100]
+          "battles": [
+            15,
+            999999
+          ],
+          "win_ratio": [
+            80,
+            100
+          ],
+          "mistakes": [
+            0,
+            1
+          ]
         }
       ]
     },
@@ -492,12 +747,24 @@
       "heal_doses": 1,
       "power": 85,
       "attribute": "Da",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
+      "hp": 0,
       "evolve": [
         {
           "to": "BanchoMamemon",
-          "mistakes": [0,1],
-          "battles": [15,999999],
-          "win_ratio": [80,100]
+          "battles": [
+            15,
+            999999
+          ],
+          "win_ratio": [
+            80,
+            100
+          ],
+          "mistakes": [
+            0,
+            1
+          ]
         }
       ]
     },
@@ -520,11 +787,14 @@
       "heal_doses": 1,
       "power": 170,
       "attribute": "Vi",
+      "condition_hearts": 0,
+      "jogress_avaliable": true,
+      "hp": 0,
       "evolve": [
         {
           "to": "Omnimon Alter-S",
-          "jogress": "CresGarurumon",
-          "version": 2
+          "version": 2,
+          "jogress": "CresGarurumon"
         }
       ]
     },
@@ -547,6 +817,9 @@
       "heal_doses": 2,
       "power": 170,
       "attribute": "Va",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
+      "hp": 0,
       "evolve": []
     },
     {
@@ -568,6 +841,9 @@
       "heal_doses": 1,
       "power": 150,
       "attribute": "Da",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
+      "hp": 0,
       "evolve": []
     },
     {
@@ -589,6 +865,9 @@
       "heal_doses": 1,
       "power": 200,
       "attribute": "Vi",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
+      "hp": 0,
       "evolve": []
     },
     {
@@ -596,8 +875,6 @@
       "stage": 0,
       "version": 2,
       "special": false,
-      "sleeps": null,
-      "wakes": null,
       "atk_main": 0,
       "atk_alt": 0,
       "time": 1,
@@ -610,6 +887,9 @@
       "heal_doses": 0,
       "power": 0,
       "attribute": "",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
+      "hp": 0,
       "evolve": [
         {
           "to": "Punimon"
@@ -621,8 +901,6 @@
       "stage": 1,
       "version": 2,
       "special": false,
-      "sleeps": null,
-      "wakes": null,
       "atk_main": 0,
       "atk_alt": 0,
       "time": 10,
@@ -635,6 +913,9 @@
       "heal_doses": 0,
       "power": 0,
       "attribute": "",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
+      "hp": 0,
       "evolve": [
         {
           "to": "Tsunomon"
@@ -660,14 +941,23 @@
       "heal_doses": 1,
       "power": 0,
       "attribute": "",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
+      "hp": 0,
       "evolve": [
         {
           "to": "Gabumon",
-          "mistakes": [0,3]
+          "mistakes": [
+            0,
+            3
+          ]
         },
         {
           "to": "Elecmon",
-          "mistakes": [4,999999]
+          "mistakes": [
+            4,
+            999999
+          ]
         }
       ]
     },
@@ -690,61 +980,148 @@
       "heal_doses": 2,
       "power": 30,
       "attribute": "Da",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
+      "hp": 0,
       "evolve": [
         {
           "to": "Kabuterimon",
-          "mistakes": [0,3],
-          "training": [12,999999]
+          "training": [
+            48,
+            999999
+          ],
+          "mistakes": [
+            0,
+            3
+          ]
         },
         {
           "to": "Garurumon",
-          "mistakes": [4,999999],
-          "training": [1,7],
-          "overfeed": [3,999999],
-          "sleep_disturbances": [4,5]
+          "training": [
+            5,
+            31
+          ],
+          "mistakes": [
+            4,
+            999999
+          ],
+          "overfeed": [
+            3,
+            999999
+          ],
+          "sleep_disturbances": [
+            4,
+            5
+          ]
         },
         {
           "to": "Angemon",
-          "mistakes": [0,3],
-          "training": [0,11]
+          "training": [
+            0,
+            47
+          ],
+          "mistakes": [
+            0,
+            3
+          ]
         },
         {
           "to": "Frigimon",
-          "mistakes": [4,999999],
-          "training": [8,999999],
-          "overfeed": [3,999999],
-          "sleep_disturbances": [6,999999]
+          "training": [
+            32,
+            999999
+          ],
+          "mistakes": [
+            4,
+            999999
+          ],
+          "overfeed": [
+            3,
+            999999
+          ],
+          "sleep_disturbances": [
+            6,
+            999999
+          ]
         },
         {
           "to": "Vegiemon",
-          "mistakes": [4,999999],
-          "training": [0,1]
+          "training": [
+            0,
+            4
+          ],
+          "mistakes": [
+            4,
+            999999
+          ]
         },
         {
           "to": "Vegiemon",
-          "mistakes": [4,999999],
-          "overfeed": [0,2]
+          "mistakes": [
+            4,
+            999999
+          ],
+          "overfeed": [
+            0,
+            2
+          ]
         },
         {
           "to": "Vegiemon",
-          "mistakes": [4,999999],
-          "training": [1,7],
-          "overfeed": [3,999999],
-          "sleep_disturbances": [0,3]
+          "training": [
+            5,
+            31
+          ],
+          "mistakes": [
+            4,
+            999999
+          ],
+          "overfeed": [
+            3,
+            999999
+          ],
+          "sleep_disturbances": [
+            0,
+            3
+          ]
         },
         {
           "to": "Vegiemon",
-          "mistakes": [4,999999],
-          "training": [1,7],
-          "overfeed": [3,999999],
-          "sleep_disturbances": [6,999999]
+          "training": [
+            5,
+            31
+          ],
+          "mistakes": [
+            4,
+            999999
+          ],
+          "overfeed": [
+            3,
+            999999
+          ],
+          "sleep_disturbances": [
+            6,
+            999999
+          ]
         },
         {
           "to": "Vegiemon",
-          "mistakes": [4,999999],
-          "training": [8,999999],
-          "overfeed": [3,999999],
-          "sleep_disturbances": [0,5]
+          "training": [
+            32,
+            999999
+          ],
+          "mistakes": [
+            4,
+            999999
+          ],
+          "overfeed": [
+            3,
+            999999
+          ],
+          "sleep_disturbances": [
+            0,
+            5
+          ]
         }
       ]
     },
@@ -767,59 +1144,140 @@
       "heal_doses": 2,
       "power": 25,
       "attribute": "Da",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
+      "hp": 0,
       "evolve": [
         {
           "to": "Birdramon",
-          "mistakes": [0,3],
-          "training": [0,11]
+          "training": [
+            0,
+            47
+          ],
+          "mistakes": [
+            0,
+            3
+          ]
         },
         {
           "to": "Whamon",
-          "mistakes": [4,999999],
-          "training": [8,999999],
-          "overfeed": [6,999999],
-          "sleep_disturbances": [4,999999]
+          "training": [
+            32,
+            999999
+          ],
+          "mistakes": [
+            4,
+            999999
+          ],
+          "overfeed": [
+            6,
+            999999
+          ],
+          "sleep_disturbances": [
+            4,
+            999999
+          ]
         },
         {
           "to": "Angemon",
-          "mistakes": [0,3],
-          "training": [12,999999]
+          "training": [
+            48,
+            999999
+          ],
+          "mistakes": [
+            0,
+            3
+          ]
         },
         {
           "to": "Frigimon",
-          "mistakes": [4,999999],
-          "training": [2,7],
-          "overfeed": [0,5],
-          "sleep_disturbances": [6,999999]
+          "training": [
+            8,
+            31
+          ],
+          "mistakes": [
+            4,
+            999999
+          ],
+          "overfeed": [
+            0,
+            5
+          ],
+          "sleep_disturbances": [
+            6,
+            999999
+          ]
         },
         {
           "to": "Vegiemon",
-          "mistakes": [4,999999],
-          "training": [0,1]
+          "training": [
+            0,
+            7
+          ],
+          "mistakes": [
+            4,
+            999999
+          ]
         },
         {
           "to": "Vegiemon",
-          "mistakes": [4,999999],
-          "training": [8,999999],
-          "overfeed": [0,5]
+          "training": [
+            32,
+            999999
+          ],
+          "mistakes": [
+            4,
+            999999
+          ],
+          "overfeed": [
+            0,
+            5
+          ]
         },
         {
           "to": "Vegiemon",
-          "mistakes": [4,999999],
-          "training": [2,7],
-          "overfeed": [6,999999]
+          "training": [
+            8,
+            31
+          ],
+          "mistakes": [
+            4,
+            999999
+          ],
+          "overfeed": [
+            6,
+            999999
+          ]
         },
         {
           "to": "Vegiemon",
-          "mistakes": [4,999999],
-          "training": [8,999999],
-          "sleep_disturbances": [0,3]
+          "training": [
+            32,
+            999999
+          ],
+          "mistakes": [
+            4,
+            999999
+          ],
+          "sleep_disturbances": [
+            0,
+            3
+          ]
         },
         {
           "to": "Vegiemon",
-          "mistakes": [4,999999],
-          "training": [2,7],
-          "sleep_disturbances": [0,5]
+          "training": [
+            8,
+            31
+          ],
+          "mistakes": [
+            4,
+            999999
+          ],
+          "sleep_disturbances": [
+            0,
+            5
+          ]
         }
       ]
     },
@@ -842,11 +1300,20 @@
       "heal_doses": 1,
       "power": 50,
       "attribute": "Va",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
+      "hp": 0,
       "evolve": [
         {
           "to": "SkullGreymon",
-          "battles": [15,999999],
-          "win_ratio": [80,100]
+          "battles": [
+            15,
+            999999
+          ],
+          "win_ratio": [
+            80,
+            100
+          ]
         }
       ]
     },
@@ -869,11 +1336,20 @@
       "heal_doses": 1,
       "power": 50,
       "attribute": "Va",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
+      "hp": 0,
       "evolve": [
         {
           "to": "SkullGreymon",
-          "battles": [15,999999],
-          "win_ratio": [80,100]
+          "battles": [
+            15,
+            999999
+          ],
+          "win_ratio": [
+            80,
+            100
+          ]
         }
       ]
     },
@@ -896,11 +1372,20 @@
       "heal_doses": 1,
       "power": 50,
       "attribute": "Va",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
+      "hp": 0,
       "evolve": [
         {
           "to": "SkullGreymon",
-          "battles": [15,999999],
-          "win_ratio": [80,100]
+          "battles": [
+            15,
+            999999
+          ],
+          "win_ratio": [
+            80,
+            100
+          ]
         }
       ]
     },
@@ -923,11 +1408,20 @@
       "heal_doses": 3,
       "power": 40,
       "attribute": "Vi",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
+      "hp": 0,
       "evolve": [
         {
           "to": "Vademon",
-          "battles": [15,999999],
-          "win_ratio": [80,100]
+          "battles": [
+            15,
+            999999
+          ],
+          "win_ratio": [
+            80,
+            100
+          ]
         }
       ]
     },
@@ -950,11 +1444,20 @@
       "heal_doses": 2,
       "power": 45,
       "attribute": "Va",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
+      "hp": 0,
       "evolve": [
         {
           "to": "MetalMamemon",
-          "battles": [15,999999],
-          "win_ratio": [80,100]
+          "battles": [
+            15,
+            999999
+          ],
+          "win_ratio": [
+            80,
+            100
+          ]
         }
       ]
     },
@@ -977,11 +1480,20 @@
       "heal_doses": 2,
       "power": 45,
       "attribute": "Va",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
+      "hp": 0,
       "evolve": [
         {
           "to": "MetalMamemon",
-          "battles": [15,999999],
-          "win_ratio": [80,100]
+          "battles": [
+            15,
+            999999
+          ],
+          "win_ratio": [
+            80,
+            100
+          ]
         }
       ]
     },
@@ -1004,11 +1516,20 @@
       "heal_doses": 2,
       "power": 45,
       "attribute": "Va",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
+      "hp": 0,
       "evolve": [
         {
           "to": "MetalMamemon",
-          "battles": [15,999999],
-          "win_ratio": [80,100]
+          "battles": [
+            15,
+            999999
+          ],
+          "win_ratio": [
+            80,
+            100
+          ]
         }
       ]
     },
@@ -1031,12 +1552,24 @@
       "heal_doses": 1,
       "power": 100,
       "attribute": "Vi",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
+      "hp": 0,
       "evolve": [
         {
           "to": "SkullMammothmon",
-          "mistakes": [0,1],
-          "battles": [15,999999],
-          "win_ratio": [80,100]
+          "battles": [
+            15,
+            999999
+          ],
+          "win_ratio": [
+            80,
+            100
+          ],
+          "mistakes": [
+            0,
+            1
+          ]
         }
       ]
     },
@@ -1059,12 +1592,24 @@
       "heal_doses": 1,
       "power": 100,
       "attribute": "Vi",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
+      "hp": 0,
       "evolve": [
         {
           "to": "Ebemon",
-          "mistakes": [0,1],
-          "battles": [15,999999],
-          "win_ratio": [80,100]
+          "battles": [
+            15,
+            999999
+          ],
+          "win_ratio": [
+            80,
+            100
+          ],
+          "mistakes": [
+            0,
+            1
+          ]
         }
       ]
     },
@@ -1087,12 +1632,24 @@
       "heal_doses": 1,
       "power": 85,
       "attribute": "Da",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
+      "hp": 0,
       "evolve": [
         {
           "to": "CresGarurumon",
-          "mistakes": [0,1],
-          "battles": [15,999999],
-          "win_ratio": [80,100]
+          "battles": [
+            15,
+            999999
+          ],
+          "win_ratio": [
+            80,
+            100
+          ],
+          "mistakes": [
+            0,
+            1
+          ]
         }
       ]
     },
@@ -1115,6 +1672,9 @@
       "heal_doses": 1,
       "power": 170,
       "attribute": "Va",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
+      "hp": 0,
       "evolve": []
     },
     {
@@ -1136,6 +1696,9 @@
       "heal_doses": 2,
       "power": 170,
       "attribute": "Vi",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
+      "hp": 0,
       "evolve": []
     },
     {
@@ -1157,11 +1720,14 @@
       "heal_doses": 1,
       "power": 150,
       "attribute": "Da",
+      "condition_hearts": 0,
+      "jogress_avaliable": true,
+      "hp": 0,
       "evolve": [
         {
           "to": "Omnimon Alter-S",
-          "jogress": "BlitzGreymon",
-          "version": 1
+          "version": 1,
+          "jogress": "BlitzGreymon"
         }
       ]
     },
@@ -1184,6 +1750,9 @@
       "heal_doses": 1,
       "power": 200,
       "attribute": "Vi",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
+      "hp": 0,
       "evolve": []
     },
     {
@@ -1191,8 +1760,6 @@
       "stage": 0,
       "version": 3,
       "special": false,
-      "sleeps": null,
-      "wakes": null,
       "atk_main": 0,
       "atk_alt": 0,
       "time": 1,
@@ -1205,6 +1772,9 @@
       "heal_doses": 0,
       "power": 0,
       "attribute": "",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
+      "hp": 0,
       "evolve": [
         {
           "to": "Poyomon"
@@ -1216,8 +1786,6 @@
       "stage": 1,
       "version": 3,
       "special": false,
-      "sleeps": null,
-      "wakes": null,
       "atk_main": 0,
       "atk_alt": 0,
       "time": 10,
@@ -1230,6 +1798,9 @@
       "heal_doses": 0,
       "power": 0,
       "attribute": "",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
+      "hp": 0,
       "evolve": [
         {
           "to": "Tokomon"
@@ -1255,14 +1826,23 @@
       "heal_doses": 1,
       "power": 0,
       "attribute": "",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
+      "hp": 0,
       "evolve": [
         {
           "to": "Patamon",
-          "mistakes": [0,3]
+          "mistakes": [
+            0,
+            3
+          ]
         },
         {
           "to": "Kunemon",
-          "mistakes": [4,999999]
+          "mistakes": [
+            4,
+            999999
+          ]
         }
       ]
     },
@@ -1285,51 +1865,117 @@
       "heal_doses": 2,
       "power": 30,
       "attribute": "Da",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
+      "hp": 0,
       "evolve": [
         {
           "to": "Unimon",
-          "mistakes": [0,3],
-          "training": [8,999999]
+          "training": [
+            32,
+            999999
+          ],
+          "mistakes": [
+            0,
+            3
+          ]
         },
         {
           "to": "Centarumon",
-          "mistakes": [4,999999],
-          "training": [1,5],
-          "overfeed": [2,999999],
-          "sleep_disturbances": [0,2]
+          "training": [
+            5,
+            23
+          ],
+          "mistakes": [
+            4,
+            999999
+          ],
+          "overfeed": [
+            2,
+            999999
+          ],
+          "sleep_disturbances": [
+            0,
+            2
+          ]
         },
         {
           "to": "Ogremon",
-          "mistakes": [0,3],
-          "training": [0,7]
+          "training": [
+            0,
+            31
+          ],
+          "mistakes": [
+            0,
+            3
+          ]
         },
         {
           "to": "Bakemon",
-          "mistakes": [4,999999],
-          "training": [6,999999],
-          "overfeed": [2,999999],
-          "sleep_disturbances": [0,4]
+          "training": [
+            24,
+            999999
+          ],
+          "mistakes": [
+            4,
+            999999
+          ],
+          "overfeed": [
+            2,
+            999999
+          ],
+          "sleep_disturbances": [
+            0,
+            4
+          ]
         },
         {
           "to": "Sukamon",
-          "mistakes": [4,999999],
-          "training": [0,1]
+          "training": [
+            0,
+            4
+          ],
+          "mistakes": [
+            4,
+            999999
+          ]
         },
         {
           "to": "Sukamon",
-          "mistakes": [4,999999],
-          "overfeed": [0,1]
+          "mistakes": [
+            4,
+            999999
+          ],
+          "overfeed": [
+            0,
+            1
+          ]
         },
         {
           "to": "Sukamon",
-          "mistakes": [4,999999],
-          "sleep_disturbances": [5,999999]
+          "mistakes": [
+            4,
+            999999
+          ],
+          "sleep_disturbances": [
+            5,
+            999999
+          ]
         },
         {
           "to": "Sukamon",
-          "mistakes": [4,999999],
-          "training": [1,5],
-          "sleep_disturbances": [3,4]
+          "training": [
+            5,
+            23
+          ],
+          "mistakes": [
+            4,
+            999999
+          ],
+          "sleep_disturbances": [
+            3,
+            4
+          ]
         }
       ]
     },
@@ -1352,62 +1998,143 @@
       "heal_doses": 2,
       "power": 25,
       "attribute": "Vi",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
+      "hp": 0,
       "evolve": [
         {
           "to": "Shellmon",
-          "mistakes": [0,3],
-          "training": [0,1]
+          "training": [
+            0,
+            7
+          ],
+          "mistakes": [
+            0,
+            3
+          ]
         },
         {
           "to": "Shellmon",
-          "mistakes": [0,3],
-          "training": [6,7]
+          "training": [
+            24,
+            31
+          ],
+          "mistakes": [
+            0,
+            3
+          ]
         },
         {
           "to": "Shellmon",
-          "mistakes": [0,3],
-          "training": [2,5],
-          "overfeed": [4,999999]
+          "training": [
+            8,
+            23
+          ],
+          "mistakes": [
+            0,
+            3
+          ],
+          "overfeed": [
+            4,
+            999999
+          ]
         },
         {
           "to": "Shellmon",
-          "mistakes": [0,3],
-          "training": [2,5],
-          "sleep_disturbances": [0,2]
+          "training": [
+            8,
+            23
+          ],
+          "mistakes": [
+            0,
+            3
+          ],
+          "sleep_disturbances": [
+            0,
+            2
+          ]
         },
         {
           "to": "Drimogemon",
-          "mistakes": [4,999999],
-          "training": [6,999999],
-          "overfeed": [4,999999],
-          "sleep_disturbances": [0,2]
+          "training": [
+            24,
+            999999
+          ],
+          "mistakes": [
+            4,
+            999999
+          ],
+          "overfeed": [
+            4,
+            999999
+          ],
+          "sleep_disturbances": [
+            0,
+            2
+          ]
         },
         {
           "to": "Ogremon",
-          "mistakes": [0,3],
-          "training": [8,999999]
+          "training": [
+            32,
+            999999
+          ],
+          "mistakes": [
+            0,
+            3
+          ]
         },
         {
           "to": "Bakemon",
-          "mistakes": [0,3],
-          "training": [2,5],
-          "overfeed": [0,3],
-          "sleep_disturbances": [3,999999]
+          "training": [
+            8,
+            23
+          ],
+          "mistakes": [
+            0,
+            3
+          ],
+          "overfeed": [
+            0,
+            3
+          ],
+          "sleep_disturbances": [
+            3,
+            999999
+          ]
         },
         {
           "to": "Sukamon",
-          "mistakes": [4,999999],
-          "training": [0,5]
+          "training": [
+            0,
+            23
+          ],
+          "mistakes": [
+            4,
+            999999
+          ]
         },
         {
           "to": "Sukamon",
-          "mistakes": [4,999999],
-          "overfeed": [0,3]
+          "mistakes": [
+            4,
+            999999
+          ],
+          "overfeed": [
+            0,
+            3
+          ]
         },
         {
           "to": "Sukamon",
-          "mistakes": [4,999999],
-          "sleep_disturbances": [3,999999]
+          "mistakes": [
+            4,
+            999999
+          ],
+          "sleep_disturbances": [
+            3,
+            999999
+          ]
         }
       ]
     },
@@ -1430,18 +2157,39 @@
       "heal_doses": 1,
       "power": 50,
       "attribute": "Va",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
+      "hp": 0,
       "evolve": [
         {
           "to": "Andromon",
-          "training": [0,7],
-          "battles": [15,999999],
-          "win_ratio": [80,100]
+          "training": [
+            0,
+            31
+          ],
+          "battles": [
+            15,
+            999999
+          ],
+          "win_ratio": [
+            80,
+            100
+          ]
         },
         {
           "to": "Kimeramon",
-          "training": [8,999999],
-          "battles": [15,999999],
-          "win_ratio": [80,100]
+          "training": [
+            32,
+            999999
+          ],
+          "battles": [
+            15,
+            999999
+          ],
+          "win_ratio": [
+            80,
+            100
+          ]
         }
       ]
     },
@@ -1464,18 +2212,39 @@
       "heal_doses": 1,
       "power": 50,
       "attribute": "Vi",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
+      "hp": 0,
       "evolve": [
         {
           "to": "Andromon",
-          "training": [0,7],
-          "battles": [15,999999],
-          "win_ratio": [80,100]
+          "training": [
+            0,
+            31
+          ],
+          "battles": [
+            15,
+            999999
+          ],
+          "win_ratio": [
+            80,
+            100
+          ]
         },
         {
           "to": "Kimeramon",
-          "training": [8,999999],
-          "battles": [15,999999],
-          "win_ratio": [80,100]
+          "training": [
+            32,
+            999999
+          ],
+          "battles": [
+            15,
+            999999
+          ],
+          "win_ratio": [
+            80,
+            100
+          ]
         }
       ]
     },
@@ -1498,18 +2267,39 @@
       "heal_doses": 1,
       "power": 50,
       "attribute": "Da",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
+      "hp": 0,
       "evolve": [
         {
           "to": "Andromon",
-          "training": [0,7],
-          "battles": [15,999999],
-          "win_ratio": [80,100]
+          "training": [
+            0,
+            31
+          ],
+          "battles": [
+            15,
+            999999
+          ],
+          "win_ratio": [
+            80,
+            100
+          ]
         },
         {
           "to": "Kimeramon",
-          "training": [8,999999],
-          "battles": [15,999999],
-          "win_ratio": [80,100]
+          "training": [
+            32,
+            999999
+          ],
+          "battles": [
+            15,
+            999999
+          ],
+          "win_ratio": [
+            80,
+            100
+          ]
         }
       ]
     },
@@ -1532,18 +2322,39 @@
       "heal_doses": 3,
       "power": 40,
       "attribute": "Vi",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
+      "hp": 0,
       "evolve": [
         {
           "to": "Etemon",
-          "training": [0,9],
-          "battles": [15,999999],
-          "win_ratio": [80,100]
+          "training": [
+            0,
+            39
+          ],
+          "battles": [
+            15,
+            999999
+          ],
+          "win_ratio": [
+            80,
+            100
+          ]
         },
         {
           "to": "Kimeramon",
-          "training": [10,999999],
-          "battles": [15,999999],
-          "win_ratio": [80,100]
+          "training": [
+            40,
+            999999
+          ],
+          "battles": [
+            15,
+            999999
+          ],
+          "win_ratio": [
+            80,
+            100
+          ]
         }
       ]
     },
@@ -1566,11 +2377,20 @@
       "heal_doses": 2,
       "power": 45,
       "attribute": "Da",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
+      "hp": 0,
       "evolve": [
         {
           "to": "Giromon",
-          "battles": [15,999999],
-          "win_ratio": [80,100]
+          "battles": [
+            15,
+            999999
+          ],
+          "win_ratio": [
+            80,
+            100
+          ]
         }
       ]
     },
@@ -1593,11 +2413,20 @@
       "heal_doses": 2,
       "power": 45,
       "attribute": "Vi",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
+      "hp": 0,
       "evolve": [
         {
           "to": "Giromon",
-          "battles": [15,999999],
-          "win_ratio": [80,100]
+          "battles": [
+            15,
+            999999
+          ],
+          "win_ratio": [
+            80,
+            100
+          ]
         }
       ]
     },
@@ -1620,11 +2449,20 @@
       "heal_doses": 2,
       "power": 45,
       "attribute": "Da",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
+      "hp": 0,
       "evolve": [
         {
           "to": "Giromon",
-          "battles": [15,999999],
-          "win_ratio": [80,100]
+          "battles": [
+            15,
+            999999
+          ],
+          "win_ratio": [
+            80,
+            100
+          ]
         }
       ]
     },
@@ -1647,12 +2485,24 @@
       "heal_doses": 1,
       "power": 100,
       "attribute": "Va",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
+      "hp": 0,
       "evolve": [
         {
           "to": "HiAndromon",
-          "mistakes": [0,1],
-          "battles": [15,999999],
-          "win_ratio": [80,100]
+          "battles": [
+            15,
+            999999
+          ],
+          "win_ratio": [
+            80,
+            100
+          ],
+          "mistakes": [
+            0,
+            1
+          ]
         }
       ]
     },
@@ -1675,12 +2525,24 @@
       "heal_doses": 1,
       "power": 100,
       "attribute": "Vi",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
+      "hp": 0,
       "evolve": [
         {
           "to": "BanchoLeomon",
-          "mistakes": [0,1],
-          "battles": [15,999999],
-          "win_ratio": [80,100]
+          "battles": [
+            15,
+            999999
+          ],
+          "win_ratio": [
+            80,
+            100
+          ],
+          "mistakes": [
+            0,
+            1
+          ]
         }
       ]
     },
@@ -1703,18 +2565,29 @@
       "heal_doses": 2,
       "power": 100,
       "attribute": "Da",
+      "condition_hearts": 0,
+      "jogress_avaliable": true,
+      "hp": 0,
       "evolve": [
         {
           "to": "BanchoLeomon",
-          "mistakes": [0,1],
-          "time": 2880,
-          "battles": [15,999999],
-          "win_ratio": [80,100]
+          "battles": [
+            15,
+            999999
+          ],
+          "win_ratio": [
+            80,
+            100
+          ],
+          "mistakes": [
+            0,
+            1
+          ]
         },
         {
           "to": "Millenniumon",
-          "jogress": "Machinedramon",
-          "version": 5
+          "version": 5,
+          "jogress": "Machinedramon"
         }
       ]
     },
@@ -1737,12 +2610,24 @@
       "heal_doses": 1,
       "power": 85,
       "attribute": "Va",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
+      "hp": 0,
       "evolve": [
         {
           "to": "Reapermon",
-          "mistakes": [0,1],
-          "battles": [15,999999],
-          "win_ratio": [80,100]
+          "battles": [
+            15,
+            999999
+          ],
+          "win_ratio": [
+            80,
+            100
+          ],
+          "mistakes": [
+            0,
+            1
+          ]
         }
       ]
     },
@@ -1765,6 +2650,9 @@
       "heal_doses": 1,
       "power": 150,
       "attribute": "Va",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
+      "hp": 0,
       "evolve": []
     },
     {
@@ -1786,11 +2674,14 @@
       "heal_doses": 1,
       "power": 180,
       "attribute": "Va",
+      "condition_hearts": 0,
+      "jogress_avaliable": true,
+      "hp": 0,
       "evolve": [
         {
           "to": "Chaosmon",
-          "jogress": "Darkdramon",
-          "version": 4
+          "version": 4,
+          "jogress": "Darkdramon"
         }
       ]
     },
@@ -1813,6 +2704,9 @@
       "heal_doses": 2,
       "power": 170,
       "attribute": "Vi",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
+      "hp": 0,
       "evolve": []
     },
     {
@@ -1834,6 +2728,9 @@
       "heal_doses": 1,
       "power": 200,
       "attribute": "Va",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
+      "hp": 0,
       "evolve": []
     },
     {
@@ -1855,6 +2752,9 @@
       "heal_doses": 1,
       "power": 200,
       "attribute": "Vi",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
+      "hp": 0,
       "evolve": []
     },
     {
@@ -1862,8 +2762,6 @@
       "stage": 0,
       "version": 4,
       "special": false,
-      "sleeps": null,
-      "wakes": null,
       "atk_main": 0,
       "atk_alt": 0,
       "time": 1,
@@ -1876,6 +2774,9 @@
       "heal_doses": 0,
       "power": 0,
       "attribute": "",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
+      "hp": 0,
       "evolve": [
         {
           "to": "Yuramon"
@@ -1887,8 +2788,6 @@
       "stage": 1,
       "version": 4,
       "special": false,
-      "sleeps": null,
-      "wakes": null,
       "atk_main": 0,
       "atk_alt": 0,
       "time": 10,
@@ -1901,6 +2800,9 @@
       "heal_doses": 0,
       "power": 0,
       "attribute": "",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
+      "hp": 0,
       "evolve": [
         {
           "to": "Tanemon"
@@ -1926,14 +2828,23 @@
       "heal_doses": 1,
       "power": 0,
       "attribute": "",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
+      "hp": 0,
       "evolve": [
         {
           "to": "Biyomon",
-          "mistakes": [0,3]
+          "mistakes": [
+            0,
+            3
+          ]
         },
         {
           "to": "Palmon",
-          "mistakes": [4,999999]
+          "mistakes": [
+            4,
+            999999
+          ]
         }
       ]
     },
@@ -1956,51 +2867,117 @@
       "heal_doses": 2,
       "power": 30,
       "attribute": "Va",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
+      "hp": 0,
       "evolve": [
         {
           "to": "Monochromon",
-          "mistakes": [0,3],
-          "training": [8,999999]
+          "training": [
+            32,
+            999999
+          ],
+          "mistakes": [
+            0,
+            3
+          ]
         },
         {
           "to": "Kokatorimon",
-          "mistakes": [4,999999],
-          "training": [1,5],
-          "overfeed": [2,999999],
-          "sleep_disturbances": [0,2]
+          "training": [
+            5,
+            23
+          ],
+          "mistakes": [
+            4,
+            999999
+          ],
+          "overfeed": [
+            2,
+            999999
+          ],
+          "sleep_disturbances": [
+            0,
+            2
+          ]
         },
         {
           "to": "Leomon",
-          "mistakes": [0,3],
-          "training": [0,7]
+          "training": [
+            0,
+            31
+          ],
+          "mistakes": [
+            0,
+            3
+          ]
         },
         {
           "to": "Kuwagamon",
-          "mistakes": [4,999999],
-          "training": [6,999999],
-          "overfeed": [2,999999],
-          "sleep_disturbances": [0,4]
+          "training": [
+            24,
+            999999
+          ],
+          "mistakes": [
+            4,
+            999999
+          ],
+          "overfeed": [
+            2,
+            999999
+          ],
+          "sleep_disturbances": [
+            0,
+            4
+          ]
         },
         {
           "to": "Nanimon",
-          "mistakes": [4,999999],
-          "training": [0,1]
+          "training": [
+            0,
+            4
+          ],
+          "mistakes": [
+            4,
+            999999
+          ]
         },
         {
           "to": "Nanimon",
-          "mistakes": [4,999999],
-          "overfeed": [0,1]
+          "mistakes": [
+            4,
+            999999
+          ],
+          "overfeed": [
+            0,
+            1
+          ]
         },
         {
           "to": "Nanimon",
-          "mistakes": [4,999999],
-          "sleep_disturbances": [5,999999]
+          "mistakes": [
+            4,
+            999999
+          ],
+          "sleep_disturbances": [
+            5,
+            999999
+          ]
         },
         {
           "to": "Nanimon",
-          "mistakes": [4,999999],
-          "training": [1,5],
-          "sleep_disturbances": [3,4]
+          "training": [
+            5,
+            23
+          ],
+          "mistakes": [
+            4,
+            999999
+          ],
+          "sleep_disturbances": [
+            3,
+            4
+          ]
         }
       ]
     },
@@ -2023,62 +3000,144 @@
       "heal_doses": 2,
       "power": 25,
       "attribute": "Da",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
+      "hp": 0,
       "evolve": [
         {
           "to": "Coelamon",
-          "mistakes": [0,3],
-          "training": [0,1]
+          "training": [
+            0,
+            7
+          ],
+          "mistakes": [
+            0,
+            3
+          ]
         },
         {
           "to": "Coelamon",
-          "mistakes": [0,3],
-          "training": [6,7]
+          "training": [
+            24,
+            31
+          ],
+          "mistakes": [
+            0,
+            3
+          ]
         },
         {
           "to": "Coelamon",
-          "mistakes": [0,3],
-          "training": [2,5],
-          "overfeed": [4,999999]
+          "training": [
+            8,
+            23
+          ],
+          "mistakes": [
+            0,
+            3
+          ],
+          "overfeed": [
+            4,
+            999999
+          ]
         },
         {
           "to": "Coelamon",
-          "mistakes": [0,3],
-          "training": [2,5],
-          "sleep_disturbances": [0,2]
+          "training": [
+            8,
+            23
+          ],
+          "mistakes": [
+            0,
+            3
+          ],
+          "sleep_disturbances": [
+            0,
+            2
+          ]
         },
         {
           "to": "Mojyamon",
-          "mistakes": [4,999999],
-          "training": [6,999999],
-          "overfeed": [0,2],
-          "sleep_disturbances": [4,999999]
+          "training": [
+            24,
+            999999
+          ],
+          "mistakes": [
+            4,
+            999999
+          ],
+          "overfeed": [
+            4,
+            999999
+          ],
+          "sleep disturbances": [
+            0,
+            2
+          ]
+
         },
         {
           "to": "Leomon",
-          "mistakes": [0,3],
-          "training": [8,999999]
+          "training": [
+            32,
+            999999
+          ],
+          "mistakes": [
+            0,
+            3
+          ]
         },
         {
           "to": "Kuwagamon",
-          "mistakes": [0,3],
-          "training": [2,5],
-          "overfeed": [0,3],
-          "sleep_disturbances": [3,999999]
+          "training": [
+            8,
+            23
+          ],
+          "mistakes": [
+            0,
+            3
+          ],
+          "overfeed": [
+            0,
+            3
+          ],
+          "sleep_disturbances": [
+            3,
+            999999
+          ]
         },
         {
           "to": "Nanimon",
-          "mistakes": [4,999999],
-          "training": [0,5]
+          "training": [
+            0,
+            23
+          ],
+          "mistakes": [
+            4,
+            999999
+          ]
         },
         {
           "to": "Nanimon",
-          "mistakes": [4,999999],
-          "overfeed": [0,3]
+          "mistakes": [
+            4,
+            999999
+          ],
+          "overfeed": [
+            0,
+            3
+          ]
         },
         {
           "to": "Nanimon",
-          "mistakes": [4,999999],
-          "sleep_disturbances": [3,999999]
+          "mistakes": [
+            4,
+            999999
+          ],
+          "sleep_disturbances": [
+            3,
+            999999
+          ]
         }
       ]
     },
@@ -2101,11 +3160,20 @@
       "heal_doses": 1,
       "power": 50,
       "attribute": "Da",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
+      "hp": 0,
       "evolve": [
         {
           "to": "Megadramon",
-          "battles": [15,999999],
-          "win_ratio": [80,100]
+          "battles": [
+            15,
+            999999
+          ],
+          "win_ratio": [
+            80,
+            100
+          ]
         }
       ]
     },
@@ -2128,11 +3196,20 @@
       "heal_doses": 1,
       "power": 50,
       "attribute": "Va",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
+      "hp": 0,
       "evolve": [
         {
           "to": "Megadramon",
-          "battles": [15,999999],
-          "win_ratio": [80,100]
+          "battles": [
+            15,
+            999999
+          ],
+          "win_ratio": [
+            80,
+            100
+          ]
         }
       ]
     },
@@ -2155,11 +3232,20 @@
       "heal_doses": 1,
       "power": 50,
       "attribute": "Da",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
+      "hp": 0,
       "evolve": [
         {
           "to": "Megadramon",
-          "battles": [15,999999],
-          "win_ratio": [80,100]
+          "battles": [
+            15,
+            999999
+          ],
+          "win_ratio": [
+            80,
+            100
+          ]
         }
       ]
     },
@@ -2182,11 +3268,20 @@
       "heal_doses": 3,
       "power": 40,
       "attribute": "Vi",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
+      "hp": 0,
       "evolve": [
         {
           "to": "Digitamamon",
-          "battles": [15,999999],
-          "win_ratio": [80,100]
+          "battles": [
+            15,
+            999999
+          ],
+          "win_ratio": [
+            80,
+            100
+          ]
         }
       ]
     },
@@ -2209,11 +3304,20 @@
       "heal_doses": 2,
       "power": 45,
       "attribute": "Da",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
+      "hp": 0,
       "evolve": [
         {
           "to": "Piximon",
-          "battles": [15,999999],
-          "win_ratio": [80,100]
+          "battles": [
+            15,
+            999999
+          ],
+          "win_ratio": [
+            80,
+            100
+          ]
         }
       ]
     },
@@ -2236,11 +3340,20 @@
       "heal_doses": 2,
       "power": 45,
       "attribute": "Vi",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
+      "hp": 0,
       "evolve": [
         {
           "to": "Piximon",
-          "battles": [15,999999],
-          "win_ratio": [80,100]
+          "battles": [
+            15,
+            999999
+          ],
+          "win_ratio": [
+            80,
+            100
+          ]
         }
       ]
     },
@@ -2263,11 +3376,20 @@
       "heal_doses": 2,
       "power": 45,
       "attribute": "Va",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
+      "hp": 0,
       "evolve": [
         {
           "to": "Piximon",
-          "battles": [15,999999],
-          "win_ratio": [80,100]
+          "battles": [
+            15,
+            999999
+          ],
+          "win_ratio": [
+            80,
+            100
+          ]
         }
       ]
     },
@@ -2290,12 +3412,24 @@
       "heal_doses": 1,
       "power": 100,
       "attribute": "Vi",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
+      "hp": 0,
       "evolve": [
         {
           "to": "Darkdramon",
-          "mistakes": [0,1],
-          "battles": [15,999999],
-          "win_ratio": [80,100]
+          "battles": [
+            15,
+            999999
+          ],
+          "win_ratio": [
+            80,
+            100
+          ],
+          "mistakes": [
+            0,
+            1
+          ]
         }
       ]
     },
@@ -2318,12 +3452,24 @@
       "heal_doses": 1,
       "power": 100,
       "attribute": "Da",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
+      "hp": 0,
       "evolve": [
         {
           "to": "Gankoomon",
-          "mistakes": [0,1],
-          "battles": [15,999999],
-          "win_ratio": [80,100]
+          "battles": [
+            15,
+            999999
+          ],
+          "win_ratio": [
+            80,
+            100
+          ],
+          "mistakes": [
+            0,
+            1
+          ]
         }
       ]
     },
@@ -2346,12 +3492,24 @@
       "heal_doses": 1,
       "power": 85,
       "attribute": "Da",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
+      "hp": 0,
       "evolve": [
         {
           "to": "BloomLordmon",
-          "mistakes": [0,1],
-          "battles": [15,999999],
-          "win_ratio": [80,100]
+          "battles": [
+            15,
+            999999
+          ],
+          "win_ratio": [
+            80,
+            100
+          ],
+          "mistakes": [
+            0,
+            1
+          ]
         }
       ]
     },
@@ -2374,16 +3532,19 @@
       "heal_doses": 1,
       "power": 170,
       "attribute": "Vi",
+      "condition_hearts": 0,
+      "jogress_avaliable": true,
+      "hp": 0,
       "evolve": [
         {
           "to": "Chaosmon",
-          "jogress": "BanchoLeomon",
-          "version": 3
+          "version": 3,
+          "jogress": "BanchoLeomon"
         },
         {
           "to": "Chaosdramon",
-          "jogress": "Machinedramon",
-          "version": 5
+          "version": 5,
+          "jogress": "Machinedramon"
         }
       ]
     },
@@ -2406,6 +3567,9 @@
       "heal_doses": 1,
       "power": 170,
       "attribute": "Da",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
+      "hp": 0,
       "evolve": []
     },
     {
@@ -2427,6 +3591,9 @@
       "heal_doses": 1,
       "power": 150,
       "attribute": "Va",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
+      "hp": 0,
       "evolve": []
     },
     {
@@ -2448,6 +3615,9 @@
       "heal_doses": 1,
       "power": 200,
       "attribute": "Va",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
+      "hp": 0,
       "evolve": []
     },
     {
@@ -2469,6 +3639,9 @@
       "heal_doses": 1,
       "power": 200,
       "attribute": "Vi",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
+      "hp": 0,
       "evolve": []
     },
     {
@@ -2476,8 +3649,6 @@
       "stage": 0,
       "version": 5,
       "special": false,
-      "sleeps": null,
-      "wakes": null,
       "atk_main": 0,
       "atk_alt": 0,
       "time": 1,
@@ -2490,6 +3661,9 @@
       "heal_doses": 0,
       "power": 0,
       "attribute": "",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
+      "hp": 0,
       "evolve": [
         {
           "to": "Zurumon"
@@ -2501,7 +3675,10 @@
       "stage": 1,
       "version": 5,
       "special": false,
-      "sleeps": null,
+      "atk_main": 0,
+      "atk_alt": 0,
+      "time": 0,
+      "poop_timer": 0,
       "energy": 0,
       "min_weight": 4,
       "stomach": 4,
@@ -2510,6 +3687,9 @@
       "heal_doses": 0,
       "power": 0,
       "attribute": "",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
+      "hp": 0,
       "evolve": [
         {
           "to": "Pagumon"
@@ -2535,14 +3715,23 @@
       "heal_doses": 1,
       "power": 0,
       "attribute": "",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
+      "hp": 0,
       "evolve": [
         {
           "to": "Gazimon",
-          "mistakes": [0,3]
+          "mistakes": [
+            0,
+            3
+          ]
         },
         {
           "to": "Gizamon",
-          "mistakes": [4,999999]
+          "mistakes": [
+            4,
+            999999
+          ]
         }
       ]
     },
@@ -2565,53 +3754,117 @@
       "heal_doses": 2,
       "power": 30,
       "attribute": "Vi",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
+      "hp": 0,
       "evolve": [
         {
           "to": "DarkTyrannomon",
-          "mistakes": [0,3],
-          "training": [8,999999]
+          "training": [
+            32,
+            999999
+          ],
+          "mistakes": [
+            0,
+            3
+          ]
         },
         {
           "to": "Cyclonemon",
-          "mistakes": [4,999999],
-          "training": [1,5],
-          "overfeed": [2,999999],
-          "sleep_disturbances": [0,2]
+          "training": [
+            5,
+            23
+          ],
+          "mistakes": [
+            4,
+            999999
+          ],
+          "overfeed": [
+            2,
+            999999
+          ],
+          "sleep_disturbances": [
+            0,
+            2
+          ]
         },
         {
           "to": "Devidramon",
-          "mistakes": [0,3],
-          "training": [0,7],
-          "overfeed": [2,999999],
-          "sleep_disturbances": [0,4]
+          "training": [
+            0,
+            31
+          ],
+          "mistakes": [
+            0,
+            3
+          ]
         },
         {
           "to": "Tuskmon",
-          "mistakes": [4,999999],
-          "training": [6,999999],
-          "overfeed": [2,999999],
-          "sleep_disturbances": [0,4]
+          "training": [
+            24,
+            999999
+          ],
+          "mistakes": [
+            4,
+            999999
+          ],
+          "overfeed": [
+            2,
+            999999
+          ],
+          "sleep_disturbances": [
+            0,
+            4
+          ]
         },
         {
           "to": "Raremon",
-          "mistakes": [4,999999],
-          "training": [0,1]
+          "training": [
+            0,
+            4
+          ],
+          "mistakes": [
+            4,
+            999999
+          ]
         },
         {
           "to": "Raremon",
-          "mistakes": [4,999999],
-          "overfeed": [0,1]
+          "mistakes": [
+            4,
+            999999
+          ],
+          "overfeed": [
+            0,
+            1
+          ]
         },
         {
           "to": "Raremon",
-          "mistakes": [4,999999],
-          "sleep_disturbances": [5,999999]
+          "mistakes": [
+            4,
+            999999
+          ],
+          "sleep_disturbances": [
+            5,
+            999999
+          ]
         },
         {
           "to": "Raremon",
-          "mistakes": [4,999999],
-          "training": [1,5],
-          "sleep_disturbances": [3,4]
+          "training": [
+            5,
+            23
+          ],
+          "mistakes": [
+            4,
+            999999
+          ],
+          "sleep_disturbances": [
+            3,
+            4
+          ]
         }
       ]
     },
@@ -2634,62 +3887,143 @@
       "heal_doses": 2,
       "power": 25,
       "attribute": "Vi",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
+      "hp": 0,
       "evolve": [
         {
           "to": "Flymon",
-          "mistakes": [0,3],
-          "training": [0,1]
+          "training": [
+            0,
+            7
+          ],
+          "mistakes": [
+            0,
+            3
+          ]
         },
         {
           "to": "Flymon",
-          "mistakes": [0,3],
-          "training": [6,7]
+          "training": [
+            24,
+            31
+          ],
+          "mistakes": [
+            0,
+            3
+          ]
         },
         {
           "to": "Flymon",
-          "mistakes": [0,3],
-          "training": [2,5],
-          "overfeed": [4,999999]
+          "training": [
+            8,
+            23
+          ],
+          "mistakes": [
+            0,
+            3
+          ],
+          "overfeed": [
+            4,
+            999999
+          ]
         },
         {
           "to": "Flymon",
-          "mistakes": [0,3],
-          "training": [2,5],
-          "sleep_disturbances": [0,2]
+          "training": [
+            8,
+            23
+          ],
+          "mistakes": [
+            0,
+            3
+          ],
+          "sleep_disturbances": [
+            0,
+            2
+          ]
         },
         {
           "to": "Deltamon",
-          "mistakes": [4,999999],
-          "training": [6,999999],
-          "overfeed": [4,999999],
-          "sleep_disturbances": [0,2]
+          "training": [
+            24,
+            999999
+          ],
+          "mistakes": [
+            4,
+            999999
+          ],
+          "overfeed": [
+            4,
+            999999
+          ],
+          "sleep_disturbances": [
+            0,
+            2
+          ]
         },
         {
           "to": "Devidramon",
-          "mistakes": [0,3],
-          "training": [8,999999]
+          "training": [
+            32,
+            999999
+          ],
+          "mistakes": [
+            0,
+            3
+          ]
         },
         {
           "to": "Tuskmon",
-          "mistakes": [0,3],
-          "training": [2,5],
-          "overfeed": [0,3],
-          "sleep_disturbances": [3,999999]
+          "training": [
+            8,
+            23
+          ],
+          "mistakes": [
+            0,
+            3
+          ],
+          "overfeed": [
+            0,
+            3
+          ],
+          "sleep_disturbances": [
+            3,
+            999999
+          ]
         },
         {
           "to": "Raremon",
-          "mistakes": [4,999999],
-          "training": [0,5]
+          "training": [
+            0,
+            23
+          ],
+          "mistakes": [
+            4,
+            999999
+          ]
         },
         {
           "to": "Raremon",
-          "mistakes": [4,999999],
-          "overfeed": [0,3]
+          "mistakes": [
+            4,
+            999999
+          ],
+          "overfeed": [
+            0,
+            3
+          ]
         },
         {
           "to": "Raremon",
-          "mistakes": [4,999999],
-          "sleep_disturbances": [3,999999]
+          "mistakes": [
+            4,
+            999999
+          ],
+          "sleep_disturbances": [
+            3,
+            999999
+          ]
         }
       ]
     },
@@ -2712,11 +4046,20 @@
       "heal_doses": 1,
       "power": 50,
       "attribute": "Vi",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
+      "hp": 0,
       "evolve": [
         {
           "to": "MetalTyrannomon",
-          "battles": [15,999999],
-          "win_ratio": [80,100]
+          "battles": [
+            15,
+            999999
+          ],
+          "win_ratio": [
+            80,
+            100
+          ]
         }
       ]
     },
@@ -2739,11 +4082,20 @@
       "heal_doses": 1,
       "power": 50,
       "attribute": "Vi",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
+      "hp": 0,
       "evolve": [
         {
           "to": "MetalTyrannomon",
-          "battles": [15,999999],
-          "win_ratio": [80,100]
+          "battles": [
+            15,
+            999999
+          ],
+          "win_ratio": [
+            80,
+            100
+          ]
         }
       ]
     },
@@ -2766,11 +4118,20 @@
       "heal_doses": 1,
       "power": 50,
       "attribute": "Vi",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
+      "hp": 0,
       "evolve": [
         {
           "to": "MetalTyrannomon",
-          "battles": [15,999999],
-          "win_ratio": [80,100]
+          "battles": [
+            15,
+            999999
+          ],
+          "win_ratio": [
+            80,
+            100
+          ]
         }
       ]
     },
@@ -2793,11 +4154,20 @@
       "heal_doses": 3,
       "power": 40,
       "attribute": "Vi",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
+      "hp": 0,
       "evolve": [
         {
           "to": "ExTyrannomon",
-          "battles": [15,999999],
-          "win_ratio": [80,100]
+          "battles": [
+            15,
+            999999
+          ],
+          "win_ratio": [
+            80,
+            100
+          ]
         }
       ]
     },
@@ -2820,11 +4190,20 @@
       "heal_doses": 2,
       "power": 45,
       "attribute": "Vi",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
+      "hp": 0,
       "evolve": [
         {
           "to": "Datamon",
-          "battles": [15,999999],
-          "win_ratio": [80,100]
+          "battles": [
+            15,
+            999999
+          ],
+          "win_ratio": [
+            80,
+            100
+          ]
         }
       ]
     },
@@ -2847,11 +4226,20 @@
       "heal_doses": 2,
       "power": 45,
       "attribute": "Vi",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
+      "hp": 0,
       "evolve": [
         {
           "to": "Datamon",
-          "battles": [15,999999],
-          "win_ratio": [80,100]
+          "battles": [
+            15,
+            999999
+          ],
+          "win_ratio": [
+            80,
+            100
+          ]
         }
       ]
     },
@@ -2874,11 +4262,20 @@
       "heal_doses": 2,
       "power": 45,
       "attribute": "Vi",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
+      "hp": 0,
       "evolve": [
         {
           "to": "Datamon",
-          "battles": [15,999999],
-          "win_ratio": [80,100]
+          "battles": [
+            15,
+            999999
+          ],
+          "win_ratio": [
+            80,
+            100
+          ]
         }
       ]
     },
@@ -2901,12 +4298,24 @@
       "heal_doses": 1,
       "power": 100,
       "attribute": "Vi",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
+      "hp": 0,
       "evolve": [
         {
           "to": "Machinedramon",
-          "mistakes": [0,1],
-          "battles": [15,999999],
-          "win_ratio": [80,100]
+          "battles": [
+            15,
+            999999
+          ],
+          "win_ratio": [
+            80,
+            100
+          ],
+          "mistakes": [
+            0,
+            1
+          ]
         }
       ]
     },
@@ -2929,12 +4338,24 @@
       "heal_doses": 1,
       "power": 100,
       "attribute": "Va",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
+      "hp": 0,
       "evolve": [
         {
           "to": "Samudramon",
-          "mistakes": [0,1],
-          "battles": [15,999999],
-          "win_ratio": [80,100]
+          "battles": [
+            15,
+            999999
+          ],
+          "win_ratio": [
+            80,
+            100
+          ],
+          "mistakes": [
+            0,
+            1
+          ]
         }
       ]
     },
@@ -2957,12 +4378,24 @@
       "heal_doses": 1,
       "power": 85,
       "attribute": "Vi",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
+      "hp": 0,
       "evolve": [
         {
           "to": "Raidenmon",
-          "mistakes": [0,1],
-          "battles": [15,999999],
-          "win_ratio": [80,100]
+          "battles": [
+            15,
+            999999
+          ],
+          "win_ratio": [
+            80,
+            100
+          ],
+          "mistakes": [
+            0,
+            1
+          ]
         }
       ]
     },
@@ -2985,16 +4418,19 @@
       "heal_doses": 1,
       "power": 170,
       "attribute": "Vi",
+      "condition_hearts": 0,
+      "jogress_avaliable": true,
+      "hp": 0,
       "evolve": [
         {
           "to": "Millenniumon",
-          "jogress": "Kimeramon",
-          "version": 3
+          "version": 3,
+          "jogress": "Kimeramon"
         },
         {
           "to": "Chaosdramon",
-          "jogress": "Darkdramon",
-          "version": 4
+          "version": 4,
+          "jogress": "Darkdramon"
         }
       ]
     },
@@ -3017,6 +4453,9 @@
       "heal_doses": 2,
       "power": 180,
       "attribute": "Vi",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
+      "hp": 0,
       "evolve": []
     },
     {
@@ -3038,6 +4477,9 @@
       "heal_doses": 1,
       "power": 150,
       "attribute": "Vi",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
+      "hp": 0,
       "evolve": []
     },
     {
@@ -3059,6 +4501,9 @@
       "heal_doses": 1,
       "power": 200,
       "attribute": "Vi",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
+      "hp": 0,
       "evolve": []
     },
     {
@@ -3080,6 +4525,9 @@
       "heal_doses": 1,
       "power": 200,
       "attribute": "Vi",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
+      "hp": 0,
       "evolve": []
     }
   ]
