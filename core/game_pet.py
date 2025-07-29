@@ -490,7 +490,7 @@ class GamePet:
                 ("jogress" in evo) or ("item" in evo) or
                 ("mistakes" in evo and not in_range(self.mistakes, evo["mistakes"])) or
                 ("condition_hearts" in evo and not in_range(self.condition_hearts, evo["condition_hearts"])) or
-                ("training" in evo and not in_range(self.effort // 4, evo["training"])) or
+                ("training" in evo and not in_range(self.effort, evo["training"])) or
                 ("overfeed" in evo and not in_range(self.overfeed, evo["overfeed"])) or
                 #("special_encounter" in evo and not self.special_encounter) or
                 ("level" in evo and not in_range(self.level, evo["level"])) or
