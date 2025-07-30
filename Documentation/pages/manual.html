@@ -1,0 +1,791 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Manual - Omnimon Documentation</title>
+    <link rel="stylesheet" href="../assets/main.css">
+</head>
+
+<body>
+    <div class="page-content">
+        <div class="page-header">
+            <h1 class="page-title">User Manual</h1>
+        </div>
+
+        <div class="content-section">
+            <h2 class="section-title" onclick="toggleSection(this)">Getting Started<span class="arrow">▼</span></h2>
+            <div class="section-content" style="display:none;">
+                <p>If you haven't booted the game yet, go to the Installation section first. Otherwise, congratulations
+                    and welcome aboard!
+                    Once you have the game running, you will be prompted to pick your first egg.</p>
+                <img src="../assets/EggSelection.png" width="240" height="240" alt="" />
+                <h3>First Steps</h3>
+                <ul style="list-style: none; padding: 0;">
+                    <li style="margin-bottom: 10px; padding-left: 20px; position: relative;">
+                        <span style="position: absolute; left: 0; color: #667eea;">1.</span>
+                        Navigate around the menu, if you have more than one installed module, move the cursor beyond the
+                        avaliable pets to the LEFT or RIGHT to switch module. Choose an egg by pressing A.
+                    </li>
+                    <li style="margin-bottom: 10px; padding-left: 20px; position: relative;">
+                        <span style="position: absolute; left: 0; color: #667eea;">2.</span>
+                        Hatching an egg takes around a minute, during this phase, some modules can grant you a permanent
+                        status boost by SHAKING the egg a certain amount of times.
+                    </li>
+                    <li style="margin-bottom: 10px; padding-left: 20px; position: relative;">
+                        <span style="position: absolute; left: 0; color: #667eea;">3.</span>
+                        Once your first egg hatches, you will hear a sound alert, you will hear it every time a pet
+                        needs your attention. Navigate around the menus using UP, DOWN, LEFT, RIGHT buttons and select
+                        with A.
+                    </li>
+                    <li style="margin-bottom: 10px; padding-left: 20px; position: relative;">
+                        <span style="position: absolute; left: 0; color: #667eea;">4.</span>
+                        Take good care of your pet by feeding, training, and keeping it healthy. The way you care for
+                        your pet will influence its evolution path directly, so keep up with its needs!
+                    </li>
+                    <li style="margin-bottom: 10px; padding-left: 20px; position: relative;">
+                        <span style="position: absolute; left: 0; color: #667eea;">5.</span>
+                        The journey is in your hands! Add more eggs, explore, train, and battle with your pet to unlock
+                        its full potential.
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+
+        <div class="content-section">
+            <h2 class="section-title" onclick="toggleSection(this)">Controls<span class="arrow">▼</span></h2>
+            <div class="section-content" style="display:none;">
+                <p>These are default controls for the game, each device can have its own mapping for these buttons. You
+                    can customize the mapping by editing file input_config.json inside the config folder</p>
+                <br>
+                <ul style="list-style: none; padding: 0;">
+                    <li style="margin-bottom: 15px; padding-left: 20px; position: relative;">
+                        <strong> UP | DOWN | LEFT | RIGHT:</strong> Navigate menus
+                    </li>
+                    <li style="margin-bottom: 15px; padding-left: 20px; position: relative;">
+                        <strong>A:</strong> Select options and confirm actions
+                    </li>
+                    <li style="margin-bottom: 15px; padding-left: 20px; position: relative;">
+                        <strong>B:</strong> Go back or cancel actions
+                    </li>
+                    <li style="margin-bottom: 15px; padding-left: 20px; position: relative;">
+                        <strong>X:</strong> Toggle the "Needs HUD", this will show the current hunger and strength
+                        levels of a pet, only works in the main game screen<br>
+                        <img src="../assets/ShowHearts.PNG" width="172" height="76" alt="" />
+                    </li>
+                    <li style="margin-bottom: 15px; padding-left: 20px; position: relative;">
+                        <strong>Y:</strong> Shake, this is a function intended for devices without support for an
+                        accelerometer, it replaces the shake function<br>
+                        <img src="../assets/CountManual.png" width="192" height="48" alt="" />
+                    </li>
+                    <li style="margin-bottom: 15px; padding-left: 20px; position: relative;">
+                        <strong>START:</strong> In the main game screen, it will open the Settings menu, in some areas
+                        of the Battle Menu, it is used to confirm an operation<br>
+                        <img src="../assets/StartVersus.PNG" width="200" height="200" alt="" />
+                    </li>
+                    <li style="margin-bottom: 15px; padding-left: 20px; position: relative;">
+                        <strong>SELECT:</strong> In the main game, it switches between menu and pet mode, while in other
+                        menus it servers to switch the pet selection type<br>
+
+                        <div class="feature-card">
+                            <img src="../assets/MenuMode.PNG" width="240" height="58" alt="" /><img
+                                src="../assets/PetSelection.PNG" width="240" height="58" alt="" />
+                            <h3 class="feature-title">Selecion Modes - Main Game</h3>
+                            <p class="feature-description">In <strong>"Menu Mode"</strong> it's possible to navigate the
+                                menu options. In <strong>"Pet Mode"</strong> it's possible to select pets, the selection
+                                is used inside other menus for various functions (for example to feed only a few pets).
+                                A blue outline means the pet is currently selected.</p>
+                            <hr>
+                            <img src="../assets/SelectedPets.PNG" width="240" height="94" alt="" /><img
+                                src="../assets/PetsInNeed.PNG" width="240" height="94" alt="" />
+                            <h3 class="feature-title">Selecion Modes - Menus</h3>
+                            <p class="feature-description">Inside the menus it's possible to change the "Selection Type"
+                                between all pets capable to use the function or only the pets who need that function.
+                                (for example a pet that has not filled it's hunger meter or hasn't reached max effort)
+                            </p>
+                        </div>
+                    </li>
+                    <li style="margin-bottom: 15px; padding-left: 20px; position: relative;">
+                        <strong>L:</strong> In the main game, it will flip the screen. This function is meant for
+                        devices with support for physical prisms like the GamePi.<br>
+                        <img src="../assets/Prism1.png" width="200" height="200" alt="" /><img
+                            src="../assets/Prism2.png" width="200" height="200" alt="" />
+                    </li>
+                    <li style="margin-bottom: 15px; padding-left: 20px; position: relative;">
+                        <strong>R:</strong> In the main game, it will distribute the pets evenly, helpful for looking at
+                        all pets at once.<br>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h2 class="section-title" onclick="toggleSection(this)"><span class="status-title"><img
+                        src="../assets/Status.png" width="48" height="48" alt="" /> Status Menu</span><span
+                    class="arrow">▼</span></h2>
+            <div class="section-content" style="display:none;">
+                <table class="feature-table">
+                    <tr>
+                        <td><img src="../assets/Status0.png" width="240" height="240" alt="" /></strong>
+                        </td>
+                        <td>
+                            <p class="feature-description">Select a pet to view it's status. This view show
+                                the pet's name, stage and attribute</p>
+                            <p class="feature-description item"><strong>* Stage:</strong> Stage represents
+                                the pet's current growth stage. The possible values are: 0-Egg, I-Fresh,
+                                II-In-Training, III-Rookie, IV-Champion, V-Ultimate, VI-Mega, VII-Super
+                                Ultimate</p>
+                            <p class="feature-description item"><strong>* Attribute:</strong> Pet's can
+                                belong to 4 possible attributes: Free, Data, Virus, and Vaccine. They
+                                operate in a Rock-Paper-Scissors format granting advantage in battles.
+                                Vaccine is strong against Virus. Virus is strong against Data. Data is
+                                strong against Vaccine. Free has no strength or weakness.</p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><img src="../assets/Status1.png" width="240" height="240" alt="" /></td>
+                        <td>
+                            <p class="feature-description"><strong>Page 1</strong> This page show's the
+                                pet's main status information</p>
+                            <p class="feature-description item"><strong><img src="../assets/Age.png"></img>Age:</strong>
+                                Age represents the pet's
+                                current age in days.</p>
+                            <p class="feature-description item"><strong><img
+                                        src="../assets/Scale.png"></img>Weight:</strong> Weight represents
+                                the pet's current weight. Weight is gained by eating food items (like
+                                Protein) and lost through training; modules define the amount. If a pet
+                                reaches 99g, it becames sick.</p>
+                            <p class="feature-description item"><strong><img
+                                        src="../assets/Module.png"></img>Module:</strong> The name of the
+                                module the pet belongs to. The module defines the pet's behaviours and
+                                characteristics.</p>
+                            <p class="feature-description item"><strong><img
+                                        src="../assets/Version.png"></img>Version:</strong> The pet's
+                                version as set in the module. Versions are used to define evolution lines.
+                            </p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><img src="../assets/Status2.png" width="240" height="240" alt="" /></td>
+                        <td>
+                            <p class="feature-description"><strong>Page 2</strong> Care information, level
+                                and mistakes</p>
+
+                            <p class="feature-description item">
+                                <strong><img src="../assets/Heart Full.png"></img>Hunger:</strong>
+                                It's a representation of how full a pet is. Every pet will lose "hunger"
+                                over time; eat protein to fill it. Basic protein fills 1 heart. Each pet has
+                                a "stomach" — a limit to how much protein it can eat. Feeding a pet over its
+                                limit counts as an overfeed. A pet can die if not fed for a long time.
+                            </p>
+
+                            <p class="feature-description item">
+                                <strong><img src="../assets/Heart Full.png"></img>Strength:</strong>
+                                It's another basic need of a pet, filled with vitamins. Some modules allow
+                                strength to be replenished by training. Unlike protein, pets can consume
+                                vitamins without a hard limit. Every 4 vitamins replenish 1 DP. Each vitamin
+                                increases the pet's weight as defined by the module.
+                            </p>
+
+                            <p class="feature-description item">
+                                <strong><img src="../assets/Level.png"></img>Level and Experience:</strong>
+                                An important stat for battles. Pets gain experience by defeating enemies in
+                                adventure mode. When a pet evolves, its level resets to 1. The maximum level
+                                a pet can reach depends on its stage:
+                                <br>
+                                • In-Training: Lv. 3<br>
+                                • Rookie: Lv. 4<br>
+                                • Champion: Lv. 6<br>
+                                • Ultimate: Lv. 8<br>
+                                • Mega and beyond: Lv. 10
+                                <br>
+                                Experience required per level increases significantly, reaching 5000 EXP at
+                                Level 10.
+                            </p>
+
+                            <p class="feature-description item">
+                                <strong><img src="../assets/Mistakes.png"></img>Condition Hearts /
+                                    Mistakes:</strong>
+                                Mistakes represent care failures. These include ignoring calls for food,
+                                sleep, or bathroom needs. Accumulating too many mistakes can affect a pet's
+                                evolution path and may prevent it from reaching higher stages.
+                            </p>
+
+                            <p class="feature-description item">
+                                <strong><img src="../assets/SleepDisturbances.png"></img>Sleep
+                                    Disturbances:</strong>
+                                Waking up a sleeping pet counts as a
+                                disturbance. It can influence the pet's evolution path.
+                            </p>
+
+                            <p class="feature-description item">
+                                <strong><img src="../assets/Overfeed.png"></img>Overfeed:</strong>
+                                Feeding a pet beyond its stomach limit is considered an overfeed.
+                                Overfeeding is a requirement for some evolutions. When overfed, a pet skips it's next
+                                "hunger" decrease counter
+                            </p>
+
+                            <p class="feature-description item">
+                                <strong><img src="../assets/Sick1.png"></img>Injuries:</strong>
+                                Pets can get injured from losing battles or reaching 99g. Accumulating too many injuries
+                                will kill the pet.
+                            </p>
+
+                            <p class="feature-description item">
+                                <strong>* Battle:</strong>
+                                Show if the pet can battle. These are defined by the module, but usually a pet requires
+                                to be at least at stage 2 and have power status higher than 0.
+                            </p>
+
+                            <p class="feature-description item">
+                                <strong>* Jogress:</strong>
+                                Show if a pet is avaliable for Jogress. This is a special evolution that requires two
+                                pets to merge into a new one.
+                            </p>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><img src="../assets/Status3.png" width="240" height="240" alt="" /></td>
+                        <td>
+                            <p class="feature-description"><strong>Page 3</strong> Shows status related to battles</p>
+                            <p class="feature-description item"><strong>* Effort:</strong> Indicates how much training
+                                your pet has completed. Higher effort can unlock evolutions and improve battle
+                                performance.</p>
+                            <p class="feature-description item"><strong>* Power:</strong> Represents your pet's attack
+                                strength. A pet gains bonus power if at max effort and if born from a traited or shaken
+                                eggs (in some modules only). When a pet has bonus power avaliable, the value will be
+                                displayed in green.</p>
+                            <p class="feature-description item"><strong>* DP:</strong> DP is consumed during battles and
+                                replenished by sleeping for over 8 hours or eating vitamins.</p>
+                            <p class="feature-description item"><strong>* Battles (Current/Total):</strong> Shows the
+                                number of battles your pet has fought in its current stage and the total across all
+                                stages.</p>
+                            <p class="feature-description item"><strong>* Win Rate:</strong> The percentage of battles
+                                won in the current stage. Many evolutions require a minimum of 80% to evolve.</p>
+                            <p class="feature-description item"><strong>* Win Rate Total:</strong> The overall
+                                percentage of battles won throughout your pet's life.</p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><img src="../assets/Status4.png" width="240" height="240" alt="" /></td>
+                        <td>
+                            <p class="feature-description"><strong>Page 4</strong> Shows the pet's timers and flag
+                                information</p>
+                            <p class="feature-description item"><strong>* Evolution:</strong> Indicates when your pet is
+                                ready to evolve. Evolution is based on age, care, and other requirements.</p>
+                            <p class="feature-description item"><strong>* Sleeps:</strong> The time your pet naturally
+                                sleeps. It can be overridden in the settings menu, a pet that is kept awake for too long
+                                will cause a care mistake.</p>
+                            <p class="feature-description item"><strong>* Wakes:</strong> The time your pet naturally
+                                wakes up. It can be overridden in the settings menu. A pet can be awaken by feeding,
+                                training or battling, doing so will count as a Sleep Disturbances.</p>
+                            <p class="feature-description item"><strong>* Poop Time:</strong> Tracks the amount of time
+                                between poops. Popping stack and if reaches 8 per pet in game, it will make all pets
+                                sick.</p>
+                            <p class="feature-description item"><strong>* Feed Time:</strong> Tracks the amount of time
+                                between the hunger/strength values decrease. Not feeding a pet, it will count as a care
+                                mistake. It can lead to death after a certain amount of time.</p>
+                            <p class="feature-description item"><strong>* Flags:</strong> Special status indicators for
+                                your pet, such as traited, shaken and special (secret evolutions)</p>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h2 class="section-title" onclick="toggleSection(this)"><span class="status-title"><img
+                        src="../assets/Food.png" width="48" height="48" alt="" /> Feeding Menu</span><span
+                    class="arrow">▼</span></h2>
+            <div class="section-content" style="display:none;">
+                <p>Feeding is an essential part of caring for your pet. It directly affects their status and can grant
+                    temporary bonuses in battles. Modules can add items to the game with a variety of effects, only the
+                    basic Protein and Vitamin are available by default, they also have unlimited use.</p>
+                <table class="feature-table">
+                    <tr>
+                        <td><img src="../assets/FeedingMenu.png" width="240" height="240" alt="" /></td>
+                        <td>
+                            <p class="feature-description item"><strong><img src="../assets/Protein.png" width="48"
+                                        height="48" alt="" /> Protein:</strong> Increases the "hunger" meter by 1 and
+                                the weight by an amount defined in the pet's module. All pets have a limit of how much
+                                Protein they accept to eat, reaching the maximum value counts as an Overfeed and the
+                                next time the "hunger" meter would decrease is skipped. When the selection strategy is
+                                defined as "Pets in Need" it will select all pets who have 3 or less "hunger" points.
+                            </p>
+                            <p class="feature-description item"><strong><img src="../assets/Vitamin.png" width="48"
+                                        height="48" alt="" /> Vitamin:</strong> Increases the "strength" meter by 1 and
+                                the weight by an amount defined in the pet's module, also may increase a pet's DP.
+                                There's no limit on how many vitamins a pet can eat, but reaching 99g of weight will
+                                make a pet sick, increasing a pet's injury counter. When
+                                the selection strategy is defined as "Pets in Need" it will select all pets who have 3
+                                or less "vitamin" points.</p>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h2 class="section-title" onclick="toggleSection(this)"><span class="status-title"><img
+                        src="../assets/Training.png" width="48" height="48" alt="" /> Training Menu</span><span
+                    class="arrow">▼</span></h2>
+            <div class="section-content" style="display:none;">
+
+                <table class="feature-table">
+                    <tr>
+                        <td><img src="../assets/TrainingMenu.png" width="240" height="240" alt="" /></td>
+                        <td>
+                            <p class="feature-description item">Training is an important aspect of pet care. It helps
+                                improve a pet's Effort stat, each training
+                                session grants 1 effort. 4 Effort points are necessary to fill 1 Effort Heart. At
+                                maximum effort,
+                                pet's get a bonus to their power stat, making attacks have increased chance of hitting
+                                the target.
+                                Also some evolution paths may require a certain amount of training sessions to be
+                                completed. You can skip the training animations by pressing the B button. If you make a
+                                sleeping pet train, it will count as a Sleep Disturbance.</p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><img src="../assets/DummyTraining.png" width="240" height="240" alt="" /></td>
+                        <td>
+                            <p class="feature-description item"><strong><img src="../assets/BagIcon.png" width="48"
+                                        height="48" alt="" /> Dummy Training:</strong> Press the A button repeatedly to
+                                charge the training meter. Fill the bar for an Excellent result. Training will fail if
+                                the player fails to press at least 10 times</p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><img src="../assets/HeadOn.png" width="240" height="240" alt="" /></td>
+                        <td>
+                            <p class="feature-description item"></p>
+                            <strong><img src="../assets/HeadTrainingIcon.png" width="48" height="48" alt="" /> Head
+                                On:</strong>
+                            This training mode requires the player to have at least 2 pets. Use UP and DOWN keys to
+                            launch attacks. Training succeeds if there are more hits than misses. There are 5 rounds in
+                            total. The attacks follow a pattern.
+                            </p>
+                            <table class="sub-table">
+                                <thead>
+                                    <tr>
+                                        <th>Round</th>
+                                        <th>Buttons to Press (U=UP, D=DOWN)</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>1</td>
+                                        <td>UDUDD</td>
+                                    </tr>
+                                    <tr>
+                                        <td>2</td>
+                                        <td>DDUUD</td>
+                                    </tr>
+                                    <tr>
+                                        <td>3</td>
+                                        <td>DUUDD</td>
+                                    </tr>
+                                    <tr>
+                                        <td>4</td>
+                                        <td>UDDUU</td>
+                                    </tr>
+                                    <tr>
+                                        <td>5</td>
+                                        <td>DUDUD</td>
+                                    </tr>
+                                    <tr>
+                                        <td>6</td>
+                                        <td>UDUDU</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><img src="../assets/ExciteTraining.png" width="240" height="240" alt="" /></td>
+                        <td>
+                            <p class="feature-description item"><strong><img src="../assets/ExciteTrainingIcon.png"
+                                        width="48" height="48" alt="" /> Excite Training:</strong> This training uses
+                                the daily XAI Roll. The XAI (X-Antibody Indicator) System is a 7 sided dice, every day a
+                                value is rolled and it defines the speed of of the Attack Gauge Meter. Press A to stop
+                                the arrow. Training will succed if the arrow stops over any of the areas
+                                (red/orangge/yellow). </p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><img src="../assets/CountTraining.png" width="240" height="240" alt="" /></td>
+                        <td>
+                            <p class="feature-description item">
+                                <strong><img src="../assets/CountTrainingIcon.png" width="48" height="48" alt="" />
+                                    Count Training:</strong>
+                                When Count Training is selected, the word <strong>READY!</strong> will appear with a
+                                specific background color (Blue, Yellow, or Red).
+                                When the screen changes to <strong>COUNT!</strong>, shake the device (using the
+                                accelerometer or the Y button) to cycle through the background colors in the order:
+                                <strong>Blue → Yellow → Red</strong>.
+                                Your goal is to stop shaking when the background matches the original READY! color.
+                                If the correct color is displayed when the 3-second timer ends, your pet will fire 5
+                                Super Hits (a Mega Hit).
+                                The number of Super Hits you achieve depends on your pet's attribute, the color you land
+                                on, and the number of shakes performed.
+                                If you shake fewer than two times, you will only get 0 or 1 Super Hits.
+                            </p>
+                            <p class="feature-description item">
+                                The table below shows, for each attribute, which color and shake count results in a Mega
+                                Hit, 3-4 Super Hits, or 2 Super Hits:
+                            </p>
+                            <table class="sub-table">
+                                <thead>
+                                    <tr>
+                                        <th>Attribute</th>
+                                        <th>Mega Hit<br>(5 Super Hits)</th>
+                                        <th>3-4 Super Hits</th>
+                                        <th>2 Super Hits</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Baby</td>
+                                        <td>Red / 12 Shakes</td>
+                                        <td>Yellow / 7 Shakes</td>
+                                        <td>Blue / 2 Shakes</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Vaccine</td>
+                                        <td>Red / 12 Shakes</td>
+                                        <td>Yellow / 7 Shakes</td>
+                                        <td>Blue / 2 Shakes</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Data</td>
+                                        <td>Yellow / 6 Shakes</td>
+                                        <td>Red / 11 Shakes</td>
+                                        <td>Blue / 2 Shakes</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Virus</td>
+                                        <td>Blue / 2 Shakes</td>
+                                        <td>Yellow / 7 Shakes</td>
+                                        <td>Red / 12 Shakes</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Free</td>
+                                        <td>Red / 11 Shakes</td>
+                                        <td>Yellow / 7 Shakes</td>
+                                        <td>Blue / 2 Shakes</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <p class="feature-description item">
+                                <em>Tip: Try to time your shakes so you land on the correct color and shake count for
+                                    your pet's attribute to maximize your training results!</em>
+                            </p>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h2 class="section-title" onclick="toggleSection(this)"><span class="status-title"><img
+                        src="../assets/Battle.png" width="48" height="48" alt="" /> Battle Menu</span><span
+                    class="arrow">▼</span></h2>
+            <div class="section-content" style="display:none;">
+                <table class="feature-table">
+                    <tr>
+                        <td><img src="../assets/BattleMenu.png" width="240" height="240" alt="" /></td>
+                        <td>
+                            <p class="feature-description item">The Battle Menu is where the action happens! Here you
+                                can fight on the Adventure Modes of multiple modules, the primary source of items and
+                                experience. You can also perform Jogress and Armor evolutions, with many more features
+                                to come! </p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><img src="../assets/AdventureMode.png" width="240" height="240" alt="" /></td>
+                        <td>
+                            <p class="feature-description item"><strong><img src="../assets/BattleIcon.png" width="48"
+                                        height="48" alt="" /> Adventure:</strong> Enter the adventure mode
+                                of the selected module. Here you can fight enemies, gain experience, and collect items.
+                                The adventure mode is defined by the module, so each module may have different
+                                charge mechanics, enemies and item drops. Use buttons LEFT and RIGHT to navigate between
+                                module's
+                                adventures and use keys UP and DOWN to change the round or area, so you can revisit
+                                already defeated enemies. Animations can be skipped with B button.</p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><img src="../assets/Bt.PNG" width="240" height="240" alt="" /></td>
+                        <td>
+                            <p class="feature-description item"><strong>In Battle:</strong> Before a battle begins, a
+                                mini-game like the training modes will play out. Completing it successfully will give
+                                you an advantage in the upcoming battle. A battle can last for up to 12 turns in
+                                Adventure Mode and up to 6 turns in Versus. At each turn all combatants will try to
+                                attack each other. At the top of the screen the total hp is shown. Each combatant has
+                                it's own hp value and will be knocked out when it reaches 0, making it unable to attack.
+                                The game ends when all combatants on one side are knocked out or when the turn limit is
+                                reached, in this case the team with the most remaining hp wins. Draws give advantage to
+                                the enemies in Adventure Mode.</p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><img src="../assets/Bt3.PNG" width="240" height="240" alt="" /></td>
+                        <td>
+                            <p class="feature-description item"><strong>Boss Battles:</strong> Boss battles are special
+                                encounters that occur at the end of an area. In this mode, the enemy boss will attack
+                                all pets at once, prepare your pets for a challenge!</p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><img src="../assets/Bt2.PNG" width="240" height="240" alt="" /></td>
+                        <td>
+                            <p class="feature-description item"><strong>End of Battle:</strong> At the end of the battle
+                                , the results will be displayed, they show the victory status and the pets involved in
+                                the battle. Each pet will get the same amount of experience. When a pet levels up, it's
+                                level will show in yellow with a "+". If a pet is already at the maximum level, it will
+                                not receive experience and it will show in red. If at the end of a battle in Adventure
+                                Mode, all pets survive, then they will receive a 10% experience bonus. Some enemies can
+                                also drop items.</p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><img src="../assets/Versus.png" width="240" height="240" alt="" /></td>
+                        <td>
+                            <p class="feature-description item"><strong><img src="../assets/VersusBattle.png" width="48"
+                                        height="48" alt="" /> Versus:</strong> Engange your pets in a battles against
+                                one another. Battles in this mode follow protocols from actual vpet devices. You can
+                                find more information of each protocol by following guides on <a
+                                    href="https://humulos.com/digimon/">Humulos</a>. To start a battle, press A on 2
+                                pets to select them, then press START and a menu will show up so you can pick a
+                                protocol. Animations can be skipped with B button.</p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><img src="../assets/JogressScreen.png" width="240" height="240" alt="" /></td>
+                        <td>
+                            <p class="feature-description item"><strong><img src="../assets/Jogress.png" width="48"
+                                        height="48" alt="" /> Jogress:</strong> Jogress is a special evolution
+                                that requires two pets to merge into a new one. To perform a Jogress, select two pets
+                                of the same module using the A button and if they are compatible, the screen will show
+                                as the picture. Press START to execute the Jogress. The resulting pet will inherit
+                                traits from both including flags like Shaken or Traited. There are 3 types of jogress
+                                evolutions:
+                            <ul>
+                                <li><strong>Standard:</strong> The traditional Jogress where 2 pets will merge into 1.
+                                    It will always require 2 specific pets to happen.</li>
+                                <li><strong>Prefix or Ancient:</strong> This jogress will, like the standard, merge 2
+                                    pets into 1. Pet compatibility will be dependent on the pet's name, for example
+                                    AncientSphinxmon and AncientVolcanomon or even 2 AncientSphinxmon.</li>
+                                <li><strong>Attribute:</strong> In this type of jogress, both pets will exchange data
+                                    and evolve without merging, the resulting pets will be dependent of the attribute of
+                                    the original pets.</li>
+                            </ul>
+                            </p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><img src="../assets/ArmorEvo.png" width="240" height="240" alt="" /></td>
+                        <td>
+                            <p class="feature-description item"><strong><img src="../assets/ArmorEvolution.png"
+                                        width="48" height="48" alt="" /> Armor:</strong> Some modules allow
+                                Armor Evolutions. To perform an Armor Evolution, select a pet using the A button and use
+                                keys UP and DOWN to move between evolution items. If the screen shows as the picture,
+                                the pet is compatible and can evolve. Press START to execute the evolution. Armor
+                                evolution consumes the item used.
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h2 class="section-title" onclick="toggleSection(this)"><span class="status-title"><img
+                        src="../assets/Poop.png" width="48" height="48" alt="" /> Poops</span><span
+                    class="arrow">▼</span></h2>
+            <div class="section-content" style="display:none;">
+                <table class="feature-table">
+                    <tr>
+                        <td><img src="../assets/Cleaning.png" width="240" height="240" alt="" /></td>
+                        <td>
+                            <p class="feature-description item">Pooping is a classical mechanic in pet simulation games.
+                                Poops can accumulate and
+                                if there are over 8 poops for each living pet, it will cause them to get sick. The game
+                                will play a
+                                sound when a pet poops, but won't alert you if the pets get sick. Leaving pets
+                                unattended for many
+                                hours can lead to death. All pets have a 10% to make a "Jumbo" poop, they are larger,
+                                but still
+                                function the same way as regular poops.</p>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h2 class="section-title" onclick="toggleSection(this)"><span class="status-title"><img
+                        src="../assets/LightSleep.png" width="48" height="48" alt="" /> Sleep Menu</span><span
+                    class="arrow">▼</span></h2>
+            <div class="section-content" style="display:none;">
+                <table class="feature-table">
+                    <tr>
+                        <td><img src="../assets/SleepMenu.png" width="240" height="240" alt="" /></td>
+                        <td>
+                            <p class="feature-description item">Allows to put pets to sleep or force them to wake up.
+                                Each pet has a natural sleeping time and will sound an alert when it's time to sleep,
+                                keeping a pet awakened past a certain amount of time (defined by the module) will count
+                                as a Care Mistake. Pets can be put to sleep out of their natural time without any
+                                penalties. Pets will not decrease their "hunger" and "vitamin" values while asleep,
+                                but also won't evolve (their evolution timers will keep running). All pets will wake up
+                                naturally on their wake up time without the need for intervention. If a pet is put to
+                                sleep manually they will still wake up on their own standard wake up time. It is
+                                possible to override a pet's sleeping schedule in the Settings Menu. It is possible to
+                                wake up a pet by trying to feed them or on training and battling, this will not count as
+                                a Care Mistake, but will count as a Sleep Disturbance which is a requirement for
+                                certain evolutions. If a pet has it's sleep disturbed, they will fall back asleep after
+                                a few minutes. Eggs and recently hatched pets cannot sleep.</p>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h2 class="section-title" onclick="toggleSection(this)"><span class="status-title"><img
+                        src="../assets/Heal.png" width="48" height="48" alt="" /> Injuries and Healing</span><span
+                    class="arrow">▼</span></h2>
+            <div class="section-content" style="display:none;">
+                <table class="feature-table">
+                    <tr>
+                        <td><img src="../assets/SickPets.png" width="240" height="240" alt="" /></td>
+                        <td>
+                            <p class="feature-description item"> Pet's can get sick in many ways:
+                            <ul>
+                                <li>By accumulation of poops - this will happen when there's 8 poops from a living pet.
+                                </li>
+                                <li>By fighting in battles - every battle has a chance to cause a pet to get sick, the
+                                    chance is usually higher when loosing. Each module has it's own rules.</li>
+                                <li>By reaching 99g of weight - if a pet reaches this weight, it will become sick.</li>
+                            </ul>
+                            When a pet is sick, it will show a skull on the main screen. Pets can be healed by using the
+                            Healing option in the menu, some pets may require to be healed more times to be cured. Every
+                            time a pet gets sick it increases it's Injury counter, reaching a certain value will trigger
+                            a death condition. Leaving pets sick for many hours will too cause a death condition.
+                            In some modules, there's the use of "Disturbance Penalty", this increases
+                            the chance of getting sick after battle and is applied when a pet is disturbed from sleep.
+                            Training successfully decreases the "Disturbance Penalty".</p>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h2 class="section-title" onclick="toggleSection(this)"><span class="status-title"><img
+                        src="../assets/Alert.png" width="48" height="48" alt="" /> Call Sign</span><span
+                    class="arrow">▼</span></h2>
+            <div class="section-content" style="display:none;">
+                <table class="feature-table">
+                    <tr>
+                        <td><img src="../assets/AlertPet.png" width="240" height="240" alt="" /></td>
+                        <td>
+                            <p class="feature-description item"> The Call Sign will alert you when a pet needs
+                                attention. It can be triggered by various events such as having its "hunger" or
+                                "vitamin" counters empty, or when the pet wants to sleep. Leaving the pet unatended
+                                will count as a Care Mistake, when the Care Mistake happens, another alert sound
+                                will play and the Call Sign will turn off.</p>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h2 class="section-title" onclick="toggleSection(this)"><span class="status-title"> Settings
+                    Menu</span><span class="arrow">▼</span></h2>
+            <div class="section-content" style="display:none;">
+                <table class="feature-table">
+                    <tr>
+                        <td><img src="../assets/SettingsMenu.png" width="240" height="240" alt="" /></td>
+                        <td>
+                            <p class="feature-description item">This menu is accessible from the Main Game screen by
+                                pressing START. It contains options to customize your game experience and it's the
+                                access point to the Digidex and the Freezer Box.</p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><img src="../assets/Digidex1.png" width="240" height="240" alt="" /></td>
+                        <td>
+                            <p class="feature-description item"><strong>Digidex: </strong>The Digidex is a database of
+                                all your pets, and their evolution paths. Pets will be unlocked as you progress through
+                                the game. Use buttons UP and DOWN to navigate the menu and A to open it's evolution
+                                tree. Some unlocks are obtained by opening the Digidex. Make sure you check it
+                                regularly!</p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><img src="../assets/FreezerPartyBox.png" width="240" height="240" alt="" /></td>
+                        <td>
+                            <p class="feature-description item"><strong>Freezer Box: </strong>The Freezer Box is where
+                                you can store and manage your pets. You can switch the Party/Box view with SELECT. Press
+                                A over a pet to open a sub-menu that allows you to check a pet status and transfer pets
+                                between the Party and the Box. The freezer is saved on a separated file an has 10 pages,
+                                each with 25 slots. When in the Box View, you can also use "L" and "R" to change pages.
+                            </p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><img src="../assets/Unlockables.png" width="240" height="240" alt="" /></td>
+                        <td>
+                            <p class="feature-description item"><strong>Unlockables: </strong>In this menu you can view
+                                which secrets you unlocked from every module. Use LEFT and RIGHT to navigate between
+                                modules, UP and DOWN to scroll through the unlockable items. The Global Wake and Sleep
+                                timers, when set, override all pets' natural cycles. To work properly, both values must
+                                be set.</p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><img src="../assets/SelectBackground.png" width="240" height="240" alt="" /></td>
+                        <td>
+                            <p class="feature-description item"><strong>Background: </strong>Here you can select the
+                                game's background image. Use keys LEFT and RIGHT to navigate through the available
+                                backgrounds, and SELECT to switch between normal and high-resolution versions. Theres no
+                                need to confirm, just leave the menu to apply your changes.</p>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h2 class="section-title" onclick="toggleSection(this)">Module Overview<span class="arrow">▼</span>
+            </h2>
+            <div class="section-content" style="display:none;">
+                <p>Modules are a key aspect of Omnimon. They define evolution lines and stats of your pets. You can add
+                    and remove modules directly in the modules folder. To enable the training and battle mini-games you
+                    need to have at least one active module of a specific ruleset. Dummy and HeadOn require a DMC
+                    module. Excite requires a DMX module. Count requires PenC module. It is not necessary to have an
+                    active pet of a module type tho. It is not recomended to remove a module while having a pet in the
+                    party or box. Updated modules won't reflect the status in an active pet, but will update it's
+                    evolution tree.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleSection(titleElem) {
+            var content = titleElem.closest('.content-section').querySelector('.section-content');
+            var isOpen = titleElem.classList.contains('open');
+            if (isOpen) {
+                content.style.display = 'none';
+                titleElem.classList.remove('open');
+            } else {
+                content.style.display = '';
+                titleElem.classList.add('open');
+            }
+        }
+    </script>
+</body>
+</html>
