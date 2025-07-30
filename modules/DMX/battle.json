@@ -1,4 +1,5 @@
-[
+{
+  "enemies": [
   {
     "name": "Tokomon X",
     "power": 4,
@@ -14771,4 +14772,5 @@
     "atk_alt": 80,
     "stage": 7
   }
-]
+ ]
+}
