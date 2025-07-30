@@ -258,7 +258,7 @@ class WindowStatus:
         # Effort
         effort_label = self.font_small.render("Effort:", True, FONT_COLOR_DEFAULT)
         blit_with_shadow(surface, effort_label, (PAGE_MARGIN, y))
-        self.draw_hearts(surface, int(SCREEN_WIDTH - (110 * UI_SCALE)), y + int(5 * UI_SCALE), self.pet.effort, factor=2)
+        self.draw_hearts(surface, int(SCREEN_WIDTH - (110 * UI_SCALE)), y + int(5 * UI_SCALE), self.pet.effort, factor=4)
 
         # Power
         y += distance
