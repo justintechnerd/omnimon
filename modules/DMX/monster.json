@@ -151,8 +151,7 @@
           "mistakes": [
             0,
             2
-          ],
-          "area": 5
+          ]
         },
         {
           "to": "Sangloupmon",
@@ -217,8 +216,7 @@
           "mistakes": [
             0,
             2
-          ],
-          "area": 8
+          ]
         },
         {
           "to": "Tobucatmon",
@@ -305,8 +303,7 @@
           "mistakes": [
             0,
             2
-          ],
-          "area": 8
+          ]
         },
         {
           "to": "Damemon",
@@ -386,8 +383,7 @@
           "level": [
             6,
             6
-          ],
-          "area": 14
+          ]
         },
         {
           "to": "Crowmon",
@@ -461,8 +457,7 @@
           "level": [
             1,
             4
-          ],
-          "area": 14
+          ]
         },
         {
           "to": "MetalTyrannomon X",
@@ -473,8 +468,7 @@
           "level": [
             6,
             6
-          ],
-          "area": 14
+          ]
         },
         {
           "to": "Crowmon",
@@ -799,7 +793,7 @@
       "name": "Cerberusmon X",
       "stage": 5,
       "version": 1,
-      "special": true,
+      "special": false,
       "special_key": "Cerberusmon X",
       "sleeps": "23:00",
       "wakes": "08:00",
@@ -828,8 +822,7 @@
           "level": [
             6,
             7
-          ],
-          "area": 21
+          ]
         },
         {
           "to": "Kentaurosmon X",
@@ -840,8 +833,7 @@
           "level": [
             8,
             8
-          ],
-          "area": 20
+          ]
         },
         {
           "to": "MaloMyotismon",
@@ -905,8 +897,7 @@
           "stage-5": [
             5,
             999999
-          ],
-          "area": 19
+          ]
         },
         {
           "to": "PlatinumNumemon",
@@ -936,7 +927,7 @@
       "name": "MetalGreymon (Vaccine) X",
       "stage": 5,
       "version": 1,
-      "special": true,
+      "special": false,
       "special_key": "MetalGreymon (Vaccine) X",
       "sleeps": "23:00",
       "wakes": "08:00",
@@ -965,8 +956,7 @@
           "level": [
             5,
             6
-          ],
-          "area": 17
+          ]
         },
         {
           "to": "WarGreymon X",
@@ -978,7 +968,6 @@
             8,
             8
           ],
-          "area": 17,
           "stage-5": [
             3,
             999999
@@ -993,8 +982,7 @@
           "level": [
             7,
             8
-          ],
-          "area": 17
+          ]
         },
         {
           "to": "Jesmon X",
@@ -1005,8 +993,7 @@
           "level": [
             7,
             8
-          ],
-          "area": 19
+          ]
         },
         {
           "to": "Varodurumon",
@@ -1102,8 +1089,7 @@
           "level": [
             8,
             8
-          ],
-          "area": 23
+          ]
         },
         {
           "to": "WarGreymon X",
@@ -1114,8 +1100,7 @@
           "level": [
             6,
             7
-          ],
-          "area": 17
+          ]
         },
         {
           "to": "WarGreymon X",
@@ -1126,8 +1111,7 @@
           "level": [
             8,
             8
-          ],
-          "area": 17
+          ]
         },
         {
           "to": "MaloMyotismon",
@@ -1237,8 +1221,7 @@
           "level": [
             7,
             8
-          ],
-          "area": 21
+          ]
         },
         {
           "to": "Varodurumon",
@@ -1288,7 +1271,6 @@
             8,
             8
           ],
-          "area": 20,
           "stage-5": [
             5,
             999999
@@ -1351,8 +1333,7 @@
           "level": [
             7,
             8
-          ],
-          "area": 23
+          ]
         },
         {
           "to": "WarGreymon X",
@@ -1363,8 +1344,7 @@
           "level": [
             5,
             6
-          ],
-          "area": 17
+          ]
         },
         {
           "to": "WarGreymon X",
@@ -1375,8 +1355,7 @@
           "level": [
             7,
             8
-          ],
-          "area": 17
+          ]
         },
         {
           "to": "Kentaurosmon X",
@@ -1388,7 +1367,6 @@
             8,
             8
           ],
-          "area": 20,
           "stage-5": [
             3,
             999999
@@ -1499,8 +1477,7 @@
           "level": [
             8,
             8
-          ],
-          "area": 21
+          ]
         },
         {
           "to": "Sakuyamon X",
@@ -1512,7 +1489,6 @@
             8,
             8
           ],
-          "area": 21,
           "stage-5": [
             5,
             999999
@@ -1647,7 +1623,8 @@
           "level": [
             8,
             10
-          ]
+          ],
+          "special_encounter": false
         }
       ]
     },
@@ -1684,8 +1661,7 @@
           "level": [
             8,
             10
-          ],
-          "area": 26
+          ]
         }
       ]
     },
@@ -1722,8 +1698,7 @@
           "level": [
             8,
             10
-          ],
-          "area": 46
+          ]
         }
       ]
     },
@@ -1760,8 +1735,7 @@
           "level": [
             10,
             10
-          ],
-          "area": 29
+          ]
         }
       ]
     },
@@ -1834,8 +1808,7 @@
           "level": [
             10,
             10
-          ],
-          "area": 46
+          ]
         }
       ]
     },
@@ -3094,8 +3067,7 @@
           "level": [
             7,
             8
-          ],
-          "area": 19
+          ]
         },
         {
           "to": "Varodurumon",
