@@ -567,7 +567,7 @@
       "type": "adventure",
       "version": null,
       "label": "Renamon X",
-      "area": null,
+      "area": 2,
       "to": null,
       "amount": null
     },
