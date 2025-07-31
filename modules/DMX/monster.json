@@ -2317,6 +2317,17 @@
       "hp": 10,
       "evolve": [
         {
+          "to": "Rhinomon X",
+          "training": [
+            16,
+            999999
+          ],
+          "mistakes": [
+            0,
+            2
+          ]
+        },
+        {
           "to": "Sistermon Ciel",
           "training": [
             0,
@@ -2337,18 +2348,7 @@
             0,
             2
           ]
-        },
-        {
-          "to": "Rhinomon X",
-          "training": [
-            16,
-            999999
-          ],
-          "mistakes": [
-            0,
-            2
-          ]
-        },
+        }, 
         {
           "to": "Damemon",
           "mistakes": [
@@ -2874,6 +2874,17 @@
       "hp": 15,
       "evolve": [
         {
+          "to": "Craniamon X",
+          "mistakes": [
+            0,
+            2
+          ],
+          "level": [
+            8,
+            8
+          ]
+        },
+        {
           "to": "Megidramon X",
           "mistakes": [
             0,
@@ -2896,21 +2907,10 @@
           ]
         },
         {
-          "to": "Craniamon X",
-          "mistakes": [
-            0,
-            2
-          ],
-          "level": [
-            8,
-            8
-          ]
-        },
-        {
           "to": "Jesmon X",
           "mistakes": [
             3,
-            999999
+            3
           ],
           "level": [
             8,
@@ -2963,7 +2963,7 @@
           "to": "PlatinumNumemon",
           "mistakes": [
             3,
-            999999
+            3
           ],
           "level": [
             1,
@@ -2974,7 +2974,7 @@
           "to": "PlatinumNumemon",
           "mistakes": [
             3,
-            999999
+            3
           ],
           "level": [
             8,
@@ -3848,7 +3848,8 @@
           "level": [
             10,
             10
-          ]
+          ],
+          "area": 30
         }
       ]
     },
