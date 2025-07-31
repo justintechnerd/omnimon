@@ -2130,8 +2130,7 @@
           "mistakes": [
             0,
             1
-          ],
-          "area": 3
+          ]
         },
         {
           "to": "Gabumon X",
@@ -2197,8 +2196,7 @@
           "mistakes": [
             0,
             2
-          ],
-          "area": 7
+          ]
         },
         {
           "to": "Sistermon Ciel",
@@ -2263,8 +2261,7 @@
           "mistakes": [
             0,
             2
-          ],
-          "area": 4
+          ]
         },
         {
           "to": "Tobucatmon",
@@ -2351,8 +2348,7 @@
           "mistakes": [
             0,
             2
-          ],
-          "area": 4
+          ]
         },
         {
           "to": "Damemon",
@@ -2859,7 +2855,7 @@
       "name": "WarGrowlmon X",
       "stage": 5,
       "version": 2,
-      "special": true,
+      "special": false,
       "special_key": "WarGrowlmon X",
       "sleeps": "23:00",
       "wakes": "08:00",
@@ -2888,8 +2884,7 @@
           "level": [
             6,
             7
-          ],
-          "area": 15
+          ]
         },
         {
           "to": "Megidramon X",
@@ -2900,8 +2895,7 @@
           "level": [
             8,
             8
-          ],
-          "area": 15
+          ]
         },
         {
           "to": "Craniamon X",
@@ -2912,8 +2906,7 @@
           "level": [
             8,
             8
-          ],
-          "area": 22
+          ]
         },
         {
           "to": "Jesmon X",
@@ -2925,7 +2918,6 @@
             8,
             8
           ],
-          "area": 19,
           "stage-5": [
             5,
             999999
@@ -3026,8 +3018,7 @@
           "level": [
             5,
             6
-          ],
-          "area": 16
+          ]
         },
         {
           "to": "MetalGarurumon X",
@@ -3054,8 +3045,7 @@
           "level": [
             7,
             8
-          ],
-          "area": 16
+          ]
         },
         {
           "to": "Jesmon X",
@@ -3162,8 +3152,7 @@
           "level": [
             8,
             8
-          ],
-          "area": 24
+          ]
         },
         {
           "to": "Craniamon X",
@@ -3175,7 +3164,6 @@
             8,
             8
           ],
-          "area": 22,
           "stage-5": [
             5,
             999999
@@ -3190,8 +3178,7 @@
           "level": [
             6,
             7
-          ],
-          "area": 16
+          ]
         },
         {
           "to": "MetalGarurumon X",
@@ -3202,8 +3189,7 @@
           "level": [
             8,
             8
-          ],
-          "area": 16
+          ]
         },
         {
           "to": "MaloMyotismon",
@@ -3311,7 +3297,6 @@
             8,
             8
           ],
-          "area": 24,
           "stage-5": [
             5,
             999999
@@ -3401,8 +3386,7 @@
           "level": [
             7,
             8
-          ],
-          "area": 15
+          ]
         },
         {
           "to": "MetalGarurumon X",
@@ -3413,8 +3397,7 @@
           "level": [
             5,
             6
-          ],
-          "area": 16
+          ]
         },
         {
           "to": "Craniamon X",
@@ -3426,7 +3409,6 @@
             8,
             8
           ],
-          "area": 22,
           "stage-5": [
             3,
             999999
@@ -3537,8 +3519,7 @@
           "level": [
             8,
             8
-          ],
-          "area": 24
+          ]
         },
         {
           "to": "BeelStarmon X",
@@ -3550,7 +3531,6 @@
             8,
             8
           ],
-          "area": 24,
           "stage-5": [
             5,
             999999
@@ -3685,7 +3665,8 @@
           "level": [
             8,
             10
-          ]
+          ],
+          "special_encounter": false
         }
       ]
     },
@@ -3722,8 +3703,7 @@
           "level": [
             8,
             10
-          ],
-          "area": 26
+          ]
         }
       ]
     },
@@ -3760,8 +3740,7 @@
           "level": [
             8,
             10
-          ],
-          "area": 29
+          ]
         }
       ]
     },
@@ -3798,8 +3777,7 @@
           "level": [
             10,
             10
-          ],
-          "area": 46
+          ]
         }
       ]
     },
@@ -3872,8 +3850,7 @@
           "level": [
             10,
             10
-          ],
-          "area": 46
+          ]
         }
       ]
     },

@@ -117,7 +117,7 @@
       "type": "adventure",
       "version": null,
       "label": "BeelStarmon X",
-      "area": null,
+      "area": 24,
       "to": null,
       "amount": null
     },
@@ -171,7 +171,7 @@
       "type": "adventure",
       "version": null,
       "label": "Craniamon X",
-      "area": null,
+      "area": 22,
       "to": null,
       "amount": null
     },
@@ -216,7 +216,7 @@
       "type": "adventure",
       "version": null,
       "label": "Dracomon X",
-      "area": null,
+      "area": 3,
       "to": null,
       "amount": null
     },
@@ -297,7 +297,7 @@
       "type": "adventure",
       "version": null,
       "label": "Growlmon X",
-      "area": null,
+      "area": 7,
       "to": null,
       "amount": null
     },
@@ -374,15 +374,6 @@
       "amount": null
     },
     {
-      "name": "LordKnightmon X",
-      "type": "adventure",
-      "version": null,
-      "label": "LordKnightmon X",
-      "area": null,
-      "to": null,
-      "amount": null
-    },
-    {
       "name": "Magnamon X",
       "type": "adventure",
       "version": null,
@@ -405,7 +396,7 @@
       "type": "adventure",
       "version": null,
       "label": "Megidramon X",
-      "area": null,
+      "area": 15,
       "to": null,
       "amount": null
     },
@@ -432,7 +423,7 @@
       "type": "adventure",
       "version": null,
       "label": "MetalGarurumon X",
-      "area": null,
+      "area": 16,
       "to": null,
       "amount": null
     },
@@ -576,7 +567,7 @@
       "type": "adventure",
       "version": null,
       "label": "Rhinomon X",
-      "area": null,
+      "area": 4,
       "to": null,
       "amount": null
     },
@@ -649,24 +640,6 @@
       "version": null,
       "label": "WarGreymon X",
       "area": 17,
-      "to": null,
-      "amount": null
-    },
-    {
-      "name": "WarGrowlmon X",
-      "type": "adventure",
-      "version": null,
-      "label": "WarGrowlmon X",
-      "area": null,
-      "to": null,
-      "amount": null
-    },
-    {
-      "name": "WereGarurumon X",
-      "type": "adventure",
-      "version": null,
-      "label": "WereGarurumon X",
-      "area": null,
       "to": null,
       "amount": null
     },
