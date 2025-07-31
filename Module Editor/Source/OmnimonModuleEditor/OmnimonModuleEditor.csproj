@@ -198,14 +198,6 @@
     <EmbeddedResource Include="tabs\PetTab.resx">
       <DependentUpon>PetTab.cs</DependentUpon>
     </EmbeddedResource>
-    <None Include="game\core\combat\sim\DM20_pattern.json" />
-    <None Include="game\core\combat\sim\DMC_BattleTable.csv" />
-    <None Include="game\core\combat\sim\DMX_pattern.json" />
-    <None Include="game\core\combat\sim\__pycache__\battle_simulator.cpython-310.pyc" />
-    <None Include="game\core\combat\sim\__pycache__\battle_utils.cpython-310.pyc" />
-    <None Include="game\core\combat\sim\__pycache__\global_battle_simulator.cpython-310.pyc" />
-    <None Include="game\core\combat\sim\__pycache__\models.cpython-310.pyc" />
-    <None Include="game\core\combat\sim\__pycache__\__init__.cpython-310.pyc" />
     <None Include="template\module.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -225,81 +217,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="favicon.ico" />
-    <Content Include="game\components\scrolling_text.py" />
-    <Content Include="game\components\window_background.py" />
-    <Content Include="game\components\window_clock.py" />
-    <Content Include="game\components\window_freezer.py" />
-    <Content Include="game\components\window_horizontalmenu.py" />
-    <Content Include="game\components\window_mainmenu.py" />
-    <Content Include="game\components\window_menu.py" />
-    <Content Include="game\components\window_party.py" />
-    <Content Include="game\components\window_petselector.py" />
-    <Content Include="game\components\window_petview.py" />
-    <Content Include="game\components\window_status.py" />
-    <Content Include="game\components\window_xai.py" />
-    <Content Include="game\components\window_xaibar.py" />
-    <Content Include="game\components\__init__.py" />
-    <Content Include="game\core\animation.py" />
-    <Content Include="game\core\combat\battle_encounter.py" />
-    <Content Include="game\core\combat\battle_encounter_versus.py" />
-    <Content Include="game\core\combat\combat_constants.py" />
-    <Content Include="game\core\combat\count_training.py" />
-    <Content Include="game\core\combat\dummy_training.py" />
-    <Content Include="game\core\combat\excite_training.py" />
-    <Content Include="game\core\combat\game_battle.py" />
-    <Content Include="game\core\combat\head_training.py" />
-    <Content Include="game\core\combat\sim\battle_simulator.py" />
-    <Content Include="game\core\combat\sim\battle_utils.py" />
-    <Content Include="game\core\combat\sim\global_battle_simulator.py" />
-    <Content Include="game\core\combat\sim\models.py" />
-    <Content Include="game\core\combat\sim\UnderstandingDigimonConnectionSignals.html" />
-    <Content Include="game\core\combat\sim\__init__.py" />
-    <Content Include="game\core\combat\training.py" />
-    <Content Include="game\core\combat\__init__.py" />
-    <Content Include="game\core\constants.py" />
-    <Content Include="game\core\game_console.py" />
-    <Content Include="game\core\game_digidex.py" />
-    <Content Include="game\core\game_digidex_entry.py" />
-    <Content Include="game\core\game_enemy.py" />
-    <Content Include="game\core\game_evolution_entity.py" />
-    <Content Include="game\core\game_freezer.py" />
-    <Content Include="game\core\game_globals.py" />
-    <Content Include="game\core\game_item.py" />
-    <Content Include="game\core\game_message.py" />
-    <Content Include="game\core\game_module.py" />
-    <Content Include="game\core\game_pet.py" />
-    <Content Include="game\core\game_poop.py" />
-    <Content Include="game\core\game_sound.py" />
-    <Content Include="game\core\input\i2c_utils.py" />
-    <Content Include="game\core\input\input_manager.py" />
-    <Content Include="game\core\input\shake_detector.py" />
-    <Content Include="game\core\input\system_stats.py" />
-    <Content Include="game\core\input\__init__.py" />
-    <Content Include="game\core\runtime_globals.py" />
-    <Content Include="game\core\utils\inventory_utils.py" />
-    <Content Include="game\core\utils\misc_utils.py" />
-    <Content Include="game\core\utils\module_utils.py" />
-    <Content Include="game\core\utils\pet_utils.py" />
-    <Content Include="game\core\utils\pygame_utils.py" />
-    <Content Include="game\core\utils\scene_utils.py" />
-    <Content Include="game\core\utils\utils_unlocks.py" />
-    <Content Include="game\core\utils\__init__.py" />
-    <Content Include="game\core\__init__.py" />
-    <Content Include="game\scenes\scene_battle.py" />
-    <Content Include="game\scenes\scene_boot.py" />
-    <Content Include="game\scenes\scene_digidex.py" />
-    <Content Include="game\scenes\scene_eggselection.py" />
-    <Content Include="game\scenes\scene_evolution.py" />
-    <Content Include="game\scenes\scene_feedingmenu.py" />
-    <Content Include="game\scenes\scene_freezerbox.py" />
-    <Content Include="game\scenes\scene_maingame.py" />
-    <Content Include="game\scenes\scene_settingsmenu.py" />
-    <Content Include="game\scenes\scene_sleepmenu.py" />
-    <Content Include="game\scenes\scene_statusmenu.py" />
-    <Content Include="game\scenes\scene_training.py" />
-    <Content Include="game\scenes\__init__.py" />
-    <Content Include="game\vpet.py" />
-    <Content Include="game\__init__.py" />
     <Content Include="template\backgrounds.html">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

@@ -20,11 +20,18 @@ public class EvolutionCriteriaForm : Form
     private NumericUpDown[] numTraining = new NumericUpDown[2];
     private NumericUpDown[] numBattles = new NumericUpDown[2];
     private NumericUpDown[] numWinRatio = new NumericUpDown[2];
+    private NumericUpDown[] numWinCount = new NumericUpDown[2]; // New field
     private NumericUpDown[] numMistakes = new NumericUpDown[2];
     private NumericUpDown[] numLevel = new NumericUpDown[2];
     private NumericUpDown[] numOverfeed = new NumericUpDown[2];
     private NumericUpDown[] numSleepDisturbances = new NumericUpDown[2];
     private NumericUpDown[] numStage5 = new NumericUpDown[2];
+    private NumericUpDown[] numStage6 = new NumericUpDown[2]; // New field
+    private NumericUpDown[] numStage7 = new NumericUpDown[2]; // New field
+    private NumericUpDown[] numStage8 = new NumericUpDown[2]; // New field
+    private NumericUpDown[] numTrophies = new NumericUpDown[2]; // New field
+    private NumericUpDown[] numVitalValues = new NumericUpDown[2]; // New field
+    private NumericUpDown[] numWeigth = new NumericUpDown[2]; // New field
 
     private NumericUpDown numArea;
     private NumericUpDown numStage;
@@ -73,7 +80,7 @@ public class EvolutionCriteriaForm : Form
     private void InitializeComponent()
     {
         this.Text = Resources.EvolutionCriteriaForm_Title;
-        this.Size = new Size(440, 620);
+        this.Size = new Size(440, 720); // Increased height for new fields
         this.FormBorderStyle = FormBorderStyle.FixedDialog;
         this.MaximizeBox = false;
         this.MinimizeBox = false;
@@ -138,6 +145,7 @@ public class EvolutionCriteriaForm : Form
         AddRange(Resources.EvolutionCriteriaForm_LabelTraining, numTraining, 0, 999999);
         AddRange(Resources.EvolutionCriteriaForm_LabelBattles, numBattles, 0, 999999);
         AddRange(Resources.EvolutionCriteriaForm_LabelWinRatio, numWinRatio, 0, 100);
+        AddRange("Win Count:", numWinCount, 0, 999999); // New field
         AddRange(Resources.EvolutionCriteriaForm_LabelMistakes, numMistakes, 0, 999999);
         AddRange(Resources.EvolutionCriteriaForm_LabelLevel, numLevel, 0, 10);
         AddRange(Resources.EvolutionCriteriaForm_LabelOverfeed, numOverfeed, 0, 999999);
@@ -180,6 +188,12 @@ public class EvolutionCriteriaForm : Form
         AddControl(chkSpecialEncounter);
 
         AddRange(Resources.EvolutionCriteriaForm_LabelStage5, numStage5, 0, 999999);
+        AddRange("Stage-6:", numStage6, 0, 999999); // New field
+        AddRange("Stage-7:", numStage7, 0, 999999); // New field
+        AddRange("Stage-8:", numStage8, 0, 999999); // New field
+        AddRange("Trophies:", numTrophies, 0, 999999); // New field
+        AddRange("Vital Values:", numVitalValues, 0, 999999); // New field
+        AddRange("Weight:", numWeigth, 0, 100); // New field
 
         AddLabel(Resources.EvolutionCriteriaForm_LabelItem);
         cmbItem = new ComboBox { DropDownStyle = ComboBoxStyle.DropDownList, Width = 150 };
@@ -187,6 +201,21 @@ public class EvolutionCriteriaForm : Form
         foreach (var item in items)
             cmbItem.Items.Add(item);
         AddControl(cmbItem);
+
+        // Adicione os campos para time_range
+        AddLabel("Time Range");
+        var timePanel = new FlowLayoutPanel
+        {
+            FlowDirection = FlowDirection.LeftToRight,
+            AutoSize = true,
+            WrapContents = false
+        };
+        txtTimeRange[0] = new MaskedTextBox { Mask = "00:00", Width = 50 };
+        txtTimeRange[1] = new MaskedTextBox { Mask = "00:00", Width = 50 };
+        timePanel.Controls.Add(txtTimeRange[0]);
+        timePanel.Controls.Add(new Label { Text = "to", AutoSize = true, TextAlign = ContentAlignment.MiddleCenter, Padding = new Padding(4, 6, 4, 0) });
+        timePanel.Controls.Add(txtTimeRange[1]);
+        AddControl(timePanel);
 
         // Buttons
         btnSave = new Button { Text = Resources.Button_Save, Width = 90, DialogResult = DialogResult.OK };
@@ -260,21 +289,6 @@ public class EvolutionCriteriaForm : Form
         scrollPanel.Controls.Add(layout);
         this.Controls.Add(scrollPanel);
         this.Controls.Add(buttonPanel);
-
-        // Adicione os campos para time_range
-        AddLabel("Time Range");
-        var timePanel = new FlowLayoutPanel
-        {
-            FlowDirection = FlowDirection.LeftToRight,
-            AutoSize = true,
-            WrapContents = false
-        };
-        txtTimeRange[0] = new MaskedTextBox { Mask = "00:00", Width = 50 };
-        txtTimeRange[1] = new MaskedTextBox { Mask = "00:00", Width = 50 };
-        timePanel.Controls.Add(txtTimeRange[0]);
-        timePanel.Controls.Add(new Label { Text = "to", AutoSize = true, TextAlign = ContentAlignment.MiddleCenter, Padding = new Padding(4, 6, 4, 0) });
-        timePanel.Controls.Add(txtTimeRange[1]);
-        AddControl(timePanel);
     }
 
     /// <summary>
@@ -287,6 +301,7 @@ public class EvolutionCriteriaForm : Form
         dest.Training = src.Training != null ? (int[])src.Training.Clone() : null;
         dest.Battles = src.Battles != null ? (int[])src.Battles.Clone() : null;
         dest.WinRatio = src.WinRatio != null ? (int[])src.WinRatio.Clone() : null;
+        dest.WinCount = src.WinCount != null ? (int[])src.WinCount.Clone() : null; // New field
         dest.Mistakes = src.Mistakes != null ? (int[])src.Mistakes.Clone() : null;
         dest.Level = src.Level != null ? (int[])src.Level.Clone() : null;
         dest.Overfeed = src.Overfeed != null ? (int[])src.Overfeed.Clone() : null;
@@ -298,9 +313,15 @@ public class EvolutionCriteriaForm : Form
         dest.Jogress = src.Jogress;
         dest.SpecialEncounter = src.SpecialEncounter;
         dest.Stage5 = src.Stage5 != null ? (int[])src.Stage5.Clone() : null;
+        dest.Stage6 = src.Stage6 != null ? (int[])src.Stage6.Clone() : null; // New field
+        dest.Stage7 = src.Stage7 != null ? (int[])src.Stage7.Clone() : null; // New field
+        dest.Stage8 = src.Stage8 != null ? (int[])src.Stage8.Clone() : null; // New field
         dest.Item = src.Item;
         dest.JogressPrefix = src.JogressPrefix;
         dest.TimeRange = src.TimeRange != null ? (string[])src.TimeRange.Clone() : null;
+        dest.Trophies = src.Trophies != null ? (int[])src.Trophies.Clone() : null; // New field
+        dest.VitalValues = src.VitalValues != null ? (int[])src.VitalValues.Clone() : null; // New field
+        dest.Weigth = src.Weigth != null ? (int[])src.Weigth.Clone() : null; // New field
     }
 
     /// <summary>
@@ -317,11 +338,18 @@ public class EvolutionCriteriaForm : Form
         SetRange(numTraining, evolution.Training);
         SetRange(numBattles, evolution.Battles);
         SetRange(numWinRatio, evolution.WinRatio);
+        SetRange(numWinCount, evolution.WinCount); // New field
         SetRange(numMistakes, evolution.Mistakes);
         SetRange(numLevel, evolution.Level);
         SetRange(numOverfeed, evolution.Overfeed);
         SetRange(numSleepDisturbances, evolution.SleepDisturbances);
         SetRange(numStage5, evolution.Stage5);
+        SetRange(numStage6, evolution.Stage6); // New field
+        SetRange(numStage7, evolution.Stage7); // New field
+        SetRange(numStage8, evolution.Stage8); // New field
+        SetRange(numTrophies, evolution.Trophies); // New field
+        SetRange(numVitalValues, evolution.VitalValues); // New field
+        SetRange(numWeigth, evolution.Weigth); // New field
 
         numArea.Value = evolution.Area ?? 0;
         numStage.Value = evolution.Stage ?? 0;
@@ -361,11 +389,18 @@ public class EvolutionCriteriaForm : Form
         evolution.Training = GetRange(numTraining, 999999);
         evolution.Battles = GetRange(numBattles, 999999);
         evolution.WinRatio = GetRange(numWinRatio, 100);
+        evolution.WinCount = GetRange(numWinCount, 999999); // New field
         evolution.Mistakes = GetRange(numMistakes, 999999);
         evolution.Level = GetRange(numLevel, 10);
         evolution.Overfeed = GetRange(numOverfeed, 999999);
         evolution.SleepDisturbances = GetRange(numSleepDisturbances, 999999);
         evolution.Stage5 = GetRange(numStage5, 999999);
+        evolution.Stage6 = GetRange(numStage6, 999999); // New field
+        evolution.Stage7 = GetRange(numStage7, 999999); // New field
+        evolution.Stage8 = GetRange(numStage8, 999999); // New field
+        evolution.Trophies = GetRange(numTrophies, 999999); // New field
+        evolution.VitalValues = GetRange(numVitalValues, 999999); // New field
+        evolution.Weigth = GetRange(numWeigth, 100); // New field
 
         evolution.Area = numArea.Value == 0 ? (int?)null : (int)numArea.Value;
         evolution.Stage = numStage.Value == 0 ? (int?)null : (int)numStage.Value;
@@ -380,7 +415,7 @@ public class EvolutionCriteriaForm : Form
         // Salvar time_range
         string t0 = txtTimeRange[0].Text.Trim();
         string t1 = txtTimeRange[1].Text.Trim();
-        if (string.IsNullOrWhiteSpace(t0) && string.IsNullOrWhiteSpace(t1))
+        if (string.IsNullOrWhiteSpace(t0.Replace(":", "")) && string.IsNullOrWhiteSpace(t1.Replace(":", "")))
         {
             evolution.TimeRange = null;
         }

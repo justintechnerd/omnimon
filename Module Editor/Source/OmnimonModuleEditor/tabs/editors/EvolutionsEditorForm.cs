@@ -736,6 +736,7 @@ namespace OmnimonModuleEditor
                 if (evo.Training != null) lines.Add($"Training: {formatRange(evo.Training)}");
                 if (evo.Battles != null) lines.Add($"Battles: {formatRange(evo.Battles)}");
                 if (evo.WinRatio != null) lines.Add($"Win Ratio: {formatRange(evo.WinRatio)}");
+                if (evo.WinCount != null) lines.Add($"Win Count: {formatRange(evo.WinCount)}"); // New field
                 if (evo.Mistakes != null) lines.Add($"Mistakes: {formatRange(evo.Mistakes)}");
                 if (evo.Level != null) lines.Add($"Level: {formatRange(evo.Level)}");
                 if (evo.Overfeed != null) lines.Add($"Overfeed: {formatRange(evo.Overfeed)}");
@@ -748,46 +749,24 @@ namespace OmnimonModuleEditor
                 if (evo.JogressPrefix != null) lines.Add($"Jogress Prefix: {(evo.JogressPrefix.Value ? "Yes" : "No")}");
                 if (evo.SpecialEncounter != null) lines.Add($"Special Encounter: {evo.SpecialEncounter}");
                 if (evo.Stage5 != null) lines.Add($"Stage-5: {formatRange(evo.Stage5)}");
+                if (evo.Stage6 != null) lines.Add($"Stage-6: {formatRange(evo.Stage6)}"); // New field
+                if (evo.Stage7 != null) lines.Add($"Stage-7: {formatRange(evo.Stage7)}"); // New field
+                if (evo.Stage8 != null) lines.Add($"Stage-8: {formatRange(evo.Stage8)}"); // New field
                 if (evo.Item != null) lines.Add($"Item: {evo.Item}");
                 if (evo.TimeRange != null && (evo.TimeRange.Length > 0 && (!string.IsNullOrWhiteSpace(evo.TimeRange[0]) || (evo.TimeRange.Length > 1 && !string.IsNullOrWhiteSpace(evo.TimeRange[1])))))
                 {
                     string t0 = evo.TimeRange.Length > 0 ? evo.TimeRange[0] : "";
                     string t1 = evo.TimeRange.Length > 1 ? evo.TimeRange[1] : "";
-                    lines.Add($"Time Range: {t0} - {t1}");
+                    if (t0.Replace(":","").Trim().Length > 0 && t1.Replace(":", "").Trim().Length > 0)
+                        lines.Add($"Time Range: {t0} - {t1}");
                 }
+                if (evo.Trophies != null) lines.Add($"Trophies: {formatRange(evo.Trophies)}"); // New field
+                if (evo.VitalValues != null) lines.Add($"Vital Values: {formatRange(evo.VitalValues)}"); // New field
+                if (evo.Weigth != null) lines.Add($"Weight: {formatRange(evo.Weigth)}"); // New field
             }
 
-            if (lines.Count == 0)
-            {
-                var label = new Label
-                {
-                    Text = "no criteria",
-                    Dock = DockStyle.Fill,
-                    TextAlign = ContentAlignment.MiddleCenter,
-                    ForeColor = Color.Gray,
-                    Font = font,
-                    AutoSize = true
-                };
-                panel.Controls.Add(label);
-            }
-            else
-            {
-                var label = new Label
-                {
-                    Text = string.Join(Environment.NewLine, lines),
-                    Dock = DockStyle.Fill,
-                    TextAlign = ContentAlignment.TopLeft,
-                    ForeColor = Color.Black,
-                    Font = font,
-                    AutoSize = true
-                };
-                panel.Controls.Add(label);
-            }
-
-            panel.Tag = evo;
-
-            panel.Cursor = Cursors.Hand;
-            panel.Click += (s, e) =>
+            // Define the click event handler that opens the EvolutionCriteriaForm
+            EventHandler clickHandler = (s, e) =>
             {
                 using (var form = new EvolutionCriteriaForm(evo, this.items))
                 {
@@ -809,6 +788,43 @@ namespace OmnimonModuleEditor
                     }
                 }
             };
+
+            Label label;
+            if (lines.Count == 0)
+            {
+                label = new Label
+                {
+                    Text = "no criteria",
+                    Dock = DockStyle.Fill,
+                    TextAlign = ContentAlignment.MiddleCenter,
+                    ForeColor = Color.Gray,
+                    Font = font,
+                    AutoSize = true,
+                    Cursor = Cursors.Hand
+                };
+                panel.Controls.Add(label);
+            }
+            else
+            {
+                label = new Label
+                {
+                    Text = string.Join(Environment.NewLine, lines),
+                    Dock = DockStyle.Fill,
+                    TextAlign = ContentAlignment.TopLeft,
+                    ForeColor = Color.Black,
+                    Font = font,
+                    AutoSize = true,
+                    Cursor = Cursors.Hand
+                };
+                panel.Controls.Add(label);
+            }
+
+            panel.Tag = evo;
+            panel.Cursor = Cursors.Hand;
+
+            // Add the same click event to both the panel and the label
+            panel.Click += clickHandler;
+            label.Click += clickHandler;
 
             return panel;
         }
@@ -994,6 +1010,7 @@ namespace OmnimonModuleEditor
                 Training = evo.Training != null ? (int[])evo.Training.Clone() : null,
                 Battles = evo.Battles != null ? (int[])evo.Battles.Clone() : null,
                 WinRatio = evo.WinRatio != null ? (int[])evo.WinRatio.Clone() : null,
+                WinCount = evo.WinCount != null ? (int[])evo.WinCount.Clone() : null, // New field
                 Mistakes = evo.Mistakes != null ? (int[])evo.Mistakes.Clone() : null,
                 Level = evo.Level != null ? (int[])evo.Level.Clone() : null,
                 Overfeed = evo.Overfeed != null ? (int[])evo.Overfeed.Clone() : null,
@@ -1006,8 +1023,14 @@ namespace OmnimonModuleEditor
                 JogressPrefix = evo.JogressPrefix, // <-- Adicionado
                 SpecialEncounter = evo.SpecialEncounter,
                 Stage5 = evo.Stage5 != null ? (int[])evo.Stage5.Clone() : null,
+                Stage6 = evo.Stage6 != null ? (int[])evo.Stage6.Clone() : null, // New field
+                Stage7 = evo.Stage7 != null ? (int[])evo.Stage7.Clone() : null, // New field
+                Stage8 = evo.Stage8 != null ? (int[])evo.Stage8.Clone() : null, // New field
                 Item = evo.Item,
-                TimeRange = evo.TimeRange != null ? (string[])evo.TimeRange.Clone() : null // <-- Adicionado
+                TimeRange = evo.TimeRange != null ? (string[])evo.TimeRange.Clone() : null, // <-- Adicionado
+                Trophies = evo.Trophies != null ? (int[])evo.Trophies.Clone() : null, // New field
+                VitalValues = evo.VitalValues != null ? (int[])evo.VitalValues.Clone() : null, // New field
+                Weigth = evo.Weigth != null ? (int[])evo.Weigth.Clone() : null // New field
             };
         }
 

@@ -501,6 +501,8 @@ namespace OmnimonModuleEditor.docgenerators
                 requirements.Add("Battles");
             if (evolution.WinRatio != null && evolution.WinRatio.Length > 0)
                 requirements.Add("WinRatio");
+            if (evolution.WinCount != null && evolution.WinCount.Length > 0)
+                requirements.Add("WinCount"); // New field
             if (evolution.Overfeed != null && evolution.Overfeed.Length > 0)
                 requirements.Add($"O:{evolution.Overfeed[0]}");
             if (evolution.SleepDisturbances != null && evolution.SleepDisturbances.Length > 0)
@@ -509,6 +511,12 @@ namespace OmnimonModuleEditor.docgenerators
                 requirements.Add($"Item:{evolution.Item}");
             if (!string.IsNullOrEmpty(evolution.Jogress))
                 requirements.Add($"Jogress:{evolution.Jogress}");
+            if (evolution.Trophies != null && evolution.Trophies.Length > 0)
+                requirements.Add("Trophies"); // New field
+            if (evolution.VitalValues != null && evolution.VitalValues.Length > 0)
+                requirements.Add("VitalValues"); // New field
+            if (evolution.Weigth != null && evolution.Weigth.Length > 0)
+                requirements.Add("Weight"); // New field
             return string.Join(", ", requirements.Take(2));
         }
 
@@ -585,6 +593,11 @@ namespace OmnimonModuleEditor.docgenerators
                     var formatRange = string.Join(",", evo.WinRatio.Select(v => v == 999999 ? "+" : v.ToString()));
                     lines.Add($"Win Ratio: {formatRange}");
                 }
+                if (evo.WinCount != null)
+                {
+                    var formatRange = string.Join(",", evo.WinCount.Select(v => v == 999999 ? "+" : v.ToString()));
+                    lines.Add($"Win Count: {formatRange}");
+                }
                 if (evo.Mistakes != null)
                 {
                     var formatRange = string.Join(",", evo.Mistakes.Select(v => v == 999999 ? "+" : v.ToString()));
@@ -617,12 +630,42 @@ namespace OmnimonModuleEditor.docgenerators
                     var formatRange = string.Join(",", evo.Stage5.Select(v => v == 999999 ? "+" : v.ToString()));
                     lines.Add($"Stage-5: {formatRange}");
                 }
+                if (evo.Stage6 != null)
+                {
+                    var formatRange = string.Join(",", evo.Stage6.Select(v => v == 999999 ? "+" : v.ToString()));
+                    lines.Add($"Stage-6: {formatRange}");
+                }
+                if (evo.Stage7 != null)
+                {
+                    var formatRange = string.Join(",", evo.Stage7.Select(v => v == 999999 ? "+" : v.ToString()));
+                    lines.Add($"Stage-7: {formatRange}");
+                }
+                if (evo.Stage8 != null)
+                {
+                    var formatRange = string.Join(",", evo.Stage8.Select(v => v == 999999 ? "+" : v.ToString()));
+                    lines.Add($"Stage-8: {formatRange}");
+                }
                 if (evo.Item != null) lines.Add($"Item: {evo.Item}");
                 if (evo.TimeRange != null && evo.TimeRange.Length > 0 && (!string.IsNullOrWhiteSpace(evo.TimeRange[0]) || (evo.TimeRange.Length > 1 && !string.IsNullOrWhiteSpace(evo.TimeRange[1]))))
                 {
                     string t0 = evo.TimeRange.Length > 0 ? evo.TimeRange[0] : "";
                     string t1 = evo.TimeRange.Length > 1 ? evo.TimeRange[1] : "";
                     lines.Add($"Time Range: {t0} - {t1}");
+                }
+                if (evo.Trophies != null)
+                {
+                    var formatRange = string.Join(",", evo.Trophies.Select(v => v == 999999 ? "+" : v.ToString()));
+                    lines.Add($"Trophies: {formatRange}");
+                }
+                if (evo.VitalValues != null)
+                {
+                    var formatRange = string.Join(",", evo.VitalValues.Select(v => v == 999999 ? "+" : v.ToString()));
+                    lines.Add($"Vital Values: {formatRange}");
+                }
+                if (evo.Weigth != null)
+                {
+                    var formatRange = string.Join(",", evo.Weigth.Select(v => v == 999999 ? "+" : v.ToString()));
+                    lines.Add($"Weight: {formatRange}");
                 }
             }
             if (lines.Count == 0)

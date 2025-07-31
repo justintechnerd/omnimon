@@ -18,6 +18,8 @@ namespace OmnimonModuleEditor.Models
 
         [JsonPropertyName("win_ratio")]
         public int[] WinRatio { get; set; }
+        [JsonPropertyName("win_count")]
+        public int[] WinCount { get; set; }
 
         [JsonPropertyName("mistakes")]
         public int[] Mistakes { get; set; }
@@ -53,10 +55,22 @@ namespace OmnimonModuleEditor.Models
 
         [JsonPropertyName("stage-5")]
         public int[] Stage5 { get; set; }
+        [JsonPropertyName("stage-6")]
+        public int[] Stage6 { get; set; }
+        [JsonPropertyName("stage-7")]
+        public int[] Stage7 { get; set; }
+        [JsonPropertyName("stage-8")]
+        public int[] Stage8 { get; set; }
 
         [JsonPropertyName("item")]
         public string Item { get; set; }
         [JsonPropertyName("time_range")]
         public string[] TimeRange { get; set; }
+        [JsonPropertyName("trophies")]
+        public int[] Trophies { get; set; }
+        [JsonPropertyName("vital_values")]
+        public int[] VitalValues { get; set; }
+        [JsonPropertyName("weigth")]
+        public int[] Weigth { get; set; }
     }
 }
