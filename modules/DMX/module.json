@@ -112,6 +112,15 @@
       "to": null,
       "amount": null
     },
+     {
+      "name": "Bagramon",
+      "type": "adventure",
+      "version": null,
+      "label": "Bagramon",
+      "area": 45,
+      "to": null,
+      "amount": null
+    },
     {
       "name": "BeelStarmon X",
       "type": "adventure",
@@ -135,7 +144,7 @@
       "type": "adventure",
       "version": null,
       "label": "Belphemon X",
-      "area": null,
+      "area": 40,
       "to": null,
       "amount": null
     },
@@ -153,7 +162,7 @@
       "type": "adventure",
       "version": null,
       "label": "Cherubimon (Black) X",
-      "area": null,
+      "area": 33,
       "to": null,
       "amount": null
     },
@@ -184,6 +193,15 @@
       "to": null,
       "amount": null
     },
+   {
+      "name": "DarknessBagramon",
+      "type": "adventure",
+      "version": null,
+      "label": "DarknessBagramon",
+      "area": 45,
+      "to": null,
+      "amount": null
+    },
     {
       "name": "Diaboromon X",
       "type": "adventure",
@@ -198,7 +216,7 @@
       "type": "adventure",
       "version": null,
       "label": "Dinorexmon",
-      "area": null,
+      "area": 28,
       "to": null,
       "amount": null
     },
@@ -279,7 +297,7 @@
       "type": "adventure",
       "version": null,
       "label": "GigaSeadramon",
-      "area": null,
+      "area": 31,
       "to": null,
       "amount": null
     },
@@ -310,7 +328,15 @@
       "to": null,
       "amount": null
     },
-    
+        {
+      "name": "JagerLoweemon",
+      "type": "adventure",
+      "version": null,
+      "label": "JagerLoweemon",
+      "area": 45,
+      "to": null,
+      "amount": null
+    },
     {
       "name": "Jazamon",
       "type": "adventure",
@@ -411,15 +437,6 @@
       "amount": null
     },
     {
-      "name": "Mephistomon X",
-      "type": "adventure",
-      "version": null,
-      "label": "Mephistomon X",
-      "area": null,
-      "to": null,
-      "amount": null
-    },
-    {
       "name": "Meramon X",
       "type": "adventure",
       "version": null,
@@ -442,7 +459,7 @@
       "type": "adventure",
       "version": null,
       "label": "MetalPhantomon",
-      "area": null,
+      "area": 16,
       "to": null,
       "amount": null
     },
@@ -469,7 +486,7 @@
       "type": "adventure",
       "version": null,
       "label": "Myotismon X",
-      "area": null,
+      "area": 23,
       "to": null,
       "amount": null
     },
@@ -478,7 +495,16 @@
       "type": "adventure",
       "version": null,
       "label": "Nefertimon X",
-      "area": null,
+      "area": 9,
+      "to": null,
+      "amount": null
+    },
+    {
+      "name": "Numemon X",
+      "type": "adventure",
+      "version": null,
+      "label": "Numemon X",
+      "area": 13,
       "to": null,
       "amount": null
     },
@@ -487,7 +513,7 @@
       "type": "adventure",
       "version": null,
       "label": "Ogremon X",
-      "area": null,
+      "area": 12,
       "to": null,
       "amount": null
     },
@@ -587,6 +613,15 @@
       "version": null,
       "label": "Seasarmon X",
       "area": null,
+      "to": null,
+      "amount": null
+    },
+        {
+      "name": "Stefilmon",
+      "type": "adventure",
+      "version": null,
+      "label": "Stefilmon",
+      "area": 45,
       "to": null,
       "amount": null
     },
