@@ -4205,7 +4205,7 @@
           ],
           "mistakes": [
             1,
-            999999
+            1
           ]
         },
         {
@@ -4271,8 +4271,7 @@
           "mistakes": [
             0,
             2
-          ],
-          "area": 11
+          ]
         },
         {
           "to": "Kuwagamon X",
@@ -4478,7 +4477,7 @@
           "to": "Allomon X",
           "training": [
             0,
-            7
+            3
           ],
           "mistakes": [
             0,
@@ -4611,7 +4610,8 @@
       "name": "DarkTyrannomon X",
       "stage": 4,
       "version": 3,
-      "special": false,
+      "special": true,
+      "special_key": "DarkTyrannomon X",
       "sleeps": "22:00",
       "wakes": "08:00",
       "atk_main": 31,
@@ -4714,7 +4714,7 @@
           "to": "Mametyramon",
           "mistakes": [
             3,
-            999999
+            3
           ],
           "level": [
             1,
@@ -5030,8 +5030,7 @@
           "stage-5": [
             1,
             999999
-          ],
-          "area": 20
+          ]
         },
         {
           "to": "Triceramon X",
@@ -5316,8 +5315,7 @@
           "level": [
             8,
             8
-          ],
-          "area": 35
+          ]
         },
         {
           "to": "UltimateBrachiomon",
@@ -5328,8 +5326,7 @@
           "level": [
             6,
             7
-          ],
-          "area": 29
+          ]
         },
         {
           "to": "UltimateBrachiomon",
@@ -5340,8 +5337,7 @@
           "level": [
             8,
             8
-          ],
-          "area": 29
+          ]
         },
         {
           "to": "SkullMammothmon X",
@@ -5369,7 +5365,7 @@
           "to": "Chaosdramon X",
           "mistakes": [
             3,
-            999999
+            3
           ],
           "level": [
             8,
@@ -5384,7 +5380,7 @@
           "to": "PrinceMamemon X",
           "mistakes": [
             3,
-            999999
+            3
           ],
           "level": [
             8,
@@ -5399,7 +5395,7 @@
           "to": "MetalPiranimon",
           "mistakes": [
             3,
-            999999
+            3
           ],
           "level": [
             1,
@@ -5447,7 +5443,7 @@
           "to": "Ophanimon: Falldown Mode X",
           "mistakes": [
             3,
-            999999
+            3
           ],
           "level": [
             8,
@@ -5467,8 +5463,7 @@
           "level": [
             5,
             6
-          ],
-          "area": 30
+          ]
         },
         {
           "to": "GrandisKuwagamon",
@@ -5479,8 +5474,7 @@
           "level": [
             7,
             8
-          ],
-          "area": 30
+          ]
         },
         {
           "to": "Rosemon X",
@@ -5497,7 +5491,7 @@
           "to": "Rosemon X",
           "mistakes": [
             3,
-            999999
+            3
           ],
           "level": [
             5,
@@ -5519,7 +5513,7 @@
           "to": "BeelStarmon X",
           "mistakes": [
             3,
-            999999
+            3
           ],
           "level": [
             8,
@@ -5564,20 +5558,18 @@
           "level": [
             7,
             8
-          ],
-          "area": 30
+          ]
         },
         {
           "to": "GrandisKuwagamon",
           "mistakes": [
             3,
-            999999
+            3
           ],
           "level": [
             8,
             8
           ],
-          "area": 30,
           "stage-5": [
             3,
             999999
@@ -5598,7 +5590,7 @@
           "to": "BeelStarmon X",
           "mistakes": [
             3,
-            999999
+            3
           ],
           "level": [
             8,
@@ -5639,7 +5631,7 @@
           "to": "SkullMammothmon X",
           "mistakes": [
             3,
-            999999
+            3
           ],
           "level": [
             5,
@@ -5680,8 +5672,7 @@
           "level": [
             7,
             8
-          ],
-          "area": 29
+          ]
         },
         {
           "to": "Chaosdramon X",
@@ -5698,7 +5689,7 @@
           "to": "Chaosdramon X",
           "mistakes": [
             3,
-            999999
+            3
           ],
           "level": [
             8,
@@ -5735,7 +5726,7 @@
           "to": "SkullMammothmon X",
           "mistakes": [
             3,
-            999999
+            3
           ],
           "level": [
             8,
@@ -5750,7 +5741,7 @@
           "to": "MetalPiranimon",
           "mistakes": [
             3,
-            999999
+            3
           ],
           "level": [
             5,
@@ -5792,7 +5783,6 @@
             7,
             8
           ],
-          "area": 30,
           "stage-5": [
             5,
             999999
@@ -5802,7 +5792,7 @@
           "to": "Ophanimon: Falldown Mode X",
           "mistakes": [
             2,
-            999999
+            3
           ],
           "level": [
             8,
@@ -5840,7 +5830,7 @@
           "to": "BeelStarmon X",
           "mistakes": [
             2,
-            999999
+            3
           ],
           "level": [
             8,
@@ -5855,7 +5845,7 @@
           "to": "BeelStarmon X",
           "mistakes": [
             2,
-            999999
+            3
           ],
           "level": [
             8,
@@ -5870,7 +5860,7 @@
           "to": "Rosemon X",
           "mistakes": [
             2,
-            999999
+            3
           ],
           "level": [
             5,
@@ -5922,8 +5912,7 @@
           "level": [
             4,
             5
-          ],
-          "area": 45
+          ]
         },
         {
           "to": "Chaosdramon X",
@@ -5966,8 +5955,7 @@
           "stage-5": [
             0,
             4
-          ],
-          "area": 35
+          ]
         },
         {
           "to": "PrinceMamemon X",
@@ -6079,7 +6067,7 @@
           "to": "GrandisKuwagamon",
           "mistakes": [
             3,
-            999999
+            3
           ],
           "level": [
             8,
@@ -6105,7 +6093,7 @@
           "to": "Rasenmon: Fury Mode",
           "mistakes": [
             3,
-            999999
+            3
           ],
           "level": [
             8,
@@ -6131,7 +6119,7 @@
           "to": "Rosemon X",
           "mistakes": [
             3,
-            999999
+            3
           ],
           "level": [
             5,
@@ -6179,7 +6167,7 @@
           "to": "UltimateBrachiomon",
           "mistakes": [
             3,
-            999999
+            3
           ],
           "level": [
             8,
@@ -6205,7 +6193,7 @@
           "to": "Rhihimon",
           "mistakes": [
             3,
-            999999
+            3
           ],
           "level": [
             8,
@@ -6231,7 +6219,7 @@
           "to": "BeelStarmon X",
           "mistakes": [
             3,
-            999999
+            3
           ],
           "level": [
             5,
@@ -6244,7 +6232,8 @@
       "name": "BlackWarGreymon X",
       "stage": 6,
       "version": 3,
-      "special": false,
+      "special": true,
+      "special_key": "BlackWarGreymon X",
       "sleeps": "00:00",
       "wakes": "08:00",
       "atk_main": 117,
@@ -6385,7 +6374,8 @@
       "name": "GrandisKuwagamon",
       "stage": 6,
       "version": 3,
-      "special": false,
+      "special": true,
+      "special_key": "GrandisKuwagamon",
       "sleeps": "00:00",
       "wakes": "08:00",
       "atk_main": 103,
@@ -6541,7 +6531,8 @@
           "level": [
             9,
             10
-          ]
+          ],
+          "special_encounter": false
         }
       ]
     },
@@ -6624,6 +6615,10 @@
           "level": [
             8,
             10
+          ],
+          "win_count": [
+            200,
+            999999
           ]
         },
         {
@@ -6646,6 +6641,10 @@
           "level": [
             8,
             10
+          ],
+          "win_count": [
+            0,
+            199
           ]
         }
       ]
@@ -6695,7 +6694,8 @@
             10,
             10
           ],
-          "area": 45
+          "area": 45,
+          "special_encounter": false
         }
       ]
     },
@@ -6885,6 +6885,10 @@
           "level": [
             1,
             7
+          ],
+          "win_count": [
+            200,
+            999999
           ]
         }
       ]

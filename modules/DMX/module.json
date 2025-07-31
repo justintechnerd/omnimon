@@ -158,6 +158,15 @@
       "amount": null
     },
     {
+      "name": "BlackWarGreymon X",
+      "type": "adventure",
+      "version": null,
+      "label": "BlackWarGreymon X",
+      "area": 35,
+      "to": null,
+      "amount": null
+    },
+    {
       "name": "Cherubimon (Black) X",
       "type": "adventure",
       "version": null,
@@ -199,6 +208,15 @@
       "version": null,
       "label": "DarknessBagramon",
       "area": 45,
+      "to": null,
+      "amount": null
+    },
+       {
+      "name": "DarkTyrannomon",
+      "type": "adventure",
+      "version": null,
+      "label": "DarkTyrannomon",
+      "area": 11,
       "to": null,
       "amount": null
     },
@@ -307,6 +325,15 @@
       "version": null,
       "label": "Goldramon X",
       "area": null,
+      "to": null,
+      "amount": null
+    },
+    {
+      "name": "GrandisKuwagamon",
+      "type": "adventure",
+      "version": null,
+      "label": "GrandisKuwagamon",
+      "area": 30,
       "to": null,
       "amount": null
     },
@@ -581,6 +608,15 @@
       "amount": null
     },
     {
+      "name": "Rhihimon",
+      "type": "adventure",
+      "version": null,
+      "label": "Rhihimon",
+      "area": 45,
+      "to": null,
+      "amount": null
+    },
+    {
       "name": "Rhinomon X",
       "type": "adventure",
       "version": null,
@@ -640,6 +676,15 @@
       "version": null,
       "label": "UlforceVeedramon X",
       "area": null,
+      "to": null,
+      "amount": null
+    },
+    {
+      "name": "UltimateBrachimon",
+      "type": "adventure",
+      "version": null,
+      "label": "UltimateBrachimon",
+      "area": 29,
       "to": null,
       "amount": null
     },
