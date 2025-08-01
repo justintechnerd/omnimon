@@ -180,7 +180,7 @@
       "type": "adventure",
       "version": null,
       "label": "Cherubimon (Good) X",
-      "area": null,
+      "area": 30,
       "to": null,
       "amount": null
     },
@@ -279,7 +279,7 @@
       "type": "adventure",
       "version": null,
       "label": "Examon X",
-      "area": null,
+      "area": 39,
       "to": null,
       "amount": null
     },
@@ -333,7 +333,7 @@
       "type": "adventure",
       "version": null,
       "label": "Goldramon X",
-      "area": null,
+      "area": 31,
       "to": null,
       "amount": null
     },
@@ -441,7 +441,7 @@
       "type": "adventure",
       "version": null,
       "label": "Leopardmon X",
-      "area": null,
+      "area": 35,
       "to": null,
       "amount": null
     },
@@ -509,6 +509,15 @@
       "amount": null
     },
     {
+      "name": "Metallicdramon",
+      "type": "adventure",
+      "version": null,
+      "label": "Metallicdramon",
+      "area": 45,
+      "to": null,
+      "amount": null
+    },
+    {
       "name": "MetalPhantomon",
       "type": "adventure",
       "version": null,
@@ -531,7 +540,7 @@
       "type": "adventure",
       "version": null,
       "label": "Monzaemon X",
-      "area": null,
+      "area": 20,
       "to": null,
       "amount": null
     },
@@ -603,7 +612,7 @@
       "type": "adventure",
       "version": null,
       "label": "Ophanimon X",
-      "area": null,
+      "area": 28,
       "to": null,
       "amount": null
     },
@@ -612,7 +621,7 @@
       "type": "adventure",
       "version": null,
       "label": "Pegasusmon X",
-      "area": null,
+      "area": 10,
       "to": null,
       "amount": null
     },
@@ -675,7 +684,7 @@
       "type": "adventure",
       "version": null,
       "label": "RizeGreymon X",
-      "area": null,
+      "area": 18,
       "to": null,
       "amount": null
     },
@@ -720,7 +729,7 @@
       "type": "adventure",
       "version": null,
       "label": "UlforceVeedramon X",
-      "area": null,
+      "area": 37,
       "to": null,
       "amount": null
     },
@@ -747,7 +756,7 @@
       "type": "adventure",
       "version": null,
       "label": "Wizardmon X",
-      "area": null,
+      "area": 12,
       "to": null,
       "amount": null
     },

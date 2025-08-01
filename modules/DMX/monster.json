@@ -13535,53 +13535,66 @@
         {
           "to": "Ryudamon",
           "training": [
-            4,
+            16,
             999999
           ],
           "mistakes": [
             0,
-            999999
+            0
           ]
         },
         {
           "to": "Bulucomon",
           "training": [
-            2,
-            4
+            8,
+            999999
           ],
           "mistakes": [
-            0,
+            1,
             1
-          ],
-          "area": 45
+          ]
         },
         {
           "to": "Jazamon",
           "training": [
             0,
-            1
+            7
           ],
           "mistakes": [
             1,
-            999999
-          ],
-          "area": 45
+            1
+          ]
         },
         {
           "to": "Ryudamon",
           "training": [
-            4,
+            16,
             999999
+          ],
+          "mistakes": [
+            1,
+            1
           ]
         },
         {
           "to": "Lopmon X",
           "training": [
             0,
-            3
+            15
           ],
           "mistakes": [
             0,
+            0
+          ]
+        },
+        {
+          "to": "Lopmon X",
+          "training": [
+            0,
+            15
+          ],
+          "mistakes": [
+            1,
             1
           ]
         },
@@ -13620,14 +13633,13 @@
         {
           "to": "Pegasusmon X",
           "training": [
-            4,
+            16,
             999999
           ],
           "mistakes": [
             0,
             2
-          ],
-          "area": 10
+          ]
         },
         {
           "to": "Gatomon X",
@@ -13643,19 +13655,18 @@
         {
           "to": "Wizardmon X",
           "training": [
-            4,
+            16,
             999999
           ],
           "mistakes": [
             3,
             999999
-          ],
-          "area": 12
+          ]
         },
         {
           "to": "Gatomon X",
           "training": [
-            4,
+            16,
             999999
           ],
           "mistakes": [
@@ -13667,6 +13678,17 @@
           "to": "Ginryumon",
           "training": [
             0,
+            15
+          ],
+          "mistakes": [
+            3,
+            999999
+          ]
+        },
+        {
+          "to": "Ginryumon",
+          "training": [
+            16,
             999999
           ],
           "mistakes": [
@@ -13702,7 +13724,7 @@
         {
           "to": "Tylomon X",
           "training": [
-            2,
+            8,
             999999
           ],
           "mistakes": [
@@ -13714,13 +13736,12 @@
           "to": "Wizardmon X",
           "training": [
             0,
-            1
+            7
           ],
           "mistakes": [
             0,
             2
-          ],
-          "area": 12
+          ]
         },
         {
           "to": "Omekamon",
@@ -13733,7 +13754,7 @@
           "to": "Ginryumon",
           "training": [
             0,
-            1
+            7
           ],
           "mistakes": [
             0,
@@ -13768,7 +13789,7 @@
         {
           "to": "Ginryumon",
           "training": [
-            3,
+            12,
             999999
           ],
           "mistakes": [
@@ -13780,19 +13801,18 @@
           "to": "Pegasusmon X",
           "training": [
             0,
-            2
+            11
           ],
           "mistakes": [
             0,
             1
-          ],
-          "area": 10
+          ]
         },
         {
           "to": "Tylomon X",
           "training": [
             0,
-            2
+            11
           ],
           "mistakes": [
             0,
@@ -13802,20 +13822,30 @@
         {
           "to": "Wizardmon X",
           "training": [
-            3,
+            12,
             999999
           ],
           "mistakes": [
             2,
             999999
-          ],
-          "area": 12
+          ]
         },
         {
           "to": "Omekamon",
           "training": [
             0,
             999999
+          ],
+          "mistakes": [
+            12,
+            999999
+          ]
+        },
+        {
+          "to": "Omekamon",
+          "training": [
+            0,
+            11
           ],
           "mistakes": [
             2,
@@ -13828,7 +13858,7 @@
       "name": "Bulucomon",
       "stage": 3,
       "version": 6,
-      "special": false,
+      "special": true,
       "sleeps": "21:00",
       "wakes": "08:00",
       "atk_main": 37,
@@ -13850,8 +13880,8 @@
         {
           "to": "Paledramon",
           "training": [
-            2,
-            4
+            8,
+            999999
           ],
           "mistakes": [
             0,
@@ -13862,7 +13892,7 @@
           "to": "Wizardmon X",
           "training": [
             0,
-            1
+            7
           ],
           "mistakes": [
             0,
@@ -13872,7 +13902,7 @@
         {
           "to": "Ginryumon",
           "training": [
-            3,
+            12,
             999999
           ],
           "mistakes": [
@@ -13884,7 +13914,7 @@
           "to": "Omekamon",
           "training": [
             0,
-            2
+            11
           ],
           "mistakes": [
             2,
@@ -13897,7 +13927,7 @@
       "name": "Jazamon",
       "stage": 3,
       "version": 6,
-      "special": false,
+      "special": true,
       "sleeps": "21:00",
       "wakes": "08:00",
       "atk_main": 19,
@@ -13919,7 +13949,7 @@
         {
           "to": "Jazardmon",
           "training": [
-            2,
+            8,
             999999
           ],
           "mistakes": [
@@ -13931,7 +13961,7 @@
           "to": "Pegasusmon X",
           "training": [
             0,
-            1
+            7
           ],
           "mistakes": [
             0,
@@ -13980,8 +14010,7 @@
           "level": [
             5,
             6
-          ],
-          "area": 20
+          ]
         },
         {
           "to": "Hisyaryumon",
@@ -14071,7 +14100,6 @@
             6,
             6
           ],
-          "area": 20,
           "stage-5": [
             1,
             999999
@@ -14086,8 +14114,7 @@
           "level": [
             4,
             6
-          ],
-          "area": 18
+          ]
         },
         {
           "to": "Scorpiomon X",
@@ -14097,6 +14124,17 @@
           ],
           "level": [
             1,
+            3
+          ]
+        },
+        {
+          "to": "Scorpiomon X",
+          "mistakes": [
+            0,
+            2
+          ],
+          "level": [
+            4,
             6
           ]
         },
@@ -14230,8 +14268,7 @@
           "level": [
             3,
             6
-          ],
-          "area": 20
+          ]
         },
         {
           "to": "Grademon",
@@ -14241,6 +14278,17 @@
           ],
           "level": [
             1,
+            2
+          ]
+        },
+        {
+          "to": "Grademon",
+          "mistakes": [
+            0,
+            1
+          ],
+          "level": [
+            3,
             6
           ]
         },
@@ -14290,7 +14338,6 @@
             6,
             6
           ],
-          "area": 18,
           "stage-5": [
             1,
             999999
@@ -14363,8 +14410,7 @@
           "level": [
             1,
             4
-          ],
-          "area": 45
+          ]
         },
         {
           "to": "Jazarichmon",
@@ -14376,7 +14422,6 @@
             6,
             6
           ],
-          "area": 45,
           "stage-5": [
             0,
             0
@@ -14391,9 +14436,8 @@
           "level": [
             1,
             5
-          ],
-          "area": 45
-        },
+          ]
+        },        
         {
           "to": "Monzaemon X",
           "mistakes": [
@@ -14403,8 +14447,7 @@
           "level": [
             5,
             6
-          ],
-          "area": 20
+          ]
         },
         {
           "to": "RizeGreymon X",
@@ -14416,7 +14459,6 @@
             6,
             6
           ],
-          "area": 18,
           "stage-5": [
             1,
             999999
@@ -14430,6 +14472,17 @@
           ],
           "level": [
             1,
+            4
+          ]
+        },
+        {
+          "to": "Hisyaryumon",
+          "mistakes": [
+            1,
+            1
+          ],
+          "level": [
+            5,
             6
           ]
         },
@@ -14578,6 +14631,10 @@
           "level": [
             6,
             6
+          ],
+          "stage-5": [
+            0,
+            0
           ]
         }
       ]
@@ -14629,6 +14686,10 @@
           "level": [
             6,
             6
+          ],
+          "stage-5": [
+            0,
+            0
           ]
         },
         {
@@ -14699,8 +14760,7 @@
           "level": [
             8,
             8
-          ],
-          "area": 30
+          ]
         },
         {
           "to": "Ophanimon X",
@@ -14711,8 +14771,18 @@
           "level": [
             8,
             8
+          ]
+        },
+        {
+          "to": "Magnadramon X",
+          "mistakes": [
+            0,
+            2
           ],
-          "area": 28
+          "level": [
+            8,
+            8
+          ]
         },
         {
           "to": "Magnadramon X",
@@ -14722,7 +14792,7 @@
           ],
           "level": [
             6,
-            8
+            7
           ]
         },
         {
@@ -14740,7 +14810,7 @@
           "to": "Plesiomon X",
           "mistakes": [
             3,
-            999999
+            3
           ],
           "level": [
             8,
@@ -14755,7 +14825,7 @@
           "to": "Ebemon X",
           "mistakes": [
             3,
-            999999
+            3
           ],
           "level": [
             1,
@@ -14766,7 +14836,7 @@
           "to": "Ebemon X",
           "mistakes": [
             3,
-            999999
+            3
           ],
           "level": [
             8,
@@ -14812,8 +14882,7 @@
           "level": [
             7,
             8
-          ],
-          "area": 31
+          ]
         },
         {
           "to": "Ouryumon",
@@ -14823,6 +14892,17 @@
           ],
           "level": [
             5,
+            6
+          ]
+        },
+        {
+          "to": "Ouryumon",
+          "mistakes": [
+            0,
+            2
+          ],
+          "level": [
+            7,
             8
           ]
         },
@@ -14841,22 +14921,22 @@
           "to": "Plesiomon X",
           "mistakes": [
             3,
-            999999
+            3
           ],
           "level": [
             8,
             8
           ],
           "stage-5": [
-            0,
-            2
+            3,
+            999999
           ]
         },
         {
           "to": "Gaiomon",
           "mistakes": [
             3,
-            999999
+            3
           ],
           "level": [
             5,
@@ -14867,7 +14947,7 @@
           "to": "Gaiomon",
           "mistakes": [
             3,
-            999999
+            3
           ],
           "level": [
             8,
@@ -14882,7 +14962,7 @@
           "to": "Ebemon X",
           "mistakes": [
             3,
-            999999
+            3
           ],
           "level": [
             1,
@@ -14940,7 +15020,7 @@
           "to": "Plesiomon X",
           "mistakes": [
             3,
-            999999
+            3
           ],
           "level": [
             8,
@@ -14951,7 +15031,7 @@
           "to": "Magnadramon X",
           "mistakes": [
             3,
-            999999
+            3
           ],
           "level": [
             5,
@@ -14993,8 +15073,7 @@
           "level": [
             7,
             8
-          ],
-          "area": 28
+          ]
         },
         {
           "to": "Dinotigermon",
@@ -15011,7 +15090,7 @@
           "to": "Dinotigermon",
           "mistakes": [
             3,
-            999999
+            3
           ],
           "level": [
             8,
@@ -15037,7 +15116,7 @@
           "to": "Magnadramon X",
           "mistakes": [
             3,
-            999999
+            3
           ],
           "level": [
             8,
@@ -15051,23 +15130,23 @@
         {
           "to": "Magnadramon X",
           "mistakes": [
-            3,
-            999999
+            0,
+            2
           ],
           "level": [
             7,
             8
           ],
           "stage-5": [
-            0,
-            2
+            3,
+            999999
           ]
         },
         {
           "to": "Ebemon X",
           "mistakes": [
             3,
-            999999
+            3
           ],
           "level": [
             5,
@@ -15125,13 +15204,12 @@
           "to": "Cherubimon (Good) X",
           "mistakes": [
             3,
-            999999
+            3
           ],
           "level": [
             8,
             8
           ],
-          "area": 30,
           "stage-5": [
             5,
             999999
@@ -15141,7 +15219,7 @@
           "to": "Dinotigermon",
           "mistakes": [
             3,
-            999999
+            3
           ],
           "level": [
             8,
@@ -15156,7 +15234,7 @@
           "to": "Dinotigermon",
           "mistakes": [
             3,
-            999999
+            3
           ],
           "level": [
             8,
@@ -15171,7 +15249,7 @@
           "to": "Ebemon X",
           "mistakes": [
             3,
-            999999
+            3
           ],
           "level": [
             5,
@@ -15213,7 +15291,6 @@
             8,
             8
           ],
-          "area": 45,
           "stage-5": [
             5,
             999999
@@ -15228,8 +15305,7 @@
           "level": [
             6,
             8
-          ],
-          "area": 31
+          ]
         },
         {
           "to": "Ouryumon",
@@ -15239,6 +15315,17 @@
           ],
           "level": [
             4,
+            5
+          ]
+        },
+        {
+          "to": "Ouryumon",
+          "mistakes": [
+            0,
+            1
+          ],
+          "level": [
+            6,
             8
           ]
         },
@@ -15328,8 +15415,7 @@
           "level": [
             6,
             8
-          ],
-          "area": 45
+          ]
         },
         {
           "to": "Goldramon X",
@@ -15341,7 +15427,6 @@
             8,
             8
           ],
-          "area": 31,
           "stage-5": [
             5,
             999999
@@ -15354,10 +15439,9 @@
             1
           ],
           "level": [
-            5,
+            6,
             8
-          ],
-          "area": 30
+          ]
         },
         {
           "to": "Magnadramon X",
@@ -15428,7 +15512,8 @@
       "name": "CrysPaledramon",
       "stage": 5,
       "version": 6,
-      "special": false,
+      "special": true,
+      "special_key": "CrysPaledramon",
       "sleeps": "23:00",
       "wakes": "08:00",
       "atk_main": 48,
@@ -15462,7 +15547,7 @@
           "to": "Ouryumon",
           "mistakes": [
             3,
-            999999
+            3
           ],
           "level": [
             8,
@@ -15499,7 +15584,7 @@
           "to": "Magnadramon X",
           "mistakes": [
             3,
-            999999
+            3
           ],
           "level": [
             5,
@@ -15510,7 +15595,7 @@
           "to": "Magnadramon X",
           "mistakes": [
             3,
-            999999
+            3
           ],
           "level": [
             8,
@@ -15527,7 +15612,8 @@
       "name": "Jazarichmon",
       "stage": 5,
       "version": 6,
-      "special": false,
+      "special": true,
+      "special_key": "Jazarichmon",
       "sleeps": "23:00",
       "wakes": "08:00",
       "atk_main": 101,
@@ -15572,7 +15658,7 @@
           "to": "Cherubimon (Good) X",
           "mistakes": [
             3,
-            999999
+            3
           ],
           "level": [
             8,
@@ -15598,7 +15684,7 @@
           "to": "Ebemon X",
           "mistakes": [
             3,
-            999999
+            3
           ],
           "level": [
             5,
@@ -15609,7 +15695,7 @@
           "to": "Ebemon X",
           "mistakes": [
             3,
-            999999
+            3
           ],
           "level": [
             8,
@@ -15626,7 +15712,8 @@
       "name": "Pumpkinmon",
       "stage": 5,
       "version": 6,
-      "special": false,
+      "special": true,
+      "special_key": "Pumpkinmon",
       "sleeps": "23:00",
       "wakes": "08:00",
       "atk_main": 78,
@@ -15671,7 +15758,7 @@
           "to": "NoblePumpkinmon",
           "mistakes": [
             3,
-            999999
+            3
           ],
           "level": [
             8,
@@ -15708,7 +15795,7 @@
           "to": "Dinotigermon",
           "mistakes": [
             3,
-            999999
+            3
           ],
           "level": [
             8,
@@ -15754,8 +15841,7 @@
           "level": [
             8,
             10
-          ],
-          "area": 37
+          ]
         },
         {
           "to": "Kentaurosmon X",
@@ -15765,6 +15851,17 @@
           ],
           "level": [
             5,
+            7
+          ]
+        },
+        {
+          "to": "Kentaurosmon X",
+          "mistakes": [
+            0,
+            2
+          ],
+          "level": [
+            8,
             10
           ]
         }
@@ -15803,8 +15900,7 @@
           "level": [
             8,
             10
-          ],
-          "area": 39
+          ]
         },
         {
           "to": "Jesmon X",
@@ -15814,7 +15910,18 @@
           ],
           "level": [
             5,
-            10
+            7
+          ]
+        },
+        {
+          "to": "Jesmon X",
+          "mistakes": [
+            0,
+            2
+          ],
+          "level": [
+            5,
+            7
           ]
         }
       ]
@@ -15851,8 +15958,7 @@
           "level": [
             8,
             10
-          ],
-          "area": 46
+          ]
         },
         {
           "to": "Jesmon X",
@@ -15862,7 +15968,18 @@
           ],
           "level": [
             5,
-            10
+            7
+          ]
+        },
+        {
+          "to": "Jesmon X",
+          "mistakes": [
+            0,
+            2
+          ],
+          "level": [
+            5,
+            7
           ]
         }
       ]
@@ -15900,8 +16017,7 @@
           "level": [
             8,
             10
-          ],
-          "area": 35
+          ]
         },
         {
           "to": "Kentaurosmon X",
@@ -15911,6 +16027,17 @@
           ],
           "level": [
             5,
+            7
+          ]
+        },
+        {
+          "to": "Kentaurosmon X",
+          "mistakes": [
+            0,
+            2
+          ],
+          "level": [
+            8,
             10
           ]
         }
@@ -15960,7 +16087,8 @@
           "level": [
             9,
             10
-          ]
+          ],
+          "special_encounter": false
         }
       ]
     },
@@ -15996,8 +16124,7 @@
           "level": [
             10,
             10
-          ],
-          "area": 46
+          ]
         },
         {
           "to": "Jesmon X",
@@ -16007,6 +16134,17 @@
           ],
           "level": [
             5,
+            9
+          ]
+        },
+        {
+          "to": "Jesmon X",
+          "mistakes": [
+            0,
+            2
+          ],
+          "level": [
+            10,
             10
           ]
         }
@@ -16091,8 +16229,7 @@
           "level": [
             10,
             10
-          ],
-          "area": 37
+          ]
         },
         {
           "to": "Kentaurosmon X",
@@ -16139,8 +16276,7 @@
           "level": [
             10,
             10
-          ],
-          "area": 39
+          ]
         },
         {
           "to": "Jesmon X",
@@ -16159,7 +16295,7 @@
       "name": "Hexeblaumon",
       "stage": 6,
       "version": 6,
-      "special": false,
+      "special": true,
       "sleeps": "00:00",
       "wakes": "08:00",
       "atk_main": 87,
@@ -16217,7 +16353,8 @@
       "name": "Metallicdramon",
       "stage": 6,
       "version": 6,
-      "special": false,
+      "special": true,
+      "special_key": "Metallicdramon",
       "sleeps": "00:00",
       "wakes": "08:00",
       "atk_main": 19,
@@ -16326,7 +16463,8 @@
           "level": [
             8,
             10
-          ]
+          ],
+          "special_encounter": false
         }
       ]
     },
@@ -16409,7 +16547,7 @@
       "name": "Kentaurosmon X",
       "stage": 7,
       "version": 6,
-      "special": true,
+      "special": false,
       "special_key": "Kentaurosmon X",
       "sleeps": "00:00",
       "wakes": "08:00",
