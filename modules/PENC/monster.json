@@ -4536,6 +4536,12 @@
           "jogress": "PenC"
         },
         {
+          "to": "Creepymon",
+          "stage": 5,
+          "attribute": "Vi",
+          "jogress": "PenC"
+        },
+        {
           "to": "NoblePumpkinmon",
           "stage": 5,
           "attribute": "Va",
@@ -6180,7 +6186,7 @@
       "hp": 0,
       "evolve": [
         {
-          "to": "Cherrymon",
+          "to": "Puppetmon",
           "condition_hearts": [
             1,
             999999
@@ -9485,19 +9491,19 @@
           "jogress": "PenC"
         },
         {
-          "to": "Arcturusmon",
+          "to": "WarGreymon",
           "stage": 5,
           "attribute": "Da",
           "jogress": "PenC"
         },
         {
-          "to": "Quantumon",
+          "to": "Arcturusmon",
           "stage": 5,
           "attribute": "Vi",
           "jogress": "PenC"
         },
         {
-          "to": "Boltmon",
+          "to": "Quantumon",
           "stage": 5,
           "attribute": "Vi",
           "jogress": "PenC"
