@@ -80,6 +80,7 @@ check_shaking = False
 dmc_enabled = False
 penc_enabled = False
 dmx_enabled = False
+vb_enabled = False
 
 # --- Hardware/Input ---
 i2c = I2CUtils()

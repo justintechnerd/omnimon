@@ -1,5 +1,8 @@
 {
   "name": "D-3",
+  "version": "1.0.0",
+  "description": "A custom module based on the D-3 line of devices. It adds all evolutions avaliable on that device, plus full evolution lines to all armor evolutions. You can find more about the originals at https://wikimon.net/D-3_Toy.",
+  "author": "Sundeth",
   "name_format": "$_dmc",
   "ruleset": "penc",
   "adventure_mode": true,
@@ -39,6 +42,8 @@
   "death_stage67_mistake": 5,
   "death_save_by_b_press": 0,
   "death_save_by_shake": 0,
+  "vital_value_base": 50,
+  "vital_value_loss": 50,
   "unlocks": [
     {
       "name": "ver1",
@@ -46,8 +51,9 @@
       "version": 1,
       "label": "Ver.1",
       "area": 0,
-      "to": "",
-      "amount": null
+      "to": [],
+      "amount": null,
+      "list": []
     },
     {
       "name": "ver2",
@@ -55,8 +61,9 @@
       "version": 2,
       "label": "Ver.2",
       "area": 0,
-      "to": "",
-      "amount": null
+      "to": [],
+      "amount": null,
+      "list": []
     },
     {
       "name": "ver3",
@@ -64,8 +71,9 @@
       "version": 3,
       "label": "Ver.3",
       "area": 0,
-      "to": "",
-      "amount": null
+      "to": [],
+      "amount": null,
+      "list": []
     },
     {
       "name": "ver4",
@@ -73,8 +81,9 @@
       "version": 4,
       "label": "Ver.4",
       "area": 0,
-      "to": "",
-      "amount": null
+      "to": [],
+      "amount": null,
+      "list": []
     },
     {
       "name": "ver5",
@@ -82,8 +91,9 @@
       "version": 5,
       "label": "Ver.5",
       "area": 0,
-      "to": "",
-      "amount": null
+      "to": [],
+      "amount": null,
+      "list": []
     },
     {
       "name": "ver6",
@@ -91,8 +101,9 @@
       "version": 6,
       "label": "Ver.6",
       "area": 0,
-      "to": "",
-      "amount": null
+      "to": [],
+      "amount": null,
+      "list": []
     },
     {
       "name": "tokyo",
@@ -100,8 +111,9 @@
       "version": 7,
       "label": "Tokyo",
       "area": 0,
-      "to": "",
-      "amount": null
+      "to": [],
+      "amount": null,
+      "list": []
     },
     {
       "name": "AncientGreymon",
@@ -109,8 +121,9 @@
       "version": 1,
       "label": "AncientGreymon",
       "area": 19,
-      "to": "",
-      "amount": null
+      "to": [],
+      "amount": null,
+      "list": []
     },
     {
       "name": "AncientGarurumon",
@@ -118,8 +131,9 @@
       "version": 3,
       "label": "AncientGarurumon",
       "area": 20,
-      "to": "",
-      "amount": null
+      "to": [],
+      "amount": null,
+      "list": []
     },
     {
       "name": "Fanglongmon",
@@ -127,8 +141,9 @@
       "version": 6,
       "label": "Fanglongmon",
       "area": 23,
-      "to": "",
-      "amount": null
+      "to": [],
+      "amount": null,
+      "list": []
     },
     {
       "name": "SP_EGG",
@@ -136,8 +151,9 @@
       "version": 7,
       "label": "Ukkomon",
       "area": 24,
-      "to": "",
-      "amount": null
+      "to": [],
+      "amount": null,
+      "list": []
     },
     {
       "name": "dark_ocean",
@@ -145,8 +161,9 @@
       "version": 0,
       "label": "Dark Ocean",
       "area": 18,
-      "to": "",
-      "amount": null
+      "to": [],
+      "amount": null,
+      "list": []
     },
     {
       "name": "sakura",
@@ -154,8 +171,9 @@
       "version": 0,
       "label": "Sakura",
       "area": 22,
-      "to": "",
-      "amount": null
+      "to": [],
+      "amount": null,
+      "list": []
     },
     {
       "name": "beach",
@@ -163,8 +181,9 @@
       "version": 0,
       "label": "Beach",
       "area": 1,
-      "to": "",
-      "amount": null
+      "to": [],
+      "amount": null,
+      "list": []
     },
     {
       "name": "bambu",
@@ -172,8 +191,9 @@
       "version": 0,
       "label": "Bambu",
       "area": 10,
-      "to": "",
-      "amount": null
+      "to": [],
+      "amount": null,
+      "list": []
     },
     {
       "name": "SP2_EGG",
@@ -181,8 +201,11 @@
       "version": 0,
       "label": "Terriermon \u0026 Lopmon",
       "area": 0,
-      "to": "Imperialdramon: Paladin Mode",
-      "amount": null
+      "to": [
+        "Imperialdramon: Paladin Mode"
+      ],
+      "amount": null,
+      "list": []
     },
     {
       "name": "camp",
@@ -190,8 +213,9 @@
       "version": 8,
       "label": "Camp",
       "area": 0,
-      "to": "",
-      "amount": null
+      "to": [],
+      "amount": null,
+      "list": []
     },
     {
       "name": "desert",
@@ -199,8 +223,9 @@
       "version": 0,
       "label": "Desert",
       "area": 0,
-      "to": "",
-      "amount": 20
+      "to": [],
+      "amount": 20,
+      "list": []
     }
   ],
   "backgrounds": [

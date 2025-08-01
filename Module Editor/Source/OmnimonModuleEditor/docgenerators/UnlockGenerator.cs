@@ -107,6 +107,28 @@ namespace OmnimonModuleEditor.docgenerators
                     bgDesc.Append(".");
                     return bgDesc.ToString();
 
+                case "group":
+                    var groupDesc = new StringBuilder("Group unlock that triggers when");
+                    
+                    if (unlock.List != null && unlock.List.Count > 0)
+                    {
+                        if (unlock.List.Count == 1)
+                        {
+                            groupDesc.Append($" the following unlock is completed: {unlock.List[0]}");
+                        }
+                        else
+                        {
+                            groupDesc.Append($" ALL of the following {unlock.List.Count} unlocks are completed: {string.Join(", ", unlock.List)}");
+                        }
+                    }
+                    else
+                    {
+                        groupDesc.Append(" all specified unlocks are completed (none currently configured)");
+                    }
+                    
+                    groupDesc.Append(".");
+                    return groupDesc.ToString();
+
                 default:
                     var genericDesc = new StringBuilder($"Unlocked not yet available");
                     

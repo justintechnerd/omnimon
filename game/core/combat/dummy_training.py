@@ -86,6 +86,13 @@ class DummyTraining(Training):
         """Apply training results and return to game."""
         return self.strength > 10
 
+    def check_and_award_trophies(self):
+        """Award trophy if strength reaches maximum (14)"""
+        if self.strength == 14:
+            for pet in self.pets:
+                pet.trophies += 1
+            runtime_globals.game_console.log(f"[TROPHY] Dummy training perfect score achieved! Trophy awarded.")
+
     def draw_charge(self, surface):
         bar_piece = self._sprite_cache['bar_piece']
         training_max = self._sprite_cache['training_max']
@@ -142,6 +149,8 @@ class DummyTraining(Training):
                 blit_with_shadow(surface, great_sprite, (0, y))
             elif self.strength >= 14:
                 blit_with_shadow(surface, excellent_sprite, (0, y))
+                # Draw trophy notification if maximum score achieved
+                self.draw_trophy_notification(surface)
 
     def prepare_attacks(self):
         """Prepare multiple attacks from each pet based on strength level."""
@@ -156,7 +165,7 @@ class DummyTraining(Training):
         start_y = (constants.SCREEN_HEIGHT - (spacing * total_pets)) // 2
 
         for i, pet in enumerate(targets):
-            atk_sprite = self.attack_sprites.get(str(pet.atk_main))
+            atk_sprite = self.get_attack_sprite(pet, pet.atk_main)
             x = constants.SCREEN_WIDTH - int(48 * constants.UI_SCALE) - int(70 * constants.UI_SCALE)
             y = start_y + i * spacing
 

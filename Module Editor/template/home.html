@@ -58,6 +58,17 @@
             left: auto;
             margin-left: 0;
         }
+        
+        /* Boolean value styling */
+        .boolean-true {
+            color: #28a745;
+            font-weight: 600;
+        }
+        
+        .boolean-false {
+            color: #dc3545;
+            font-weight: 600;
+        }
     </style>
 </head>
 <body>
@@ -123,13 +134,13 @@
                             <span class="attribute-label tooltip">Back to Sleep Time:
                                 <span class="tooltiptext">Minutes before pet automatically returns to sleep after being woken up during sleep hours. Prevents pets from staying awake when they should be sleeping.</span>
                             </span>
-                            <span class="attribute-value">#MODULECAREBACKTOSLEEPTIME</span>
+                            <span class="attribute-value #MODULECAREBACKTOSLEEPTIMECLASS">#MODULECAREBACKTOSLEEPTIME</span>
                         </li>
                         <li class="attribute-item">
                             <span class="attribute-label tooltip">Disturbance Penalty Max:
                                 <span class="tooltiptext">Maximum penalty from sleep disturbances that affects battle sick chance. Each disturbance adds 2 to penalty. Higher values increase chance of getting sick after losing battles.</span>
                             </span>
-                            <span class="attribute-value">#MODULECARESDISTURBANCEPENALTY</span>
+                            <span class="attribute-value #MODULECARESDISTURBANCEPENALTYCLASS">#MODULECARESDISTURBANCEPENALTY</span>
                         </li>
                     </ul>
                 </div>
@@ -142,25 +153,25 @@
                             <span class="attribute-label tooltip">Weight Gain:
                                 <span class="tooltiptext">Weight increase when feeding meat/hunger food. Applied only to pets above stage 1 and below 99 weight. Higher values make pets gain weight faster from eating.</span>
                             </span>
-                            <span class="attribute-value">#MODULECAREMEATWEIGHTGAIN</span>
+                            <span class="attribute-value #MODULECAREMEATWEIGHTGAINCLASS">#MODULECAREMEATWEIGHTGAIN</span>
                         </li>
                         <li class="attribute-item">
                             <span class="attribute-label tooltip">Hunger Gain:
                                 <span class="tooltiptext">Amount of hunger restored per meat feeding. Pets can't eat when hunger equals stomach capacity or during overfeed timer. Higher values fill hunger faster per feeding.</span>
                             </span>
-                            <span class="attribute-value">#MODULECAREMEATHUNGERGAIN</span>
+                            <span class="attribute-value #MODULECAREMEATHUNGERGAINCLASS">#MODULECAREMEATHUNGERGAIN</span>
                         </li>
                         <li class="attribute-item">
                             <span class="attribute-label tooltip">Care Mistake Time:
                                 <span class="tooltiptext">Minutes of empty hunger before triggering a care mistake. Timer resets when pet is fed. Used in death condition calculations and evolution requirements.</span>
                             </span>
-                            <span class="attribute-value">#MODULECAREMEATCAREMISTAKETIME</span>
+                            <span class="attribute-value #MODULECAREMEATCAREMISTAKETIME CLASS">#MODULECAREMEATCAREMISTAKETIME</span>
                         </li>
                         <li class="attribute-item">
                             <span class="attribute-label tooltip">Overfeed Timer:
                                 <span class="tooltiptext">Minutes pet refuses food after trying to overfeed. During this time, pet will display 'nope' animation when offered food. Prevents immediate re-feeding attempts.</span>
                             </span>
-                            <span class="attribute-value">#MODULECAREOVERFEEDTIMER</span>
+                            <span class="attribute-value #MODULECAREOVERFEEDTIMERCLASS">#MODULECAREOVERFEEDTIMER</span>
                         </li>
                         <li class="attribute-item">
                             <span class="attribute-label tooltip">Can Eat Sleeping:
@@ -179,31 +190,56 @@
                             <span class="attribute-label tooltip">Weight Gain:
                                 <span class="tooltiptext">Weight increase when feeding protein/strength food. Applied only to pets above stage 1 and below 99 weight. Works similarly to meat weight gain.</span>
                             </span>
-                            <span class="attribute-value">#MODULECAREPROTEINWEIGHTGAIN</span>
+                            <span class="attribute-value #MODULECAREPROTEINWEIGHTGAINCLASS">#MODULECAREPROTEINWEIGHTGAIN</span>
                         </li>
                         <li class="attribute-item">
                             <span class="attribute-label tooltip">Strength Gain:
                                 <span class="tooltiptext">Amount of strength restored per protein feeding. Also added when training. Strength depletes over time and empty strength triggers care mistakes.</span>
                             </span>
-                            <span class="attribute-value">#MODULECAREPROTEINSTRENGTHGAIN</span>
+                            <span class="attribute-value #MODULECAREPROTEINSTRENGTHGAINCLASS">#MODULECAREPROTEINSTRENGTHGAIN</span>
                         </li>
                         <li class="attribute-item">
                             <span class="attribute-label tooltip">DP Gain:
                                 <span class="tooltiptext">DP is your stamina, gained every 4th protein feeding, if current DP is below maximum energy. DP is consumed during battles and affects battle participation.</span>
                             </span>
-                            <span class="attribute-value">#MODULECAREPROTEINDPGAIN</span>
+                            <span class="attribute-value #MODULECAREPROTEINDPGAINCLASS">#MODULECAREPROTEINDPGAIN</span>
                         </li>
                         <li class="attribute-item">
                             <span class="attribute-label tooltip">Care Mistake Time:
                                 <span class="tooltiptext">Minutes of empty strength before triggering a care mistake. Timer resets when pet receives protein. Critical for death conditions and evolution paths.</span>
                             </span>
-                            <span class="attribute-value">#MODULECAREPROTEINCAREMISTAKETIME</span>
+                            <span class="attribute-value #MODULECAREPROTEINCAREMISTAKETIMECLASS">#MODULECAREPROTEINCAREMISTAKETIME</span>
                         </li>
                         <li class="attribute-item">
                             <span class="attribute-label tooltip">Overdose Max:
                                 <span class="tooltiptext">Maximum protein overdose counter that affects battle sick chance. Each protein feeding increases overdose. Higher overdose increases sick probability after losing battles.</span>
                             </span>
-                            <span class="attribute-value">#MODULECAREPROTEINOVERDOSEMAX</span>
+                            <span class="attribute-value #MODULECAREPROTEINOVERDOSEMAXCLASS">#MODULECAREPROTEINOVERDOSEMAX</span>
+                        </li>
+                        <li class="attribute-item">
+                            <span class="attribute-label tooltip">Sleep Care Mistake Timer:
+                                <span class="tooltiptext">Minutes before triggering a care mistake for sleep neglect. Timer resets when pet gets proper sleep. Important for maintaining good care quality.</span>
+                            </span>
+                            <span class="attribute-value #MODULECARESLEEPCAREMISTAKECLASS">#MODULECARESLEEPCAREMISTAKE</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Care - Vital Values Settings -->
+                <div class="attribute-section">
+                    <h2>Care - Vital Values Settings</h2>
+                    <ul class="attribute-list">
+                        <li class="attribute-item">
+                            <span class="attribute-label tooltip">Vital Value Base:
+                                <span class="tooltiptext">Minimum value of Vital Values that a pet will gain per hour if well fed and not sick. This represents the natural recovery rate when the pet is in good health.</span>
+                            </span>
+                            <span class="attribute-value #MODULEVITALVALUEBASECLASS">#MODULEVITALVALUEBASE</span>
+                        </li>
+                        <li class="attribute-item">
+                            <span class="attribute-label tooltip">Vital Value Loss:
+                                <span class="tooltiptext">Amount of Vital Values lost per minute if hungry or sick. Higher values make pets deteriorate faster when not properly cared for.</span>
+                            </span>
+                            <span class="attribute-value #MODULEVITALVALUELOSSCLASS">#MODULEVITALVALUELOSS</span>
                         </li>
                     </ul>
                 </div>
@@ -216,25 +252,25 @@
                             <span class="attribute-label tooltip">Base Sick Chance Win:
                                 <span class="tooltiptext">Base percentage chance of getting sick after winning a battle. Modified by protein overdose and disturbance penalties. Minimum 5%, maximum 50%.</span>
                             </span>
-                            <span class="attribute-value">#MODULEBATTLEBASESICKCHANCEWIN</span>
+                            <span class="attribute-value #MODULEBATTLEBASESICKCHANCEWINCLASS">#MODULEBATTLEBASESICKCHANCEWIN</span>
                         </li>
                         <li class="attribute-item">
                             <span class="attribute-label tooltip">Base Sick Chance Lose:
                                 <span class="tooltiptext">Base percentage chance of getting sick after losing a battle. Modified by protein overdose (+10% per overdose) and disturbance penalties. Higher risk than winning.</span>
                             </span>
-                            <span class="attribute-value">#MODULEBATTLEBASESICKCHANCELOSE</span>
+                            <span class="attribute-value #MODULEBATTLEBASESICKCHANCELOSECLASS">#MODULEBATTLEBASESICKCHANCELOSE</span>
                         </li>
                         <li class="attribute-item">
                             <span class="attribute-label tooltip">Attribute Advantage:
                                 <span class="tooltiptext">Percentage advantage when pet's attribute matches favorably against enemy (Data > Virus > Vaccine > Data). Applied as damage multiplier in battle calculations.</span>
                             </span>
-                            <span class="attribute-value">#MODULEBATTLEATTRIBUTEADVANTAGE</span>
+                            <span class="attribute-value #MODULEBATTLEATTRIBUTEADVANTAGECLASS">#MODULEBATTLEATTRIBUTEADVANTAGE</span>
                         </li>
                         <li class="attribute-item">
                             <span class="attribute-label tooltip">Global Hit Points:
                                 <span class="tooltiptext">When > 0, make the module ignore pets individual Health Points. It's also used to cap the possible damage taken. This attribute is mostly obsolete with the protocol battle system.</span>
                             </span>
-                            <span class="attribute-value">#MODULEBATTLEGLOBALHITPOINTS</span>
+                            <span class="attribute-value #MODULEBATTLEGLOBALHITPOINTSCLASS">#MODULEBATTLEGLOBALHITPOINTS</span>
                         </li>
                         <li class="attribute-item">
                             <span class="attribute-label tooltip">Sequential Rounds:
@@ -246,7 +282,7 @@
                             <span class="attribute-label tooltip">Traited Egg Starting Level:
                                 <span class="tooltiptext">Initial level for pets hatched from traited eggs. Higher levels provide stat bonuses including increased HP, power, and attack values. Maximum depends on stage.</span>
                             </span>
-                            <span class="attribute-value">#MODULETRAITEDEGGLEVEL</span>
+                            <span class="attribute-value #MODULETRAITEDEGGLEVELCLASS">#MODULETRAITEDEGGLEVEL</span>
                         </li>
                     </ul>
                 </div>
@@ -259,25 +295,25 @@
                             <span class="attribute-label tooltip">Effort Gain:
                                 <span class="tooltiptext">Effort points gained when winning training sessions. At 16+ effort, pets gain significant power bonuses. Critical for unlocking evolution paths and combat effectiveness.</span>
                             </span>
-                            <span class="attribute-value">#MODULETRAININGEFFORTGAIN</span>
+                            <span class="attribute-value #MODULETRAININGEFFORTGAINCLASS">#MODULETRAININGEFFORTGAIN</span>
                         </li>
                         <li class="attribute-item">
                             <span class="attribute-label tooltip">Strength Gain:
                                 <span class="tooltiptext">Strength increase from training sessions (both win and lose). Helps maintain strength levels and prevent care mistakes. Supplements protein feeding.</span>
                             </span>
-                            <span class="attribute-value">#MODULETRAININGSTRENGTHGAIN</span>
+                            <span class="attribute-value #MODULETRAININGSTRENGTHGAINCLASS">#MODULETRAININGSTRENGTHGAIN</span>
                         </li>
                         <li class="attribute-item">
                             <span class="attribute-label tooltip">Weight Win:
                                 <span class="tooltiptext">Weight loss when winning training. Helps manage pet weight and body condition. High weight can make a pet sick.</span>
                             </span>
-                            <span class="attribute-value">#MODULETRAININGWEIGHTWIN</span>
+                            <span class="attribute-value #MODULETRAININGWEIGHTWINCLASS">#MODULETRAININGWEIGHTWIN</span>
                         </li>
                         <li class="attribute-item">
                             <span class="attribute-label tooltip">Weight Lose:
                                 <span class="tooltiptext">Weight loss when losing training. Usually less than winning loss. Provides alternative weight management even when training performance is poor.</span>
                             </span>
-                            <span class="attribute-value">#MODULETRAININGWEIGHTLOSE</span>
+                            <span class="attribute-value #MODULETRAININGWEIGHTLOSECLASS">#MODULETRAININGWEIGHTLOSE</span>
                         </li>
                         <li class="attribute-item">
                             <span class="attribute-label tooltip">Reverse Attack Frames:
@@ -296,61 +332,61 @@
                             <span class="attribute-label tooltip">Max Injuries:
                                 <span class="tooltiptext">Maximum injuries before death. Injuries are gained from sickness, poop neglect, and battle losses. Represents cumulative health damage over pet's lifetime.</span>
                             </span>
-                            <span class="attribute-value">#MODULEDEATHMAXINJURIES</span>
+                            <span class="attribute-value #MODULEDEATHMAXINJURIESCLASS">#MODULEDEATHMAXINJURIES</span>
                         </li>
                         <li class="attribute-item">
                             <span class="attribute-label tooltip">Care Mistake:
                                 <span class="tooltiptext">Total care mistakes before death. Includes hunger, strength, sleep, and sickness mistakes. Primary death condition for neglectful care patterns.</span>
                             </span>
-                            <span class="attribute-value">#MODULEDEATHCAREMISTAKE</span>
+                            <span class="attribute-value #MODULEDEATHCAREMISTAKECLASS">#MODULEDEATHCAREMISTAKE</span>
                         </li>
                         <li class="attribute-item">
                             <span class="attribute-label tooltip">Sick Timer:
                                 <span class="tooltiptext">Minutes of continuous sickness before death. Timer only counts while sick status is active. Emphasizes importance of healing sick pets promptly.</span>
                             </span>
-                            <span class="attribute-value">#MODULEDEATHSICKTIMER</span>
+                            <span class="attribute-value #MODULEDEATHSICKTIMERCLASS">#MODULEDEATHSICKTIMER</span>
                         </li>
                         <li class="attribute-item">
                             <span class="attribute-label tooltip">Hunger Timer:
                                 <span class="tooltiptext">Minutes of empty hunger before death. Death occurs after continuous hunger neglect exceeding this threshold. Works alongside care mistake system.</span>
                             </span>
-                            <span class="attribute-value">#MODULEDEATHHUNGERMISTAKE</span>
+                            <span class="attribute-value #MODULEDEATHHUNGERMISTAKECLASS">#MODULEDEATHHUNGERMISTAKE</span>
                         </li>
                         <li class="attribute-item">
                             <span class="attribute-label tooltip">Starvation Count:
                                 <span class="tooltiptext">Number of hunger depletion cycles before death. Each cycle occurs when hunger reaches 0 and isn't refilled. Represents severe malnutrition effects.</span>
                             </span>
-                            <span class="attribute-value">#MODULEDEATHSTARVATIONCOUNT</span>
+                            <span class="attribute-value #MODULEDEATHSTARVATIONCOUNTCLASS">#MODULEDEATHSTARVATIONCOUNT</span>
                         </li>
                         <li class="attribute-item">
                             <span class="attribute-label tooltip">Strength Timer:
                                 <span class="tooltiptext">Minutes of empty strength before death. Similar to hunger timer but for strength stat. Represents weakness from lack of protein/training.</span>
                             </span>
-                            <span class="attribute-value">#MODULEDEATHSTRENGTHTIMER</span>
+                            <span class="attribute-value #MODULEDEATHSTRENGTHTIMERCLASS">#MODULEDEATHSTRENGTHTIMER</span>
                         </li>
                         <li class="attribute-item">
                             <span class="attribute-label tooltip">Stage 4-5 Mistake:
                                 <span class="tooltiptext">Mistakes threshold for stage 4-5 pets after evolution time expires. Only applies after normal evolution window passes. Represents adult-stage care requirements.</span>
                             </span>
-                            <span class="attribute-value">#MODULEDEATHSTAGE45MISTAKE</span>
+                            <span class="attribute-value #MODULEDEATHSTAGE45MISTAKECLASS">#MODULEDEATHSTAGE45MISTAKE</span>
                         </li>
                         <li class="attribute-item">
                             <span class="attribute-label tooltip">Stage 6-7 Mistake:
                                 <span class="tooltiptext">Mistakes threshold for stage 6+ pets after 48 hours of age. Represents ultimate-level pets requiring expert care to survive long-term.</span>
                             </span>
-                            <span class="attribute-value">#MODULEDEATHSTAGE67MISTAKE</span>
+                            <span class="attribute-value #MODULEDEATHSTAGE67MISTAKECLASS">#MODULEDEATHSTAGE67MISTAKE</span>
                         </li>
                         <li class="attribute-item">
                             <span class="attribute-label tooltip">Save by B Press:
                                 <span class="tooltiptext">Enables death prevention by B button press. When enabled, gives 1 minute frame window to save pet from death conditions. Adds player interaction element to death mechanics.</span>
                             </span>
-                            <span class="attribute-value">#MODULEDEATHSAVEBYBPRESS</span>
+                            <span class="attribute-value #MODULEDEATHSAVEBYBPRESSCLASS">#MODULEDEATHSAVEBYBPRESS</span>
                         </li>
                         <li class="attribute-item">
                             <span class="attribute-label tooltip">Save by Shake:
                                 <span class="tooltiptext">Enables death prevention by device shaking. When enabled, gives 1 minute frame window to save pet through physical interaction. Alternative to button-based saving.</span>
                             </span>
-                            <span class="attribute-value">#MODULEDEATHSAVEBYSHAKE</span>
+                            <span class="attribute-value #MODULEDEATHSAVEBYSHAKECLASS">#MODULEDEATHSAVEBYSHAKE</span>
                         </li>
                     </ul>
                 </div>

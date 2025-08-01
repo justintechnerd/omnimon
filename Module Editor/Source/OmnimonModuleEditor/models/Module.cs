@@ -139,6 +139,13 @@ namespace OmnimonModuleEditor.Models
         [JsonPropertyName("death_save_by_shake")]
         public int DeathSaveByShake { get; set; }
 
+        // Vital Values Settings - NEW
+        [JsonPropertyName("vital_value_base")]
+        public int VitalValueBase { get; set; }
+
+        [JsonPropertyName("vital_value_loss")]
+        public int VitalValueLoss { get; set; }
+
         [JsonPropertyName("unlocks")]
         public List<Unlock> Unlocks { get; set; }
 
@@ -169,6 +176,10 @@ namespace OmnimonModuleEditor.Models
 
         [JsonPropertyName("amount")]
         public int? Amount { get; set; }
+
+        [JsonPropertyName("list")]
+        [JsonConverter(typeof(StringOrStringListConverter))]
+        public List<string> List { get; set; }
     }
 
     public class Background

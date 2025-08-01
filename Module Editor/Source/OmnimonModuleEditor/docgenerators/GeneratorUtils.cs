@@ -73,406 +73,406 @@ namespace OmnimonModuleEditor.docgenerators
 
                 case "charts.html":
                     return @"<!DOCTYPE html>
-<html lang='en'>
-<head>
-    <meta charset='UTF-8'>
-    <title>Evolution Charts</title>
-    <link rel='stylesheet' href='module.css'>
-    <style>
-        body { font-family: Arial, sans-serif; margin: 0; padding: 20px; background: #f0f0f0; }
-        .page-content { max-width: 100%; margin: 0 auto; }
-        .anchor { margin-bottom: 40px; }
-        .family { border: 2px solid #ddd; border-radius: 10px; padding: 20px; background: #e0e0e0; }
-        .digitama { display: flex; align-items: center; padding: 15px; background: rgba(255,255,255,0.9); margin-bottom: 20px; border-radius: 8px; }
-        .digitama img { width: 64px; height: 64px; image-rendering: pixelated; margin-right: 15px; }
-        .rdisplay { margin: 0; font-size: 18px; }
-        .chart { overflow-x: auto; padding: 20px 0; position: relative; }
-        .chartYellow { border-color: #f1c40f; }
-        .chartBlue { border-color: #3498db; }
-        .chartViolet { border-color: #9b59b6; }
-        .chartRed { border-color: #e74c3c; }
-        .chartGreen { border-color: #2ecc71; }
-        .pet-info-row { display: flex; justify-content: space-between; margin-bottom: 8px; padding: 4px 0; border-bottom: 1px solid #eee; }
-        .pet-info-label { font-weight: bold; color: #666; }
-        .pet-info-value { color: #333; }
-        .pet-sprite-container { text-align: center; margin-bottom: 16px; }
-        .pet-sprite-img { width: 64px; height: 64px; image-rendering: pixelated; border-radius: 8px; }
-        
-        /* Attack sprite display */
-        .attack-sprite-container {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-        }
-        
-        .attack-sprite {
-            width: 24px;
-            height: 24px;
-            image-rendering: pixelated;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            background: #f8f9fa;
-        }
-        
-        /* Tooltip styles */
-        .tooltip {
-            position: relative;
-            cursor: help;
-            border-bottom: 1px dotted #666;
-        }
-        
-        .tooltip .tooltiptext {
-            visibility: hidden;
-            width: 300px;
-            background-color: #333;
-            color: #fff;
-            text-align: left;
-            border-radius: 6px;
-            padding: 8px;
-            position: absolute;
-            z-index: 1001;
-            bottom: 125%;
-            left: 50%;
-            margin-left: -150px;
-            opacity: 0;
-            transition: opacity 0.3s;
-            font-size: 12px;
-            line-height: 1.4;
-            box-shadow: 0px 4px 8px rgba(0,0,0,0.3);
-            pointer-events: none;
-        }
-        
-        .tooltip .tooltiptext::after {
-            content: """";
-            position: absolute;
-            top: 100%;
-            left: 50%;
-            margin-left: -5px;
-            border-width: 5px;
-            border-style: solid;
-            border-color: #333 transparent transparent transparent;
-        }
-        
-        .tooltip:hover .tooltiptext {
-            visibility: visible;
-            opacity: 1;
-        }
-        
-        /* Dynamic tooltip positioning classes */
-        .tooltip.tooltip-left .tooltiptext {
-            left: 0;
-            margin-left: 0;
-        }
-        
-        .tooltip.tooltip-left .tooltiptext::after {
-            left: 20px;
-            margin-left: -5px;
-        }
-        
-        .tooltip.tooltip-right .tooltiptext {
-            right: 0;
-            left: auto;
-            margin-left: 0;
-        }
-        
-        .tooltip.tooltip-right .tooltiptext::after {
-            right: 20px;
-            left: auto;
-            margin-left: 0;
-        }
-    </style>
-</head>
-<body>
-    <div class='page-content'>
-        <h1>Evolution Charts</h1>
-        <div id='charts'>#EVOLUTIONCHARTS</div>
-    </div>
-    
-    <!-- Evolution Choice Modal -->
-    <div id='evo-modal' style='display:none; position:fixed; left:0; top:0; width:100vw; height:100vh; background:rgba(0,0,0,0.4); z-index:9999; align-items:center; justify-content:center;'>
-        <div id='evo-modal-content' style='background:#fff; border-radius:8px; padding:24px; min-width:320px; max-width:90vw; max-height:80vh; overflow:auto; box-shadow:0 4px 32px #0008; position:relative;'>
-            <button onclick='closeEvoModal()' style='position:absolute; top:8px; right:12px; font-size:18px; background:none; border:none; cursor:pointer;'>&times;</button>
-            <h3>Choose One</h3>
-            <div id='evo-modal-list'></div>
-        </div>
-    </div>
-    
-    <!-- Pet Details Modal -->
-    <div id='pet-modal' style='display:none; position:fixed; left:0; top:0; width:100vw; height:100vh; background:rgba(0,0,0,0.4); z-index:9999; align-items:center; justify-content:center;'>
-        <div id='pet-modal-content' style='background:#fff; border-radius:8px; padding:24px; min-width:400px; max-width:90vw; max-height:80vh; overflow:auto; box-shadow:0 4px 32px #0008; position:relative;'>
-            <button onclick='closePetModal()' style='position:absolute; top:8px; right:12px; font-size:18px; background:none; border:none; cursor:pointer;'>&times;</button>
-            <div id='pet-modal-header'></div>
-            <div id='pet-modal-body'></div>
-        </div>
-    </div>
-    
-    <script>
-        // Global variable to store module name format for sprite paths
-        var moduleNameFormat = '$'; // Default format, will be updated when chart loads
-        
-        // Extract module name format from SVG metadata
-        function extractModuleNameFormat() {
-            var svg = document.querySelector('svg');
-            if (svg) {
-                var metadata = svg.querySelector('moduleNameFormat');
-                if (metadata) {
-                    moduleNameFormat = metadata.textContent || '$';
-                    return;
-                }
-            }
-        }
-        
-        // Get sprite URL using module name format
-        function getPetSpriteUrl(petName) {
-            var safeName = petName.replace(/:/g, '_');
-            var folderName = moduleNameFormat.replace('$', safeName);
-            return '../monsters/' + folderName + '/0.png';
-        }
-        
-        // Get attack sprite URL with fallback handling
-        function loadAttackSprite(atkId, callback) {
-            if (!atkId || atkId === 0) {
-                callback(null);
-                return;
-            }
-            
-            var localPath = '../atk/' + atkId + '.png';
-            var resourcesPath = '../../resources/atk/' + atkId + '.png';
-            
-            var img = new Image();
-            img.onload = function() {
-                callback(localPath);
-            };
-            img.onerror = function() {
-                var fallbackImg = new Image();
-                fallbackImg.onload = function() {
-                    callback(resourcesPath);
-                };
-                fallbackImg.onerror = function() {
-                    callback(null); // No sprite found
-                };
-                fallbackImg.src = resourcesPath;
-            };
-            img.src = localPath;
-        }
-        
-        // Function to adjust tooltip positioning based on modal boundaries
-        function adjustTooltipPositions() {
-            var modal = document.getElementById('pet-modal-content');
-            if (!modal) return;
-            
-            var tooltips = modal.querySelectorAll('.tooltip');
-            var modalRect = modal.getBoundingClientRect();
-            
-            tooltips.forEach(function(tooltip) {
-                // Reset classes
-                tooltip.classList.remove('tooltip-left', 'tooltip-right');
+        <html lang='en'>
+        <head>
+            <meta charset='UTF-8'>
+            <title>Evolution Charts</title>
+            <link rel='stylesheet' href='module.css'>
+            <style>
+                body { font-family: Arial, sans-serif; margin: 0; padding: 20px; background: #f0f0f0; }
+                .page-content { max-width: 100%; margin: 0 auto; }
+                .anchor { margin-bottom: 40px; }
+                .family { border: 2px solid #ddd; border-radius: 10px; padding: 20px; background: #e0e0e0; }
+                .digitama { display: flex; align-items: center; padding: 15px; background: rgba(255,255,255,0.9); margin-bottom: 20px; border-radius: 8px; }
+                .digitama img { width: 64px; height: 64px; image-rendering: pixelated; margin-right: 15px; }
+                .rdisplay { margin: 0; font-size: 18px; }
+                .chart { overflow-x: auto; padding: 20px 0; position: relative; }
+                .chartYellow { border-color: #f1c40f; }
+                .chartBlue { border-color: #3498db; }
+                .chartViolet { border-color: #9b59b6; }
+                .chartRed { border-color: #e74c3c; }
+                .chartGreen { border-color: #2ecc71; }
+                .pet-info-row { display: flex; justify-content: space-between; margin-bottom: 8px; padding: 4px 0; border-bottom: 1px solid #eee; }
+                .pet-info-label { font-weight: bold; color: #666; }
+                .pet-info-value { color: #333; }
+                .pet-sprite-container { text-align: center; margin-bottom: 16px; }
+                .pet-sprite-img { width: 64px; height: 64px; image-rendering: pixelated; border-radius: 8px; }
                 
-                var tooltipRect = tooltip.getBoundingClientRect();
-                var tooltiptext = tooltip.querySelector('.tooltiptext');
-                if (!tooltiptext) return;
-                
-                // Calculate where the tooltip would appear
-                var tooltipWidth = 300; // Match CSS width
-                var tooltipLeft = tooltipRect.left + (tooltipRect.width / 2) - (tooltipWidth / 2);
-                var tooltipRight = tooltipLeft + tooltipWidth;
-                
-                // Check if tooltip would overflow modal boundaries
-                if (tooltipLeft < modalRect.left + 10) {
-                    // Tooltip would overflow left, align to left edge
-                    tooltip.classList.add('tooltip-left');
-                } else if (tooltipRight > modalRect.right - 10) {
-                    // Tooltip would overflow right, align to right edge
-                    tooltip.classList.add('tooltip-right');
+                /* Attack sprite display */
+                .attack-sprite-container {
+                    display: inline-flex;
+                    align-items: center;
+                    gap: 8px;
                 }
-            });
-        }
-        
-        function showPetDetails(petName, version) {
-            // Legacy function - kept for compatibility
-            alert('Pet: ' + petName + ', Version: ' + version);
-        }
-        
-        function showPetModal(evt, el) {
-            evt.stopPropagation();
-            var data = el.getAttribute('data-pet-info');
-            var pet = {};
-            try { pet = JSON.parse(data.replace(/&quot;/g, '""')); } catch(e) { console.error('Failed to parse pet data:', e); return; }
-            
-            var header = document.getElementById('pet-modal-header');
-            var body = document.getElementById('pet-modal-body');
-            
-            // Create sprite URL using proper name format
-            var spriteUrl = getPetSpriteUrl(pet.name);
-            
-            // Header with sprite and name
-            header.innerHTML = 
-                '<div class=""pet-sprite-container"">' +
-                    '<img src=""' + spriteUrl + '"" class=""pet-sprite-img"" onerror=""this.src=\'../missing.png\'"" alt=""' + pet.name + '""/>' +
-                '</div>' +
-                '<h2 style=""text-align:center; margin:0 0 16px 0; color:#333;"">' + pet.name + '</h2>';
-            
-            // Body with pet details
-            var bodyHtml = '';
-            
-            // Helper function to add info row with tooltip
-            function addRow(label, value, tooltip) {
-                if (value !== undefined && value !== null && value !== '' && value !== 0) {
-                    var labelClass = tooltip ? 'pet-info-label tooltip' : 'pet-info-label';
-                    var tooltipHtml = tooltip ? '<span class=""tooltiptext"">' + tooltip + '</span>' : '';
-                    bodyHtml += '<div class=""pet-info-row"">' +
-                        '<span class=""' + labelClass + '"">' + label + ':' + tooltipHtml + '</span>' +
-                        '<span class=""pet-info-value"">' + value + '</span>' +
-                        '</div>';
+                
+                .attack-sprite {
+                    width: 24px;
+                    height: 24px;
+                    image-rendering: pixelated;
+                    border: 1px solid #ddd;
+                    border-radius: 4px;
+                    background: #f8f9fa;
                 }
-            }
+                
+                /* Tooltip styles */
+                .tooltip {
+                    position: relative;
+                    cursor: help;
+                    border-bottom: 1px dotted #666;
+                }
+                
+                .tooltip .tooltiptext {
+                    visibility: hidden;
+                    width: 300px;
+                    background-color: #333;
+                    color: #fff;
+                    text-align: left;
+                    border-radius: 6px;
+                    padding: 8px;
+                    position: absolute;
+                    z-index: 1001;
+                    bottom: 125%;
+                    left: 50%;
+                    margin-left: -150px;
+                    opacity: 0;
+                    transition: opacity 0.3s;
+                    font-size: 12px;
+                    line-height: 1.4;
+                    box-shadow: 0px 4px 8px rgba(0,0,0,0.3);
+                    pointer-events: none;
+                }
+                
+                .tooltip .tooltiptext::after {
+                    content: """";
+                    position: absolute;
+                    top: 100%;
+                    left: 50%;
+                    margin-left: -5px;
+                    border-width: 5px;
+                    border-style: solid;
+                    border-color: #333 transparent transparent transparent;
+                }
+                
+                .tooltip:hover .tooltiptext {
+                    visibility: visible;
+                    opacity: 1;
+                }
+                
+                /* Dynamic tooltip positioning classes */
+                .tooltip.tooltip-left .tooltiptext {
+                    left: 0;
+                    margin-left: 0;
+                }
+                
+                .tooltip.tooltip-left .tooltiptext::after {
+                    left: 20px;
+                    margin-left: -5px;
+                }
+                
+                .tooltip.tooltip-right .tooltiptext {
+                    right: 0;
+                    left: auto;
+                    margin-left: 0;
+                }
+                
+                .tooltip.tooltip-right .tooltiptext::after {
+                    right: 20px;
+                    left: auto;
+                    margin-left: 0;
+                }
+            </style>
+        </head>
+        <body>
+            <div class='page-content'>
+                <h1>Evolution Charts</h1>
+                <div id='charts'>#EVOLUTIONCHARTS</div>
+            </div>
             
-            // Helper function to add attack row with sprite
-            function addAttackRow(label, atkId, tooltip) {
-                if (atkId !== undefined && atkId !== null) {
-                    var valueHtml = '';
-                    if (atkId === 0) {
-                        valueHtml = 'None';
-                    } else {
-                        // Create placeholder that will be updated when sprite loads
-                        var containerId = 'attack-' + label.replace(/\s+/g, '') + '-' + Math.random().toString(36).substr(2, 9);
-                        valueHtml = '<div class=""attack-sprite-container"" id=""' + containerId + '"">' +
-                            '<span>' + atkId + '</span>' +
-                        '</div>';
-                        
-                        // Load sprite asynchronously
-                        setTimeout(function() {
-                            loadAttackSprite(atkId, function(spriteUrl) {
-                                var container = document.getElementById(containerId);
-                                if (container && spriteUrl) {
-                                    container.innerHTML = '<img src=""' + spriteUrl + '"" class=""attack-sprite"" alt=""Attack ' + atkId + '""/>' +
-                                        '<span>' + atkId + '</span>';
-                                }
-                            });
-                        }, 10);
+            <!-- Evolution Choice Modal -->
+            <div id='evo-modal' style='display:none; position:fixed; left:0; top:0; width:100vw; height:100vh; background:rgba(0,0,0,0.4); z-index:9999; align-items:center; justify-content:center;'>
+                <div id='evo-modal-content' style='background:#fff; border-radius:8px; padding:24px; min-width:320px; max-width:90vw; max-height:80vh; overflow:auto; box-shadow:0 4px 32px #0008; position:relative;'>
+                    <button onclick='closeEvoModal()' style='position:absolute; top:8px; right:12px; font-size:18px; background:none; border:none; cursor:pointer;'>&times;</button>
+                    <h3>Choose One</h3>
+                    <div id='evo-modal-list'></div>
+                </div>
+            </div>
+            
+            <!-- Pet Details Modal -->
+            <div id='pet-modal' style='display:none; position:fixed; left:0; top:0; width:100vw; height:100vh; background:rgba(0,0,0,0.4); z-index:9999; align-items:center; justify-content:center;'>
+                <div id='pet-modal-content' style='background:#fff; border-radius:8px; padding:24px; min-width:400px; max-width:90vw; max-height:80vh; overflow:auto; box-shadow:0 4px 32px #0008; position:relative;'>
+                    <button onclick='closePetModal()' style='position:absolute; top:8px; right:12px; font-size:18px; background:none; border:none; cursor:pointer;'>&times;</button>
+                    <div id='pet-modal-header'></div>
+                    <div id='pet-modal-body'></div>
+                </div>
+            </div>
+            
+            <script>
+                // Global variable to store module name format for sprite paths
+                var moduleNameFormat = '$'; // Default format, will be updated when chart loads
+                
+                // Extract module name format from SVG metadata
+                function extractModuleNameFormat() {
+                    var svg = document.querySelector('svg');
+                    if (svg) {
+                        var metadata = svg.querySelector('moduleNameFormat');
+                        if (metadata) {
+                            moduleNameFormat = metadata.textContent || '$';
+                            return;
+                        }
+                    }
+                }
+                
+                // Get sprite URL using module name format
+                function getPetSpriteUrl(petName) {
+                    var safeName = petName.replace(/:/g, '_');
+                    var folderName = moduleNameFormat.replace('$', safeName);
+                    return '../monsters/' + folderName + '/0.png';
+                }
+                
+                // Get attack sprite URL with fallback handling
+                function loadAttackSprite(atkId, callback) {
+                    if (!atkId || atkId === 0) {
+                        callback(null);
+                        return;
                     }
                     
-                    var labelClass = tooltip ? 'pet-info-label tooltip' : 'pet-info-label';
-                    var tooltipHtml = tooltip ? '<span class=""tooltiptext"">' + tooltip + '</span>' : '';
-                    bodyHtml += '<div class=""pet-info-row"">' +
-                        '<span class=""' + labelClass + '"">' + label + ':' + tooltipHtml + '</span>' +
-                        '<span class=""pet-info-value"">' + valueHtml + '</span>' +
-                        '</div>';
+                    var localPath = '../atk/' + atkId + '.png';
+                    var resourcesPath = '../../resources/atk/' + atkId + '.png';
+                    
+                    var img = new Image();
+                    img.onload = function() {
+                        callback(localPath);
+                    };
+                    img.onerror = function() {
+                        var fallbackImg = new Image();
+                        fallbackImg.onload = function() {
+                            callback(resourcesPath);
+                        };
+                        fallbackImg.onerror = function() {
+                            callback(null); // No sprite found
+                        };
+                        fallbackImg.src = resourcesPath;
+                    };
+                    img.src = localPath;
                 }
-            }
-            
-            // Add all pet information with tooltips
-            addRow('Stage', getStageDisplayName(pet.stage), 'Evolution stage: 0=Egg, 1=Baby, 2=Baby II, 3=Child, 4=Adult, 5=Perfect, 6=Ultimate, 7=Super, 8=Super+');
-            addRow('Version', pet.version, 'Version roster this pet belongs to. Different versions may have different evolution paths and requirements.');
-            addRow('Attribute', pet.attribute || 'Free', 'Type advantage in battle: Data > Virus > Vaccine > Data. Free has no advantage/disadvantage.');
-            addRow('Special', pet.special ? 'Yes' : 'No', 'Special pets often have unique evolution requirements or unlock conditions.');
-            if (pet.special && pet.specialKey) addRow('Special Key', pet.specialKey, 'Unique identifier for special evolution or unlock conditions.');
-            addRow('Power', pet.power, 'Base battle power. Higher power increases damage output and battle effectiveness.');
-            addRow('HP', pet.hp, 'Health Points. Higher HP allows the pet to survive more damage in battles.');
-            addAttackRow('ATK Main', pet.atkMain, 'Primary attack animation ID. Used for main battle attacks and training.');
-            addAttackRow('ATK Alt', pet.atkAlt, 'Alternative attack animation ID. Used for secondary attacks or special moves.');
-            addRow('Time', pet.time + ' hours', 'Evolution timer in hours. Pet evolves when this time expires (if evolution requirements are met).');
-            addRow('Energy', pet.energy, 'Maximum DP (energy) capacity. DP is consumed during battles and training.');
-            addRow('Min Weight', pet.minWeight, 'Minimum weight threshold. Weight affects evolution paths and battle performance.');
-            addRow('Stomach', pet.stomach, 'Hunger capacity. Determines how much food the pet can eat before becoming full.');
-            addRow('Hunger Loss', pet.hungerLoss, 'Rate of hunger depletion over time. Lower values mean hunger decreases slower.');
-            addRow('Poop Timer', pet.poopTimer + ' minutes', 'Time between pooping cycles. Neglecting poop cleanup causes care mistakes.');
-            if (pet.sleeps) addRow('Sleeps', pet.sleeps, 'Sleep start time. Pet becomes drowsy and less responsive during sleep hours.');
-            if (pet.wakes) addRow('Wakes', pet.wakes, 'Wake up time. Pet becomes active and can be interacted with normally.');
-            
-            // Add additional fields if they exist
-            if (pet.strengthLoss !== undefined) addRow('Strength Loss', pet.strengthLoss, 'Rate of strength depletion over time. Strength affects training success and evolution.');
-            if (pet.conditionHearts !== undefined) addRow('Condition Hearts', pet.conditionHearts, 'Condition/health hearts. Represents overall care quality and affects evolution.');
-            if (pet.healDoses !== undefined) addRow('Heal Doses', pet.healDoses, 'Number of medicine doses needed to cure sickness.');
-            if (pet.jogressAvailable !== undefined) addRow('Jogress Available', pet.jogressAvailable ? 'Yes' : 'No', 'Can participate in Jogress (fusion) evolution with another compatible pet.');
-            
-            body.innerHTML = bodyHtml;
-            document.getElementById('pet-modal').style.display = 'flex';
-            
-            // Adjust tooltip positions after modal is displayed and content is rendered
-            setTimeout(function() {
-                adjustTooltipPositions();
                 
-                // Add scroll listener to modal content to readjust tooltips when scrolling
-                var modalContent = document.getElementById('pet-modal-content');
-                if (modalContent) {
-                    modalContent.addEventListener('scroll', function() {
-                        setTimeout(adjustTooltipPositions, 10);
+                // Function to adjust tooltip positioning based on modal boundaries
+                function adjustTooltipPositions() {
+                    var modal = document.getElementById('pet-modal-content');
+                    if (!modal) return;
+                    
+                    var tooltips = modal.querySelectorAll('.tooltip');
+                    var modalRect = modal.getBoundingClientRect();
+                    
+                    tooltips.forEach(function(tooltip) {
+                        // Reset classes
+                        tooltip.classList.remove('tooltip-left', 'tooltip-right');
+                        
+                        var tooltipRect = tooltip.getBoundingClientRect();
+                        var tooltiptext = tooltip.querySelector('.tooltiptext');
+                        if (!tooltiptext) return;
+                        
+                        // Calculate where the tooltip would appear
+                        var tooltipWidth = 300; // Match CSS width
+                        var tooltipLeft = tooltipRect.left + (tooltipRect.width / 2) - (tooltipWidth / 2);
+                        var tooltipRight = tooltipLeft + tooltipWidth;
+                        
+                        // Check if tooltip would overflow modal boundaries
+                        if (tooltipLeft < modalRect.left + 10) {
+                            // Tooltip would overflow left, align to left edge
+                            tooltip.classList.add('tooltip-left');
+                        } else if (tooltipRight > modalRect.right - 10) {
+                            // Tooltip would overflow right, align to right edge
+                            tooltip.classList.add('tooltip-right');
+                        }
                     });
                 }
-            }, 50);
-        }
-        
-        function closePetModal() {
-            document.getElementById('pet-modal').style.display = 'none';
-        }
-        
-        function getStageDisplayName(stage) {
-            switch(stage) {
-                case 0: return 'Egg';
-                case 1: return 'Baby';
-                case 2: return 'Baby II';
-                case 3: return 'Child';
-                case 4: return 'Adult';
-                case 5: return 'Perfect';
-                case 6: return 'Ultimate';
-                case 7: return 'Super';
-                case 8: return 'Super+';
-                default: return 'Stage ' + stage;
-            }
-        }
-        
-        function showEvoModal(evt, el) {
-            evt.stopPropagation();
-            var data = el.getAttribute('data-evos');
-            var evos = [];
-            try { evos = JSON.parse(data.replace(/&quot;/g, '""')); } catch(e) {}
-            var list = document.getElementById('evo-modal-list');
-            list.innerHTML = '';
-            if (evos.length === 0) {
-                list.innerHTML = '<div style=""color:#888;"">No criteria</div>';
-            } else {
-                evos.forEach(function(txt, i) {
-                    var div = document.createElement('div');
-                    div.style.marginBottom = '12px';
-                    div.style.padding = '8px 12px';
-                    div.style.background = '#f7f7f7';
-                    div.style.borderRadius = '6px';
-                    div.style.fontFamily = 'monospace';
-                    div.style.fontSize = '12px';
-                    div.style.lineHeight = '1.4';
-                    div.innerText = 'Path ' + (i + 1) + ':\n' + txt;
-                    div.style.whiteSpace = 'pre-line';
-                    list.appendChild(div);
-                });
-            }
-            document.getElementById('evo-modal').style.display = 'flex';
-        }
-        
-        function closeEvoModal() {
-            document.getElementById('evo-modal').style.display = 'none';
-        }
-        
-        // Modal event handlers
-        document.getElementById('evo-modal').onclick = closeEvoModal;
-        document.getElementById('evo-modal-content').onclick = function(e){e.stopPropagation();};
-        document.getElementById('pet-modal').onclick = closePetModal;
-        document.getElementById('pet-modal-content').onclick = function(e){e.stopPropagation();};
-        
-        // Initialize module name format when page loads
-        document.addEventListener('DOMContentLoaded', function() {
-            setTimeout(extractModuleNameFormat, 100);
-            
-            // Add window resize listener to readjust tooltips
-            window.addEventListener('resize', function() {
-                if (document.getElementById('pet-modal').style.display === 'flex') {
-                    setTimeout(adjustTooltipPositions, 100);
+                
+                function showPetDetails(petName, version) {
+                    // Legacy function - kept for compatibility
+                    alert('Pet: ' + petName + ', Version: ' + version);
                 }
-            });
-        });
-    </script>
-</body>
-</html>";
+                
+                function showPetModal(evt, el) {
+                    evt.stopPropagation();
+                    var data = el.getAttribute('data-pet-info');
+                    var pet = {};
+                    try { pet = JSON.parse(data.replace(/&quot;/g, '""')); } catch(e) { console.error('Failed to parse pet data:', e); return; }
+                    
+                    var header = document.getElementById('pet-modal-header');
+                    var body = document.getElementById('pet-modal-body');
+                    
+                    // Create sprite URL using proper name format
+                    var spriteUrl = getPetSpriteUrl(pet.name);
+                    
+                    // Header with sprite and name
+                    header.innerHTML = 
+                        '<div class=""pet-sprite-container"">' +
+                            '<img src=""' + spriteUrl + '"" class=""pet-sprite-img"" onerror=""this.src=\'../missing.png\'"" alt=""' + pet.name + '""/>' +
+                        '</div>' +
+                        '<h2 style=""text-align:center; margin:0 0 16px 0; color:#333;"">' + pet.name + '</h2>';
+                    
+                    // Body with pet details
+                    var bodyHtml = '';
+                    
+                    // Helper function to add info row with tooltip
+                    function addRow(label, value, tooltip) {
+                        if (value !== undefined && value !== null && value !== '' && value !== 0) {
+                            var labelClass = tooltip ? 'pet-info-label tooltip' : 'pet-info-label';
+                            var tooltipHtml = tooltip ? '<span class=""tooltiptext"">' + tooltip + '</span>' : '';
+                            bodyHtml += '<div class=""pet-info-row"">' +
+                                '<span class=""' + labelClass + '"">' + label + ':' + tooltipHtml + '</span>' +
+                                '<span class=""pet-info-value"">' + value + '</span>' +
+                                '</div>';
+                        }
+                    }
+                    
+                    // Helper function to add attack row with sprite
+                    function addAttackRow(label, atkId, tooltip) {
+                        if (atkId !== undefined && atkId !== null) {
+                            var valueHtml = '';
+                            if (atkId === 0) {
+                                valueHtml = 'None';
+                            } else {
+                                // Create placeholder that will be updated when sprite loads
+                                var containerId = 'attack-' + label.replace(/\s+/g, '') + '-' + Math.random().toString(36).substr(2, 9);
+                                valueHtml = '<div class=""attack-sprite-container"" id=""' + containerId + '"">' +
+                                    '<span>' + atkId + '</span>' +
+                                '</div>';
+                                
+                                // Load sprite asynchronously
+                                setTimeout(function() {
+                                    loadAttackSprite(atkId, function(spriteUrl) {
+                                        var container = document.getElementById(containerId);
+                                        if (container && spriteUrl) {
+                                            container.innerHTML = '<img src=""' + spriteUrl + '"" class=""attack-sprite"" alt=""Attack ' + atkId + '""/>' +
+                                                '<span>' + atkId + '</span>';
+                                        }
+                                    });
+                                }, 10);
+                            }
+                            
+                            var labelClass = tooltip ? 'pet-info-label tooltip' : 'pet-info-label';
+                            var tooltipHtml = tooltip ? '<span class=""tooltiptext"">' + tooltip + '</span>' : '';
+                            bodyHtml += '<div class=""pet-info-row"">' +
+                                '<span class=""' + labelClass + '"">' + label + ':' + tooltipHtml + '</span>' +
+                                '<span class=""pet-info-value"">' + valueHtml + '</span>' +
+                                '</div>';
+                        }
+                    }
+                    
+                    // Add all pet information with tooltips
+                    addRow('Stage', getStageDisplayName(pet.stage), 'Evolution stage: 0=Egg, 1=Baby, 2=Baby II, 3=Child, 4=Adult, 5=Perfect, 6=Ultimate, 7=Super, 8=Super+');
+                    addRow('Version', pet.version, 'Version roster this pet belongs to. Different versions may have different evolution paths and requirements.');
+                    addRow('Attribute', pet.attribute || 'Free', 'Type advantage in battle: Data > Virus > Vaccine > Data. Free has no advantage/disadvantage.');
+                    addRow('Special', pet.special ? 'Yes' : 'No', 'Special pets often have unique evolution requirements or unlock conditions.');
+                    if (pet.special && pet.specialKey) addRow('Special Key', pet.specialKey, 'Unique identifier for special evolution or unlock conditions.');
+                    addRow('Power', pet.power, 'Base battle power. Higher power increases damage output and battle effectiveness.');
+                    addRow('HP', pet.hp, 'Health Points. Higher HP allows the pet to survive more damage in battles.');
+                    addAttackRow('ATK Main', pet.atkMain, 'Primary attack animation ID. Used for main battle attacks and training.');
+                    addAttackRow('ATK Alt', pet.atkAlt, 'Alternative attack animation ID. Used for secondary attacks or special moves.');
+                    addRow('Time', pet.time + ' hours', 'Evolution timer in hours. Pet evolves when this time expires (if evolution requirements are met).');
+                    addRow('Energy', pet.energy, 'Maximum DP (energy) capacity. DP is consumed during battles and training.');
+                    addRow('Min Weight', pet.minWeight, 'Minimum weight threshold. Weight affects evolution paths and battle performance.');
+                    addRow('Stomach', pet.stomach, 'Hunger capacity. Determines how much food the pet can eat before becoming full.');
+                    addRow('Hunger Loss', pet.hungerLoss, 'Rate of hunger depletion over time. Lower values mean hunger decreases slower.');
+                    addRow('Poop Timer', pet.poopTimer + ' minutes', 'Time between pooping cycles. Neglecting poop cleanup causes care mistakes.');
+                    if (pet.sleeps) addRow('Sleeps', pet.sleeps, 'Sleep start time. Pet becomes drowsy and less responsive during sleep hours.');
+                    if (pet.wakes) addRow('Wakes', pet.wakes, 'Wake up time. Pet becomes active and can be interacted with normally.');
+                    
+                    // Add additional fields if they exist
+                    if (pet.strengthLoss !== undefined) addRow('Strength Loss', pet.strengthLoss, 'Rate of strength depletion over time. Strength affects training success and evolution.');
+                    if (pet.conditionHearts !== undefined) addRow('Condition Hearts', pet.conditionHearts, 'Condition/health hearts. Represents overall care quality and affects evolution.');
+                    if (pet.healDoses !== undefined) addRow('Heal Doses', pet.healDoses, 'Number of medicine doses needed to cure sickness.');
+                    if (pet.jogressAvailable !== undefined) addRow('Jogress Available', pet.jogressAvailable ? 'Yes' : 'No', 'Can participate in Jogress (fusion) evolution with another compatible pet.');
+                    
+                    body.innerHTML = bodyHtml;
+                    document.getElementById('pet-modal').style.display = 'flex';
+                    
+                    // Adjust tooltip positions after modal is displayed and content is rendered
+                    setTimeout(function() {
+                        adjustTooltipPositions();
+                        
+                        // Add scroll listener to modal content to readjust tooltips when scrolling
+                        var modalContent = document.getElementById('pet-modal-content');
+                        if (modalContent) {
+                            modalContent.addEventListener('scroll', function() {
+                                setTimeout(adjustTooltipPositions, 10);
+                            });
+                        }
+                    }, 50);
+                }
+                
+                function closePetModal() {
+                    document.getElementById('pet-modal').style.display = 'none';
+                }
+                
+                function getStageDisplayName(stage) {
+                    switch(stage) {
+                        case 0: return 'Egg';
+                        case 1: return 'Baby';
+                        case 2: return 'Baby II';
+                        case 3: return 'Child';
+                        case 4: return 'Adult';
+                        case 5: return 'Perfect';
+                        case 6: return 'Ultimate';
+                        case 7: return 'Super';
+                        case 8: return 'Super+';
+                        default: return 'Stage ' + stage;
+                    }
+                }
+                
+                function showEvoModal(evt, el) {
+                    evt.stopPropagation();
+                    var data = el.getAttribute('data-evos');
+                    var evos = [];
+                    try { evos = JSON.parse(data.replace(/&quot;/g, '""')); } catch(e) {}
+                    var list = document.getElementById('evo-modal-list');
+                    list.innerHTML = '';
+                    if (evos.length === 0) {
+                        list.innerHTML = '<div style=""color:#888;"">No criteria</div>';
+                    } else {
+                        evos.forEach(function(txt, i) {
+                            var div = document.createElement('div');
+                            div.style.marginBottom = '12px';
+                            div.style.padding = '8px 12px';
+                            div.style.background = '#f7f7f7';
+                            div.style.borderRadius = '6px';
+                            div.style.fontFamily = 'monospace';
+                            div.style.fontSize = '12px';
+                            div.style.lineHeight = '1.4';
+                            div.innerText = 'Path ' + (i + 1) + ':\n' + txt;
+                            div.style.whiteSpace = 'pre-line';
+                            list.appendChild(div);
+                        });
+                    }
+                    document.getElementById('evo-modal').style.display = 'flex';
+                }
+                
+                function closeEvoModal() {
+                    document.getElementById('evo-modal').style.display = 'none';
+                }
+                
+                // Modal event handlers
+                document.getElementById('evo-modal').onclick = closeEvoModal;
+                document.getElementById('evo-modal-content').onclick = function(e){e.stopPropagation();};
+                document.getElementById('pet-modal').onclick = closePetModal;
+                document.getElementById('pet-modal-content').onclick = function(e){e.stopPropagation();};
+                
+                // Initialize module name format when page loads
+                document.addEventListener('DOMContentLoaded', function() {
+                    setTimeout(extractModuleNameFormat, 100);
+                    
+                    // Add window resize listener to readjust tooltips
+                    window.addEventListener('resize', function() {
+                        if (document.getElementById('pet-modal').style.display === 'flex') {
+                            setTimeout(adjustTooltipPositions, 100);
+                        }
+                    });
+                });
+            </script>
+        </body>
+        </html>";
                 case "enemies.html":
                     return @"<!DOCTYPE html>
         <html lang='en'>
@@ -720,7 +720,7 @@ namespace OmnimonModuleEditor.docgenerators
         .unlock-type.egg {
             background-color: #fff3cd;
             color: #856404;
-            border: 1px solid #ffeaa7;
+            border: 1px solid #ffc107;
         }
         
         .unlock-type.evolution {
@@ -745,6 +745,12 @@ namespace OmnimonModuleEditor.docgenerators
             background-color: #e2e3e5;
             color: #383d41;
             border: 1px solid #6c757d;
+        }
+        
+        .unlock-type.group {
+            background-color: #fff3cd;
+            color: #856404;
+            border: 1px solid #ffc107;
         }
         
         .unlock-description {

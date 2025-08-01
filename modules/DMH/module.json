@@ -1,5 +1,8 @@
 {
   "name": "DMH",
+  "version": "",
+  "description": "",
+  "author": "",
   "name_format": "$_dmc",
   "ruleset": "dmc",
   "adventure_mode": true,
@@ -39,6 +42,8 @@
   "death_stage67_mistake": 5,
   "death_save_by_b_press": 0,
   "death_save_by_shake": 0,
+  "vital_value_base": 50,
+  "vital_value_loss": 50,
   "unlocks": [
     {
       "name": "Forest_and_Hills",
@@ -46,8 +51,9 @@
       "version": 1,
       "label": "Forest and Hills",
       "area": 0,
-      "to": "",
-      "amount": null
+      "to": [],
+      "amount": null,
+      "list": []
     },
     {
       "name": "Frozen_Seaway",
@@ -55,8 +61,11 @@
       "version": 1,
       "label": "Frozen Seaway",
       "area": 0,
-      "to": "Khezu (Young)",
-      "amount": null
+      "to": [
+        "Khezu (Young)"
+      ],
+      "amount": null,
+      "list": []
     },
     {
       "name": "Misty_Peaks",
@@ -64,8 +73,11 @@
       "version": 1,
       "label": "Misty Peaks",
       "area": 0,
-      "to": "Rathalos (Young)",
-      "amount": null
+      "to": [
+        "Rathalos (Young)"
+      ],
+      "amount": null,
+      "list": []
     },
     {
       "name": "Desert",
@@ -73,8 +85,11 @@
       "version": 1,
       "label": "Desert",
       "area": 0,
-      "to": "Tigrex (Young)",
-      "amount": null
+      "to": [
+        "Tigrex (Young)"
+      ],
+      "amount": null,
+      "list": []
     },
     {
       "name": "Great_Forest",
@@ -82,8 +97,11 @@
       "version": 1,
       "label": "Great Forest",
       "area": 0,
-      "to": "Nargacuga (Young)",
-      "amount": null
+      "to": [
+        "Nargacuga (Young)"
+      ],
+      "amount": null,
+      "list": []
     },
     {
       "name": "Shrine_Ruins",
@@ -91,8 +109,11 @@
       "version": 1,
       "label": "Shrine Ruins",
       "area": 0,
-      "to": "Zinogre (Young)",
-      "amount": null
+      "to": [
+        "Zinogre (Young)"
+      ],
+      "amount": null,
+      "list": []
     },
     {
       "name": "Primal_Forest",
@@ -100,8 +121,11 @@
       "version": 1,
       "label": "Primal Forest",
       "area": 0,
-      "to": "Gore Magala (Young)",
-      "amount": null
+      "to": [
+        "Gore Magala (Young)"
+      ],
+      "amount": null,
+      "list": []
     },
     {
       "name": "Flooded_Forest",
@@ -109,8 +133,11 @@
       "version": 1,
       "label": "Flooded Forest",
       "area": 0,
-      "to": "Mizutsune (Young)",
-      "amount": null
+      "to": [
+        "Mizutsune (Young)"
+      ],
+      "amount": null,
+      "list": []
     },
     {
       "name": "Land_Arena",
@@ -118,8 +145,11 @@
       "version": 1,
       "label": "Land Arena",
       "area": 0,
-      "to": "Rajang (Young)",
-      "amount": null
+      "to": [
+        "Rajang (Young)"
+      ],
+      "amount": null,
+      "list": []
     },
     {
       "name": "Swamp",
@@ -127,8 +157,9 @@
       "version": 1,
       "label": "Swamp",
       "area": 1,
-      "to": "",
-      "amount": null
+      "to": [],
+      "amount": null,
+      "list": []
     },
     {
       "name": "Arctic_Ridge",
@@ -136,8 +167,9 @@
       "version": 1,
       "label": "Arctic Ridge",
       "area": 2,
-      "to": "",
-      "amount": null
+      "to": [],
+      "amount": null,
+      "list": []
     },
     {
       "name": "Volcano",
@@ -145,8 +177,9 @@
       "version": 1,
       "label": "Volcano",
       "area": 3,
-      "to": "",
-      "amount": null
+      "to": [],
+      "amount": null,
+      "list": []
     },
     {
       "name": "Infernal_Springs",
@@ -154,8 +187,9 @@
       "version": 1,
       "label": "Infernal Springs",
       "area": 4,
-      "to": "",
-      "amount": null
+      "to": [],
+      "amount": null,
+      "list": []
     },
     {
       "name": "Hoarfrost_Reach",
@@ -163,8 +197,9 @@
       "version": 1,
       "label": "Hoarfrost Reach",
       "area": 5,
-      "to": "",
-      "amount": null
+      "to": [],
+      "amount": null,
+      "list": []
     },
     {
       "name": "Tower_Summit",
@@ -172,8 +207,9 @@
       "version": 1,
       "label": "Tower Summit",
       "area": 6,
-      "to": "",
-      "amount": null
+      "to": [],
+      "amount": null,
+      "list": []
     },
     {
       "name": "Citadel",
@@ -181,8 +217,9 @@
       "version": 1,
       "label": "Citadel",
       "area": 7,
-      "to": "",
-      "amount": null
+      "to": [],
+      "amount": null,
+      "list": []
     },
     {
       "name": "Forlorn_Arena",
@@ -190,8 +227,9 @@
       "version": 1,
       "label": "Forlorn Arena",
       "area": 8,
-      "to": "",
-      "amount": null
+      "to": [],
+      "amount": null,
+      "list": []
     }
   ],
   "backgrounds": [

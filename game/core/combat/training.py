@@ -8,7 +8,7 @@ from core.animation import PetFrame
 from game.core.combat import combat_constants
 import game.core.constants as constants
 from core.utils.pet_utils import distribute_pets_evenly, get_training_targets
-from core.utils.pygame_utils import blit_with_shadow, load_attack_sprites, sprite_load_percent
+from core.utils.pygame_utils import blit_with_shadow, load_attack_sprites, module_attack_sprites, sprite_load_percent
 from core.utils.scene_utils import change_scene
 
 class Training:
@@ -45,15 +45,33 @@ class Training:
         self._sprite_cache['good'] = sprite_load_percent(constants.GOOD_SPRITE_PATH, 100, keep_proportion=True, base_on="width", alpha=False)
         self._sprite_cache['great'] = sprite_load_percent(constants.GREAT_SPRITE_PATH, 100, keep_proportion=True, base_on="width", alpha=False)
         self._sprite_cache['excellent'] = sprite_load_percent(constants.EXCELLENT_SPRITE_PATH, 100, keep_proportion=True, base_on="width", alpha=False)
+        self._sprite_cache['trophy'] = sprite_load_percent(constants.TROPHIES_ICON_PATH, percent=(int(24 * constants.UI_SCALE) / constants.SCREEN_HEIGHT) * 100, keep_proportion=True, base_on="height")
 
         self.attack_jump = 0
         self.attack_forward = 0
         self.attack_frame = None
         self.attack_sprites = load_attack_sprites()
+        
         self.pets = get_training_targets()
+        self.module_attack_sprites = {}
+        for pet in self.pets:
+             self.module_attack_sprites[pet.module] = module_attack_sprites(pet.module)
 
     def get_sprite(self, key):
         return self._sprite_cache[key]
+
+    def get_attack_sprite(self, pet, attack_id):
+        """
+        Get attack sprite for a pet, preferring module-specific sprites over defaults.
+        """
+        # First try module-specific attack sprites
+        if pet.module in self.module_attack_sprites:
+            module_sprite = self.module_attack_sprites[pet.module].get(str(attack_id))
+            if module_sprite:
+                return module_sprite
+        
+        # Fall back to default attack sprites
+        return self.attack_sprites.get(str(attack_id))
 
     def update(self):
         if self.phase == "alert":
@@ -143,11 +161,31 @@ class Training:
         else:
             runtime_globals.game_sound.play("fail")
 
+        # Check for trophy conditions and award trophies
+        self.check_and_award_trophies()
+
         for pet in self.pets:
             pet.finish_training(won)
 
         distribute_pets_evenly()
         change_scene("game")
+
+    def draw_trophy_notification(self, surface, quantity=1):
+        if quantity > 0:
+            """Draw a small trophy icon with +1 in the bottom right corner"""
+            trophy_size = int(24 * constants.UI_SCALE)
+            font = pygame.font.Font(None, int(24 * constants.UI_SCALE))
+            plus_text = font.render(f"+{quantity}", True, constants.FONT_COLOR_YELLOW)
+
+            # Draw trophy icon in bottom right
+            trophy_x = constants.SCREEN_WIDTH - trophy_size - plus_text.get_width() - int(4 * constants.UI_SCALE)
+            trophy_y = constants.SCREEN_HEIGHT - trophy_size
+            blit_with_shadow(surface, self._sprite_cache['trophy'], (trophy_x, trophy_y))
+            # Draw +1 text next to trophy
+            
+            text_x = trophy_x + trophy_size + int(2 * constants.UI_SCALE)
+            text_y = trophy_y + int(4 * constants.UI_SCALE)
+            blit_with_shadow(surface, plus_text, (text_x, text_y))
 
     def draw(self, screen: pygame.Surface):
         if self.phase == "alert":

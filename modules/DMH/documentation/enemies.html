@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Battle Enemies</title>
+    <link rel="stylesheet" href="module.css">
+</head>
+<body>
+    <div class="page-content">
+        <h1>Battle Enemies</h1>
+        <div id="enemies-container">
+            <div class="area-section">
+  <h2>Area 1</h2>
+    <div class="round-section">
+      <h3>Round 1</h3>
+      <div class="enemies-grid">
+        <div class="enemy-card">
+          <div class="enemy-sprite-container">
+            <div class="enemy-sprite" style="background-color:#ab47bc">
+              <img src="../monsters/Khezu_dmc/0.png" alt="Khezu" onerror="this.src='../missing.png'">
+            </div>
+          </div>
+          <div class="enemy-name">Khezu</div>
+          <div class="enemy-version">Version 1</div>
+          <div class="enemy-stats">Power: 10 | HP: 12</div>
+        </div>
+      </div>
+    </div>
+    <div class="round-section">
+      <h3>Round 2</h3>
+      <div class="enemies-grid">
+        <div class="enemy-card">
+          <div class="enemy-sprite-container">
+            <div class="enemy-sprite" style="background-color:#ab47bc">
+              <img src="../monsters/Green Nargacuga_dmc/0.png" alt="Green Nargacuga" onerror="this.src='../missing.png'">
+            </div>
+          </div>
+          <div class="enemy-name">Green Nargacuga</div>
+          <div class="enemy-version">Version 1</div>
+          <div class="enemy-stats">Power: 15 | HP: 12</div>
+        </div>
+      </div>
+    </div>
+    <div class="round-section boss-round">
+      <h3>Round 3 - Boss Round</h3>
+      <div class="enemies-grid">
+        <div class="enemy-card boss-enemy">
+          <div class="enemy-sprite-container">
+            <div class="enemy-sprite" style="background-color:#ab47bc">
+              <img src="../monsters/Red Khezu_dmc/0.png" alt="Red Khezu" onerror="this.src='../missing.png'">
+            </div>
+          </div>
+          <div class="enemy-name">Red Khezu</div>
+          <div class="enemy-version">Version 1</div>
+          <div class="enemy-stats">Power: 18 | HP: 12</div>
+        </div>
+      </div>
+    </div>
+</div>
+<div class="area-section">
+  <h2>Area 2</h2>
+    <div class="round-section">
+      <h3>Round 1</h3>
+      <div class="enemies-grid">
+        <div class="enemy-card">
+          <div class="enemy-sprite-container">
+            <div class="enemy-sprite" style="background-color:#ab47bc">
+              <img src="../monsters/Tigrex_dmc/0.png" alt="Tigrex" onerror="this.src='../missing.png'">
+            </div>
+          </div>
+          <div class="enemy-name">Tigrex</div>
+          <div class="enemy-version">Version 1</div>
+          <div class="enemy-stats">Power: 16 | HP: 12</div>
+        </div>
+      </div>
+    </div>
+    <div class="round-section">
+      <h3>Round 2</h3>
+      <div class="enemies-grid">
+        <div class="enemy-card">
+          <div class="enemy-sprite-container">
+            <div class="enemy-sprite" style="background-color:#ab47bc">
+              <img src="../monsters/Stygian Zinogre_dmc/0.png" alt="Stygian Zinogre" onerror="this.src='../missing.png'">
+            </div>
+          </div>
+          <div class="enemy-name">Stygian Zinogre</div>
+          <div class="enemy-version">Version 1</div>
+          <div class="enemy-stats">Power: 18 | HP: 12</div>
+        </div>
+      </div>
+    </div>
+    <div class="round-section boss-round">
+      <h3>Round 3 - Boss Round</h3>
+      <div class="enemies-grid">
+        <div class="enemy-card boss-enemy">
+          <div class="enemy-sprite-container">
+            <div class="enemy-sprite" style="background-color:#ab47bc">
+              <img src="../monsters/Rajang_dmc/0.png" alt="Rajang" onerror="this.src='../missing.png'">
+            </div>
+          </div>
+          <div class="enemy-name">Rajang</div>
+          <div class="enemy-version">Version 1</div>
+          <div class="enemy-stats">Power: 21 | HP: 12</div>
+        </div>
+      </div>
+    </div>
+</div>
+<div class="area-section">
+  <h2>Area 3</h2>
+    <div class="round-section">
+      <h3>Round 1</h3>
+      <div class="enemies-grid">
+        <div class="enemy-card">
+          <div class="enemy-sprite-container">
+            <div class="enemy-sprite" style="background-color:#ab47bc">
+              <img src="../monsters/Rathalos_dmc/0.png" alt="Rathalos" onerror="this.src='../missing.png'">
+            </div>
+          </div>
+          <div class="enemy-name">Rathalos</div>
+          <div class="enemy-version">Version 1</div>
+          <div class="enemy-stats">Power: 23 | HP: 12</div>
+        </div>
+      </div>
+    </div>
+    <div class="round-section">
+      <h3>Round 2</h3>
+      <div class="enemies-grid">
+        <div class="enemy-card">
+          <div class="enemy-sprite-container">
+            <div class="enemy-sprite" style="background-color:#ab47bc">
+              <img src="../monsters/Azure Rathalos_dmc/0.png" alt="Azure Rathalos" onerror="this.src='../missing.png'">
+            </div>
+          </div>
+          <div class="enemy-name">Azure Rathalos</div>
+          <div class="enemy-version">Version 1</div>
+          <div class="enemy-stats">Power: 30 | HP: 12</div>
+        </div>
+      </div>
+    </div>
+    <div class="round-section boss-round">
+      <h3>Round 3 - Boss Round</h3>
+      <div class="enemies-grid">
+        <div class="enemy-card boss-enemy">
+          <div class="enemy-sprite-container">
+            <div class="enemy-sprite" style="background-color:#ab47bc">
+              <img src="../monsters/Brute Tigrex_dmc/0.png" alt="Brute Tigrex" onerror="this.src='../missing.png'">
+            </div>
+          </div>
+          <div class="enemy-name">Brute Tigrex</div>
+          <div class="enemy-version">Version 1</div>
+          <div class="enemy-stats">Power: 38 | HP: 12</div>
+        </div>
+      </div>
+    </div>
+</div>
+<div class="area-section">
+  <h2>Area 4</h2>
+    <div class="round-section">
+      <h3>Round 1</h3>
+      <div class="enemies-grid">
+        <div class="enemy-card">
+          <div class="enemy-sprite-container">
+            <div class="enemy-sprite" style="background-color:#ab47bc">
+              <img src="../monsters/Mizutsune_dmc/0.png" alt="Mizutsune" onerror="this.src='../missing.png'">
+            </div>
+          </div>
+          <div class="enemy-name">Mizutsune</div>
+          <div class="enemy-version">Version 1</div>
+          <div class="enemy-stats">Power: 42 | HP: 12</div>
+        </div>
+      </div>
+    </div>
+    <div class="round-section">
+      <h3>Round 2</h3>
+      <div class="enemies-grid">
+        <div class="enemy-card">
+          <div class="enemy-sprite-container">
+            <div class="enemy-sprite" style="background-color:#ab47bc">
+              <img src="../monsters/Nargacuga_dmc/0.png" alt="Nargacuga" onerror="this.src='../missing.png'">
+            </div>
+          </div>
+          <div class="enemy-name">Nargacuga</div>
+          <div class="enemy-version">Version 1</div>
+          <div class="enemy-stats">Power: 48 | HP: 12</div>
+        </div>
+      </div>
+    </div>
+    <div class="round-section">
+      <h3>Round 3</h3>
+      <div class="enemies-grid">
+        <div class="enemy-card">
+          <div class="enemy-sprite-container">
+            <div class="enemy-sprite" style="background-color:#ab47bc">
+              <img src="../monsters/Apex Mizutsune_dmc/0.png" alt="Apex Mizutsune" onerror="this.src='../missing.png'">
+            </div>
+          </div>
+          <div class="enemy-name">Apex Mizutsune</div>
+          <div class="enemy-version">Version 1</div>
+          <div class="enemy-stats">Power: 55 | HP: 15</div>
+        </div>
+      </div>
+    </div>
+    <div class="round-section boss-round">
+      <h3>Round 4 - Boss Round</h3>
+      <div class="enemies-grid">
+        <div class="enemy-card boss-enemy">
+          <div class="enemy-sprite-container">
+            <div class="enemy-sprite" style="background-color:#ab47bc">
+              <img src="../monsters/Violet Mizutsune_dmc/0.png" alt="Violet Mizutsune" onerror="this.src='../missing.png'">
+            </div>
+          </div>
+          <div class="enemy-name">Violet Mizutsune</div>
+          <div class="enemy-version">Version 1</div>
+          <div class="enemy-stats">Power: 60 | HP: 15</div>
+        </div>
+      </div>
+    </div>
+</div>
+<div class="area-section">
+  <h2>Area 5</h2>
+    <div class="round-section">
+      <h3>Round 1</h3>
+      <div class="enemies-grid">
+        <div class="enemy-card">
+          <div class="enemy-sprite-container">
+            <div class="enemy-sprite" style="background-color:#ab47bc">
+              <img src="../monsters/Zinogre_dmc/0.png" alt="Zinogre" onerror="this.src='../missing.png'">
+            </div>
+          </div>
+          <div class="enemy-name">Zinogre</div>
+          <div class="enemy-version">Version 1</div>
+          <div class="enemy-stats">Power: 44 | HP: 12</div>
+        </div>
+      </div>
+    </div>
+    <div class="round-section">
+      <h3>Round 2</h3>
+      <div class="enemies-grid">
+        <div class="enemy-card">
+          <div class="enemy-sprite-container">
+            <div class="enemy-sprite" style="background-color:#ab47bc">
+              <img src="../monsters/Stygian Zinogre_dmc/0.png" alt="Stygian Zinogre" onerror="this.src='../missing.png'">
+            </div>
+          </div>
+          <div class="enemy-name">Stygian Zinogre</div>
+          <div class="enemy-version">Version 1</div>
+          <div class="enemy-stats">Power: 55 | HP: 12</div>
+        </div>
+      </div>
+    </div>
+    <div class="round-section">
+      <h3>Round 3</h3>
+      <div class="enemies-grid">
+        <div class="enemy-card">
+          <div class="enemy-sprite-container">
+            <div class="enemy-sprite" style="background-color:#ab47bc">
+              <img src="../monsters/Grimclaw Tigrex_dmc/0.png" alt="Grimclaw Tigrex" onerror="this.src='../missing.png'">
+            </div>
+          </div>
+          <div class="enemy-name">Grimclaw Tigrex</div>
+          <div class="enemy-version">Version 1</div>
+          <div class="enemy-stats">Power: 60 | HP: 15</div>
+        </div>
+      </div>
+    </div>
+    <div class="round-section boss-round">
+      <h3>Round 4 - Boss Round</h3>
+      <div class="enemies-grid">
+        <div class="enemy-card boss-enemy">
+          <div class="enemy-sprite-container">
+            <div class="enemy-sprite" style="background-color:#ab47bc">
+              <img src="../monsters/Furious Rajang_dmc/0.png" alt="Furious Rajang" onerror="this.src='../missing.png'">
+            </div>
+          </div>
+          <div class="enemy-name">Furious Rajang</div>
+          <div class="enemy-version">Version 1</div>
+          <div class="enemy-stats">Power: 80 | HP: 15</div>
+        </div>
+      </div>
+    </div>
+</div>
+<div class="area-section">
+  <h2>Area 6</h2>
+    <div class="round-section">
+      <h3>Round 1</h3>
+      <div class="enemies-grid">
+        <div class="enemy-card">
+          <div class="enemy-sprite-container">
+            <div class="enemy-sprite" style="background-color:#ab47bc">
+              <img src="../monsters/Silverwind Nargacuga_dmc/0.png" alt="Silverwind Nargacuga" onerror="this.src='../missing.png'">
+            </div>
+          </div>
+          <div class="enemy-name">Silverwind Nargacuga</div>
+          <div class="enemy-version">Version 1</div>
+          <div class="enemy-stats">Power: 65 | HP: 15</div>
+        </div>
+      </div>
+    </div>
+    <div class="round-section">
+      <h3>Round 2</h3>
+      <div class="enemies-grid">
+        <div class="enemy-card">
+          <div class="enemy-sprite-container">
+            <div class="enemy-sprite" style="background-color:#ab47bc">
+              <img src="../monsters/Thunderlord Zinogre_dmc/0.png" alt="Thunderlord Zinogre" onerror="this.src='../missing.png'">
+            </div>
+          </div>
+          <div class="enemy-name">Thunderlord Zinogre</div>
+          <div class="enemy-version">Version 1</div>
+          <div class="enemy-stats">Power: 75 | HP: 15</div>
+        </div>
+      </div>
+    </div>
+    <div class="round-section">
+      <h3>Round 3</h3>
+      <div class="enemies-grid">
+        <div class="enemy-card">
+          <div class="enemy-sprite-container">
+            <div class="enemy-sprite" style="background-color:#ab47bc">
+              <img src="../monsters/Molten Tigrex_dmc/0.png" alt="Molten Tigrex" onerror="this.src='../missing.png'">
+            </div>
+          </div>
+          <div class="enemy-name">Molten Tigrex</div>
+          <div class="enemy-version">Version 1</div>
+          <div class="enemy-stats">Power: 90 | HP: 15</div>
+        </div>
+      </div>
+    </div>
+    <div class="round-section boss-round">
+      <h3>Round 4 - Boss Round</h3>
+      <div class="enemies-grid">
+        <div class="enemy-card boss-enemy">
+          <div class="enemy-sprite-container">
+            <div class="enemy-sprite" style="background-color:#ab47bc">
+              <img src="../monsters/Silver Rathalos_dmc/0.png" alt="Silver Rathalos" onerror="this.src='../missing.png'">
+            </div>
+          </div>
+          <div class="enemy-name">Silver Rathalos</div>
+          <div class="enemy-version">Version 1</div>
+          <div class="enemy-stats">Power: 110 | HP: 15</div>
+        </div>
+      </div>
+    </div>
+</div>
+<div class="area-section">
+  <h2>Area 7</h2>
+    <div class="round-section">
+      <h3>Round 1</h3>
+      <div class="enemies-grid">
+        <div class="enemy-card">
+          <div class="enemy-sprite-container">
+            <div class="enemy-sprite" style="background-color:#ab47bc">
+              <img src="../monsters/Tigrex_dmc/0.png" alt="Tigrex" onerror="this.src='../missing.png'">
+            </div>
+          </div>
+          <div class="enemy-name">Tigrex</div>
+          <div class="enemy-version">Version 1</div>
+          <div class="enemy-stats">Power: 75 | HP: 12</div>
+        </div>
+      </div>
+    </div>
+    <div class="round-section">
+      <h3>Round 2</h3>
+      <div class="enemies-grid">
+        <div class="enemy-card">
+          <div class="enemy-sprite-container">
+            <div class="enemy-sprite" style="background-color:#ab47bc">
+              <img src="../monsters/Rathalos_dmc/0.png" alt="Rathalos" onerror="this.src='../missing.png'">
+            </div>
+          </div>
+          <div class="enemy-name">Rathalos</div>
+          <div class="enemy-version">Version 1</div>
+          <div class="enemy-stats">Power: 85 | HP: 12</div>
+        </div>
+      </div>
+    </div>
+    <div class="round-section">
+      <h3>Round 3</h3>
+      <div class="enemies-grid">
+        <div class="enemy-card">
+          <div class="enemy-sprite-container">
+            <div class="enemy-sprite" style="background-color:#ab47bc">
+              <img src="../monsters/Gore Magala_dmc/0.png" alt="Gore Magala" onerror="this.src='../missing.png'">
+            </div>
+          </div>
+          <div class="enemy-name">Gore Magala</div>
+          <div class="enemy-version">Version 1</div>
+          <div class="enemy-stats">Power: 100 | HP: 12</div>
+        </div>
+      </div>
+    </div>
+    <div class="round-section">
+      <h3>Round 4</h3>
+      <div class="enemies-grid">
+        <div class="enemy-card">
+          <div class="enemy-sprite-container">
+            <div class="enemy-sprite" style="background-color:#ab47bc">
+              <img src="../monsters/Furious Rajang_dmc/0.png" alt="Furious Rajang" onerror="this.src='../missing.png'">
+            </div>
+          </div>
+          <div class="enemy-name">Furious Rajang</div>
+          <div class="enemy-version">Version 1</div>
+          <div class="enemy-stats">Power: 145 | HP: 15</div>
+        </div>
+      </div>
+    </div>
+    <div class="round-section boss-round">
+      <h3>Round 5 - Boss Round</h3>
+      <div class="enemies-grid">
+        <div class="enemy-card boss-enemy">
+          <div class="enemy-sprite-container">
+            <div class="enemy-sprite" style="background-color:#ab47bc">
+              <img src="../monsters/Shagaru Magala_dmc/0.png" alt="Shagaru Magala" onerror="this.src='../missing.png'">
+            </div>
+          </div>
+          <div class="enemy-name">Shagaru Magala</div>
+          <div class="enemy-version">Version 1</div>
+          <div class="enemy-stats">Power: 170 | HP: 15</div>
+        </div>
+      </div>
+    </div>
+</div>
+<div class="area-section">
+  <h2>Area 8</h2>
+    <div class="round-section">
+      <h3>Round 1</h3>
+      <div class="enemies-grid">
+        <div class="enemy-card">
+          <div class="enemy-sprite-container">
+            <div class="enemy-sprite" style="background-color:#ab47bc">
+              <img src="../monsters/Silver Rathalos_dmc/0.png" alt="Silver Rathalos" onerror="this.src='../missing.png'">
+            </div>
+          </div>
+          <div class="enemy-name">Silver Rathalos</div>
+          <div class="enemy-version">Version 1</div>
+          <div class="enemy-stats">Power: 90 | HP: 15</div>
+        </div>
+      </div>
+    </div>
+    <div class="round-section">
+      <h3>Round 2</h3>
+      <div class="enemies-grid">
+        <div class="enemy-card">
+          <div class="enemy-sprite-container">
+            <div class="enemy-sprite" style="background-color:#ab47bc">
+              <img src="../monsters/Soulseer Mizutsune_dmc/0.png" alt="Soulseer Mizutsune" onerror="this.src='../missing.png'">
+            </div>
+          </div>
+          <div class="enemy-name">Soulseer Mizutsune</div>
+          <div class="enemy-version">Version 1</div>
+          <div class="enemy-stats">Power: 135 | HP: 15</div>
+        </div>
+      </div>
+    </div>
+    <div class="round-section">
+      <h3>Round 3</h3>
+      <div class="enemies-grid">
+        <div class="enemy-card">
+          <div class="enemy-sprite-container">
+            <div class="enemy-sprite" style="background-color:#ab47bc">
+              <img src="../monsters/Lucent Nargacuga_dmc/0.png" alt="Lucent Nargacuga" onerror="this.src='../missing.png'">
+            </div>
+          </div>
+          <div class="enemy-name">Lucent Nargacuga</div>
+          <div class="enemy-version">Version 1</div>
+          <div class="enemy-stats">Power: 150 | HP: 15</div>
+        </div>
+      </div>
+    </div>
+    <div class="round-section">
+      <h3>Round 4</h3>
+      <div class="enemies-grid">
+        <div class="enemy-card">
+          <div class="enemy-sprite-container">
+            <div class="enemy-sprite" style="background-color:#ab47bc">
+              <img src="../monsters/Chaotic Gore Magala_dmc/0.png" alt="Chaotic Gore Magala" onerror="this.src='../missing.png'">
+            </div>
+          </div>
+          <div class="enemy-name">Chaotic Gore Magala</div>
+          <div class="enemy-version">Version 1</div>
+          <div class="enemy-stats">Power: 200 | HP: 15</div>
+        </div>
+      </div>
+    </div>
+    <div class="round-section boss-round">
+      <h3>Round 5 - Boss Round</h3>
+      <div class="enemies-grid">
+        <div class="enemy-card boss-enemy">
+          <div class="enemy-sprite-container">
+            <div class="enemy-sprite" style="background-color:#ab47bc">
+              <img src="../monsters/Dreadking Rathalos_dmc/0.png" alt="Dreadking Rathalos" onerror="this.src='../missing.png'">
+            </div>
+          </div>
+          <div class="enemy-name">Dreadking Rathalos</div>
+          <div class="enemy-version">Version 1</div>
+          <div class="enemy-stats">Power: 200 | HP: 15</div>
+        </div>
+      </div>
+    </div>
+</div>
+
+        </div>
+    </div>
+</body>
+</html>

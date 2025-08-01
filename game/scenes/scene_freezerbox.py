@@ -178,6 +178,7 @@ class SceneFreezerBox:
                         # Move from freezer to party
                         if len(game_globals.pet_list) < constants.MAX_PETS:
                             self.freezer_pets[self.current_freezer_page].pets.remove(selected_pet)
+                            selected_pet.patch()
                             game_globals.pet_list.append(selected_pet)
                             runtime_globals.game_console.log(f"Moved {selected_pet.name} to party.")
                 self.freezer_view._scene_cache_key = None  # Reset cache key to force rebuild

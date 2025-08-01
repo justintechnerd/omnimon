@@ -1,5 +1,8 @@
 {
   "name": "DMC",
+  "version": "1.0.1",
+  "description": "A reimplementation of the Digital Monster Color devices, you can find more at https://humulos.com/digimon/dmc/manual/.",
+  "author": "Sundeth, Reviewed by: justintechnerd and Pepperoni Secret",
   "name_format": "$_dmc",
   "ruleset": "dmc",
   "adventure_mode": true,
@@ -39,6 +42,8 @@
   "death_stage67_mistake": 5,
   "death_save_by_b_press": 0,
   "death_save_by_shake": 0,
+  "vital_value_base": 50,
+  "vital_value_loss": 50,
   "unlocks": [
     {
       "name": "ver1",
@@ -46,8 +51,9 @@
       "version": 1,
       "label": "Ver.1",
       "area": null,
-      "to": null,
-      "amount": null
+      "to": [],
+      "amount": null,
+      "list": []
     },
     {
       "name": "ver2",
@@ -55,8 +61,9 @@
       "version": 2,
       "label": "Ver.2",
       "area": null,
-      "to": null,
-      "amount": null
+      "to": [],
+      "amount": null,
+      "list": []
     },
     {
       "name": "ver3",
@@ -64,8 +71,9 @@
       "version": 3,
       "label": "Ver.3",
       "area": null,
-      "to": null,
-      "amount": null
+      "to": [],
+      "amount": null,
+      "list": []
     },
     {
       "name": "ver4",
@@ -73,8 +81,9 @@
       "version": 4,
       "label": "Ver.4",
       "area": null,
-      "to": null,
-      "amount": null
+      "to": [],
+      "amount": null,
+      "list": []
     },
     {
       "name": "ver5",
@@ -82,8 +91,9 @@
       "version": 5,
       "label": "Ver.5",
       "area": null,
-      "to": null,
-      "amount": null
+      "to": [],
+      "amount": null,
+      "list": []
     },
     {
       "name": "file_island",
@@ -91,8 +101,9 @@
       "version": null,
       "label": "File Island",
       "area": null,
-      "to": null,
-      "amount": null
+      "to": [],
+      "amount": null,
+      "list": []
     },
     {
       "name": "abandoned_office",
@@ -100,8 +111,9 @@
       "version": null,
       "label": "Abandoned Office",
       "area": null,
-      "to": null,
-      "amount": null
+      "to": [],
+      "amount": null,
+      "list": []
     },
     {
       "name": "the_grid",
@@ -109,8 +121,9 @@
       "version": null,
       "label": "The Grid",
       "area": 1,
-      "to": null,
-      "amount": null
+      "to": [],
+      "amount": null,
+      "list": []
     },
     {
       "name": "dmc_logo",
@@ -118,8 +131,9 @@
       "version": null,
       "label": "DMC Logo",
       "area": 5,
-      "to": null,
-      "amount": null
+      "to": [],
+      "amount": null,
+      "list": []
     },
     {
       "name": "box_art",
@@ -127,8 +141,9 @@
       "version": null,
       "label": "Box Art",
       "area": 9,
-      "to": null,
-      "amount": null
+      "to": [],
+      "amount": null,
+      "list": []
     },
     {
       "name": "d1_grand_prix",
@@ -136,8 +151,9 @@
       "version": null,
       "label": "D1 Grand Prix",
       "area": null,
-      "to": null,
-      "amount": null
+      "to": [],
+      "amount": null,
+      "list": []
     },
     {
       "name": "d1_grand_prix_gold",
@@ -145,8 +161,9 @@
       "version": null,
       "label": "D1 Grand Prix Gold",
       "area": null,
-      "to": null,
-      "amount": null
+      "to": [],
+      "amount": null,
+      "list": []
     },
     {
       "name": "25",
@@ -154,8 +171,15 @@
       "version": null,
       "label": "25th Anniversary",
       "area": null,
-      "to": "ShinMonzaemon, Ebemon, BanchoLeomon, Gankoomon, Samudramon",
-      "amount": null
+      "to": [
+        "ShinMonzaemon",
+        " Ebemon",
+        " BanchoLeomon",
+        " Gankoomon",
+        " Samudramon"
+      ],
+      "amount": null,
+      "list": []
     }
   ],
   "backgrounds": [

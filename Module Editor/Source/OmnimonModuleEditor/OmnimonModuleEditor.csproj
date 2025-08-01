@@ -170,7 +170,7 @@
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="tabs\ModuleTab.cs">
-      <SubType>UserControl</SubType>
+      <SubType>Form</SubType>
     </Compile>
     <Compile Include="utils\PetUtils.cs" />
     <Compile Include="controls\StageSelectForm.cs">

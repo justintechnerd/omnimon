@@ -66,6 +66,13 @@ class ExciteTraining(Training):
         """Apply training results and return to game."""
         return self.xaibar.selected_strength > 0
 
+    def check_and_award_trophies(self):
+        """Award trophy if strength reaches maximum (3)"""
+        if self.xaibar.selected_strength == 3:
+            for pet in self.pets:
+                pet.trophies += 1
+            runtime_globals.game_console.log(f"[TROPHY] Excite training perfect score achieved! Trophy awarded.")
+
     def draw_charge(self, surface):
         self.xaibar.draw(surface)
         self.draw_pets(surface, PetFrame.IDLE1)
@@ -106,6 +113,8 @@ class ExciteTraining(Training):
             blit_with_shadow(surface, great_sprite, (0, y))
         elif strength == 3:
             blit_with_shadow(surface, excellent_sprite, (0, y))
+            # Draw trophy notification if maximum score achieved
+            self.draw_trophy_notification(surface)
 
     def prepare_attacks(self):
         """Prepare 5 attacks from each pet based on selected_strength."""
@@ -130,7 +139,7 @@ class ExciteTraining(Training):
             pattern = [1] * 5  # all normal, fail
 
         for i, pet in enumerate(pets):
-            sprite = self.attack_sprites.get(str(pet.atk_main))
+            sprite = self.get_attack_sprite(pet, pet.atk_main)
             if not sprite:
                 continue
             pet_y = start_y + i * spacing + constants.OPTION_ICON_SIZE // 2 - sprite.get_height() // 2

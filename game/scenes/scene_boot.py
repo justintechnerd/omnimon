@@ -101,6 +101,7 @@ class SceneBoot:
                 pet.begin_position()
                 if pet.state not in ["dead", "hatch", "nap"]:
                     pet.set_state("idle")
+                pet.patch()
             distribute_pets_evenly()
         else:
             change_scene("egg")

@@ -8,6 +8,177 @@ using System.Windows.Forms;
 
 namespace OmnimonModuleEditor.Tabs
 {
+    // Group Unlock Editor Form
+    public class GroupUnlockEditorForm : Form
+    {
+        private CheckedListBox checkedListBox;
+        private Button btnOK;
+        private Button btnCancel;
+        private Button btnSelectAll;
+        private Button btnSelectNone;
+        
+        public List<string> SelectedUnlocks { get; private set; }
+
+        public GroupUnlockEditorForm(List<string> currentSelection, List<OmnimonModuleEditor.Models.Unlock> allUnlocks)
+        {
+            InitializeComponent();
+            PopulateUnlocks(allUnlocks, currentSelection);
+        }
+
+        private void InitializeComponent()
+        {
+            this.Text = "Edit Group Unlock List";
+            this.Size = new Size(400, 500);
+            this.StartPosition = FormStartPosition.CenterParent;
+            this.FormBorderStyle = FormBorderStyle.FixedDialog;
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
+
+            var mainLayout = new TableLayoutPanel
+            {
+                Dock = DockStyle.Fill,
+                RowCount = 3,
+                ColumnCount = 1,
+                Padding = new Padding(10)
+            };
+            mainLayout.RowStyles.Add(new RowStyle(SizeType.AutoSize));
+            mainLayout.RowStyles.Add(new RowStyle(SizeType.Percent, 100));
+            mainLayout.RowStyles.Add(new RowStyle(SizeType.AutoSize));
+
+            // Title and instructions
+            var titleLabel = new Label
+            {
+                Text = "Select which unlocks must be completed for this group unlock to trigger:",
+                Dock = DockStyle.Fill,
+                AutoSize = true,
+                Font = new Font(SystemFonts.DefaultFont, FontStyle.Bold)
+            };
+            mainLayout.Controls.Add(titleLabel, 0, 0);
+
+            // CheckedListBox
+            checkedListBox = new CheckedListBox
+            {
+                Dock = DockStyle.Fill,
+                CheckOnClick = true,
+                IntegralHeight = false,
+                AutoSize = false // <- importante
+            };
+            mainLayout.Controls.Add(checkedListBox, 0, 1);
+
+            // Buttons panel
+            var buttonPanel = new FlowLayoutPanel
+            {
+                Dock = DockStyle.Fill,
+                FlowDirection = FlowDirection.RightToLeft,
+                Height = 35
+            };
+
+            btnCancel = new Button
+            {
+                Text = "Cancel",
+                DialogResult = DialogResult.Cancel,
+                Width = 75,
+                Height = 25,
+                Margin = new Padding(5, 5, 0, 0)
+            };
+
+            btnOK = new Button
+            {
+                Text = "OK",
+                DialogResult = DialogResult.OK,
+                Width = 75,
+                Height = 25,
+                Margin = new Padding(5, 5, 0, 0)
+            };
+
+            btnSelectNone = new Button
+            {
+                Text = "Select None",
+                Width = 80,
+                Height = 25,
+                Margin = new Padding(5, 5, 0, 0)
+            };
+            btnSelectNone.Click += (s, e) =>
+            {
+                for (int i = 0; i < checkedListBox.Items.Count; i++)
+                    checkedListBox.SetItemChecked(i, false);
+            };
+
+            btnSelectAll = new Button
+            {
+                Text = "Select All",
+                Width = 80,
+                Height = 25,
+                Margin = new Padding(5, 5, 0, 0)
+            };
+            btnSelectAll.Click += (s, e) =>
+            {
+                for (int i = 0; i < checkedListBox.Items.Count; i++)
+                    checkedListBox.SetItemChecked(i, true);
+            };
+
+            buttonPanel.Controls.Add(btnCancel);
+            buttonPanel.Controls.Add(btnOK);
+            buttonPanel.Controls.Add(btnSelectNone);
+            buttonPanel.Controls.Add(btnSelectAll);
+
+            mainLayout.Controls.Add(buttonPanel, 0, 2);
+
+            this.Controls.Add(mainLayout);
+            this.AcceptButton = btnOK;
+            this.CancelButton = btnCancel;
+
+            btnOK.Click += BtnOK_Click;
+        }
+
+        private void PopulateUnlocks(List<OmnimonModuleEditor.Models.Unlock> allUnlocks, List<string> currentSelection)
+        {
+            checkedListBox.Items.Clear();
+            
+            if (allUnlocks != null)
+            {
+                foreach (var unlock in allUnlocks)
+                {
+                    if (unlock.Type != "group") // Don't allow group unlocks to reference other group unlocks to avoid circular dependencies
+                    {
+                        string displayText = $"{unlock.Label ?? unlock.Name ?? "Unnamed"} ({unlock.Type})";
+                        checkedListBox.Items.Add(new UnlockItem { Unlock = unlock, DisplayText = displayText });
+                        
+                        // Check if this unlock is in the current selection
+                        if (currentSelection != null && currentSelection.Contains(unlock.Name))
+                        {
+                            checkedListBox.SetItemChecked(checkedListBox.Items.Count - 1, true);
+                        }
+                    }
+                }
+            }
+        }
+
+        private void BtnOK_Click(object sender, EventArgs e)
+        {
+            SelectedUnlocks = new List<string>();
+            
+            foreach (var item in checkedListBox.CheckedItems)
+            {
+                if (item is UnlockItem unlockItem)
+                {
+                    SelectedUnlocks.Add(unlockItem.Unlock.Name);
+                }
+            }
+        }
+
+        private class UnlockItem
+        {
+            public OmnimonModuleEditor.Models.Unlock Unlock { get; set; }
+            public string DisplayText { get; set; }
+
+            public override string ToString()
+            {
+                return DisplayText;
+            }
+        }
+    }
+
     /// <summary>
     /// Tab for managing and editing the main module settings, unlocks, and backgrounds.
     /// </summary>
@@ -183,7 +354,9 @@ namespace OmnimonModuleEditor.Tabs
                 DeathStage45Mistake = (int)(mainPanel.numDeathStage45Mistake?.Value ?? 0),
                 DeathStage67Mistake = (int)(mainPanel.numDeathStage67Mistake?.Value ?? 0),
                 DeathSaveByBPress = (int)(mainPanel.numDeathSaveByBPress?.Value ?? 0),
-                DeathSaveByShake = (int)(mainPanel.numDeathSaveByShake?.Value ?? 0)
+                DeathSaveByShake = (int)(mainPanel.numDeathSaveByShake?.Value ?? 0),
+                VitalValueBase = (int)(mainPanel.numVitalValueBase?.Value ?? 0),
+                VitalValueLoss = (int)(mainPanel.numVitalValueLoss?.Value ?? 0)
             };
 
             if (backgroundsPanel != null)
@@ -271,6 +444,10 @@ namespace OmnimonModuleEditor.Tabs
             mainPanel.numDeathSaveByBPress.Value = module.DeathSaveByBPress;
             mainPanel.numDeathSaveByShake.Value = module.DeathSaveByShake;
 
+            // Vital Values - NEW
+            mainPanel.numVitalValueBase.Value = module.VitalValueBase;
+            mainPanel.numVitalValueLoss.Value = module.VitalValueLoss;
+
             // Backgrounds
             if (backgroundsPanel != null)
                 backgroundsPanel.LoadBackgrounds(module.Backgrounds ?? new System.Collections.Generic.List<OmnimonModuleEditor.Models.Background>(), mainPanel.ModulePath);
@@ -321,6 +498,9 @@ namespace OmnimonModuleEditor.Tabs
             // Death
             public NumericUpDown numDeathMaxInjuries, numDeathCareMistake, numDeathSickTimer, numDeathHungerTimer, numDeathStarvationCount, numDeathStrengthTimer, numDeathStage45Mistake, numDeathStage67Mistake, numDeathSaveByBPress, numDeathSaveByShake;
 
+            // Vital Values - NEW
+            public NumericUpDown numVitalValueBase, numVitalValueLoss;
+
             public MainPanel()
             {
                 InitializeLayout();
@@ -330,25 +510,33 @@ namespace OmnimonModuleEditor.Tabs
             {
                 this.BackColor = SystemColors.Control;
 
-                // --- SPRITES & LABELS ---
+                // --- TOP SECTION: SPRITES ON LEFT, MAIN FIELDS ON RIGHT ---
+                var topSection = new TableLayoutPanel
+                {
+                    RowCount = 1,
+                    ColumnCount = 2,
+                    Dock = DockStyle.Top,
+                    Height = 180,
+                    AutoSize = false,
+                    Padding = new Padding(8)
+                };
+                topSection.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 400)); // Sprites column
+                topSection.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100)); // Main fields column
+
+                // --- SPRITES SECTION (LEFT) ---
                 var spriteTable = new TableLayoutPanel
                 {
                     RowCount = 2,
-                    ColumnCount = 5,
+                    ColumnCount = 3,
                     Dock = DockStyle.Fill,
-                    Width = 500,
-                    Height = 160,
                     CellBorderStyle = TableLayoutPanelCellBorderStyle.None,
-                    AutoSize = false,
-                    Anchor = AnchorStyles.Top
+                    AutoSize = false
                 };
-                spriteTable.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 20));
-                spriteTable.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 60));
-                spriteTable.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 240));
-                spriteTable.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 60));
-                spriteTable.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 20));
-                spriteTable.RowStyles.Add(new RowStyle(SizeType.Absolute, 120));
-                spriteTable.RowStyles.Add(new RowStyle(SizeType.Absolute, 30));
+                spriteTable.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 60));   // Flag
+                spriteTable.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 280));  // Logo
+                spriteTable.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 60));   // BattleIcon
+                spriteTable.RowStyles.Add(new RowStyle(SizeType.Absolute, 120)); // Sprites
+                spriteTable.RowStyles.Add(new RowStyle(SizeType.Absolute, 30));  // Labels
 
                 pbFlag = new SpriteBox(48, 48, "not found");
                 pbFlag.Click += (s, e) => SelectAndReplaceSprite("Flag.png");
@@ -380,18 +568,52 @@ namespace OmnimonModuleEditor.Tabs
                     AutoSize = false
                 };
 
-                spriteTable.Controls.Add(new Panel(), 0, 0);
-                spriteTable.Controls.Add(pbFlag, 1, 0);
-                spriteTable.Controls.Add(pbLogo, 2, 0);
-                spriteTable.Controls.Add(pbBattleIcon, 3, 0);
-                spriteTable.Controls.Add(new Panel(), 4, 0);
+                spriteTable.Controls.Add(pbFlag, 0, 0);
+                spriteTable.Controls.Add(pbLogo, 1, 0);
+                spriteTable.Controls.Add(pbBattleIcon, 2, 0);
+                spriteTable.Controls.Add(lblFlag, 0, 1);
+                spriteTable.Controls.Add(lblLogo, 1, 1);
+                spriteTable.Controls.Add(lblBattleIcon, 2, 1);
 
-                spriteTable.Controls.Add(new Panel(), 0, 1);
-                spriteTable.Controls.Add(lblFlag, 1, 1);
-                spriteTable.Controls.Add(lblLogo, 2, 1);
-                spriteTable.Controls.Add(lblBattleIcon, 3, 1);
-                spriteTable.Controls.Add(new Panel(), 4, 1);
+                // --- MAIN FIELDS SECTION (RIGHT) ---
+                var mainFieldsTable = new TableLayoutPanel
+                {
+                    RowCount = 4,
+                    ColumnCount = 2,
+                    Dock = DockStyle.Fill,
+                    Padding = new Padding(20, 0, 0, 0)
+                };
+                mainFieldsTable.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 120));
+                mainFieldsTable.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100));
 
+                // Create main fields
+                txtName = new TextBox() { Width = 200 };
+                txtVersion = new TextBox() { Width = 200 };
+                txtDescription = new TextBox() { Width = 200, Multiline = true, Height = 60, ScrollBars = ScrollBars.Vertical };
+                txtAuthor = new TextBox() { Width = 200 };
+
+                // Add main fields to table
+                var mainFields = new (string, Control)[]
+                {
+                    ("Name:", txtName),
+                    ("Version:", txtVersion),
+                    ("Description:", txtDescription),
+                    ("Author:", txtAuthor)
+                };
+
+                for (int i = 0; i < mainFields.Length; i++)
+                {
+                    mainFieldsTable.Controls.Add(new Label() 
+                    { 
+                        Text = mainFields[i].Item1, 
+                        Anchor = AnchorStyles.Right, 
+                        TextAlign = ContentAlignment.MiddleRight, 
+                        AutoSize = true 
+                    }, 0, i);
+                    mainFieldsTable.Controls.Add(mainFields[i].Item2, 1, i);
+                }
+
+                // Add refresh button
                 btnRefresh = new Button
                 {
                     Text = "Refresh",
@@ -401,7 +623,11 @@ namespace OmnimonModuleEditor.Tabs
                 };
                 btnRefresh.Click += (s, e) => ReloadSprites();
 
-                // --- FIELDS TABLE (3 columns, each with label+input) ---
+                // Add sections to top layout
+                topSection.Controls.Add(spriteTable, 0, 0);
+                topSection.Controls.Add(mainFieldsTable, 1, 0);
+
+                // --- CONFIGURATION FIELDS TABLE (3 columns, each with label+input) ---
                 var fieldsTable = new TableLayoutPanel
                 {
                     ColumnCount = 6, // 3 columns: label+input, label+input, label+input
@@ -412,17 +638,12 @@ namespace OmnimonModuleEditor.Tabs
                 for (int i = 0; i < 6; i++)
                     fieldsTable.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 16.66f));
 
-                // Agrupar os campos em 3 listas para distribuir nas colunas
+                // Configuration fields (moved main fields out of here)
                 var col1 = new (string, Control)[]
                 {
-                    ("Name:", txtName = new TextBox() { Width = 140 }),
-                    ("Version:", txtVersion = new TextBox() { Width = 140 }),
-                    ("Description:", txtDescription = new TextBox() { Width = 140, Multiline = true, Height = 60, ScrollBars = ScrollBars.Vertical }),
-                    ("Author:", txtAuthor = new TextBox() { Width = 140 }),
                     ("Name Format:", txtNameFormat = new TextBox() { Width = 140, Text = "$_dmc" }),
                     ("Ruleset:", cmbRuleset = new ComboBox() { DropDownStyle = ComboBoxStyle.DropDownList, Width = 140 }),
                     ("Adventure Mode:", chkAdventureMode = new CheckBox()),
-
                     ("Training Effort Gain:", numTrainingEffortGain = CreateNumeric(0, 100, 1)),
                     ("Training Strengh Gain:", numTrainingStrenghGain = CreateNumeric(0, 100, 1)),
                     ("Training Weight Win:", numTrainingWeightWin = CreateNumeric(0, 100, 4)),
@@ -434,9 +655,8 @@ namespace OmnimonModuleEditor.Tabs
                     ("Battle Atribute Advantage:", numBattleAtributeAdvantage = CreateNumeric(0, 100, 5)),
                     ("Battle Global Hit Points:", numBattleGlobalHitPoints = CreateNumeric(0, 100, 4)),
                     ("Battle Sequential Rounds:", chkBattleSequentialRounds = new CheckBox()),
-                    ("", new Label()),
-
                 };
+
                 cmbRuleset.Items.AddRange(Enum.GetNames(typeof(Models.RulesetType)));
                 cmbRuleset.SelectedIndex = 0;
 
@@ -472,6 +692,8 @@ namespace OmnimonModuleEditor.Tabs
                     ("Death Stage67 Mistake:", numDeathStage67Mistake = CreateNumeric(0, 100, 5)),
                     ("Death Save By B Press:", numDeathSaveByBPress = CreateNumeric(0, 100, 0)),
                     ("Death Save By Shake:", numDeathSaveByShake = CreateNumeric(0, 100, 0)),
+                    ("Vital Value Base:", numVitalValueBase = CreateNumeric(0, 1000, 1)),
+                    ("Vital Value Loss:", numVitalValueLoss = CreateNumeric(0, 1000, 1)),
                 };
 
                 // Descobrir o maior número de linhas
@@ -514,7 +736,7 @@ namespace OmnimonModuleEditor.Tabs
                     }
                 }
 
-                // --- ROOT TABLE ---
+                // --- ROOT LAYOUT ---
                 var rootTable = new TableLayoutPanel
                 {
                     RowCount = 2,
@@ -522,9 +744,9 @@ namespace OmnimonModuleEditor.Tabs
                     Dock = DockStyle.Fill,
                     AutoSize = true
                 };
-                rootTable.RowStyles.Add(new RowStyle(SizeType.Absolute, 170));
-                rootTable.RowStyles.Add(new RowStyle(SizeType.Percent, 100));
-                rootTable.Controls.Add(spriteTable, 0, 0);
+                rootTable.RowStyles.Add(new RowStyle(SizeType.Absolute, 200)); // Top section
+                rootTable.RowStyles.Add(new RowStyle(SizeType.Percent, 100));  // Configuration fields
+                rootTable.Controls.Add(topSection, 0, 0);
                 rootTable.Controls.Add(fieldsTable, 0, 1);
 
                 this.Controls.Add(rootTable);
@@ -709,7 +931,7 @@ namespace OmnimonModuleEditor.Tabs
                 {
                     DataPropertyName = "Type",
                     HeaderText = "Type",
-                    DataSource = new[] { "egg", "adventure", "evolution", "digidex" },
+                    DataSource = new[] { "egg", "adventure", "evolution", "digidex", "group" },
                     FlatStyle = FlatStyle.Flat
                 };
                 dgvUnlocks.Columns.Add(colType);
@@ -750,6 +972,16 @@ namespace OmnimonModuleEditor.Tabs
                     Name = "To"
                 };
                 dgvUnlocks.Columns.Add(colTo);
+
+                // List column (for group unlock type)
+                var colList = new DataGridViewButtonColumn
+                {
+                    HeaderText = "List",
+                    Name = "List",
+                    UseColumnTextForButtonValue = false,
+                    Text = "Edit"
+                };
+                dgvUnlocks.Columns.Add(colList);
 
                 bindingSource = new BindingSource();
                 dgvUnlocks.DataSource = bindingSource;
@@ -799,13 +1031,17 @@ namespace OmnimonModuleEditor.Tabs
                 this.Controls.Add(layout);
 
                 dgvUnlocks.CellFormatting += DgvUnlocks_CellFormatting;
+                dgvUnlocks.CellClick += DgvUnlocks_CellClick;
             }
 
             public void LoadUnlocks(System.Collections.Generic.List<OmnimonModuleEditor.Models.Unlock> unlocks)
             {
                 this.unlocks = unlocks ?? new System.Collections.Generic.List<OmnimonModuleEditor.Models.Unlock>();
                 foreach (var u in this.unlocks)
+                {
                     u.To = u.To ?? new List<string>();
+                    u.List = u.List ?? new List<string>();
+                }
                 bindingSource.DataSource = this.unlocks;
                 dgvUnlocks.Refresh();
             }
@@ -842,7 +1078,8 @@ namespace OmnimonModuleEditor.Tabs
                             Version = unlock.Version,
                             Area = unlock.Area,
                             Amount = unlock.Amount,
-                            To = toList
+                            To = toList,
+                            List = unlock.List ?? new List<string>()
                         });
                     }
                 }
@@ -862,7 +1099,8 @@ namespace OmnimonModuleEditor.Tabs
                     Version = 0,
                     Area = 0,
                     To = new System.Collections.Generic.List<string>(),
-                    Amount = 1 // valor padrão
+                    Amount = 1, // valor padrão
+                    List = new System.Collections.Generic.List<string>()
                 };
                 unlocks.Add(unlock);
 
@@ -892,6 +1130,40 @@ namespace OmnimonModuleEditor.Tabs
                     var unlock = dgvUnlocks.Rows[e.RowIndex].DataBoundItem as OmnimonModuleEditor.Models.Unlock;
                     if (unlock != null && unlock.To != null)
                         e.Value = string.Join(",", unlock.To);
+                }
+                else if (dgvUnlocks.Columns[e.ColumnIndex].Name == "List")
+                {
+                    var unlock = dgvUnlocks.Rows[e.RowIndex].DataBoundItem as OmnimonModuleEditor.Models.Unlock;
+                    if (unlock != null && unlock.Type == "group")
+                    {
+                        e.Value = unlock.List != null && unlock.List.Count > 0 
+                            ? $"{unlock.List.Count} items" 
+                            : "Edit";
+                    }
+                    else
+                    {
+                        e.Value = "";
+                    }
+                }
+            }
+
+            private void DgvUnlocks_CellClick(object sender, DataGridViewCellEventArgs e)
+            {
+                if (e.RowIndex >= 0 && e.ColumnIndex >= 0 && 
+                    dgvUnlocks.Columns[e.ColumnIndex].Name == "List")
+                {
+                    var unlock = dgvUnlocks.Rows[e.RowIndex].DataBoundItem as OmnimonModuleEditor.Models.Unlock;
+                    if (unlock != null && unlock.Type == "group")
+                    {
+                        using (var form = new GroupUnlockEditorForm(unlock.List ?? new List<string>(), unlocks))
+                        {
+                            if (form.ShowDialog() == DialogResult.OK)
+                            {
+                                unlock.List = form.SelectedUnlocks;
+                                dgvUnlocks.InvalidateRow(e.RowIndex);
+                            }
+                        }
+                    }
                 }
             }
         }

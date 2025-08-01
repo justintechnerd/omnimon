@@ -755,27 +755,7 @@ namespace OmnimonModuleEditor.Tabs
 
             public void LoadAtkSprites(string modulePath)
             {
-                atkSprites.Clear();
-                // Caminho igual ao PetTab: ...\resources\atk
-                string modulesDir = Path.GetDirectoryName(modulePath.TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar));
-                string rootDir = Path.GetDirectoryName(modulesDir); // vai para a raiz do projeto
-                string resourcesAtk = Path.Combine(rootDir, "resources", "atk");
-                for (int i = 1; i <= 117; i++)
-                {
-                    string path = Path.Combine(resourcesAtk, $"{i}.png");
-                    if (File.Exists(path))
-                    {
-                        try
-                        {
-                            atkSprites[i] = Image.FromFile(path);
-                        }
-                        catch { atkSprites[i] = null; }
-                    }
-                    else
-                    {
-                        atkSprites[i] = null;
-                    }
-                }
+                this.atkSprites = PetUtils.LoadAtkSprites(modulePath);
             }
 
             public void PopulateAtkCombos()

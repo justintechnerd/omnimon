@@ -120,6 +120,10 @@ class HeadToHeadTraining(Training):
         blit_with_shadow(surface, wins_text, (start_x, y))
         blit_with_shadow(surface, vs_img, (start_x + wins_text.get_width() + int(10 * constants.UI_SCALE), y))
         blit_with_shadow(surface, losses_text, (start_x + wins_text.get_width() + vs_img.get_width() + int(20 * constants.UI_SCALE), y))
+        
+        # Draw trophy notification if won
+        if self.victories > self.failures:
+            self.draw_trophy_notification(surface)
 
     def move_attacks(self):
         finished = False
@@ -184,9 +188,9 @@ class HeadToHeadTraining(Training):
         left_dir = self.pattern[self.current_index]
         right_dir = self.player_input
 
-        left_sprite = self.attack_sprites.get(str(self.left_pet.atk_main))
+        left_sprite = self.get_attack_sprite(self.left_pet, self.left_pet.atk_main)
         left_sprite = pygame.transform.flip(left_sprite, True, False)
-        right_sprite = self.attack_sprites.get(str(self.right_pet.atk_main))
+        right_sprite = self.get_attack_sprite(self.right_pet, self.right_pet.atk_main)
 
         y_base = constants.SCREEN_WIDTH // 2 - constants.PET_WIDTH // 2
         y_up = constants.SCREEN_HEIGHT // 2 - constants.PET_WIDTH // 2
@@ -219,3 +223,10 @@ class HeadToHeadTraining(Training):
 
     def check_victory(self):
         return self.victories > self.failures
+
+    def check_and_award_trophies(self):
+        """Award trophy on winning head-to-head training"""
+        if self.victories > self.failures:
+            for pet in self.pets:
+                pet.trophies += 1
+            runtime_globals.game_console.log(f"[TROPHY] Head-to-head training won! Trophy awarded.")

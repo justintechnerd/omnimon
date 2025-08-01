@@ -180,7 +180,7 @@ public class EvolutionCriteriaForm : Form
 
         AddLabel(Resources.EvolutionCriteriaForm_LabelAttributeJogress);
         cmbAttribute = new ComboBox { DropDownStyle = ComboBoxStyle.DropDownList, Width = 80 };
-        cmbAttribute.Items.AddRange(new object[] { "", "Da", "Vi", "Va" });
+        cmbAttribute.Items.AddRange(new object[] { "", "Da", "Vi", "Va", "Free" });
         AddControl(cmbAttribute);
 
         AddLabel(Resources.EvolutionCriteriaForm_LabelSpecialEncounter);

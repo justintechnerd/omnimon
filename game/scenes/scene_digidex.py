@@ -63,9 +63,11 @@ class SceneDigidex:
 
     def build_pet_list(self):
         all_entries = []
-        knowncount = 0
+        known_count_by_module = {}  # Track known pets per module
+        
         for module in runtime_globals.game_modules.values():
             monsters = module.get_all_monsters()
+            module_known_count = 0
 
             for monster in monsters:
                 name = monster["name"]
@@ -80,18 +82,21 @@ class SceneDigidex:
                     attribute = "???"
                     sprite = self.unknown_sprite
                 else:
-                    knowncount += 1
+                    module_known_count += 1
                     sprite = None
                 entry = GameDigidexEntry(name, attribute, stage, module.name, version, sprite, known, name_format)
                 all_entries.append(entry)
+            
+            known_count_by_module[module.name] = module_known_count
 
-        # Generic unlock logic for digidex unlocks
+        # Generic unlock logic for digidex unlocks - per module
         for module in runtime_globals.game_modules.values():
             unlocks = getattr(module, "unlocks", [])
             if isinstance(unlocks, list):
+                module_known_count = known_count_by_module.get(module.name, 0)
                 for unlock in unlocks:
                     if unlock.get("type") == "digidex" and "amout" in unlock:
-                        if knowncount >= unlock["amout"]:
+                        if module_known_count >= unlock["amout"]:
                             unlock_item(module.name, "digidex", unlock["name"])
 
         # Ordena: estágio, nome do módulo, versão

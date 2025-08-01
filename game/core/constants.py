@@ -160,6 +160,7 @@ ARMOR_EVOLUTION_ICON_PATH = "resources/ArmorEvolution.png"
 DUMMY_TRAINING_ICON_PATH = "resources/BagIcon.png"
 SHAKE_MATCH_ICON_PATH = "resources/CountTrainingIcon.png"
 EXCITE_MATCH_ICON_PATH = "resources/ExciteTrainingIcon.png"
+PUNCH_MATCH_ICON_PATH = "resources/PunchTrainingIcon.png"
 XAIARROW_ICON_PATH = "resources/XaiArrow.png"
 BOSS_MULTIPLIER = 1.5 
 
@@ -180,6 +181,8 @@ OVERFEED_ICON_PATH = "resources/Overfeed.png"
 SICK_ICON_PATH = "resources/Sick1.png"
 SLEEP_DISTURBANCES_ICON_PATH = "resources/SleepDisturbances.png"
 XAI_ICON_PATH = "resources/Xai.png"
+TROPHIES_ICON_PATH = "resources/trophies.png"
+VITAL_VALUES_ICON_PATH = "resources/vitalvalues.png"
 
 #=====================================================================
 # Paths: UI Icons

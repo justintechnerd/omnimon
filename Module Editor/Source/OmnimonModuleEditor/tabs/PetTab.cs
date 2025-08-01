@@ -1010,31 +1010,6 @@ namespace OmnimonModuleEditor.Tabs
                 };
             }
 
-            public void LoadAtkSprites(string modulePath)
-            {
-                atkSprites.Clear();
-                // Go up two levels: from ...\modules\module to ...\resources\atk
-                string modulesDir = Path.GetDirectoryName(modulePath.TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar));
-                string rootDir = Path.GetDirectoryName(modulesDir); // go to project root
-                string resourcesAtk = Path.Combine(rootDir, "resources", "atk");
-                for (int i = 1; i <= 117; i++)
-                {
-                    string path = Path.Combine(resourcesAtk, $"{i}.png");
-                    if (File.Exists(path))
-                    {
-                        try
-                        {
-                            atkSprites[i] = Image.FromFile(path);
-                        }
-                        catch { atkSprites[i] = null; }
-                    }
-                    else
-                    {
-                        atkSprites[i] = null;
-                    }
-                }
-            }
-
             public void PopulateAtkCombos()
             {
                 // Clear and add item 0 (None)
@@ -1069,6 +1044,11 @@ namespace OmnimonModuleEditor.Tabs
                     e.Graphics.DrawString(item.ToString(), e.Font, brush, x, e.Bounds.Top + 8);
                 }
                 e.DrawFocusRectangle();
+            }
+
+            internal void LoadAtkSprites(string modulePath)
+            {
+                this.atkSprites = PetUtils.LoadAtkSprites(modulePath);
             }
         }
 

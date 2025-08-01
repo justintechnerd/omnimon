@@ -53,6 +53,7 @@ class WindowStatus:
             "heart_empty": constants.HEART_EMPTY_ICON_PATH, "heart_half": constants.HEART_HALF_ICON_PATH,
             "heart_full": constants.HEART_FULL_ICON_PATH, "energy_bar": constants.ENERGY_BAR_ICON_PATH,
             "energy_bar_back": constants.ENERGY_BAR_BACK_ICON_PATH, "level": constants.LEVEL_ICON_PATH, "exp": constants.EXP_ICON_PATH,
+            "trophies": constants.TROPHIES_ICON_PATH, "vital_values": constants.VITAL_VALUES_ICON_PATH,
         }
         # Use sprite_load_percent for all icons, scale to MENU_ICON_SIZE height, keep proportions
         return {
@@ -147,8 +148,25 @@ class WindowStatus:
         blit_with_shadow(surface, self.font_small.render("Strength:", True, constants.FONT_COLOR_DEFAULT), (PAGE_MARGIN, PAGE_MARGIN + distance))
         self.draw_hearts(surface, int(constants.SCREEN_WIDTH - (110 * constants.UI_SCALE)), PAGE_MARGIN + distance + int(5 * constants.UI_SCALE), self.pet.strength)
 
-        # Level and Experience (on the same line, with icons)
-        level_exp_y = PAGE_MARGIN + distance * 2
+        # Trophies and Vital Values (icons only on the same line)
+        y_pos_trophies_vital = PAGE_MARGIN + distance * 2
+        icon_spacing = int(115 * constants.UI_SCALE)
+        
+        # Trophies icon and value
+        blit_with_shadow(surface, self.sprites["trophies"], (PAGE_MARGIN, y_pos_trophies_vital))
+        trophies_value = str(getattr(self.pet, 'trophies', 0))
+        trophies_text = self.font_small.render(trophies_value, True, constants.FONT_COLOR_DEFAULT)
+        blit_with_shadow(surface, trophies_text, (PAGE_MARGIN + int(32 * constants.UI_SCALE), y_pos_trophies_vital))
+
+        # Vital Values icon and value  
+        vital_x = PAGE_MARGIN + icon_spacing
+        blit_with_shadow(surface, self.sprites["vital_values"], (vital_x, y_pos_trophies_vital))
+        vital_values_value = str(getattr(self.pet, 'vital_values', 0))
+        vital_values_text = self.font_small.render(vital_values_value, True, constants.FONT_COLOR_DEFAULT)
+        blit_with_shadow(surface, vital_values_text, (vital_x + int(32 * constants.UI_SCALE), y_pos_trophies_vital))
+
+        # Level and Experience (moved down, now on 3rd line, with icons)
+        level_exp_y = PAGE_MARGIN + distance * 3
         icon_spacing = int(40 * constants.UI_SCALE)
         icon_y = level_exp_y - int(2 * constants.UI_SCALE)
         # Level icon and value
@@ -161,8 +179,8 @@ class WindowStatus:
         exp_text = self.font_small.render(f"EXP: {exp_val}", True, constants.FONT_COLOR_DEFAULT)
         blit_with_shadow(surface, exp_text, (exp_icon_x + icon_spacing, level_exp_y))
 
-        # Condition hearts or mistakes (next line, with icon for mistakes)
-        y_pos = PAGE_MARGIN + distance * 3
+        # Condition hearts or mistakes (moved down, now on 4th line, with icon for mistakes)
+        y_pos = PAGE_MARGIN + distance * 4
         if getattr(module, "use_condition_hearts", False):
             blit_with_shadow(surface, self.font_small.render("Condition:", True, constants.FONT_COLOR_DEFAULT), (PAGE_MARGIN, y_pos))
             self.draw_hearts(surface, int(constants.SCREEN_WIDTH - (110 * constants.UI_SCALE)), y_pos + int(5 * constants.UI_SCALE), getattr(self.pet, "condition_hearts", 0))
@@ -172,8 +190,8 @@ class WindowStatus:
             mistakes_text = self.font_small.render(f"Mistakes: {mistakes}", True, constants.FONT_COLOR_DEFAULT)
             blit_with_shadow(surface, mistakes_text, (PAGE_MARGIN + icon_spacing, y_pos))
 
-        # Sleep disturbances, overfeed, sick (all on the same line, with icons)
-        y_pos2 = PAGE_MARGIN + distance * 4
+        # Sleep disturbances, overfeed, sick (moved down, now on 5th line, with icons)
+        y_pos2 = PAGE_MARGIN + distance * 5
         icon_spacing = int(80 * constants.UI_SCALE)
         x_icon = PAGE_MARGIN
 
@@ -197,8 +215,8 @@ class WindowStatus:
         sick_text = self.font_small.render(str(sick), True, constants.FONT_COLOR_DEFAULT)
         blit_with_shadow(surface, sick_text, (x_icon + int(32 * constants.UI_SCALE), y_pos2))
 
-        # Can Battle and Can Jogress (on the same line, compact)
-        y_pos3 = PAGE_MARGIN + distance * 5
+        # Can Battle and Can Jogress (last line, compact)
+        y_pos3 = PAGE_MARGIN + distance * 6
         can_battle = "Y" if getattr(self.pet, "can_battle", lambda: False)() else "N"
         can_jogress = "Y" if getattr(self.pet, "jogress_avaliable", False) else "N"
         battle_jogress_text = f"Battle: {can_battle}   Jogress: {can_jogress}"

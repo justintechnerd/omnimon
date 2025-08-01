@@ -14,7 +14,7 @@ from core.combat.sim.models import Digimon
 from core.game_module import sprite_load
 from core.utils.module_utils import get_module
 from core.utils.pet_utils import distribute_pets_evenly, get_battle_targets
-from core.utils.pygame_utils import blit_with_cache, get_font, load_attack_sprites, sprite_load_percent
+from core.utils.pygame_utils import blit_with_cache, get_font, load_attack_sprites, module_attack_sprites, sprite_load_percent
 from core.utils.scene_utils import change_scene
 from core.utils.utils_unlocks import unlock_item
 from core.utils import inventory_utils
@@ -79,6 +79,11 @@ class BattleEncounter:
         }
         self.mega_hit = sprite_load_percent(constants.MEGA_HIT_PATH, 100, keep_proportion=True, base_on="width")
         self.attack_sprites = load_attack_sprites()
+        
+        # Load module-specific attack sprites for pets and enemies
+        self.module_attack_sprites = {}
+        self.load_module_attack_sprites()
+        
         self.hit_animation_frames = self.load_hit_animation()
         self.hit_animations = []
         self.turn_limit = 12
@@ -168,6 +173,9 @@ class BattleEncounter:
             runtime_globals.game_console.log(f"[BattleEncounter] Strength boost applied: +{self.strength_bonus}")
 
         self.battle_player = GameBattle(get_battle_targets(), self.enemies, self.hp_boost, self.attack_boost, self.module)
+        
+        # Reload module attack sprites for the current battle participants
+        self.load_module_attack_sprites()
 
     def load_enemies(self):
         """
@@ -203,6 +211,39 @@ class BattleEncounter:
             frame = sprite_sheet.subsurface(pygame.Rect(i * constants.PET_WIDTH, 0, constants.PET_WIDTH, constants.PET_HEIGHT))
             frames.append(frame)
         return frames
+
+    def load_module_attack_sprites(self):
+        """
+        Load module-specific attack sprites for all pets and enemies in battle.
+        """
+        # Get all unique modules from pets and enemies
+        modules_to_load = set()
+        
+        # Add modules from battle targets (pets)
+        for pet in get_battle_targets():
+            modules_to_load.add(pet.module)
+        
+        # Add module from enemies (they use the same module as the battle area)
+        modules_to_load.add(self.module.name)
+        
+        # Load sprites for each unique module
+        for module_name in modules_to_load:
+            self.module_attack_sprites[module_name] = module_attack_sprites(module_name)
+
+    def get_attack_sprite(self, entity, attack_id):
+        """
+        Get attack sprite for a pet or enemy, preferring module-specific sprites over defaults.
+        """
+        module_name = getattr(entity, 'module', self.module.name)
+        
+        # First try module-specific attack sprites
+        if module_name in self.module_attack_sprites:
+            module_sprite = self.module_attack_sprites[module_name].get(str(attack_id))
+            if module_sprite:
+                return module_sprite
+        
+        # Fall back to default attack sprites
+        return self.attack_sprites.get(str(attack_id))
 
     #========================
     # Region: Update Methods
@@ -537,7 +578,7 @@ class BattleEncounter:
                 atk_id = str(pet.atk_alt)
             else:
                 atk_id = str(pet.atk_main)
-        atk_sprite = self.attack_sprites.get(atk_id)
+        atk_sprite = self.get_attack_sprite(pet, atk_id)
 
         # Start position
         y = self.get_y(pet_index, len(self.battle_player.team1)) + atk_sprite.get_height() // 2
@@ -612,7 +653,7 @@ class BattleEncounter:
                 atk_id = str(enemy.atk_alt)
             else:
                 atk_id = str(enemy.atk_main)
-        base_sprite = self.attack_sprites.get(atk_id)
+        base_sprite = self.get_attack_sprite(enemy, atk_id)
         base_sprite = pygame.transform.flip(base_sprite, True, False)
 
         y = self.get_y(enemy_index, len(self.battle_player.team2)) + base_sprite.get_height() // 2
@@ -794,8 +835,25 @@ class BattleEncounter:
                 unlocks = getattr(self.module, "unlocks", None)
                 if isinstance(unlocks, list):
                     for unlock in unlocks:
+                        unlocked = False
+                        
+                        # Check for area-based unlocks
                         if unlock.get("type") == "adventure" and unlock.get("area") == self.area:
+                            unlocked = True
+                        
+                        # Check for boss-specific unlock keys
+                        elif unlock.get("type") == "adventure" and "name" in unlock:
+                            unlock_name = unlock["name"]
+                            # Check if any defeated enemy has this unlock key
+                            for enemy in self.battle_player.team2:
+                                if hasattr(enemy, 'unlock') and enemy.unlock == unlock_name:
+                                    unlocked = True
+                                    runtime_globals.game_console.log(f"[Adventure] Boss {enemy.name} dropped unlock key: {unlock_name}")
+                                    break
+                        
+                        if unlocked:
                             unlock_item(self.module.name, "adventure", unlock["name"])
+                            runtime_globals.game_console.log(f"[Adventure] Unlocked: {unlock['name']}")
 
                 self.area += 1
                 self.round = 1

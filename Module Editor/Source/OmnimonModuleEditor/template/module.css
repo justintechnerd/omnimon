@@ -225,13 +225,13 @@ body {
 }
 
 .boolean-true {
-    color: #27ae60;
-    font-weight: bold;
+    color: #28a745; /* Green */
+    font-weight: 600;
 }
 
 .boolean-false {
-    color: #e74c3c;
-    font-weight: bold;
+    color: #dc3545; /* Red */
+    font-weight: 600;
 }
 
 /* UNLOCKS PAGE STYLES */

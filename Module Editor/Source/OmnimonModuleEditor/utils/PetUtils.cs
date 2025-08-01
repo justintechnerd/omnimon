@@ -156,5 +156,49 @@ namespace OmnimonModuleEditor.Utils
             }
             return sprites;
         }
+
+        public static Dictionary<int, Image> LoadAtkSprites(string modulePath)
+        {
+            Dictionary<int, Image> atkSprites = new Dictionary<int, Image>();
+            // Caminho do fallback: ...\resources\atk
+            string modulesDir = Path.GetDirectoryName(modulePath.TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar));
+            string rootDir = Path.GetDirectoryName(modulesDir); //go to the root directory
+            string resourcesAtk = Path.Combine(rootDir, "resources", "atk");
+
+            // Novo: caminho do módulo
+            string moduleAtk = Path.Combine(modulePath, "atk");
+            bool moduleAtkExists = Directory.Exists(moduleAtk);
+
+            for (int i = 1; i <= 117; i++)
+            {
+                string path = null;
+                if (moduleAtkExists)
+                {
+                    string customPath = Path.Combine(moduleAtk, $"{i}.png");
+                    if (File.Exists(customPath))
+                        path = customPath;
+                }
+                if (path == null)
+                {
+                    string fallbackPath = Path.Combine(resourcesAtk, $"{i}.png");
+                    if (File.Exists(fallbackPath))
+                        path = fallbackPath;
+                }
+
+                if (path != null)
+                {
+                    try
+                    {
+                        atkSprites[i] = Image.FromFile(path);
+                    }
+                    catch { atkSprites[i] = null; }
+                }
+                else
+                {
+                    atkSprites[i] = null;
+                }
+            }
+            return atkSprites;
+        }
     }
 }

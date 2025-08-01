@@ -36,11 +36,37 @@ def unlock_item(module: str, unlock_type: str, name: str, label: str = None):
         game_globals.unlocks[module].append(unlock_entry)
         runtime_globals.game_message.add_slide(f"{entry_label} unlocked!", (255, 255, 0), 56 * UI_SCALE, FONT_SIZE_SMALL)
 
+        # --- Group unlock logic ---
+        # After unlocking, check for group unlocks in this module
+        for group_unlock in unlocks:
+            if group_unlock.get("type") == "group" and isinstance(group_unlock.get("list"), list):
+                group_list = group_unlock["list"]
+                # If the just-unlocked item is in the group list
+                if name in group_list:
+                    # Check if all items in the group list are unlocked
+                    all_unlocked = all(
+                        is_unlocked(module, None, key)  # None means any type
+                        if not any(u.get("name") == key for u in game_globals.unlocks[module])
+                        else True
+                        for key in group_list
+                    )
+                    # If all are unlocked, unlock the group record
+                    if all_unlocked and not is_unlocked(module, "group", group_unlock["name"]):
+                        group_label = group_unlock.get("label", group_unlock["name"])
+                        group_entry = {"type": "group", "name": group_unlock["name"]}
+                        if group_label:
+                            group_entry["label"] = group_label
+                        game_globals.unlocks[module].append(group_entry)
+                        runtime_globals.game_message.add_slide(f"{group_label} unlocked!", (255, 255, 0), 56 * UI_SCALE, FONT_SIZE_SMALL)
+
 def is_unlocked(module: str, unlock_type: str, name: str) -> bool:
     """
     Checks if an item is unlocked.
+    If unlock_type is None, checks for any type with that name.
     """
     ensure_module_key(module)
+    if unlock_type is None:
+        return any(isinstance(u, dict) and u.get("name") == name for u in game_globals.unlocks[module])
     return any(isinstance(u, dict) and u.get("type") == unlock_type and u.get("name") == name for u in game_globals.unlocks[module])
 
 def get_unlocked_backgrounds(module: str, module_backgrounds: list = None) -> list[dict]:

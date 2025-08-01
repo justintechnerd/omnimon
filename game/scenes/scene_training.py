@@ -14,6 +14,7 @@ from core.combat.count_training import CountMatchTraining
 from core.combat.dummy_training import DummyTraining
 from core.combat.excite_training import ExciteTraining
 from core.combat.head_training import HeadToHeadTraining
+from game.core.combat.shake_training import ShakeTraining
 import game.core.constants as constants
 from core.utils.pet_utils import get_training_targets
 from core.utils.pygame_utils import get_font, sprite_load_percent
@@ -41,6 +42,9 @@ class SceneTraining:
 
         if runtime_globals.dmx_enabled:
             self.options.append(("Excite", sprite_load_percent(constants.EXCITE_MATCH_ICON_PATH, percent=(constants.OPTION_ICON_SIZE / constants.SCREEN_HEIGHT) * 100, keep_proportion=True, base_on="height")))
+
+        if runtime_globals.dmc_enabled:
+            self.options.append(("Punch", sprite_load_percent(constants.PUNCH_MATCH_ICON_PATH, percent=(constants.OPTION_ICON_SIZE / constants.SCREEN_HEIGHT) * 100, keep_proportion=True, base_on="height")))
 
         self.selectionBackground = sprite_load_percent(constants.PET_SELECTION_BACKGROUND_PATH, percent=100, keep_proportion=True, base_on="width")
         self.backgroundIm = sprite_load_percent(constants.TRAINING_BACKGROUND_PATH, percent=100, keep_proportion=True, base_on="width")
@@ -163,6 +167,16 @@ class SceneTraining:
                     self.phase = "excite"
                     self.mode = ExciteTraining()
                     runtime_globals.game_console.log("Starting Dummy Training.")
+                    for pet in get_training_targets():
+                        pet.check_disturbed_sleep()
+                else:
+                    runtime_globals.game_sound.play("cancel")
+            elif selected == "Punch":
+                if len(get_training_targets()) > 0:
+                    runtime_globals.game_sound.play("menu")
+                    self.phase = "punch"
+                    self.mode = ShakeTraining()
+                    runtime_globals.game_console.log("Starting Shake Training.")
                     for pet in get_training_targets():
                         pet.check_disturbed_sleep()
                 else:

@@ -1,5 +1,8 @@
 {
   "name": "DMX",
+  "version": "1.0.1",
+  "description": "A reimplementation of the Digital Monster X devices, you can find more at https://humulos.com/digimon/dmx/manual/.",
+  "author": "Sundeth, Reviewed by: justintechnerd and Pepperoni Secret",
   "name_format": "$_dmc",
   "ruleset": "dmx",
   "adventure_mode": true,
@@ -39,6 +42,8 @@
   "death_stage67_mistake": 5,
   "death_save_by_b_press": 100,
   "death_save_by_shake": 0,
+  "vital_value_base": 50,
+  "vital_value_loss": 50,
   "unlocks": [
     {
       "name": "ver1",
@@ -46,8 +51,9 @@
       "version": 1,
       "label": "Ver.1",
       "area": null,
-      "to": null,
-      "amount": null
+      "to": [],
+      "amount": null,
+      "list": []
     },
     {
       "name": "ver2",
@@ -55,8 +61,9 @@
       "version": 2,
       "label": "Ver.2",
       "area": null,
-      "to": null,
-      "amount": null
+      "to": [],
+      "amount": null,
+      "list": []
     },
     {
       "name": "ver3",
@@ -64,8 +71,9 @@
       "version": 3,
       "label": "Ver.3",
       "area": null,
-      "to": null,
-      "amount": null
+      "to": [],
+      "amount": null,
+      "list": []
     },
     {
       "name": "ver4",
@@ -73,8 +81,9 @@
       "version": 4,
       "label": "Ver.4",
       "area": null,
-      "to": null,
-      "amount": null
+      "to": [],
+      "amount": null,
+      "list": []
     },
     {
       "name": "ver5",
@@ -82,8 +91,9 @@
       "version": 5,
       "label": "Ver.5",
       "area": null,
-      "to": null,
-      "amount": null
+      "to": [],
+      "amount": null,
+      "list": []
     },
     {
       "name": "ver6",
@@ -91,8 +101,9 @@
       "version": 6,
       "label": "Ver.6",
       "area": null,
-      "to": null,
-      "amount": null
+      "to": [],
+      "amount": null,
+      "list": []
     },
     {
       "name": "Alphamon: Ouryuken",
@@ -100,8 +111,9 @@
       "version": null,
       "label": "Alphamon: Ouryuken",
       "area": null,
-      "to": null,
-      "amount": null
+      "to": [],
+      "amount": null,
+      "list": []
     },
     {
       "name": "Angewomon X",
@@ -109,17 +121,19 @@
       "version": null,
       "label": "Angewomon X",
       "area": null,
-      "to": null,
-      "amount": null
+      "to": [],
+      "amount": null,
+      "list": []
     },
-     {
+    {
       "name": "Bagramon",
       "type": "adventure",
       "version": null,
       "label": "Bagramon",
       "area": 45,
-      "to": null,
-      "amount": null
+      "to": [],
+      "amount": null,
+      "list": []
     },
     {
       "name": "BeelStarmon X",
@@ -127,8 +141,9 @@
       "version": null,
       "label": "BeelStarmon X",
       "area": 24,
-      "to": null,
-      "amount": null
+      "to": [],
+      "amount": null,
+      "list": []
     },
     {
       "name": "Beelzemon X",
@@ -136,8 +151,9 @@
       "version": null,
       "label": "Beelzemon X",
       "area": 23,
-      "to": null,
-      "amount": null
+      "to": [],
+      "amount": null,
+      "list": []
     },
     {
       "name": "Belphemon X",
@@ -145,8 +161,9 @@
       "version": null,
       "label": "Belphemon X",
       "area": 40,
-      "to": null,
-      "amount": null
+      "to": [],
+      "amount": null,
+      "list": []
     },
     {
       "name": "Bulucomon",
@@ -154,8 +171,9 @@
       "version": null,
       "label": "Bulucomon",
       "area": 45,
-      "to": null,
-      "amount": null
+      "to": [],
+      "amount": null,
+      "list": []
     },
     {
       "name": "Cherubimon (Black) X",
@@ -163,8 +181,9 @@
       "version": null,
       "label": "Cherubimon (Black) X",
       "area": 33,
-      "to": null,
-      "amount": null
+      "to": [],
+      "amount": null,
+      "list": []
     },
     {
       "name": "Cherubimon (Good) X",
@@ -172,8 +191,9 @@
       "version": null,
       "label": "Cherubimon (Good) X",
       "area": null,
-      "to": null,
-      "amount": null
+      "to": [],
+      "amount": null,
+      "list": []
     },
     {
       "name": "Craniamon X",
@@ -181,8 +201,9 @@
       "version": null,
       "label": "Craniamon X",
       "area": 22,
-      "to": null,
-      "amount": null
+      "to": [],
+      "amount": null,
+      "list": []
     },
     {
       "name": "Cyberdramon X",
@@ -190,17 +211,19 @@
       "version": null,
       "label": "Cyberdramon X",
       "area": null,
-      "to": null,
-      "amount": null
+      "to": [],
+      "amount": null,
+      "list": []
     },
-   {
+    {
       "name": "DarknessBagramon",
       "type": "adventure",
       "version": null,
       "label": "DarknessBagramon",
       "area": 45,
-      "to": null,
-      "amount": null
+      "to": [],
+      "amount": null,
+      "list": []
     },
     {
       "name": "Diaboromon X",
@@ -208,8 +231,9 @@
       "version": null,
       "label": "Diaboromon X",
       "area": 29,
-      "to": null,
-      "amount": null
+      "to": [],
+      "amount": null,
+      "list": []
     },
     {
       "name": "Dinorexmon",
@@ -217,8 +241,9 @@
       "version": null,
       "label": "Dinorexmon",
       "area": 28,
-      "to": null,
-      "amount": null
+      "to": [],
+      "amount": null,
+      "list": []
     },
     {
       "name": "Dracomon X",
@@ -226,17 +251,19 @@
       "version": null,
       "label": "Dracomon X",
       "area": 3,
-      "to": null,
-      "amount": null
+      "to": [],
+      "amount": null,
+      "list": []
     },
-        {
+    {
       "name": "Duskmon",
       "type": "adventure",
       "version": null,
       "label": "Duskmon",
       "area": 45,
-      "to": null,
-      "amount": null
+      "to": [],
+      "amount": null,
+      "list": []
     },
     {
       "name": "Dynasmon X",
@@ -244,8 +271,9 @@
       "version": null,
       "label": "Dynasmon X",
       "area": null,
-      "to": null,
-      "amount": null
+      "to": [],
+      "amount": null,
+      "list": []
     },
     {
       "name": "Examon X",
@@ -253,8 +281,9 @@
       "version": null,
       "label": "Examon X",
       "area": null,
-      "to": null,
-      "amount": null
+      "to": [],
+      "amount": null,
+      "list": []
     },
     {
       "name": "Filmon",
@@ -262,8 +291,9 @@
       "version": null,
       "label": "Examon X",
       "area": 45,
-      "to": null,
-      "amount": null
+      "to": [],
+      "amount": null,
+      "list": []
     },
     {
       "name": "Gallantmon X",
@@ -271,8 +301,9 @@
       "version": null,
       "label": "Gallantmon X",
       "area": 46,
-      "to": null,
-      "amount": null
+      "to": [],
+      "amount": null,
+      "list": []
     },
     {
       "name": "Gankoomon X",
@@ -280,8 +311,9 @@
       "version": null,
       "label": "Gankoomon X",
       "area": null,
-      "to": null,
-      "amount": null
+      "to": [],
+      "amount": null,
+      "list": []
     },
     {
       "name": "Garudamon X",
@@ -289,8 +321,9 @@
       "version": null,
       "label": "Garudamon X",
       "area": null,
-      "to": null,
-      "amount": null
+      "to": [],
+      "amount": null,
+      "list": []
     },
     {
       "name": "GigaSeadramon",
@@ -298,8 +331,9 @@
       "version": null,
       "label": "GigaSeadramon",
       "area": 31,
-      "to": null,
-      "amount": null
+      "to": [],
+      "amount": null,
+      "list": []
     },
     {
       "name": "Goldramon X",
@@ -307,8 +341,9 @@
       "version": null,
       "label": "Goldramon X",
       "area": null,
-      "to": null,
-      "amount": null
+      "to": [],
+      "amount": null,
+      "list": []
     },
     {
       "name": "Growlmon X",
@@ -316,26 +351,29 @@
       "version": null,
       "label": "Growlmon X",
       "area": 7,
-      "to": null,
-      "amount": null
+      "to": [],
+      "amount": null,
+      "list": []
     },
-     {
+    {
       "name": "Herissmon X",
       "type": "adventure",
       "version": null,
       "label": "Herissmon X",
       "area": 45,
-      "to": null,
-      "amount": null
+      "to": [],
+      "amount": null,
+      "list": []
     },
-        {
+    {
       "name": "JagerLoweemon",
       "type": "adventure",
       "version": null,
       "label": "JagerLoweemon",
       "area": 45,
-      "to": null,
-      "amount": null
+      "to": [],
+      "amount": null,
+      "list": []
     },
     {
       "name": "Jazamon",
@@ -343,8 +381,9 @@
       "version": null,
       "label": "Jazamon",
       "area": 45,
-      "to": null,
-      "amount": null
+      "to": [],
+      "amount": null,
+      "list": []
     },
     {
       "name": "Jesmon X",
@@ -352,8 +391,9 @@
       "version": null,
       "label": "Jesmon X",
       "area": 19,
-      "to": null,
-      "amount": null
+      "to": [],
+      "amount": null,
+      "list": []
     },
     {
       "name": "Justimon X",
@@ -361,8 +401,9 @@
       "version": null,
       "label": "Justimon X",
       "area": null,
-      "to": null,
-      "amount": null
+      "to": [],
+      "amount": null,
+      "list": []
     },
     {
       "name": "Kentaurosmon X",
@@ -370,8 +411,9 @@
       "version": null,
       "label": "Kentaurosmon X",
       "area": 20,
-      "to": null,
-      "amount": null
+      "to": [],
+      "amount": null,
+      "list": []
     },
     {
       "name": "Leomon X",
@@ -379,8 +421,9 @@
       "version": null,
       "label": "Leomon X",
       "area": 5,
-      "to": null,
-      "amount": null
+      "to": [],
+      "amount": null,
+      "list": []
     },
     {
       "name": "Leopardmon X",
@@ -388,8 +431,9 @@
       "version": null,
       "label": "Leopardmon X",
       "area": null,
-      "to": null,
-      "amount": null
+      "to": [],
+      "amount": null,
+      "list": []
     },
     {
       "name": "Leviamon X",
@@ -397,8 +441,9 @@
       "version": null,
       "label": "Leviamon X",
       "area": 46,
-      "to": null,
-      "amount": null
+      "to": [],
+      "amount": null,
+      "list": []
     },
     {
       "name": "Lilithmon X",
@@ -406,8 +451,9 @@
       "version": null,
       "label": "Lilithmon X",
       "area": 39,
-      "to": null,
-      "amount": null
+      "to": [],
+      "amount": null,
+      "list": []
     },
     {
       "name": "Magnamon X",
@@ -415,8 +461,9 @@
       "version": null,
       "label": "Magnamon X",
       "area": null,
-      "to": null,
-      "amount": null
+      "to": [],
+      "amount": null,
+      "list": []
     },
     {
       "name": "Mantaraymon X",
@@ -424,8 +471,9 @@
       "version": null,
       "label": "Mantaraymon X",
       "area": 10,
-      "to": null,
-      "amount": null
+      "to": [],
+      "amount": null,
+      "list": []
     },
     {
       "name": "Megidramon X",
@@ -433,8 +481,9 @@
       "version": null,
       "label": "Megidramon X",
       "area": 15,
-      "to": null,
-      "amount": null
+      "to": [],
+      "amount": null,
+      "list": []
     },
     {
       "name": "Meramon X",
@@ -442,8 +491,9 @@
       "version": null,
       "label": "Meramon X",
       "area": null,
-      "to": null,
-      "amount": null
+      "to": [],
+      "amount": null,
+      "list": []
     },
     {
       "name": "MetalGarurumon X",
@@ -451,8 +501,9 @@
       "version": null,
       "label": "MetalGarurumon X",
       "area": 16,
-      "to": null,
-      "amount": null
+      "to": [],
+      "amount": null,
+      "list": []
     },
     {
       "name": "MetalPhantomon",
@@ -460,8 +511,9 @@
       "version": null,
       "label": "MetalPhantomon",
       "area": 16,
-      "to": null,
-      "amount": null
+      "to": [],
+      "amount": null,
+      "list": []
     },
     {
       "name": "MetalTyrannomon X",
@@ -469,8 +521,9 @@
       "version": null,
       "label": "MetalTyrannomon X",
       "area": 14,
-      "to": null,
-      "amount": null
+      "to": [],
+      "amount": null,
+      "list": []
     },
     {
       "name": "Monzaemon X",
@@ -478,8 +531,9 @@
       "version": null,
       "label": "Monzaemon X",
       "area": null,
-      "to": null,
-      "amount": null
+      "to": [],
+      "amount": null,
+      "list": []
     },
     {
       "name": "Myotismon X",
@@ -487,8 +541,9 @@
       "version": null,
       "label": "Myotismon X",
       "area": 23,
-      "to": null,
-      "amount": null
+      "to": [],
+      "amount": null,
+      "list": []
     },
     {
       "name": "Nefertimon X",
@@ -496,8 +551,9 @@
       "version": null,
       "label": "Nefertimon X",
       "area": 9,
-      "to": null,
-      "amount": null
+      "to": [],
+      "amount": null,
+      "list": []
     },
     {
       "name": "Numemon X",
@@ -505,8 +561,9 @@
       "version": null,
       "label": "Numemon X",
       "area": 13,
-      "to": null,
-      "amount": null
+      "to": [],
+      "amount": null,
+      "list": []
     },
     {
       "name": "Ogremon X",
@@ -514,8 +571,9 @@
       "version": null,
       "label": "Ogremon X",
       "area": 12,
-      "to": null,
-      "amount": null
+      "to": [],
+      "amount": null,
+      "list": []
     },
     {
       "name": "OmniShoutmon X",
@@ -523,8 +581,9 @@
       "version": null,
       "label": "OmniShoutmon X",
       "area": null,
-      "to": null,
-      "amount": null
+      "to": [],
+      "amount": null,
+      "list": []
     },
     {
       "name": "Omnimon X",
@@ -532,8 +591,9 @@
       "version": null,
       "label": "Omnimon X",
       "area": 26,
-      "to": null,
-      "amount": null
+      "to": [],
+      "amount": null,
+      "list": []
     },
     {
       "name": "Ophanimon X",
@@ -541,8 +601,9 @@
       "version": null,
       "label": "Ophanimon X",
       "area": null,
-      "to": null,
-      "amount": null
+      "to": [],
+      "amount": null,
+      "list": []
     },
     {
       "name": "Pegasusmon X",
@@ -550,8 +611,9 @@
       "version": null,
       "label": "Pegasusmon X",
       "area": null,
-      "to": null,
-      "amount": null
+      "to": [],
+      "amount": null,
+      "list": []
     },
     {
       "name": "Phoenixmon X",
@@ -559,8 +621,9 @@
       "version": null,
       "label": "Phoenixmon X",
       "area": null,
-      "to": null,
-      "amount": null
+      "to": [],
+      "amount": null,
+      "list": []
     },
     {
       "name": "Rapidmon X",
@@ -568,8 +631,9 @@
       "version": null,
       "label": "Rapidmon X",
       "area": null,
-      "to": null,
-      "amount": null
+      "to": [],
+      "amount": null,
+      "list": []
     },
     {
       "name": "Renamon X",
@@ -577,8 +641,9 @@
       "version": null,
       "label": "Renamon X",
       "area": 2,
-      "to": null,
-      "amount": null
+      "to": [],
+      "amount": null,
+      "list": []
     },
     {
       "name": "Rhinomon X",
@@ -586,8 +651,9 @@
       "version": null,
       "label": "Rhinomon X",
       "area": 4,
-      "to": null,
-      "amount": null
+      "to": [],
+      "amount": null,
+      "list": []
     },
     {
       "name": "RizeGreymon X",
@@ -595,8 +661,9 @@
       "version": null,
       "label": "RizeGreymon X",
       "area": null,
-      "to": null,
-      "amount": null
+      "to": [],
+      "amount": null,
+      "list": []
     },
     {
       "name": "Sakuyamon X",
@@ -604,8 +671,9 @@
       "version": null,
       "label": "Sakuyamon X",
       "area": 21,
-      "to": null,
-      "amount": null
+      "to": [],
+      "amount": null,
+      "list": []
     },
     {
       "name": "Seasarmon X",
@@ -613,17 +681,19 @@
       "version": null,
       "label": "Seasarmon X",
       "area": null,
-      "to": null,
-      "amount": null
+      "to": [],
+      "amount": null,
+      "list": []
     },
-        {
+    {
       "name": "Stefilmon",
       "type": "adventure",
       "version": null,
       "label": "Stefilmon",
       "area": 45,
-      "to": null,
-      "amount": null
+      "to": [],
+      "amount": null,
+      "list": []
     },
     {
       "name": "Tyrannomon X",
@@ -631,8 +701,9 @@
       "version": null,
       "label": "Tyrannomon X",
       "area": 8,
-      "to": null,
-      "amount": null
+      "to": [],
+      "amount": null,
+      "list": []
     },
     {
       "name": "UlforceVeedramon X",
@@ -640,8 +711,9 @@
       "version": null,
       "label": "UlforceVeedramon X",
       "area": null,
-      "to": null,
-      "amount": null
+      "to": [],
+      "amount": null,
+      "list": []
     },
     {
       "name": "WarGreymon X",
@@ -649,8 +721,9 @@
       "version": null,
       "label": "WarGreymon X",
       "area": 17,
-      "to": null,
-      "amount": null
+      "to": [],
+      "amount": null,
+      "list": []
     },
     {
       "name": "Wizardmon X",
@@ -658,8 +731,9 @@
       "version": null,
       "label": "Wizardmon X",
       "area": null,
-      "to": null,
-      "amount": null
+      "to": [],
+      "amount": null,
+      "list": []
     },
     {
       "name": "Velgrmon",
@@ -667,8 +741,9 @@
       "version": null,
       "label": "Velgrmon",
       "area": 45,
-      "to": null,
-      "amount": null
+      "to": [],
+      "amount": null,
+      "list": []
     },
     {
       "name": "Version SP",
@@ -676,8 +751,9 @@
       "version": null,
       "label": "Version SP",
       "area": 45,
-      "to": null,
-      "amount": null
+      "to": [],
+      "amount": null,
+      "list": []
     }
   ],
   "backgrounds": [

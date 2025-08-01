@@ -4,6 +4,7 @@ import pygame
 import time
 import game.core.constants as constants
 from core import game_console, game_globals, runtime_globals
+from game.core.utils.module_utils import get_module
 
 shadow_cache = {}
 
@@ -102,6 +103,37 @@ def load_attack_sprites():
             sprite = pygame.transform.scale(sprite, (24 * constants.UI_SCALE, 24 * constants.UI_SCALE))
             atk_id = filename.split(".")[0]
             attack_sprites[atk_id] = sprite
+    return attack_sprites
+
+def module_attack_sprites(module):
+    """
+    Returns a dictionary of attack sprites for the given module.
+    Returns empty dict if module not found or no atk folder exists.
+    """
+    mod = get_module(module)
+    if not mod:
+        game_console.log(f"[!] Module {module} not found for attack sprites.")
+        return {}
+    
+    attack_sprites = {}
+    atk_folder = os.path.join(mod.folder_path, "atk")
+    
+    # Check if atk folder exists
+    if not os.path.exists(atk_folder):
+        return {}
+    
+    try:
+        for filename in os.listdir(atk_folder):
+            if filename.endswith(".png"):
+                path = os.path.join(atk_folder, filename)
+                sprite = pygame.image.load(path).convert_alpha()
+                sprite = pygame.transform.scale(sprite, (24 * constants.UI_SCALE, 24 * constants.UI_SCALE))
+                atk_id = filename.split(".")[0]
+                attack_sprites[atk_id] = sprite
+    except (OSError, pygame.error) as e:
+        game_console.log(f"[!] Error loading attack sprites for module {module}: {e}")
+        return {}
+    
     return attack_sprites
 
 def load_misc_sprites():

@@ -126,7 +126,7 @@ class CountMatchTraining(Training):
         start_y = (constants.SCREEN_HEIGHT - (spacing * total_pets)) // 2
 
         for i, pet in enumerate(pets):
-            sprite = self.attack_sprites.get(str(pet.atk_main))
+            sprite = self.get_attack_sprite(pet, pet.atk_main)
             if not sprite:
                 continue
             count = self.super_hits.get(pet, 0)
@@ -203,6 +203,8 @@ class CountMatchTraining(Training):
             x = constants.SCREEN_WIDTH // 2 - sprite.get_width() // 2
             y = constants.SCREEN_HEIGHT // 2 - sprite.get_height() // 2
             blit_with_shadow(screen, sprite, (x, y))
+            # Draw trophy notification if maximum score achieved
+            self.draw_trophy_notification(screen, quantity=1)
         else:
             font = pygame.font.Font(None, constants.FONT_SIZE_LARGE)
             text = font.render(f"{hits} Super-Hits", True, (255, 255, 255))
@@ -213,3 +215,10 @@ class CountMatchTraining(Training):
     def check_victory(self):
         """Apply training results and return to game."""
         return self.super_hits.get(self.pets[0], 0) > 1
+
+    def check_and_award_trophies(self):
+        """Award trophy if super_hits reaches maximum (5)"""
+        if self.super_hits.get(self.pets[0], 0) == 5:
+            for pet in self.pets:
+                pet.trophies += 1
+            runtime_globals.game_console.log(f"[TROPHY] Count training perfect score achieved! Trophy awarded.")

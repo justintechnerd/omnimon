@@ -8,68 +8,106 @@ namespace OmnimonModuleEditor.docgenerators
         public static void GenerateHomePage(string docPath, Module module, string modulePath)
         {
             string template = GeneratorUtils.GetTemplateContent("home.html");
+
+            template = template.Replace("#MODULENAMEFORMAT", module.NameFormat.Replace("$", "&#36;"));
+            
             string content = template
+                .Replace("#MODULEADVENTUREMODECLASS", module?.AdventureMode == true ? "boolean-true" : "boolean-false")
+                .Replace("#MODULEADVENTUREMODE", module?.AdventureMode == true ? "Yes" : "No")
+                .Replace("#MODULECAREMEATWEIGHTGAINCLASS", GetIntegerCssClass(module?.CareMeatWeightGain))
+                .Replace("#MODULECAREMEATWEIGHTGAIN", GetIntegerDisplayValue(module?.CareMeatWeightGain))
+                .Replace("#MODULECAREMEATHUNGERGAINCLASS", GetIntegerCssClass(module?.CareMeatHungerGain))
+                .Replace("#MODULECAREMEATHUNGERGAIN", GetIntegerDisplayValue(module?.CareMeatHungerGain))
+                .Replace("#MODULECAREMEATCAREMISTAKETIMECLASS", GetIntegerCssClass(module?.CareMeatCareMistakeTime))
+                .Replace("#MODULECAREMEATCAREMISTAKETIME", GetIntegerDisplayValue(module?.CareMeatCareMistakeTime))
+                .Replace("#MODULECAREOVERFEEDTIMERCLASS", GetIntegerCssClass(module?.CareOverfeedTimer))
+                .Replace("#MODULECAREOVERFEEDTIMER", GetIntegerDisplayValue(module?.CareOverfeedTimer))
+                .Replace("#MODULECARECONDITIONHEARTCLASS", module?.CareConditionHeart == true ? "boolean-true" : "boolean-false")
+                .Replace("#MODULECARECONDITIONHEART", module?.CareConditionHeart == true ? "Yes" : "No")
+                .Replace("#MODULECARECANEATSLEEPINGCLASS", module?.CareCanEatSleeping == true ? "boolean-true" : "boolean-false")
+                .Replace("#MODULECARECANEATSLEEPING", module?.CareCanEatSleeping == true ? "Yes" : "No")
+                .Replace("#MODULECAREBACKTOSLEEPTIMECLASS", GetIntegerCssClass(module?.CareBackToSleepTime))
+                .Replace("#MODULECAREBACKTOSLEEPTIME", GetIntegerDisplayValue(module?.CareBackToSleepTime))
+                .Replace("#MODULECARESHAKENEEGGCLASS", module?.CareEnableShakenEgg == true ? "boolean-true" : "boolean-false")
+                .Replace("#MODULECARESHAKENEGG", module?.CareEnableShakenEgg == true ? "Yes" : "No")
+
+                // Care Protein
+                .Replace("#MODULECAREPROTEINWEIGHTGAINCLASS", GetIntegerCssClass(module?.CareProteinWeightGain))
+                .Replace("#MODULECAREPROTEINWEIGHTGAIN", GetIntegerDisplayValue(module?.CareProteinWeightGain))
+                .Replace("#MODULECAREPROTEINSTRENGTHGAINCLASS", GetIntegerCssClass(module?.CareProteinStrenghGain))
+                .Replace("#MODULECAREPROTEINSTRENGTHGAIN", GetIntegerDisplayValue(module?.CareProteinStrenghGain))
+                .Replace("#MODULECAREPROTEINDPGAINCLASS", GetIntegerCssClass(module?.CareProteinDpGain))
+                .Replace("#MODULECAREPROTEINDPGAIN", GetIntegerDisplayValue(module?.CareProteinDpGain))
+                .Replace("#MODULECAREPROTEINCAREMISTAKETIMECLASS", GetIntegerCssClass(module?.CareProteinCareMistakeTime))
+                .Replace("#MODULECAREPROTEINCAREMISTAKETIME", GetIntegerDisplayValue(module?.CareProteinCareMistakeTime))
+                .Replace("#MODULECAREPROTEINOVERDOSEMAXCLASS", GetIntegerCssClass(module?.CareProteinOverdoseMax))
+                .Replace("#MODULECAREPROTEINOVERDOSEMAX", GetIntegerDisplayValue(module?.CareProteinOverdoseMax))
+                .Replace("#MODULECARESDISTURBANCEPENALTYCLASS", GetIntegerCssClass(module?.CareDisturbancePenaltyMax))
+                .Replace("#MODULECARESDISTURBANCEPENALTY", GetIntegerDisplayValue(module?.CareDisturbancePenaltyMax))
+                .Replace("#MODULECARESLEEPCAREMISTAKECLASS", GetIntegerCssClass(module?.CareSleepCareMistakeTimer))
+                .Replace("#MODULECARESLEEPCAREMISTAKE", GetIntegerDisplayValue(module?.CareSleepCareMistakeTimer))
+
+                // Care - Vital Values
+                .Replace("#MODULEVITALVALUEBASECLASS", GetIntegerCssClass(module?.VitalValueBase))
+                .Replace("#MODULEVITALVALUEBASE", GetIntegerDisplayValue(module?.VitalValueBase))
+                .Replace("#MODULEVITALVALUELOSSCLASS", GetIntegerCssClass(module?.VitalValueLoss))
+                .Replace("#MODULEVITALVALUELOSS", GetIntegerDisplayValue(module?.VitalValueLoss))
+
+                // Battle
+                .Replace("#MODULEBATTLEBASESICKCHANCEWINCLASS", GetIntegerCssClass(module?.BattleBaseSickChanceWin))
+                .Replace("#MODULEBATTLEBASESICKCHANCEWIN", GetIntegerDisplayValue(module?.BattleBaseSickChanceWin))
+                .Replace("#MODULEBATTLEBASESICKCHANCELOSECLASS", GetIntegerCssClass(module?.BattleBaseSickChanceLose))
+                .Replace("#MODULEBATTLEBASESICKCHANCELOSE", GetIntegerDisplayValue(module?.BattleBaseSickChanceLose))
+                .Replace("#MODULEBATTLEATTRIBUTEADVANTAGECLASS", GetIntegerCssClass(module?.BattleAtributeAdvantage))
+                .Replace("#MODULEBATTLEATTRIBUTEADVANTAGE", GetIntegerDisplayValue(module?.BattleAtributeAdvantage))
+                .Replace("#MODULEBATTLEGLOBALHITPOINTSCLASS", GetIntegerCssClass(module?.BattleGlobalHitPoints))
+                .Replace("#MODULEBATTLEGLOBALHITPOINTS", GetIntegerDisplayValue(module?.BattleGlobalHitPoints))
+                .Replace("#MODULEBATTLESEQUENTIALROUNDSCLASS", module?.BattleSequentialRounds == true ? "boolean-true" : "boolean-false")
+                .Replace("#MODULEBATTLESEQUENTIALROUNDS", module?.BattleSequentialRounds == true ? "Yes" : "No")
+                .Replace("#MODULETRAITEDEGGLEVELCLASS", GetIntegerCssClass(module?.TraitedEggStartingLevel))
+                .Replace("#MODULETRAITEDEGGLEVEL", GetIntegerDisplayValue(module?.TraitedEggStartingLevel))
+
+                // Training
+                .Replace("#MODULETRAININGEFFORTGAINCLASS", GetIntegerCssClass(module?.TrainingEffortGain))
+                .Replace("#MODULETRAININGEFFORTGAIN", GetIntegerDisplayValue(module?.TrainingEffortGain))
+                .Replace("#MODULETRAININGSTRENGTHGAINCLASS", GetIntegerCssClass(module?.TrainingStrenghGain))
+                .Replace("#MODULETRAININGSTRENGTHGAIN", GetIntegerDisplayValue(module?.TrainingStrenghGain))
+                .Replace("#MODULETRAININGWEIGHTWINCLASS", GetIntegerCssClass(module?.TrainingWeightWin))
+                .Replace("#MODULETRAININGWEIGHTWIN", GetIntegerDisplayValue(module?.TrainingWeightWin))
+                .Replace("#MODULETRAININGWEIGHTLOSECLASS", GetIntegerCssClass(module?.TrainingWeightLose))
+                .Replace("#MODULETRAININGWEIGHTLOSE", GetIntegerDisplayValue(module?.TrainingWeightLose))
+                .Replace("#MODULEREVERSEATKFRAMESCLASS", module?.ReverseAtkFrames == true ? "boolean-true" : "boolean-false")
+                .Replace("#MODULEREVERSEATKFRAMES", module?.ReverseAtkFrames == true ? "Yes" : "No")
+
+                // Death
+                .Replace("#MODULEDEATHMAXINJURIESCLASS", GetIntegerCssClass(module?.DeathMaxInjuries))
+                .Replace("#MODULEDEATHMAXINJURIES", GetIntegerDisplayValue(module?.DeathMaxInjuries))
+                .Replace("#MODULEDEATHCAREMISTAKECLASS", GetIntegerCssClass(module?.DeathCareMistake))
+                .Replace("#MODULEDEATHCAREMISTAKE", GetIntegerDisplayValue(module?.DeathCareMistake))
+                .Replace("#MODULEDEATHSICKTIMERCLASS", GetIntegerCssClass(module?.DeathSickTimer))
+                .Replace("#MODULEDEATHSICKTIMER", GetIntegerDisplayValue(module?.DeathSickTimer))
+                .Replace("#MODULEDEATHHUNGERMISTAKECLASS", GetIntegerCssClass(module?.DeathHungerTimer))
+                .Replace("#MODULEDEATHHUNGERMISTAKE", GetIntegerDisplayValue(module?.DeathHungerTimer))
+                .Replace("#MODULEDEATHSTARVATIONCOUNTCLASS", GetIntegerCssClass(module?.DeathStarvationCount))
+                .Replace("#MODULEDEATHSTARVATIONCOUNT", GetIntegerDisplayValue(module?.DeathStarvationCount))
+                .Replace("#MODULEDEATHSTRENGTHTIMERCLASS", GetIntegerCssClass(module?.DeathStrengthTimer))
+                .Replace("#MODULEDEATHSTRENGTHTIMER", GetIntegerDisplayValue(module?.DeathStrengthTimer))
+                .Replace("#MODULEDEATHSTAGE45MISTAKECLASS", GetIntegerCssClass(module?.DeathStage45Mistake))
+                .Replace("#MODULEDEATHSTAGE45MISTAKE", GetIntegerDisplayValue(module?.DeathStage45Mistake))
+                .Replace("#MODULEDEATHSTAGE67MISTAKECLASS", GetIntegerCssClass(module?.DeathStage67Mistake))
+                .Replace("#MODULEDEATHSTAGE67MISTAKE", GetIntegerDisplayValue(module?.DeathStage67Mistake))
+                .Replace("#MODULEDEATHSAVEBYBPRESSCLASS", GetBooleanOrIntegerClass(module?.DeathSaveByBPress))
+                .Replace("#MODULEDEATHSAVEBYBPRESS", GetBooleanOrIntegerDisplay(module?.DeathSaveByBPress))
+                .Replace("#MODULEDEATHSAVEBYSHAKECLASS", GetBooleanOrIntegerClass(module?.DeathSaveByShake))
+                .Replace("#MODULEDEATHSAVEBYSHAKE", GetBooleanOrIntegerDisplay(module?.DeathSaveByShake))
+
+                // General (always last)
                 .Replace("#MODULENAME", module?.Name ?? "Unknown Module")
                 .Replace("#MODULEVERSION", module?.Version ?? "1.0")
                 .Replace("#MODULEDESCRIPTION", module?.Description ?? "No description available")
                 .Replace("#MODULEAUTHOR", module?.Author ?? "Unknown Author")
-                .Replace("#MODULENAMEFORMAT", module?.NameFormat ?? "$")
-                .Replace("#MODULERULESET", module?.Ruleset ?? "Unknown")
-                .Replace("#MODULEADVENTUREMODE", module?.AdventureMode == true ? "Yes" : "No")
-                .Replace("#MODULEADVENTUREMODECLASS", module?.AdventureMode == true ? "boolean-true" : "boolean-false")
-
-                // Care Meat
-                .Replace("#MODULECAREMEATWEIGHTGAIN", module?.CareMeatWeightGain.ToString() ?? "0")
-                .Replace("#MODULECAREMEATHUNGERGAIN", module?.CareMeatHungerGain.ToString() ?? "0")
-                .Replace("#MODULECAREMEATCAREMISTAKETIME", module?.CareMeatCareMistakeTime.ToString() ?? "0")
-                .Replace("#MODULECAREOVERFEEDTIMER", module?.CareOverfeedTimer.ToString() ?? "0")
-                .Replace("#MODULECARECONDITIONHEART", module?.CareConditionHeart == true ? "Yes" : "No")
-                .Replace("#MODULECARECONDITIONHEARTCLASS", module?.CareConditionHeart == true ? "boolean-true" : "boolean-false")
-                .Replace("#MODULECARECANEATSLEEPING", module?.CareCanEatSleeping == true ? "Yes" : "No")
-                .Replace("#MODULECARECANEATSLEEPINGCLASS", module?.CareCanEatSleeping == true ? "boolean-true" : "boolean-false")
-                .Replace("#MODULECAREBACKTOSLEEPTIME", module?.CareBackToSleepTime.ToString() ?? "0")
-                .Replace("#MODULECARESHAKENEGG", module?.CareEnableShakenEgg == true ? "Yes" : "No")
-                .Replace("#MODULECARESHAKENEEGGCLASS", module?.CareEnableShakenEgg == true ? "boolean-true" : "boolean-false")
-
-                // Care Protein
-                .Replace("#MODULECAREPROTEINWEIGHTGAIN", module?.CareProteinWeightGain.ToString() ?? "0")
-                .Replace("#MODULECAREPROTEINSTRENGTHGAIN", module?.CareProteinStrenghGain.ToString() ?? "0")
-                .Replace("#MODULECAREPROTEINDPGAIN", module?.CareProteinDpGain.ToString() ?? "0")
-                .Replace("#MODULECAREPROTEINCAREMISTAKETIME", module?.CareProteinCareMistakeTime.ToString() ?? "0")
-                .Replace("#MODULECAREPROTEINOVERDOSEMAX", module?.CareProteinOverdoseMax.ToString() ?? "0")
-                .Replace("#MODULECARESDISTURBANCEPENALTY", module?.CareDisturbancePenaltyMax.ToString() ?? "0")
-
-                // Care Sleep
-                .Replace("#MODULECARESLEEPCAREMISTAKE", module?.CareSleepCareMistakeTimer.ToString() ?? "0")
-
-                // Training
-                .Replace("#MODULETRAININGEFFORTGAIN", module?.TrainingEffortGain.ToString() ?? "0")
-                .Replace("#MODULETRAININGSTRENGTHGAIN", module?.TrainingStrenghGain.ToString() ?? "0")
-                .Replace("#MODULETRAININGWEIGHTWIN", module?.TrainingWeightWin.ToString() ?? "0")
-                .Replace("#MODULETRAININGWEIGHTLOSE", module?.TrainingWeightLose.ToString() ?? "0")
-                .Replace("#MODULETRAITEDEGGLEVEL", module?.TraitedEggStartingLevel.ToString() ?? "0")
-                .Replace("#MODULEREVERSEATKFRAMES", module?.ReverseAtkFrames == true ? "Yes" : "No")
-                .Replace("#MODULEREVERSEATKFRAMESCLASS", module?.ReverseAtkFrames == true ? "boolean-true" : "boolean-false")
-
-                // Battle
-                .Replace("#MODULEBATTLEBASESICKCHANCEWIN", module?.BattleBaseSickChanceWin.ToString() ?? "0")
-                .Replace("#MODULEBATTLEBASESICKCHANCELOSE", module?.BattleBaseSickChanceLose.ToString() ?? "0")
-                .Replace("#MODULEBATTLEATTRIBUTEADVANTAGE", module?.BattleAtributeAdvantage.ToString() ?? "0")
-                .Replace("#MODULEBATTLEGLOBALHITPOINTS", module?.BattleGlobalHitPoints.ToString() ?? "0")
-                .Replace("#MODULEBATTLESEQUENTIALROUNDS", module?.BattleSequentialRounds == true ? "Yes" : "No")
-                .Replace("#MODULEBATTLESEQUENTIALROUNDSCLASS", module?.BattleSequentialRounds == true ? "boolean-true" : "boolean-false")
-
-                // Death
-                .Replace("#MODULEDEATHMAXINJURIES", module?.DeathMaxInjuries.ToString() ?? "0")
-                .Replace("#MODULEDEATHCAREMISTAKE", module?.DeathCareMistake.ToString() ?? "0")
-                .Replace("#MODULEDEATHSICKTIMER", module?.DeathSickTimer.ToString() ?? "0")
-                .Replace("#MODULEDEATHHUNGERMISTAKE", module?.DeathHungerTimer.ToString() ?? "0")
-                .Replace("#MODULEDEATHSTARVATIONCOUNT", module?.DeathStarvationCount.ToString() ?? "0")
-                .Replace("#MODULEDEATHSTRENGTHTIMER", module?.DeathStrengthTimer.ToString() ?? "0")
-                .Replace("#MODULEDEATHSTAGE45MISTAKE", module?.DeathStage45Mistake.ToString() ?? "0")
-                .Replace("#MODULEDEATHSTAGE67MISTAKE", module?.DeathStage67Mistake.ToString() ?? "0")
-                .Replace("#MODULEDEATHSAVEBYBPRESS", module?.DeathSaveByBPress.ToString() ?? "0")
-                .Replace("#MODULEDEATHSAVEBYSHAKE", module?.DeathSaveByShake.ToString() ?? "0");
+                .Replace("#MODULENAMEFORMAT", module.NameFormat.Replace("$", "&#36;"))
+                .Replace("#MODULERULESET", module?.Ruleset ?? "Unknown");
 
             string logoPath = Path.Combine(modulePath, "logo.png");
             if (File.Exists(logoPath))
@@ -78,6 +116,41 @@ namespace OmnimonModuleEditor.docgenerators
             }
 
             File.WriteAllText(Path.Combine(docPath, "home.html"), content);
+        }
+
+        /// <summary>
+        /// Returns the string value of an integer
+        /// </summary>
+        private static string GetIntegerDisplayValue(int? value)
+        {
+            return (value ?? 0).ToString();
+        }
+
+        /// <summary>
+        /// Returns CSS class for integer values. 0 = "boolean-false" (red), anything else = "boolean-true" (green)
+        /// </summary>
+        private static string GetIntegerCssClass(int? value)
+        {
+            int actualValue = value ?? 0;
+            return actualValue == 0 ? "boolean-false" : "";
+        }
+
+        /// <summary>
+        /// Converts integer values to boolean display text. 0 = "No", anything else = "Yes"
+        /// </summary>
+        private static string GetBooleanOrIntegerDisplay(int? value)
+        {
+            if (!value.HasValue) return "No";
+            return value.Value == 0 ? "No" : "Yes";
+        }
+
+        /// <summary>
+        /// Converts integer values to boolean CSS class. 0 = "boolean-false", anything else = "boolean-true"
+        /// </summary>
+        private static string GetBooleanOrIntegerClass(int? value)
+        {
+            if (!value.HasValue) return "boolean-false";
+            return value.Value == 0 ? "boolean-false" : "boolean-true";
         }
     }
 }

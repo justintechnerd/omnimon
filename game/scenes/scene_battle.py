@@ -623,7 +623,7 @@ class SceneBattle:
             # 🔸 PenC jogress (based on attribute + stage)
             elif evo["jogress"] == "PenC":
                 if (
-                    pet2.attribute == evo.get("attribute") and
+                    (pet2.attribute == evo.get("attribute") or (pet2.attribute == "" and evo.get("attribute") == "Free"))  and
                     pet2.stage == evo.get("stage")
                 ):
                     return True
@@ -678,7 +678,7 @@ class SceneBattle:
                     return
 
             elif evo["jogress"] == "PenC":
-                if pet2.attribute == evo.get("attribute") and pet2.stage == evo.get("stage"):
+                if (pet2.attribute == evo.get("attribute") or (pet2.attribute == "" and evo.get("attribute") == "Free")) and pet2.stage == evo.get("stage"):
                     evo2 = next((e for e in pet2.evolve if e.get("jogress") == "PenC" and e.get("attribute") == pet1.attribute), None)
 
                     if evo2:

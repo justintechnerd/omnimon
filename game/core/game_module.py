@@ -92,6 +92,9 @@ class GameModule:
                     self.death_save_by_b_press = int(data.get("death_save_by_b_press",0))
                     self.death_save_by_shake = int(data.get("death_save_by_shake",0))
 
+                    self.vital_value_base = int(data.get("vital_value_base", 50))
+                    self.vital_value_loss = int(data.get("vital_value_loss", 50))
+
                     if self.battle_global_hit_points > 0:
                         self.battle_damage_limit = 1 + (self.battle_global_hit_points // 2)
                     else:
