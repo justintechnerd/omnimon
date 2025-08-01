@@ -1,8 +1,8 @@
 {
   "name": "DMH",
-  "version": "",
-  "description": "",
-  "author": "",
+  "version": "1.0",
+  "description": "A Recreation of the Digimon Monster Hunter 20th Anniversary Device",
+  "author": "Pepperoni Secret",
   "name_format": "$_dmc",
   "ruleset": "dmc",
   "adventure_mode": true,
@@ -42,8 +42,6 @@
   "death_stage67_mistake": 5,
   "death_save_by_b_press": 0,
   "death_save_by_shake": 0,
-  "vital_value_base": 50,
-  "vital_value_loss": 50,
   "unlocks": [
     {
       "name": "Forest_and_Hills",
@@ -52,8 +50,7 @@
       "label": "Forest and Hills",
       "area": 0,
       "to": [],
-      "amount": null,
-      "list": []
+      "amount": null
     },
     {
       "name": "Frozen_Seaway",
@@ -64,8 +61,7 @@
       "to": [
         "Khezu (Young)"
       ],
-      "amount": null,
-      "list": []
+      "amount": null
     },
     {
       "name": "Misty_Peaks",
@@ -76,8 +72,7 @@
       "to": [
         "Rathalos (Young)"
       ],
-      "amount": null,
-      "list": []
+      "amount": null
     },
     {
       "name": "Desert",
@@ -88,8 +83,7 @@
       "to": [
         "Tigrex (Young)"
       ],
-      "amount": null,
-      "list": []
+      "amount": null
     },
     {
       "name": "Great_Forest",
@@ -100,8 +94,7 @@
       "to": [
         "Nargacuga (Young)"
       ],
-      "amount": null,
-      "list": []
+      "amount": null
     },
     {
       "name": "Shrine_Ruins",
@@ -112,8 +105,7 @@
       "to": [
         "Zinogre (Young)"
       ],
-      "amount": null,
-      "list": []
+      "amount": null
     },
     {
       "name": "Primal_Forest",
@@ -124,8 +116,7 @@
       "to": [
         "Gore Magala (Young)"
       ],
-      "amount": null,
-      "list": []
+      "amount": null
     },
     {
       "name": "Flooded_Forest",
@@ -136,8 +127,7 @@
       "to": [
         "Mizutsune (Young)"
       ],
-      "amount": null,
-      "list": []
+      "amount": null
     },
     {
       "name": "Land_Arena",
@@ -148,8 +138,7 @@
       "to": [
         "Rajang (Young)"
       ],
-      "amount": null,
-      "list": []
+      "amount": null
     },
     {
       "name": "Swamp",
@@ -158,8 +147,7 @@
       "label": "Swamp",
       "area": 1,
       "to": [],
-      "amount": null,
-      "list": []
+      "amount": null
     },
     {
       "name": "Arctic_Ridge",
@@ -168,8 +156,7 @@
       "label": "Arctic Ridge",
       "area": 2,
       "to": [],
-      "amount": null,
-      "list": []
+      "amount": null
     },
     {
       "name": "Volcano",
@@ -178,8 +165,7 @@
       "label": "Volcano",
       "area": 3,
       "to": [],
-      "amount": null,
-      "list": []
+      "amount": null
     },
     {
       "name": "Infernal_Springs",
@@ -188,8 +174,7 @@
       "label": "Infernal Springs",
       "area": 4,
       "to": [],
-      "amount": null,
-      "list": []
+      "amount": null
     },
     {
       "name": "Hoarfrost_Reach",
@@ -198,8 +183,7 @@
       "label": "Hoarfrost Reach",
       "area": 5,
       "to": [],
-      "amount": null,
-      "list": []
+      "amount": null
     },
     {
       "name": "Tower_Summit",
@@ -208,8 +192,7 @@
       "label": "Tower Summit",
       "area": 6,
       "to": [],
-      "amount": null,
-      "list": []
+      "amount": null
     },
     {
       "name": "Citadel",
@@ -218,8 +201,7 @@
       "label": "Citadel",
       "area": 7,
       "to": [],
-      "amount": null,
-      "list": []
+      "amount": null
     },
     {
       "name": "Forlorn_Arena",
@@ -228,8 +210,7 @@
       "label": "Forlorn Arena",
       "area": 8,
       "to": [],
-      "amount": null,
-      "list": []
+      "amount": null
     }
   ],
   "backgrounds": [
