@@ -7798,7 +7798,7 @@
           "to": "Mametyramon",
           "mistakes": [
             3,
-            999999
+            3
           ],
           "level": [
             1,
@@ -7809,7 +7809,7 @@
           "to": "Mametyramon",
           "mistakes": [
             3,
-            999999
+            3
           ],
           "level": [
             6,
@@ -8159,7 +8159,7 @@
           ]
         },
         {
-          "to": "MegaSeadramon X",
+          "to": "Mephistomon X",
           "mistakes": [
             2,
             999999
@@ -8174,7 +8174,7 @@
           ]
         },
         {
-          "to": "Mephistomon X",
+          "to": "MegaSeadramon X",
           "mistakes": [
             2,
             999999
@@ -8397,7 +8397,8 @@
           "level": [
             8,
             8
-          ]
+          ],
+          "area": 36
         },
         {
           "to": "Cherubimon (Black) X",
@@ -8436,7 +8437,7 @@
           "to": "MetalPiranimon",
           "mistakes": [
             3,
-            999999
+            3
           ],
           "level": [
             1,
@@ -8447,11 +8448,15 @@
           "to": "PrinceMamemon X",
           "mistakes": [
             3,
-            999999
+            3
           ],
           "level": [
             8,
             8
+          ],
+          "stage-5": [
+            0,
+            0
           ]
         },
         {
@@ -8469,11 +8474,15 @@
           "to": "Chaosdramon X",
           "mistakes": [
             3,
-            999999
+            3
           ],
           "level": [
             8,
             8
+          ],
+          "stage-5": [
+            5,
+            999999
           ]
         }
       ]
@@ -8516,11 +8525,15 @@
           "to": "Cherubimon (Black) X",
           "mistakes": [
             3,
-            999999
+            3
           ],
           "level": [
             8,
             8
+          ],
+          "stage-5": [
+            5,
+            999999
           ]
         },
         {
@@ -8560,7 +8573,7 @@
           "to": "Rosemon X",
           "mistakes": [
             3,
-            999999
+            3
           ],
           "level": [
             5,
@@ -8582,11 +8595,15 @@
           "to": "BeelStarmon X",
           "mistakes": [
             3,
-            999999
+            3
           ],
           "level": [
             8,
             8
+          ],
+          "stage-5": [
+            0,
+            0
           ]
         },
         {
@@ -8598,6 +8615,10 @@
           "level": [
             8,
             8
+          ],
+          "stage-5": [
+            5,
+            999999
           ]
         }
       ]
@@ -8640,11 +8661,15 @@
           "to": "GigaSeadramon",
           "mistakes": [
             3,
-            999999
+            3
           ],
           "level": [
             8,
             8
+          ],
+          "stage-5": [
+            5,
+            999999
           ]
         },
         {
@@ -8656,6 +8681,21 @@
           "level": [
             1,
             6
+          ]
+        },
+        {
+          "to": "Chaosdramon X",
+          "mistakes": [
+            3,
+            3
+          ],
+          "level": [
+            8,
+            8
+          ],
+          "stage-5": [
+            0,
+            0
           ]
         },
         {
@@ -8673,18 +8713,22 @@
           "to": "Chaosdramon X",
           "mistakes": [
             3,
-            999999
+            3
           ],
           "level": [
             8,
             8
+          ],
+          "stage-5": [
+            5,
+            999999
           ]
         },
         {
           "to": "SkullMammothmon X",
           "mistakes": [
             3,
-            999999
+            3
           ],
           "level": [
             5,
@@ -8765,29 +8809,37 @@
           "to": "SkullMammothmon X",
           "mistakes": [
             3,
-            999999
+            3
           ],
           "level": [
             8,
             8
+          ],
+          "stage-5": [
+            0,
+            0
           ]
         },
         {
           "to": "SkullMammothmon X",
           "mistakes": [
             3,
-            999999
+            3
           ],
           "level": [
             8,
             8
+          ],
+          "stage-5": [
+            5,
+            999999
           ]
         },
         {
           "to": "MetalPiranimon",
           "mistakes": [
             3,
-            999999
+            3
           ],
           "level": [
             5,
@@ -8798,11 +8850,15 @@
           "to": "AxeKnightmon X",
           "mistakes": [
             3,
-            999999
+            3
           ],
           "level": [
             8,
             8
+          ],
+          "stage-5": [
+            5,
+            999999
           ]
         }
       ]
@@ -8839,6 +8895,10 @@
           "level": [
             7,
             8
+          ],
+          "stage-5": [
+            5,
+            999999
           ]
         },
         {
@@ -8850,6 +8910,10 @@
           "level": [
             8,
             8
+          ],
+          "stage-5": [
+            5,
+            999999
           ]
         },
         {
@@ -8898,6 +8962,10 @@
           "level": [
             8,
             8
+          ],
+          "stage-5": [
+            5,
+            999999
           ]
         },
         {
@@ -8949,7 +9017,20 @@
           "stage-5": [
             0,
             4
-          ]
+          ],
+          "area": 36
+        },
+        {
+          "to": "Chaosdramon X",
+          "mistakes": [
+            0,
+            1
+          ],
+          "level": [
+            1,
+            3
+          ],
+          "area": 45
         },
         {
           "to": "MetalPiranimon",
@@ -8987,17 +9068,6 @@
         {
           "to": "Chaosdramon X",
           "mistakes": [
-            0,
-            1
-          ],
-          "level": [
-            1,
-            3
-          ]
-        },
-        {
-          "to": "Chaosdramon X",
-          "mistakes": [
             2,
             3
           ],
@@ -9015,6 +9085,11 @@
           "level": [
             8,
             8
+          ],
+          "area": 36,
+          "stage-5": [
+            5,
+            999999
           ]
         },
         {
@@ -9048,6 +9123,10 @@
           "level": [
             8,
             8
+          ],
+          "stage-5": [
+            5,
+            999999
           ]
         },
         {
@@ -9102,7 +9181,7 @@
           "to": "GigaSeadramon",
           "mistakes": [
             3,
-            999999
+            3
           ],
           "level": [
             8,
@@ -9128,11 +9207,15 @@
           "to": "Rasenmon: Fury Mode",
           "mistakes": [
             3,
-            999999
+            3
           ],
           "level": [
             8,
             8
+          ],
+          "stage-5": [
+            3,
+            999999
           ]
         },
         {
@@ -9150,7 +9233,7 @@
           "to": "Rosemon X",
           "mistakes": [
             3,
-            999999
+            3
           ],
           "level": [
             5,
@@ -9198,7 +9281,7 @@
           "to": "Dinorexmon",
           "mistakes": [
             3,
-            999999
+            3
           ],
           "level": [
             8,
@@ -9224,11 +9307,15 @@
           "to": "Rhihimon",
           "mistakes": [
             3,
-            999999
+            3
           ],
           "level": [
             8,
             8
+          ],
+          "stage-5": [
+            3,
+            999999
           ]
         },
         {
@@ -9246,7 +9333,7 @@
           "to": "BeelStarmon X",
           "mistakes": [
             3,
-            999999
+            3
           ],
           "level": [
             5,
@@ -9642,6 +9729,10 @@
           "level": [
             8,
             10
+          ],
+          "win_count": [
+            200,
+            999999
           ]
         },
         {
@@ -9664,6 +9755,10 @@
           "level": [
             8,
             10
+          ],
+          "win_count": [
+            0,
+            199
           ]
         }
       ]
@@ -9713,7 +9808,8 @@
             10,
             10
           ],
-          "special_encounter": false
+          "special_encounter": false,
+          "area": 45
         }
       ]
     },
@@ -9760,7 +9856,8 @@
           "level": [
             10,
             10
-          ]
+          ],
+          "area": 45
         }
       ]
     },
@@ -9902,6 +9999,10 @@
           "level": [
             1,
             7
+          ],
+          "win_count": [
+            200,
+            999999
           ]
         }
       ]
