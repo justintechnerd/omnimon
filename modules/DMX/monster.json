@@ -1880,8 +1880,8 @@
             10,
             10
           ],
-          "special_encounter": true,
-          "area": 30
+          "area": 30,
+          "special_encounter": true
         }
       ]
     },
@@ -2348,7 +2348,7 @@
             0,
             2
           ]
-        }, 
+        },
         {
           "to": "Damemon",
           "mistakes": [
@@ -3577,11 +3577,11 @@
             8,
             8
           ],
+          "area": 24,
           "stage-5": [
             0,
             4
-          ],
-          "area": 24
+          ]
         },
         {
           "to": "PlatinumNumemon",
@@ -3923,8 +3923,8 @@
             10,
             10
           ],
-          "special_encounter": true,
-          "area": 30
+          "area": 30,
+          "special_encounter": true
         }
       ]
     },
@@ -6608,6 +6608,10 @@
       "evolve": [
         {
           "to": "Beelzemon X",
+          "win_count": [
+            200,
+            999999
+          ],
           "mistakes": [
             0,
             2
@@ -6615,10 +6619,6 @@
           "level": [
             8,
             10
-          ],
-          "win_count": [
-            200,
-            999999
           ]
         },
         {
@@ -6634,6 +6634,10 @@
         },
         {
           "to": "Diaboromon X",
+          "win_count": [
+            0,
+            199
+          ],
           "mistakes": [
             0,
             2
@@ -6641,10 +6645,6 @@
           "level": [
             8,
             10
-          ],
-          "win_count": [
-            0,
-            199
           ]
         }
       ]
@@ -6878,6 +6878,10 @@
         },
         {
           "to": "Beelzemon X",
+          "win_count": [
+            200,
+            999999
+          ],
           "mistakes": [
             0,
             2
@@ -6885,10 +6889,6 @@
           "level": [
             1,
             7
-          ],
-          "win_count": [
-            200,
-            999999
           ]
         }
       ]
@@ -8225,7 +8225,7 @@
             3
           ]
         },
-         {
+        {
           "to": "JagerLoweemon",
           "mistakes": [
             3,
@@ -9014,11 +9014,11 @@
             8,
             8
           ],
+          "area": 36,
           "stage-5": [
             0,
             4
-          ],
-          "area": 36
+          ]
         },
         {
           "to": "Chaosdramon X",
@@ -9722,6 +9722,10 @@
       "evolve": [
         {
           "to": "Beelzemon X",
+          "win_count": [
+            200,
+            999999
+          ],
           "mistakes": [
             0,
             2
@@ -9729,10 +9733,6 @@
           "level": [
             8,
             10
-          ],
-          "win_count": [
-            200,
-            999999
           ]
         },
         {
@@ -9748,6 +9748,10 @@
         },
         {
           "to": "Diaboromon X",
+          "win_count": [
+            0,
+            199
+          ],
           "mistakes": [
             0,
             2
@@ -9755,10 +9759,6 @@
           "level": [
             8,
             10
-          ],
-          "win_count": [
-            0,
-            199
           ]
         }
       ]
@@ -9808,8 +9808,8 @@
             10,
             10
           ],
-          "special_encounter": false,
-          "area": 45
+          "area": 45,
+          "special_encounter": false
         }
       ]
     },
@@ -9992,6 +9992,10 @@
         },
         {
           "to": "Beelzemon X",
+          "win_count": [
+            200,
+            999999
+          ],
           "mistakes": [
             0,
             2
@@ -9999,10 +10003,6 @@
           "level": [
             1,
             7
-          ],
-          "win_count": [
-            200,
-            999999
           ]
         }
       ]
@@ -10279,8 +10279,6 @@
       "stage": 0,
       "version": 5,
       "special": false,
-      "sleeps": null,
-      "wakes": null,
       "atk_main": 0,
       "atk_alt": 0,
       "time": 1,
@@ -10293,6 +10291,9 @@
       "heal_doses": 0,
       "power": 0,
       "attribute": "",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
+      "hp": 0,
       "evolve": [
         {
           "to": "Zerimon"
@@ -10302,12 +10303,8 @@
     {
       "name": "Zerimon",
       "stage": 1,
-      "attribute": "",
-      "power": 0,
       "version": 5,
       "special": false,
-      "sleeps": null,
-      "wakes": null,
       "atk_main": 0,
       "atk_alt": 0,
       "time": 10,
@@ -10318,6 +10315,10 @@
       "hunger_loss": 3,
       "strength_loss": 3,
       "heal_doses": 1,
+      "power": 0,
+      "attribute": "",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
       "hp": 0,
       "evolve": [
         {
@@ -10328,8 +10329,6 @@
     {
       "name": "Gummymon",
       "stage": 2,
-      "attribute": "",
-      "power": 2,
       "version": 5,
       "special": false,
       "sleeps": "21:00",
@@ -10344,49 +10343,90 @@
       "hunger_loss": 30,
       "strength_loss": 30,
       "heal_doses": 1,
+      "power": 2,
+      "attribute": "",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
       "hp": 10,
       "evolve": [
         {
           "to": "DORUmon",
-          "training": [4,4],
-          "mistakes": [0,999999]
+          "training": [
+            16,
+            999999
+          ],
+          "mistakes": [
+            0,
+            0
+          ]
         },
         {
           "to": "Jazamon",
-          "training": [0,1],
-          "area": 45,
-          "mistakes": [1,999999]
+          "training": [
+            0,
+            7
+          ],
+          "mistakes": [
+            1,
+            1
+          ]
         },
         {
           "to": "Bulucomon",
-          "training": [2,4],
-          "area": 45,
-          "mistakes": [1,999999]
+          "training": [
+            8,
+            999999
+          ],
+          "mistakes": [
+            1,
+            1
+          ]
         },
         {
           "to": "DORUmon",
-          "training": [4,4]
+          "training": [
+            16,
+            999999
+          ],
+          "mistakes": [
+            1,
+            1
+          ]
         },
         {
           "to": "Terriermon X",
-          "training": [0,3],
-          "mistakes": [0,999999]
+          "training": [
+            0,
+            15
+          ],
+          "mistakes": [
+            0,
+            0
+          ]
         },
         {
           "to": "Terriermon X",
-          "training": [0,3]
+          "training": [
+            0,
+            15
+          ],
+          "mistakes": [
+            1,
+            1
+          ]
         },
         {
           "to": "Palmon X",
-          "mistakes": [2,999999]
+          "mistakes": [
+            2,
+            999999
+          ]
         }
       ]
     },
     {
       "name": "Terriermon X",
       "stage": 3,
-      "attribute": "Va",
-      "power": 20,
       "version": 5,
       "special": false,
       "sleeps": "21:00",
@@ -10401,47 +10441,83 @@
       "hunger_loss": 48,
       "strength_loss": 48,
       "heal_doses": 1,
+      "power": 20,
+      "attribute": "Va",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
       "hp": 10,
       "evolve": [
         {
           "to": "Seasarmon X",
-          "training": [3,4],
-          "area": 11,
-          "mistakes": [0,2]
+          "training": [
+            12,
+            999999
+          ],
+          "mistakes": [
+            0,
+            2
+          ]
         },
         {
           "to": "DORUgamon",
-          "training": [0,2],
-          "mistakes": [0,2]
+          "training": [
+            0,
+            11
+          ],
+          "mistakes": [
+            0,
+            2
+          ]
         },
         {
           "to": "DORUgamon",
-          "training": [3,4],
-          "mistakes": [0,2]
+          "training": [
+            12,
+            999999
+          ],
+          "mistakes": [
+            0,
+            2
+          ]
         },
         {
           "to": "Meramon X",
-          "training": [2,4],
-          "area": 9,
-          "mistakes": [3,999999]
+          "training": [
+            8,
+            999999
+          ],
+          "mistakes": [
+            3,
+            999999
+          ]
         },
         {
           "to": "Togemon X",
-          "training": [0,1],
-          "mistakes": [3,999999]
+          "training": [
+            0,
+            7
+          ],
+          "mistakes": [
+            3,
+            999999
+          ]
         },
         {
           "to": "Togemon X",
-          "training": [2,4],
-          "mistakes": [3,999999]
+          "training": [
+            8,
+            999999
+          ],
+          "mistakes": [
+            3,
+            999999
+          ]
         }
       ]
     },
     {
       "name": "Palmon X",
       "stage": 3,
-      "attribute": "Da",
-      "power": 8,
       "version": 5,
       "special": false,
       "sleeps": "21:00",
@@ -10456,29 +10532,46 @@
       "hunger_loss": 48,
       "strength_loss": 48,
       "heal_doses": 1,
+      "power": 8,
+      "attribute": "Da",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
       "hp": 10,
       "evolve": [
         {
           "to": "Togemon X",
-          "training": [2,4],
-          "mistakes": [0,2]
+          "training": [
+            8,
+            999999
+          ],
+          "mistakes": [
+            0,
+            2
+          ]
         },
         {
           "to": "Pteramon X",
-          "training": [0,1],
-          "mistakes": [0,2]
+          "training": [
+            0,
+            7
+          ],
+          "mistakes": [
+            0,
+            2
+          ]
         },
         {
           "to": "Omekamon",
-          "mistakes": [3,999999]
+          "mistakes": [
+            3,
+            999999
+          ]
         }
       ]
     },
     {
       "name": "DORUmon",
       "stage": 3,
-      "attribute": "Da",
-      "power": 14,
       "version": 5,
       "special": false,
       "sleeps": "21:00",
@@ -10493,49 +10586,88 @@
       "hunger_loss": 48,
       "strength_loss": 48,
       "heal_doses": 1,
+      "power": 14,
+      "attribute": "Da",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
       "hp": 10,
       "evolve": [
-        {
-          "to": "DORUgamon",
-          "training": [1,4],
-          "mistakes": [0,1]
-        },
-        {
+          {
           "to": "Seasarmon X",
-          "training": [0,999999],
-          "area": 11,
-          "mistakes": [0,1]
-        },
-        {
-          "to": "Pteramon X",
-          "training": [0,999999],
-          "mistakes": [0,1]
+          "training": [
+            0,
+            999999
+          ],
+          "mistakes": [
+            0,
+            1
+          ]
         },
         {
           "to": "Meramon X",
-          "training": [3,4],
-          "area": 9,
-          "mistakes": [2,999999]
+          "training": [
+            12,
+            999999
+          ],
+          "mistakes": [
+            2,
+            999999
+          ]
+        },
+        {
+          "to": "DORUgamon",
+          "training": [
+            4,
+            999999
+          ],
+          "mistakes": [
+            0,
+            1
+          ]
+        },
+
+        {
+          "to": "Pteramon X",
+          "training": [
+            0,
+            999999
+          ],
+          "mistakes": [
+            0,
+            1
+          ]
+        },
+
+        {
+          "to": "Omekamon",
+          "training": [
+            0,
+            11
+          ],
+          "mistakes": [
+            2,
+            999999
+          ]
         },
         {
           "to": "Omekamon",
-          "training": [0,2],
-          "mistakes": [2,999999]
-        },
-        {
-          "to": "Omekamon",
-          "training": [3,4],
-          "mistakes": [2,999999]
+          "training": [
+            12,
+            999999
+          ],
+          "mistakes": [
+            2,
+            999999
+          ]
         }
       ]
     },
     {
       "name": "Bulucomon",
       "stage": 3,
-      "attribute": "Da",
-      "power": 12,
       "version": 5,
-      "special": false,
+      "special": true,
+      "special_key": "Bulucomon",
       "sleeps": "21:00",
       "wakes": "08:00",
       "atk_main": 37,
@@ -10548,37 +10680,64 @@
       "hunger_loss": 48,
       "strength_loss": 48,
       "heal_doses": 1,
+      "power": 12,
+      "attribute": "Da",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
       "hp": 10,
       "evolve": [
         {
           "to": "Paledramon",
-          "training": [2,4],
-          "mistakes": [0,1]
+          "training": [
+            8,
+            999999
+          ],
+          "mistakes": [
+            0,
+            1
+          ]
         },
         {
           "to": "Seasarmon X",
-          "training": [0,1],
-          "mistakes": [0,1]
+          "training": [
+            0,
+            7
+          ],
+          "mistakes": [
+            0,
+            1
+          ]
         },
         {
           "to": "Meramon X",
-          "training": [0,3],
-          "mistakes": [2,999999]
+          "training": [
+            0,
+            15
+          ],
+          "mistakes": [
+            2,
+            999999
+          ]
         },
         {
           "to": "Togemon X",
-          "training": [4,999999],
-          "mistakes": [2,999999]
+          "training": [
+            16,
+            999999
+          ],
+          "mistakes": [
+            2,
+            999999
+          ]
         }
       ]
     },
     {
       "name": "Jazamon",
       "stage": 3,
-      "attribute": "Da",
-      "power": 18,
       "version": 5,
-      "special": false,
+      "special": true,
+      "special_key": "Jazamon",
       "sleeps": "21:00",
       "wakes": "08:00",
       "atk_main": 19,
@@ -10591,29 +10750,46 @@
       "hunger_loss": 48,
       "strength_loss": 48,
       "heal_doses": 1,
+      "power": 18,
+      "attribute": "Da",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
       "hp": 10,
       "evolve": [
         {
           "to": "Jazardmon",
-          "training": [2,4],
-          "mistakes": [0,2]
+          "training": [
+            8,
+            999999
+          ],
+          "mistakes": [
+            0,
+            2
+          ]
         },
         {
           "to": "Pteramon X",
-          "training": [0,1],
-          "mistakes": [0,2]
+          "training": [
+            0,
+            7
+          ],
+          "mistakes": [
+            0,
+            2
+          ]
         },
         {
           "to": "Omekamon",
-          "mistakes": [3,999999]
+          "mistakes": [
+            3,
+            999999
+          ]
         }
       ]
     },
     {
       "name": "Seasarmon X",
       "stage": 4,
-      "attribute": "Va",
-      "power": 52,
       "version": 5,
       "special": true,
       "special_key": "Seasarmon X",
@@ -10629,56 +10805,106 @@
       "hunger_loss": 59,
       "strength_loss": 59,
       "heal_doses": 1,
+      "power": 52,
+      "attribute": "Va",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
       "hp": 12,
       "evolve": [
         {
           "to": "OmniShoutmon X",
-          "area": 22,
-          "level": [5,6],
-          "mistakes": [0,2]
+          "mistakes": [
+            0,
+            2
+          ],
+          "level": [
+            5,
+            6
+          ]
         },
         {
           "to": "OmniShoutmon X",
-          "area": 22,
-          "stage-5": [1,999999],
-          "level": [6,6],
-          "mistakes": [3,999999]
+          "mistakes": [
+            3,
+            999999
+          ],
+          "level": [
+            6,
+            6
+          ],
+          "stage-5": [
+            1,
+            999999
+          ]
         },
         {
           "to": "Dorugreymon",
-          "level": [5,6],
-          "mistakes": [0,2]
+          "mistakes": [
+            0,
+            2
+          ],
+          "level": [
+            5,
+            6
+          ]
         },
         {
           "to": "Dorugreymon",
-          "level": [1,4],
-          "mistakes": [0,2]
+          "mistakes": [
+            0,
+            2
+          ],
+          "level": [
+            1,
+            4
+          ]
         },
         {
           "to": "Garudamon X",
-          "area": 16,
-          "stage-5": [0,0],
-          "level": [6,6],
-          "mistakes": [3,999999]
+          "mistakes": [
+            3,
+            999999
+          ],
+          "level": [
+            6,
+            6
+          ],
+          "stage-5": [
+            0,
+            0
+          ]
         },
         {
           "to": "Grademon",
-          "stage-5": [0,0],
-          "level": [6,6],
-          "mistakes": [3,999999]
+          "mistakes": [
+            3,
+            999999
+          ],
+          "level": [
+            6,
+            6
+          ],
+          "stage-5": [
+            0,
+            0
+          ]
         },
         {
           "to": "Grademon",
-          "level": [1,5],
-          "mistakes": [3,999999]
+          "mistakes": [
+            3,
+            999999
+          ],
+          "level": [
+            1,
+            5
+          ]
         }
       ]
     },
     {
       "name": "Meramon X",
       "stage": 4,
-      "attribute": "Da",
-      "power": 46,
       "version": 5,
       "special": true,
       "special_key": "Meramon X",
@@ -10694,50 +10920,87 @@
       "hunger_loss": 59,
       "strength_loss": 59,
       "heal_doses": 1,
+      "power": 46,
+      "attribute": "Da",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
       "hp": 12,
       "evolve": [
         {
           "to": "Cyberdramon X",
-          "area": 21,
-          "level": [4,6],
-          "mistakes": [0,2]
+          "mistakes": [
+            0,
+            2
+          ],
+          "level": [
+            4,
+            6
+          ]
         },
         {
           "to": "Grademon",
-          "level": [1,3],
-          "mistakes": [0,2]
+          "mistakes": [
+            0,
+            2
+          ],
+          "level": [
+            1,
+            3
+          ]
         },
         {
           "to": "Grademon",
-          "level": [4,6],
-          "mistakes": [0,2]
+          "mistakes": [
+            0,
+            2
+          ],
+          "level": [
+            4,
+            6
+          ]
         },
         {
           "to": "OmniShoutmon X",
-          "area": 22,
-          "stage-5": [1,999999],
-          "level": [6,6],
-          "mistakes": [3,999999]
+          "mistakes": [
+            3,
+            999999
+          ],
+          "level": [
+            6,
+            6
+          ],
+          "stage-5": [
+            1,
+            999999
+          ]
         },
         {
           "to": "Mamemon X",
-          "level": [1,6],
-          "stage-5": [0,0],
-          "mistakes": [3,999999]
+          "mistakes": [
+            3,
+            999999
+          ],
+          "stage-5": [
+            0,
+            0
+          ]
         },
         {
           "to": "Garudamon X",
-          "area": 16,
-          "level": [4,6],
-          "mistakes": [0,2]
+          "mistakes": [
+            0,
+            2
+          ],
+          "level": [
+            4,
+            6
+          ]
         }
       ]
     },
     {
       "name": "DORUgamon",
       "stage": 4,
-      "attribute": "Da",
-      "power": 38,
       "version": 5,
       "special": false,
       "sleeps": "22:00",
@@ -10752,30 +11015,46 @@
       "hunger_loss": 59,
       "strength_loss": 59,
       "heal_doses": 1,
+      "power": 38,
+      "attribute": "Da",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
       "hp": 12,
       "evolve": [
         {
           "to": "Dorugreymon",
-          "level": [4,6],
-          "mistakes": [0,2]
+          "mistakes": [
+            0,
+            2
+          ],
+          "level": [
+            4,
+            6
+          ]
         },
         {
           "to": "Cannonbeemon",
-          "level": [1,3],
-          "mistakes": [0,2]
+          "mistakes": [
+            0,
+            2
+          ],
+          "level": [
+            1,
+            3
+          ]
         },
         {
           "to": "Mamemon X",
-          "level": [1,6],
-          "mistakes": [3,999999]
+          "mistakes": [
+            3,
+            999999
+          ]
         }
       ]
     },
     {
       "name": "Pteramon X",
       "stage": 4,
-      "attribute": "Da",
-      "power": 34,
       "version": 5,
       "special": false,
       "sleeps": "22:00",
@@ -10790,35 +11069,57 @@
       "hunger_loss": 59,
       "strength_loss": 59,
       "heal_doses": 1,
+      "power": 34,
+      "attribute": "Da",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
       "hp": 12,
       "evolve": [
         {
           "to": "Garudamon X",
-          "area": 16,
-          "level": [3,6],
-          "mistakes": [0,1]
+          "mistakes": [
+            0,
+            1
+          ],
+          "level": [
+            3,
+            6
+          ]
         },
         {
           "to": "Cannonbeemon",
-          "level": [3,6],
-          "mistakes": [0,1]
+          "mistakes": [
+            0,
+            1
+          ],
+          "level": [
+            3,
+            6
+          ]
         },
         {
           "to": "Cannonbeemon",
-          "level": [1,2],
-          "mistakes": [0,1]
+          "mistakes": [
+            0,
+            1
+          ],
+          "level": [
+            1,
+            2
+          ]
         },
         {
           "to": "Mamemon X",
-          "mistakes": [2,999999]
+          "mistakes": [
+            2,
+            999999
+          ]
         }
       ]
     },
     {
       "name": "Togemon X",
       "stage": 4,
-      "attribute": "Da",
-      "power": 30,
       "version": 5,
       "special": false,
       "sleeps": "22:00",
@@ -10833,37 +11134,65 @@
       "hunger_loss": 59,
       "strength_loss": 59,
       "heal_doses": 1,
+      "power": 30,
+      "attribute": "Da",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
       "hp": 12,
       "evolve": [
         {
           "to": "Cannonbeemon",
-          "level": [5,6],
-          "mistakes": [0,1]
+          "mistakes": [
+            0,
+            1
+          ],
+          "level": [
+            5,
+            6
+          ]
         },
         {
           "to": "Dorugreymon",
-          "level": [1,4],
-          "mistakes": [0,1]
+          "mistakes": [
+            0,
+            1
+          ],
+          "level": [
+            1,
+            4
+          ]
         },
         {
           "to": "Cyberdramon X",
-          "area": 21,
-          "stage-5": [1,999999],
-          "level": [6,6],
-          "mistakes": [2,999999]
+          "mistakes": [
+            2,
+            999999
+          ],
+          "level": [
+            6,
+            6
+          ],
+          "stage-5": [
+            1,
+            999999
+          ]
         },
         {
           "to": "Mamemon X",
-          "stage-5": [0,0],
-          "mistakes": [2,999999]
+          "mistakes": [
+            2,
+            999999
+          ],
+          "stage-5": [
+            0,
+            0
+          ]
         }
       ]
     },
     {
       "name": "Omekamon",
       "stage": 4,
-      "attribute": "Da",
-      "power": 60,
       "version": 5,
       "special": false,
       "sleeps": "22:00",
@@ -10878,68 +11207,129 @@
       "hunger_loss": 59,
       "strength_loss": 59,
       "heal_doses": 1,
+      "power": 60,
+      "attribute": "Da",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
       "hp": 12,
       "evolve": [
         {
           "to": "CrysPaledramon",
-          "area": 45,
-          "level": [1,4],
-          "mistakes": [0,1]
+          "mistakes": [
+            0,
+            1
+          ],
+          "level": [
+            1,
+            4
+          ]
         },
         {
           "to": "Jazarichmon",
-          "area": 45,
-          "stage-5": [0,0],
-          "level": [6,6],
-          "mistakes": [2,999999]
+          "mistakes": [
+            2,
+            999999
+          ],
+          "level": [
+            6,
+            6
+          ],
+          "stage-5": [
+            0,
+            0
+          ]
         },
         {
           "to": "Pumpkinmon",
-          "area": 45,
-          "level": [1,5],
-          "mistakes": [2,999999]
+          "mistakes": [
+            2,
+            999999
+          ],
+          "level": [
+            1,
+            5
+          ]
         },
         {
           "to": "Mamemon X",
-          "level": [6,6],
-          "stage-5": [0,0],
-          "mistakes": [2,999999]
+          "mistakes": [
+            2,
+            999999
+          ],
+          "level": [
+            6,
+            6
+          ],
+          "stage-5": [
+            0,
+            0
+          ]
         },
         {
           "to": "Mamemon X",
-          "level": [1,5],
-          "mistakes": [2,999999]
-        },
-        {
-          "to": "Cyberdramon X",
-          "area": 21,
-          "stage-5": [1,999999],
-          "level": [6,6],
-          "mistakes": [2,999999]
+          "mistakes": [
+            2,
+            999999
+          ],
+          "level": [
+            1,
+            5
+          ]
         },
         {
           "to": "OmniShoutmon X",
-          "area": 22,
-          "level": [5,6],
-          "mistakes": [0,1]
+          "mistakes": [
+            0,
+            1
+          ],
+          "level": [
+            5,
+            6
+          ]
+        },
+        {
+          "to": "Cyberdramon X",
+          "mistakes": [
+            2,
+            999999
+          ],
+          "level": [
+            6,
+            6
+          ],
+          "stage-5": [
+            1,
+            999999
+          ]
+        },
+
+        {
+          "to": "Dorugreymon",
+          "mistakes": [
+            0,
+            1
+          ],
+          "level": [
+            1,
+            4
+          ]
         },
         {
           "to": "Dorugreymon",
-          "level": [1,4],
-          "mistakes": [0,1]
-        },
-        {
-          "to": "Dorugreymon",
-          "level": [5,6],
-          "mistakes": [0,1]
+          "mistakes": [
+            0,
+            1
+          ],
+          "level": [
+            5,
+            6
+          ]
         }
       ]
     },
     {
       "name": "Paledramon",
       "stage": 4,
-      "attribute": "Da",
-      "power": 56,
       "version": 5,
       "special": false,
       "sleeps": "22:00",
@@ -10954,42 +11344,80 @@
       "hunger_loss": 59,
       "strength_loss": 59,
       "heal_doses": 1,
+      "power": 56,
+      "attribute": "Da",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
       "hp": 12,
       "evolve": [
         {
           "to": "CrysPaledramon",
-          "level": [4,6],
-          "mistakes": [0,2]
+          "mistakes": [
+            0,
+            2
+          ],
+          "level": [
+            4,
+            6
+          ]
         },
         {
           "to": "Pumpkinmon",
-          "level": [1,3],
-          "mistakes": [0,2]
+          "mistakes": [
+            0,
+            2
+          ],
+          "level": [
+            1,
+            3
+          ]
         },
         {
           "to": "Pumpkinmon",
-          "level": [1,5],
-          "mistakes": [3,999999]
+          "mistakes": [
+            3,
+            999999
+          ],
+          "level": [
+            1,
+            5
+          ]
         },
         {
           "to": "Cyberdramon X",
-          "stage-5": [1,999999],
-          "level": [6,6],
-          "mistakes": [3,999999]
+          "mistakes": [
+            3,
+            999999
+          ],
+          "level": [
+            6,
+            6
+          ],
+          "stage-5": [
+            1,
+            999999
+          ]
         },
         {
           "to": "Dorugreymon",
-          "stage-5": [0,0],
-          "level": [6,6],
-          "mistakes": [3,999999]
+          "mistakes": [
+            3,
+            999999
+          ],
+          "level": [
+            6,
+            6
+          ],
+          "stage-5": [
+            0,
+            0
+          ]
         }
       ]
     },
     {
       "name": "Jazardmon",
       "stage": 4,
-      "attribute": "Da",
-      "power": 42,
       "version": 5,
       "special": false,
       "sleeps": "22:00",
@@ -11004,42 +11432,80 @@
       "hunger_loss": 59,
       "strength_loss": 59,
       "heal_doses": 1,
+      "power": 42,
+      "attribute": "Da",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
       "hp": 12,
       "evolve": [
         {
           "to": "Jazarichmon",
-          "level": [5,6],
-          "mistakes": [0,2]
+          "mistakes": [
+            0,
+            2
+          ],
+          "level": [
+            5,
+            6
+          ]
         },
         {
           "to": "Pumpkinmon",
-          "level": [1,4],
-          "mistakes": [0,2]
+          "mistakes": [
+            0,
+            2
+          ],
+          "level": [
+            1,
+            4
+          ]
         },
         {
           "to": "Pumpkinmon",
-          "level": [1,5],
-          "mistakes": [3,999999]
+          "mistakes": [
+            3,
+            999999
+          ],
+          "level": [
+            1,
+            5
+          ]
         },
         {
           "to": "Garudamon X",
-          "stage-5": [1,999999],
-          "level": [6,6],
-          "mistakes": [3,999999]
+          "mistakes": [
+            3,
+            999999
+          ],
+          "level": [
+            6,
+            6
+          ],
+          "stage-5": [
+            1,
+            999999
+          ]
         },
         {
           "to": "Cannonbeemon",
-          "stage-5": [0,0],
-          "level": [6,6],
-          "mistakes": [3,999999]
+          "mistakes": [
+            3,
+            999999
+          ],
+          "level": [
+            6,
+            6
+          ],
+          "stage-5": [
+            0,
+            0
+          ]
         }
       ]
     },
     {
       "name": "OmniShoutmon X",
       "stage": 5,
-      "attribute": "Va",
-      "power": 114,
       "version": 5,
       "special": true,
       "special_key": "OmniShoutmon X",
@@ -11055,48 +11521,102 @@
       "hunger_loss": 59,
       "strength_loss": 59,
       "heal_doses": 1,
+      "power": 114,
+      "attribute": "Va",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
       "hp": 15,
       "evolve": [
         {
           "to": "Rapidmon X",
-          "area": 32,
-          "level": [8,8],
-          "mistakes": [0,2]
+          "mistakes": [
+            0,
+            2
+          ],
+          "level": [
+            8,
+            8
+          ]
         },
         {
           "to": "Alphamon",
-          "level": [6,7],
-          "mistakes": [0,2]
+          "mistakes": [
+            0,
+            2
+          ],
+          "level": [
+            8,
+            8
+          ]
+        },
+        {
+          "to": "Alphamon",
+          "mistakes": [
+            0,
+            2
+          ],
+          "level": [
+            6,
+            7
+          ]
         },
         {
           "to": "Dinotigermon",
-          "level": [1,5],
-          "mistakes": [0,2]
+          "mistakes": [
+            0,
+            2
+          ],
+          "level": [
+            1,
+            5
+          ]
         },
         {
           "to": "TigerVespamon",
-          "level": [8,8],
-          "stage-5": [3,999999],
-          "mistakes": [3,999999]
+          "mistakes": [
+            3,
+            3
+          ],
+          "level": [
+            8,
+            8
+          ],
+          "stage-5": [
+            3,
+            999999
+          ]
         },
         {
           "to": "Ebemon X",
-          "level": [1,7],
-          "mistakes": [3,999999]
+          "mistakes": [
+            3,
+            3
+          ],
+          "level": [
+            1,
+            7
+          ]
         },
         {
           "to": "Ebemon X",
-          "level": [8,8],
-          "stage-5": [0,2],
-          "mistakes": [3,999999]
+          "mistakes": [
+            3,
+            3
+          ],
+          "level": [
+            8,
+            8
+          ],
+          "stage-5": [
+            0,
+            2
+          ]
         }
       ]
     },
     {
       "name": "Cyberdramon X",
       "stage": 5,
-      "attribute": "Va",
-      "power": 108,
       "version": 5,
       "special": true,
       "special_key": "Cyberdramon X",
@@ -11112,54 +11632,124 @@
       "hunger_loss": 59,
       "strength_loss": 59,
       "heal_doses": 1,
+      "power": 108,
+      "attribute": "Va",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
       "hp": 15,
       "evolve": [
         {
           "to": "Justimon X",
-          "area": 29,
-          "level": [7,8],
-          "mistakes": [0,2]
+          "mistakes": [
+            0,
+            2
+          ],
+          "level": [
+            7,
+            8
+          ]
         },
         {
           "to": "Phoenixmon X",
-          "area": 27,
-          "level": [5,6],
-          "mistakes": [0,2]
+          "mistakes": [
+            0,
+            2
+          ],
+          "level": [
+            5,
+            6
+          ]
         },
         {
           "to": "Magnadramon X",
-          "level": [1,8],
-          "mistakes": [0,2]
+          "mistakes": [
+            0,
+            2
+          ],
+          "level": [
+            1,
+            4
+          ]
+        },
+        {
+          "to": "Magnadramon X",
+          "mistakes": [
+            0,
+            2
+          ],
+          "level": [
+            5,
+            6
+          ]
+        },
+        {
+          "to": "Magnadramon X",
+          "mistakes": [
+            0,
+            2
+          ],
+          "level": [
+            7,
+            8
+          ]
         },
         {
           "to": "TigerVespamon",
-          "stage-5": [3,999999],
-          "level": [8,8],
-          "mistakes": [3,999999]
+          "mistakes": [
+            3,
+            3
+          ],
+          "level": [
+            8,
+            8
+          ],
+          "stage-5": [
+            3,
+            999999
+          ]
         },
         {
           "to": "Gaiomon",
-          "level": [5,7],
-          "mistakes": [3,999999]
+          "mistakes": [
+            3,
+            3
+          ],
+          "level": [
+            5,
+            7
+          ]
         },
         {
           "to": "Gaiomon",
-          "level": [8,8],
-          "stage-5": [0,2],
-          "mistakes": [3,999999]
+          "mistakes": [
+            3,
+            3
+          ],
+          "level": [
+            8,
+            8
+          ],
+          "stage-5": [
+            0,
+            2
+          ]
         },
         {
           "to": "Ebemon X",
-          "level": [1,4],
-          "mistakes": [3,999999]
+          "mistakes": [
+            3,
+            3
+          ],
+          "level": [
+            1,
+            4
+          ]
         }
       ]
     },
     {
       "name": "Dorugreymon",
       "stage": 5,
-      "attribute": "Da",
-      "power": 92,
       "version": 5,
       "special": false,
       "sleeps": "23:00",
@@ -11174,35 +11764,61 @@
       "hunger_loss": 59,
       "strength_loss": 59,
       "heal_doses": 1,
+      "power": 92,
+      "attribute": "Da",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
       "hp": 15,
       "evolve": [
         {
           "to": "Alphamon",
-          "level": [7,8],
-          "mistakes": [0,2]
+          "mistakes": [
+            0,
+            2
+          ],
+          "level": [
+            7,
+            8
+          ]
         },
         {
           "to": "Gaiomon",
-          "level": [1,6],
-          "mistakes": [0,2]
+          "mistakes": [
+            0,
+            2
+          ],
+          "level": [
+            1,
+            6
+          ]
         },
         {
           "to": "Magnadramon X",
-          "level": [8,8],
-          "mistakes": [3,999999]
+          "mistakes": [
+            3,
+            3
+          ],
+          "level": [
+            8,
+            8
+          ]
         },
         {
           "to": "Dinotigermon",
-          "level": [5,7],
-          "mistakes": [3,999999]
+          "mistakes": [
+            3,
+            3
+          ],
+          "level": [
+            5,
+            7
+          ]
         }
       ]
     },
     {
       "name": "Garudamon X",
       "stage": 5,
-      "attribute": "Va",
-      "power": 84,
       "version": 5,
       "special": true,
       "special_key": "Garudamon X",
@@ -11218,60 +11834,117 @@
       "hunger_loss": 59,
       "strength_loss": 59,
       "heal_doses": 1,
+      "power": 84,
+      "attribute": "Va",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
       "hp": 15,
       "evolve": [
         {
           "to": "Phoenixmon X",
-          "area": 27,
-          "level": [7,8],
-          "mistakes": [0,2]
+          "mistakes": [
+            0,
+            2
+          ],
+          "level": [
+            7,
+            8
+          ]
         },
         {
           "to": "Phoenixmon X",
-          "area": 27,
-          "stage-5": [3,999999],
-          "level": [8,8],
-          "mistakes": [3,999999]
+          "mistakes": [
+            3,
+            3
+          ],
+          "level": [
+            8,
+            8
+          ],
+          "stage-5": [
+            3,
+            999999
+          ]
         },
         {
           "to": "Magnadramon X",
-          "level": [7,8],
-          "mistakes": [0,2]
+          "mistakes": [
+            0,
+            2
+          ],
+          "level": [
+            7,
+            8
+          ]
         },
         {
           "to": "Magnadramon X",
-          "level": [8,8],
-          "stage-5": [3,999999],
-          "mistakes": [3,999999]
+          "mistakes": [
+            3,
+            3
+          ],
+          "level": [
+            8,
+            8
+          ],
+          "stage-5": [
+            3,
+            999999
+          ]
         },
         {
           "to": "Magnadramon X",
-          "level": [5,6],
-          "mistakes": [0,2]
+          "mistakes": [
+            0,
+            2
+          ],
+          "level": [
+            5,
+            6
+          ]
         },
         {
           "to": "TigerVespamon",
-          "level": [1,4],
-          "mistakes": [0,2]
+          "mistakes": [
+            0,
+            2
+          ],
+          "level": [
+            1,
+            4
+          ]
         },
         {
           "to": "Gaiomon",
-          "level": [8,8],
-          "stage-5": [0,2],
-          "mistakes": [3,999999]
+          "mistakes": [
+            3,
+            3
+          ],
+          "level": [
+            8,
+            8
+          ],
+          "stage-5": [
+            0,
+            2
+          ]
         },
         {
           "to": "Ebemon X",
-          "level": [5,7],
-          "mistakes": [3,999999]
+          "mistakes": [
+            3,
+            3
+          ],
+          "level": [
+            5,
+            7
+          ]
         }
       ]
     },
     {
       "name": "Cannonbeemon",
       "stage": 5,
-      "attribute": "Vi",
-      "power": 80,
       "version": 5,
       "special": false,
       "sleeps": "23:00",
@@ -11286,43 +11959,95 @@
       "hunger_loss": 59,
       "strength_loss": 59,
       "heal_doses": 1,
+      "power": 80,
+      "attribute": "Vi",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
       "hp": 15,
       "evolve": [
         {
           "to": "TigerVespamon",
-          "level": [7,8],
-          "mistakes": [0,2]
+          "mistakes": [
+            0,
+            2
+          ],
+          "level": [
+            7,
+            8
+          ]
         },
         {
           "to": "Dinotigermon",
-          "level": [1,6],
-          "mistakes": [0,2]
+          "mistakes": [
+            0,
+            2
+          ],
+          "level": [
+            1,
+            6
+          ]
         },
         {
           "to": "Rapidmon X",
-          "area": 32,
-          "stage-5": [5,999999],
-          "level": [8,8],
-          "mistakes": [3,999999]
+          "mistakes": [
+            3,
+            3
+          ],
+          "level": [
+            8,
+            8
+          ],
+          "stage-5": [
+            5,
+            999999
+          ]
         },
         {
           "to": "Magnadramon X",
-          "level": [8,8],
-          "stage-5": [0,999999],
-          "mistakes": [3,999999]
+          "mistakes": [
+            3,
+            3
+          ],
+          "level": [
+            8,
+            8
+          ],
+          "stage-5": [
+            0,
+            4
+          ]
+        },
+        {
+          "to": "Magnadramon X",
+          "mistakes": [
+            3,
+            3
+          ],
+          "level": [
+            8,
+            8
+          ],
+          "stage-5": [
+            5,
+            999999
+          ]
         },
         {
           "to": "Ebemon X",
-          "level": [5,7],
-          "mistakes": [3,999999]
+          "mistakes": [
+            3,
+            3
+          ],
+          "level": [
+            5,
+            7
+          ]
         }
       ]
     },
     {
       "name": "Grademon",
       "stage": 5,
-      "attribute": "Va",
-      "power": 88,
       "version": 5,
       "special": false,
       "sleeps": "23:00",
@@ -11337,67 +12062,132 @@
       "hunger_loss": 59,
       "strength_loss": 59,
       "heal_doses": 1,
+      "power": 88,
+      "attribute": "Va",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
       "hp": 15,
       "evolve": [
         {
           "to": "Gaiomon",
-          "level": [1,3],
-          "mistakes": [0,1]
+          "mistakes": [
+            0,
+            1
+          ],
+          "level": [
+            1,
+            3
+          ]
         },
         {
           "to": "Gaiomon",
-          "stage-5": [0,4],
-          "level": [8,8],
-          "mistakes": [2,3]
+          "mistakes": [
+            2,
+            3
+          ],
+          "level": [
+            8,
+            8
+          ],
+          "stage-5": [
+            0,
+            4
+          ]
         },
         {
           "to": "NoblePumpkinmon",
-          "area": 45,
-          "stage-5": [5,999999],
-          "level": [8,8],
-          "mistakes": [2,3]
+          "mistakes": [
+            2,
+            3
+          ],
+          "level": [
+            8,
+            8
+          ],
+          "stage-5": [
+            5,
+            999999
+          ]
         },
         {
           "to": "Ebemon X",
-          "level": [5,7],
-          "mistakes": [2,3]
+          "mistakes": [
+            2,
+            3
+          ],
+          "level": [
+            5,
+            7
+          ]
         },
         {
           "to": "Alphamon",
-          "level": [6,8],
-          "mistakes": [0,1]
+          "mistakes": [
+            0,
+            1
+          ],
+          "level": [
+            6,
+            8
+          ]
         },
         {
           "to": "Justimon X",
-          "area": 29,
-          "level": [4,5],
-          "mistakes": [0,1]
+          "mistakes": [
+            0,
+            1
+          ],
+          "level": [
+            4,
+            5
+          ]
         },
         {
           "to": "Phoenixmon X",
-          "area": 27,
-          "stage-5": [5,999999],
-          "level": [8,8],
-          "mistakes": [2,3]
+          "mistakes": [
+            2,
+            3
+          ],
+          "level": [
+            8,
+            8
+          ],
+          "stage-5": [
+            5,
+            999999
+          ]
         },
         {
           "to": "Gaiomon",
-          "level": [1,3],
-          "mistakes": [0,1]
+          "mistakes": [
+            0,
+            1
+          ],
+          "level": [
+            4,
+            5
+          ]
         },
         {
           "to": "Gaiomon",
-          "level": [8,8],
-          "stage-5": [5,999999],
-          "mistakes": [2,3]
+          "mistakes": [
+            2,
+            3
+          ],
+          "level": [
+            8,
+            8
+          ],
+          "stage-5": [
+            5,
+            999999
+          ]
         }
       ]
     },
     {
       "name": "Mamemon X",
       "stage": 5,
-      "attribute": "Da",
-      "power": 76,
       "version": 5,
       "special": false,
       "sleeps": "23:00",
@@ -11412,58 +12202,224 @@
       "hunger_loss": 59,
       "strength_loss": 59,
       "heal_doses": 1,
+      "power": 76,
+      "attribute": "Da",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
       "hp": 15,
       "evolve": [
         {
           "to": "Hexeblaumon",
-          "area": 45,
-          "stage-5": [5,999999],
-          "level": [8,8],
-          "mistakes": [2,3]
+          "mistakes": [
+            2,
+            3
+          ],
+          "level": [
+            8,
+            8
+          ],
+          "stage-5": [
+            5,
+            999999
+          ]
         },
         {
           "to": "Justimon X",
-          "area": 29,
-          "level": [6,8],
-          "mistakes": [0,1]
+          "mistakes": [
+            0,
+            1
+          ],
+          "level": [
+            6,
+            8
+          ]
         },
         {
           "to": "Justimon X",
-          "area": 29,
-          "stage-5": [5,999999],
-          "level": [8,8],
-          "mistakes": [2,3]
+          "mistakes": [
+            2,
+            3
+          ],
+          "level": [
+            8,
+            8
+          ],
+          "stage-5": [
+            5,
+            999999
+          ]
         },
         {
           "to": "Magnadramon X",
-          "level": [1,5],
-          "mistakes": [0,1]
+          "mistakes": [
+            0,
+            1
+          ],
+          "level": [
+            1,
+            5
+          ]
         },
         {
           "to": "Magnadramon X",
-          "level": [6,8],
-          "mistakes": [0,1]
+          "mistakes": [
+            0,
+            1
+          ],
+          "level": [
+            6,
+            8
+          ]
         },
         {
           "to": "Dinotigermon",
-          "stage-5": [0,999999],
-          "level": [8,8],
-          "mistakes": [2,3]
+          "mistakes": [
+            2,
+            3
+          ],
+          "level": [
+            8,
+            8
+          ],
+          "stage-5": [
+            5,
+            999999
+          ]
+        },
+        {
+          "to": "Dinotigermon",
+          "mistakes": [
+            2,
+            3
+          ],
+          "level": [
+            8,
+            8
+          ],
+          "stage-5": [
+            0,
+            4
+          ]
         },
         {
           "to": "Ebemon X",
-          "level": [5,7],
-          "mistakes": [2,3]
+          "mistakes": [
+            2,
+            3
+          ],
+          "level": [
+            5,
+            7
+          ]
+        }
+      ]
+    },
+    {
+      "name": "CrysPaledramon",
+      "stage": 5,
+      "version": 5,
+      "special": true,
+      "special_key": "CrysPaledramon",
+      "sleeps": "23:00",
+      "wakes": "08:00",
+      "atk_main": 48,
+      "atk_alt": 37,
+      "time": 2880,
+      "poop_timer": 120,
+      "energy": 40,
+      "min_weight": 40,
+      "stomach": 6,
+      "hunger_loss": 59,
+      "strength_loss": 59,
+      "heal_doses": 1,
+      "power": 104,
+      "attribute": "Da",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
+      "hp": 15,
+      "evolve": [
+        {
+          "to": "Hexeblaumon",
+          "mistakes": [
+            0,
+            2
+          ],
+          "level": [
+            7,
+            8
+          ]
+        },
+        {
+          "to": "Magnadramon X",
+          "mistakes": [
+            0,
+            1
+          ],
+          "level": [
+            1,
+            3
+          ]
+        },
+        {
+          "to": "Magnadramon X",
+          "mistakes": [
+            3,
+            3
+          ],
+          "level": [
+            5,
+            7
+          ]
+        },
+        {
+          "to": "Magnadramon X",
+          "mistakes": [
+            3,
+            3
+          ],
+          "level": [
+            8,
+            8
+          ],
+          "stage-5": [
+            0,
+            2
+          ]
+        },
+        {
+          "to": "Justimon X",
+          "mistakes": [
+            0,
+            2
+          ],
+          "level": [
+            4,
+            6
+          ]
+        },
+        {
+          "to": "Alphamon",
+          "mistakes": [
+            3,
+            3
+          ],
+          "level": [
+            8,
+            8
+          ],
+          "stage-5": [
+            3,
+            999999
+          ]
         }
       ]
     },
     {
       "name": "Jazarichmon",
       "stage": 5,
-      "attribute": "Da",
-      "power": 104,
       "version": 5,
-      "special": false,
+      "special": true,
+      "special_key": "Jazarichmon",
       "sleeps": "23:00",
       "wakes": "08:00",
       "atk_main": 101,
@@ -11476,49 +12432,93 @@
       "hunger_loss": 59,
       "strength_loss": 59,
       "heal_doses": 1,
+      "power": 104,
+      "attribute": "Da",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
       "hp": 15,
       "evolve": [
         {
           "to": "Rapidmon X",
-          "level": [4,6],
-          "mistakes": [0,2]
+          "mistakes": [
+            0,
+            2
+          ],
+          "level": [
+            4,
+            6
+          ]
         },
         {
           "to": "TigerVespamon",
-          "level": [1,3],
-          "mistakes": [0,2]
+          "mistakes": [
+            0,
+            2
+          ],
+          "level": [
+            1,
+            3
+          ]
         },
         {
           "to": "Phoenixmon X",
-          "stage-5": [3,999999],
-          "level": [8,8],
-          "mistakes": [3,999999]
+          "mistakes": [
+            3,
+            3
+          ],
+          "level": [
+            8,
+            8
+          ],
+          "stage-5": [
+            3,
+            999999
+          ]
         },
         {
           "to": "Metallicdramon",
-          "level": [7,8],
-          "mistakes": [0,2]
+          "mistakes": [
+            0,
+            2
+          ],
+          "level": [
+            7,
+            8
+          ]
         },
         {
           "to": "Ebemon X",
-          "level": [5,7],
-          "mistakes": [3,999999]
+          "mistakes": [
+            3,
+            3
+          ],
+          "level": [
+            5,
+            7
+          ]
         },
         {
           "to": "Ebemon X",
-          "level": [8,8],
-          "stage-5": [0,2],
-          "mistakes": [3,999999]
+          "mistakes": [
+            3,
+            3
+          ],
+          "level": [
+            8,
+            8
+          ],
+          "stage-5": [
+            0,
+            2
+          ]
         }
       ]
     },
     {
       "name": "Pumpkinmon",
       "stage": 5,
-      "attribute": "Da",
-      "power": 88,
       "version": 5,
-      "special": false,
+      "special": true,
       "sleeps": "23:00",
       "wakes": "08:00",
       "atk_main": 78,
@@ -11531,47 +12531,91 @@
       "hunger_loss": 59,
       "strength_loss": 59,
       "heal_doses": 1,
+      "power": 88,
+      "attribute": "Da",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
       "hp": 15,
       "evolve": [
         {
           "to": "Rapidmon X",
-          "level": [4,6],
-          "mistakes": [0,2]
+          "mistakes": [
+            0,
+            2
+          ],
+          "level": [
+            4,
+            6
+          ]
         },
         {
           "to": "NoblePumpkinmon",
-          "level": [7,8],
-          "mistakes": [0,2]
+          "mistakes": [
+            0,
+            2
+          ],
+          "level": [
+            7,
+            8
+          ]
         },
         {
           "to": "NoblePumpkinmon",
-          "stage-5": [3,999999],
-          "level": [8,8],
-          "mistakes": [3,999999]
+          "mistakes": [
+            3,
+            3
+          ],
+          "level": [
+            8,
+            8
+          ],
+          "stage-5": [
+            3,
+            999999
+          ]
         },
         {
           "to": "Dinotigermon",
-          "level": [1,3],
-          "mistakes": [0,2]
+          "mistakes": [
+            0,
+            2
+          ],
+          "level": [
+            1,
+            3
+          ]
         },
         {
           "to": "Dinotigermon",
-          "level": [5,7],
-          "mistakes": [3,999999]
+          "mistakes": [
+            3,
+            3
+          ],
+          "level": [
+            5,
+            7
+          ]
         },
         {
           "to": "Dinotigermon",
-          "level": [8,8],
-          "stage-5": [0,2],
-          "mistakes": [3,999999]
+          "mistakes": [
+            3,
+            3
+          ],
+          "level": [
+            8,
+            8
+          ],
+          "stage-5": [
+            0,
+            2
+          ]
         }
       ]
     },
     {
       "name": "Rapidmon X",
       "stage": 6,
-      "attribute": "Va",
-      "power": 170,
       "version": 5,
       "special": true,
       "special_key": "Rapidmon X",
@@ -11587,26 +12631,50 @@
       "hunger_loss": 59,
       "strength_loss": 59,
       "heal_doses": 1,
+      "power": 170,
+      "attribute": "Va",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
       "hp": 18,
       "evolve": [
         {
           "to": "Magnamon X",
-          "area": 36,
-          "level": [8,10],
-          "mistakes": [0,2]
+          "mistakes": [
+            0,
+            2
+          ],
+          "level": [
+            8,
+            10
+          ]
         },
         {
           "to": "Craniamon X",
-          "level": [5,10],
-          "mistakes": [0,2]
+          "mistakes": [
+            0,
+            2
+          ],
+          "level": [
+            5,
+            7
+          ]
+        },
+        {
+          "to": "Craniamon X",
+          "mistakes": [
+            0,
+            2
+          ],
+          "level": [
+            8,
+            10
+          ]
         }
       ]
     },
     {
       "name": "Justimon X",
       "stage": 6,
-      "attribute": "Va",
-      "power": 164,
       "version": 5,
       "special": true,
       "special_key": "Justimon X",
@@ -11622,26 +12690,50 @@
       "hunger_loss": 59,
       "strength_loss": 59,
       "heal_doses": 1,
+      "power": 164,
+      "attribute": "Va",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
       "hp": 18,
       "evolve": [
         {
           "to": "Gankoomon X",
-          "area": 40,
-          "level": [8,10],
-          "mistakes": [0,2]
+          "mistakes": [
+            0,
+            2
+          ],
+          "level": [
+            8,
+            10
+          ]
         },
         {
           "to": "LordKnightmon X",
-          "level": [5,10],
-          "mistakes": [0,2]
+          "mistakes": [
+            0,
+            2
+          ],
+          "level": [
+            5,
+            7
+          ]
+        },
+        {
+          "to": "LordKnightmon X",
+          "mistakes": [
+            0,
+            2
+          ],
+          "level": [
+            8,
+            10
+          ]
         }
       ]
     },
     {
       "name": "Alphamon",
       "stage": 6,
-      "attribute": "Va",
-      "power": 176,
       "version": 5,
       "special": false,
       "sleeps": "00:00",
@@ -11656,21 +12748,28 @@
       "hunger_loss": 59,
       "strength_loss": 59,
       "heal_doses": 1,
+      "power": 176,
+      "attribute": "Va",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
       "hp": 18,
       "evolve": [
         {
           "to": "Alphamon: Ouryuken",
-          "area": 46,
-          "level": [8,10],
-          "mistakes": [0,2]
+          "mistakes": [
+            0,
+            2
+          ],
+          "level": [
+            8,
+            10
+          ]
         }
       ]
     },
     {
       "name": "Phoenixmon X",
       "stage": 6,
-      "attribute": "Va",
-      "power": 160,
       "version": 5,
       "special": true,
       "special_key": "Phoenixmon X",
@@ -11686,26 +12785,50 @@
       "hunger_loss": 59,
       "strength_loss": 59,
       "heal_doses": 1,
+      "power": 160,
+      "attribute": "Va",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
       "hp": 18,
       "evolve": [
         {
           "to": "Dynasmon X",
-          "area": 34,
-          "level": [8,10],
-          "mistakes": [0,2]
+          "mistakes": [
+            0,
+            2
+          ],
+          "level": [
+            8,
+            10
+          ]
         },
         {
           "to": "LordKnightmon X",
-          "level": [5,10],
-          "mistakes": [0,2]
+          "mistakes": [
+            0,
+            2
+          ],
+          "level": [
+            5,
+            7
+          ]
+        },
+        {
+          "to": "LordKnightmon X",
+          "mistakes": [
+            0,
+            2
+          ],
+          "level": [
+            8,
+            10
+          ]
         }
       ]
     },
     {
       "name": "TigerVespamon",
       "stage": 6,
-      "attribute": "Vi",
-      "power": 138,
       "version": 5,
       "special": false,
       "sleeps": "00:00",
@@ -11720,26 +12843,41 @@
       "hunger_loss": 59,
       "strength_loss": 59,
       "heal_doses": 1,
+      "power": 138,
+      "attribute": "Vi",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
       "hp": 18,
       "evolve": [
         {
           "to": "Gallantmon X",
-          "level": [9,10],
-          "special_encounter": true,
-          "mistakes": [0,2]
+          "mistakes": [
+            0,
+            2
+          ],
+          "level": [
+            9,
+            10
+          ],
+          "special_encounter": true
         },
         {
           "to": "Craniamon X",
-          "level": [9,10],
-          "mistakes": [0,2]
+          "mistakes": [
+            0,
+            2
+          ],
+          "level": [
+            9,
+            10
+          ],
+          "special_encounter": false
         }
       ]
     },
     {
       "name": "Gaiomon",
       "stage": 6,
-      "attribute": "Vi",
-      "power": 146,
       "version": 5,
       "special": false,
       "sleeps": "00:00",
@@ -11754,26 +12892,50 @@
       "hunger_loss": 59,
       "strength_loss": 59,
       "heal_doses": 1,
+      "power": 146,
+      "attribute": "Vi",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
       "hp": 18,
       "evolve": [
         {
           "to": "Alphamon: Ouryuken",
-          "area": 46,
-          "level": [10,10],
-          "mistakes": [0,2]
+          "mistakes": [
+            0,
+            2
+          ],
+          "level": [
+            10,
+            10
+          ]
         },
         {
           "to": "Craniamon X",
-          "level": [5,10],
-          "mistakes": [0,2]
+          "mistakes": [
+            0,
+            2
+          ],
+          "level": [
+            5,
+            9
+          ]
+        },
+        {
+          "to": "Craniamon X",
+          "mistakes": [
+            0,
+            2
+          ],
+          "level": [
+            10,
+            10
+          ]
         }
       ]
     },
     {
       "name": "Dinotigermon",
       "stage": 6,
-      "attribute": "Da",
-      "power": 142,
       "version": 5,
       "special": false,
       "sleeps": "00:00",
@@ -11788,25 +12950,39 @@
       "hunger_loss": 59,
       "strength_loss": 59,
       "heal_doses": 1,
+      "power": 142,
+      "attribute": "Da",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
       "hp": 18,
       "evolve": [
         {
           "to": "LordKnightmon X",
-          "level": [8,10],
-          "mistakes": [0,2]
+          "mistakes": [
+            0,
+            2
+          ],
+          "level": [
+            8,
+            10
+          ]
         },
         {
           "to": "Craniamon X",
-          "level": [5,7],
-          "mistakes": [0,2]
+          "mistakes": [
+            0,
+            2
+          ],
+          "level": [
+            5,
+            7
+          ]
         }
       ]
     },
     {
       "name": "Magnadramon X",
       "stage": 6,
-      "attribute": "Va",
-      "power": 150,
       "version": 5,
       "special": false,
       "sleeps": "00:00",
@@ -11821,26 +12997,39 @@
       "hunger_loss": 59,
       "strength_loss": 59,
       "heal_doses": 1,
+      "power": 150,
+      "attribute": "Va",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
       "hp": 18,
       "evolve": [
         {
           "to": "Magnamon X",
-          "area": 36,
-          "level": [10,10],
-          "mistakes": [0,2]
+          "mistakes": [
+            0,
+            2
+          ],
+          "level": [
+            10,
+            10
+          ]
         },
         {
           "to": "LordKnightmon X",
-          "level": [10,10],
-          "mistakes": [0,2]
+          "mistakes": [
+            0,
+            2
+          ],
+          "level": [
+            10,
+            10
+          ]
         }
       ]
     },
     {
       "name": "Ebemon X",
       "stage": 6,
-      "attribute": "Vi",
-      "power": 130,
       "version": 5,
       "special": false,
       "sleeps": "00:00",
@@ -11855,28 +13044,42 @@
       "hunger_loss": 59,
       "strength_loss": 59,
       "heal_doses": 1,
+      "power": 130,
+      "attribute": "Vi",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
       "hp": 18,
       "evolve": [
         {
           "to": "Gankoomon X",
-          "area": 40,
-          "level": [10,10],
-          "mistakes": [0,2]
+          "mistakes": [
+            0,
+            2
+          ],
+          "level": [
+            10,
+            10
+          ]
         },
         {
           "to": "LordKnightmon X",
-          "level": [10,10],
-          "mistakes": [0,2]
+          "mistakes": [
+            0,
+            2
+          ],
+          "level": [
+            10,
+            10
+          ]
         }
       ]
     },
     {
       "name": "Hexeblaumon",
       "stage": 6,
-      "attribute": "Da",
-      "power": 166,
       "version": 5,
-      "special": false,
+      "special": true,
+      "special_key": "Hexeblaumon",
       "sleeps": "00:00",
       "wakes": "08:00",
       "atk_main": 87,
@@ -11889,30 +13092,50 @@
       "hunger_loss": 59,
       "strength_loss": 59,
       "heal_doses": 1,
+      "power": 166,
+      "attribute": "Da",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
       "hp": 18,
       "evolve": [
         {
           "to": "Gankoomon X",
-          "level": [8,10],
-          "mistakes": [0,2]
+          "mistakes": [
+            0,
+            2
+          ],
+          "level": [
+            8,
+            10
+          ]
         },
         {
           "to": "Magnamon X",
-          "level": [5,7],
-          "mistakes": [0,2]
+          "mistakes": [
+            0,
+            2
+          ],
+          "level": [
+            5,
+            7
+          ]
         },
         {
           "to": "Craniamon X",
-          "level": [1,4],
-          "mistakes": [0,2]
+          "mistakes": [
+            0,
+            2
+          ],
+          "level": [
+            1,
+            4
+          ]
         }
       ]
     },
     {
       "name": "Metallicdramon",
       "stage": 6,
-      "attribute": "Da",
-      "power": 156,
       "version": 5,
       "special": false,
       "sleeps": "00:00",
@@ -11927,32 +13150,53 @@
       "hunger_loss": 59,
       "strength_loss": 59,
       "heal_doses": 1,
+      "power": 156,
+      "attribute": "Da",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
       "hp": 18,
       "evolve": [
         {
           "to": "Magnamon X",
-          "level": [8,10],
-          "mistakes": [0,2]
+          "mistakes": [
+            0,
+            2
+          ],
+          "level": [
+            8,
+            10
+          ]
         },
         {
           "to": "Dynasmon X",
-          "level": [5,7],
-          "mistakes": [0,2]
+          "mistakes": [
+            0,
+            2
+          ],
+          "level": [
+            5,
+            7
+          ]
         },
         {
           "to": "Craniamon X",
-          "level": [1,4],
-          "mistakes": [0,2]
+          "mistakes": [
+            0,
+            2
+          ],
+          "level": [
+            1,
+            4
+          ]
         }
       ]
     },
     {
       "name": "NoblePumpkinmon",
       "stage": 6,
-      "attribute": "Da",
-      "power": 172,
       "version": 5,
-      "special": false,
+      "special": true,
+      "special_key": "NoblePumpkinmon",
       "sleeps": "00:00",
       "wakes": "08:00",
       "atk_main": 78,
@@ -11965,31 +13209,52 @@
       "hunger_loss": 59,
       "strength_loss": 59,
       "heal_doses": 1,
+      "power": 172,
+      "attribute": "Da",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
       "hp": 18,
       "evolve": [
         {
           "to": "Gallantmon X",
-          "level": [8,10],
-          "special_encounter": true,
-          "mistakes": [0,2]
+          "mistakes": [
+            0,
+            2
+          ],
+          "level": [
+            8,
+            10
+          ],
+          "special_encounter": true
         },
         {
           "to": "LordKnightmon X",
-          "level": [1,7],
-          "mistakes": [0,2]
+          "mistakes": [
+            0,
+            2
+          ],
+          "level": [
+            1,
+            7
+          ]
         },
         {
           "to": "LordKnightmon X",
-          "level": [8,10],
-          "mistakes": [0,2]
+          "mistakes": [
+            0,
+            2
+          ],
+          "level": [
+            8,
+            10
+          ],
+          "special_encounter": false
         }
       ]
     },
     {
       "name": "Magnamon X",
       "stage": 7,
-      "attribute": "Va",
-      "power": 198,
       "version": 5,
       "special": true,
       "special_key": "Magnamon X",
@@ -12005,14 +13270,16 @@
       "hunger_loss": 59,
       "strength_loss": 59,
       "heal_doses": 1,
+      "power": 198,
+      "attribute": "Va",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
       "hp": 20,
       "evolve": []
     },
     {
       "name": "Gankoomon X",
       "stage": 7,
-      "attribute": "Da",
-      "power": 208,
       "version": 5,
       "special": true,
       "special_key": "Gankoomon X",
@@ -12028,20 +13295,22 @@
       "hunger_loss": 59,
       "strength_loss": 59,
       "heal_doses": 1,
+      "power": 208,
+      "attribute": "Da",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
       "hp": 20,
       "evolve": [
         {
           "to": "Jesmon GX",
-          "jogress": "Jesmon X",
-          "version": 6
+          "version": 6,
+          "jogress": "Jesmon X"
         }
       ]
     },
     {
       "name": "Dynasmon X",
       "stage": 7,
-      "attribute": "Da",
-      "power": 194,
       "version": 5,
       "special": true,
       "special_key": "Dynasmon X",
@@ -12057,14 +13326,16 @@
       "hunger_loss": 59,
       "strength_loss": 59,
       "heal_doses": 1,
+      "power": 194,
+      "attribute": "Da",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
       "hp": 20,
       "evolve": []
     },
     {
       "name": "Craniamon X",
       "stage": 7,
-      "attribute": "Va",
-      "power": 186,
       "version": 5,
       "special": true,
       "special_key": "Craniamon X",
@@ -12080,16 +13351,18 @@
       "hunger_loss": 59,
       "strength_loss": 59,
       "heal_doses": 1,
+      "power": 186,
+      "attribute": "Va",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
       "hp": 20,
       "evolve": []
     },
     {
       "name": "LordKnightmon X",
       "stage": 7,
-      "attribute": "Vi",
-      "power": 190,
       "version": 5,
-      "special": true,
+      "special": false,
       "special_key": "LordKnightmon X",
       "sleeps": "00:00",
       "wakes": "08:00",
@@ -12103,14 +13376,16 @@
       "hunger_loss": 59,
       "strength_loss": 59,
       "heal_doses": 1,
+      "power": 190,
+      "attribute": "Vi",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
       "hp": 20,
       "evolve": []
     },
     {
       "name": "Gallantmon X",
       "stage": 7,
-      "attribute": "Vi",
-      "power": 202,
       "version": 5,
       "special": true,
       "special_key": "Gallantmon X",
@@ -12126,14 +13401,16 @@
       "hunger_loss": 59,
       "strength_loss": 59,
       "heal_doses": 1,
+      "power": 202,
+      "attribute": "Vi",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
       "hp": 20,
       "evolve": []
     },
     {
       "name": "Alphamon: Ouryuken",
       "stage": 7,
-      "attribute": "Va",
-      "power": 206,
       "version": 5,
       "special": true,
       "special_key": "Alphamon: Ouryuken",
@@ -12149,14 +13426,16 @@
       "hunger_loss": 59,
       "strength_loss": 59,
       "heal_doses": 1,
+      "power": 206,
+      "attribute": "Va",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
       "hp": 20,
       "evolve": []
     },
     {
       "name": "Jesmon GX",
       "stage": 8,
-      "attribute": "Da",
-      "power": 220,
       "version": 5,
       "special": false,
       "sleeps": "00:00",
@@ -12171,6 +13450,10 @@
       "hunger_loss": 59,
       "strength_loss": 59,
       "heal_doses": 1,
+      "power": 220,
+      "attribute": "Da",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
       "hp": 20,
       "evolve": []
     },
@@ -12179,8 +13462,6 @@
       "stage": 0,
       "version": 6,
       "special": false,
-      "sleeps": null,
-      "wakes": null,
       "atk_main": 0,
       "atk_alt": 0,
       "time": 1,
@@ -12193,6 +13474,9 @@
       "heal_doses": 0,
       "power": 0,
       "attribute": "",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
+      "hp": 0,
       "evolve": [
         {
           "to": "Conomon"
@@ -12202,12 +13486,8 @@
     {
       "name": "Conomon",
       "stage": 1,
-      "attribute": "",
-      "power": 0,
       "version": 6,
       "special": false,
-      "sleeps": null,
-      "wakes": null,
       "atk_main": 0,
       "atk_alt": 0,
       "time": 10,
@@ -12218,6 +13498,10 @@
       "hunger_loss": 3,
       "strength_loss": 3,
       "heal_doses": 1,
+      "power": 0,
+      "attribute": "",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
       "hp": 0,
       "evolve": [
         {
@@ -12228,8 +13512,6 @@
     {
       "name": "Kokomon",
       "stage": 2,
-      "attribute": "",
-      "power": 2,
       "version": 6,
       "special": false,
       "sleeps": "21:00",
@@ -12244,45 +13526,77 @@
       "hunger_loss": 30,
       "strength_loss": 30,
       "heal_doses": 1,
+      "power": 2,
+      "attribute": "",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
       "hp": 10,
       "evolve": [
         {
           "to": "Ryudamon",
-          "training": [4,999999],
-          "mistakes": [0,999999]
+          "training": [
+            4,
+            999999
+          ],
+          "mistakes": [
+            0,
+            999999
+          ]
         },
         {
           "to": "Bulucomon",
-          "training": [2,4],
-          "area": 45,
-          "mistakes": [0,1]
+          "training": [
+            2,
+            4
+          ],
+          "mistakes": [
+            0,
+            1
+          ],
+          "area": 45
         },
         {
           "to": "Jazamon",
-          "training": [0,1],
-          "area": 45,
-          "mistakes": [1,999999]
+          "training": [
+            0,
+            1
+          ],
+          "mistakes": [
+            1,
+            999999
+          ],
+          "area": 45
         },
         {
           "to": "Ryudamon",
-          "training": [4,999999]
+          "training": [
+            4,
+            999999
+          ]
         },
         {
           "to": "Lopmon X",
-          "training": [0,3],
-          "mistakes": [0,1]
+          "training": [
+            0,
+            3
+          ],
+          "mistakes": [
+            0,
+            1
+          ]
         },
         {
           "to": "Syakomon X",
-          "mistakes": [2,999999]
+          "mistakes": [
+            2,
+            999999
+          ]
         }
       ]
     },
     {
       "name": "Lopmon X",
       "stage": 3,
-      "attribute": "Da",
-      "power": 20,
       "version": 6,
       "special": false,
       "sleeps": "21:00",
@@ -12297,42 +13611,74 @@
       "hunger_loss": 48,
       "strength_loss": 48,
       "heal_doses": 1,
+      "power": 20,
+      "attribute": "Da",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
       "hp": 10,
       "evolve": [
         {
           "to": "Pegasusmon X",
-          "training": [4,999999],
-          "area": 10,
-          "mistakes": [0,2]
+          "training": [
+            4,
+            999999
+          ],
+          "mistakes": [
+            0,
+            2
+          ],
+          "area": 10
         },
         {
           "to": "Gatomon X",
-          "training": [0,3],
-          "mistakes": [0,2]
+          "training": [
+            0,
+            3
+          ],
+          "mistakes": [
+            0,
+            2
+          ]
         },
         {
           "to": "Wizardmon X",
-          "training": [4,999999],
-          "area": 12,
-          "mistakes": [3,999999]
+          "training": [
+            4,
+            999999
+          ],
+          "mistakes": [
+            3,
+            999999
+          ],
+          "area": 12
         },
         {
           "to": "Gatomon X",
-          "training": [4,999999],
-          "mistakes": [0,2]
+          "training": [
+            4,
+            999999
+          ],
+          "mistakes": [
+            0,
+            2
+          ]
         },
         {
           "to": "Ginryumon",
-          "training": [0,999999],
-          "mistakes": [3,999999]
+          "training": [
+            0,
+            999999
+          ],
+          "mistakes": [
+            3,
+            999999
+          ]
         }
       ]
     },
     {
       "name": "Syakomon X",
       "stage": 3,
-      "attribute": "Vi",
-      "power": 8,
       "version": 6,
       "special": false,
       "sleeps": "21:00",
@@ -12347,35 +13693,58 @@
       "hunger_loss": 48,
       "strength_loss": 48,
       "heal_doses": 1,
+      "power": 8,
+      "attribute": "Vi",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
       "hp": 10,
       "evolve": [
         {
           "to": "Tylomon X",
-          "training": [2,999999],
-          "mistakes": [0,2]
+          "training": [
+            2,
+            999999
+          ],
+          "mistakes": [
+            0,
+            2
+          ]
         },
         {
           "to": "Wizardmon X",
-          "training": [0,1],
-          "area": 12,
-          "mistakes": [0,2]
+          "training": [
+            0,
+            1
+          ],
+          "mistakes": [
+            0,
+            2
+          ],
+          "area": 12
         },
         {
           "to": "Omekamon",
-          "mistakes": [3,999999]
+          "mistakes": [
+            3,
+            999999
+          ]
         },
         {
           "to": "Ginryumon",
-          "training": [0,1],
-          "mistakes": [0,2]
+          "training": [
+            0,
+            1
+          ],
+          "mistakes": [
+            0,
+            2
+          ]
         }
       ]
     },
     {
       "name": "Ryudamon",
       "stage": 3,
-      "attribute": "Va",
-      "power": 14,
       "version": 6,
       "special": false,
       "sleeps": "21:00",
@@ -12390,42 +13759,74 @@
       "hunger_loss": 48,
       "strength_loss": 48,
       "heal_doses": 1,
+      "power": 14,
+      "attribute": "Va",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
       "hp": 10,
       "evolve": [
         {
           "to": "Ginryumon",
-          "training": [3,999999],
-          "mistakes": [0,1]
+          "training": [
+            3,
+            999999
+          ],
+          "mistakes": [
+            0,
+            1
+          ]
         },
         {
           "to": "Pegasusmon X",
-          "training": [0,2],
-          "area": 10,
-          "mistakes": [0,1]
+          "training": [
+            0,
+            2
+          ],
+          "mistakes": [
+            0,
+            1
+          ],
+          "area": 10
         },
         {
           "to": "Tylomon X",
-          "training": [0,2],
-          "mistakes": [0,1]
+          "training": [
+            0,
+            2
+          ],
+          "mistakes": [
+            0,
+            1
+          ]
         },
         {
           "to": "Wizardmon X",
-          "training": [3,999999],
-          "area": 12,
-          "mistakes": [2,999999]
+          "training": [
+            3,
+            999999
+          ],
+          "mistakes": [
+            2,
+            999999
+          ],
+          "area": 12
         },
         {
           "to": "Omekamon",
-          "training": [0,999999],
-          "mistakes": [2,999999]
+          "training": [
+            0,
+            999999
+          ],
+          "mistakes": [
+            2,
+            999999
+          ]
         }
       ]
     },
     {
       "name": "Bulucomon",
       "stage": 3,
-      "attribute": "Da",
-      "power": 12,
       "version": 6,
       "special": false,
       "sleeps": "21:00",
@@ -12440,35 +13841,61 @@
       "hunger_loss": 48,
       "strength_loss": 48,
       "heal_doses": 1,
+      "power": 12,
+      "attribute": "Da",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
       "hp": 10,
       "evolve": [
         {
           "to": "Paledramon",
-          "training": [2,4],
-          "mistakes": [0,1]
+          "training": [
+            2,
+            4
+          ],
+          "mistakes": [
+            0,
+            1
+          ]
         },
         {
           "to": "Wizardmon X",
-          "training": [0,1],
-          "mistakes": [0,1]
+          "training": [
+            0,
+            1
+          ],
+          "mistakes": [
+            0,
+            1
+          ]
         },
         {
           "to": "Ginryumon",
-          "training": [3,999999],
-          "mistakes": [2,999999]
+          "training": [
+            3,
+            999999
+          ],
+          "mistakes": [
+            2,
+            999999
+          ]
         },
         {
           "to": "Omekamon",
-          "training": [0,2],
-          "mistakes": [2,999999]
+          "training": [
+            0,
+            2
+          ],
+          "mistakes": [
+            2,
+            999999
+          ]
         }
       ]
     },
     {
       "name": "Jazamon",
       "stage": 3,
-      "attribute": "Da",
-      "power": 18,
       "version": 6,
       "special": false,
       "sleeps": "21:00",
@@ -12483,29 +13910,46 @@
       "hunger_loss": 48,
       "strength_loss": 48,
       "heal_doses": 1,
+      "power": 18,
+      "attribute": "Da",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
       "hp": 10,
       "evolve": [
         {
           "to": "Jazardmon",
-          "training": [2,999999],
-          "mistakes": [0,2]
+          "training": [
+            2,
+            999999
+          ],
+          "mistakes": [
+            0,
+            2
+          ]
         },
         {
           "to": "Pegasusmon X",
-          "training": [0,1],
-          "mistakes": [0,2]
+          "training": [
+            0,
+            1
+          ],
+          "mistakes": [
+            0,
+            2
+          ]
         },
         {
           "to": "Tylomon X",
-          "mistakes": [3,999999]
+          "mistakes": [
+            3,
+            999999
+          ]
         }
       ]
     },
     {
       "name": "Pegasusmon X",
       "stage": 4,
-      "attribute": "Va",
-      "power": 46,
       "version": 6,
       "special": true,
       "special_key": "Pegasusmon X",
@@ -12521,43 +13965,81 @@
       "hunger_loss": 59,
       "strength_loss": 59,
       "heal_doses": 1,
+      "power": 46,
+      "attribute": "Va",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
       "hp": 12,
       "evolve": [
         {
           "to": "Monzaemon X",
-          "area": 20,
-          "level": [5,6],
-          "mistakes": [0,2]
+          "mistakes": [
+            0,
+            2
+          ],
+          "level": [
+            5,
+            6
+          ],
+          "area": 20
         },
         {
           "to": "Hisyaryumon",
-          "level": [1,4],
-          "mistakes": [0,2]
+          "mistakes": [
+            0,
+            2
+          ],
+          "level": [
+            1,
+            4
+          ]
         },
         {
           "to": "Hisyaryumon",
-          "level": [5,6],
-          "mistakes": [0,2]
+          "mistakes": [
+            0,
+            2
+          ],
+          "level": [
+            5,
+            6
+          ]
         },
         {
           "to": "Angewomon X",
-          "stage-5": [1,999999],
-          "level": [6,6],
-          "mistakes": [3,999999]
+          "mistakes": [
+            3,
+            999999
+          ],
+          "level": [
+            6,
+            6
+          ],
+          "stage-5": [
+            1,
+            999999
+          ]
         },
         {
           "to": "Grademon",
-          "stage-5": [0,0],
-          "level": [1,6],
-          "mistakes": [3,999999]
+          "mistakes": [
+            3,
+            999999
+          ],
+          "level": [
+            1,
+            6
+          ],
+          "stage-5": [
+            0,
+            0
+          ]
         }
       ]
     },
     {
       "name": "Wizardmon X",
       "stage": 4,
-      "attribute": "Da",
-      "power": 52,
       "version": 6,
       "special": true,
       "special_key": "Wizardmon X",
@@ -12573,39 +14055,71 @@
       "hunger_loss": 59,
       "strength_loss": 59,
       "heal_doses": 1,
+      "power": 52,
+      "attribute": "Da",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
       "hp": 12,
       "evolve": [
         {
           "to": "Monzaemon X",
+          "mistakes": [
+            3,
+            999999
+          ],
+          "level": [
+            6,
+            6
+          ],
           "area": 20,
-          "stage-5": [1,999999],
-          "level": [6,6],
-          "mistakes": [3,999999]
+          "stage-5": [
+            1,
+            999999
+          ]
         },
         {
           "to": "RizeGreymon X",
-          "area": 18,
-          "level": [4,6],
-          "mistakes": [0,2]
+          "mistakes": [
+            0,
+            2
+          ],
+          "level": [
+            4,
+            6
+          ],
+          "area": 18
         },
         {
           "to": "Scorpiomon X",
-          "level": [1,6],
-          "mistakes": [0,2]
+          "mistakes": [
+            0,
+            2
+          ],
+          "level": [
+            1,
+            6
+          ]
         },
         {
           "to": "Mamemon X",
-          "stage-5": [0,0],
-          "level": [1,6],
-          "mistakes": [3,999999]
+          "mistakes": [
+            3,
+            999999
+          ],
+          "level": [
+            1,
+            6
+          ],
+          "stage-5": [
+            0,
+            0
+          ]
         }
       ]
     },
     {
       "name": "Ginryumon",
       "stage": 4,
-      "attribute": "Va",
-      "power": 38,
       "version": 6,
       "special": false,
       "sleeps": "22:00",
@@ -12620,35 +14134,61 @@
       "hunger_loss": 59,
       "strength_loss": 59,
       "heal_doses": 1,
+      "power": 38,
+      "attribute": "Va",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
       "hp": 12,
       "evolve": [
         {
           "to": "Hisyaryumon",
-          "level": [4,6],
-          "mistakes": [0,2]
+          "mistakes": [
+            0,
+            2
+          ],
+          "level": [
+            4,
+            6
+          ]
         },
         {
           "to": "Grademon",
-          "level": [1,3],
-          "mistakes": [0,2]
+          "mistakes": [
+            0,
+            2
+          ],
+          "level": [
+            1,
+            3
+          ]
         },
         {
           "to": "Scorpiomon X",
-          "level": [5,6],
-          "mistakes": [3,999999]
+          "mistakes": [
+            3,
+            999999
+          ],
+          "level": [
+            5,
+            6
+          ]
         },
         {
           "to": "Mamemon X",
-          "level": [1,4],
-          "mistakes": [3,999999]
+          "mistakes": [
+            3,
+            999999
+          ],
+          "level": [
+            1,
+            4
+          ]
         }
       ]
     },
     {
       "name": "Gatomon X",
       "stage": 4,
-      "attribute": "Va",
-      "power": 34,
       "version": 6,
       "special": false,
       "sleeps": "22:00",
@@ -12663,37 +14203,63 @@
       "hunger_loss": 59,
       "strength_loss": 59,
       "heal_doses": 1,
+      "power": 34,
+      "attribute": "Va",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
       "hp": 12,
       "evolve": [
         {
           "to": "Angewomon X",
-          "area": 23,
-          "level": [3,6],
-          "mistakes": [0,1]
+          "mistakes": [
+            0,
+            1
+          ],
+          "level": [
+            3,
+            6
+          ],
+          "area": 23
         },
         {
           "to": "Monzaemon X",
-          "area": 20,
-          "level": [3,6],
-          "mistakes": [0,1]
+          "mistakes": [
+            0,
+            1
+          ],
+          "level": [
+            3,
+            6
+          ],
+          "area": 20
         },
         {
           "to": "Grademon",
-          "level": [1,6],
-          "mistakes": [0,1]
+          "mistakes": [
+            0,
+            1
+          ],
+          "level": [
+            1,
+            6
+          ]
         },
         {
           "to": "Mamemon X",
-          "level": [1,6],
-          "mistakes": [2,999999]
+          "mistakes": [
+            2,
+            999999
+          ],
+          "level": [
+            1,
+            6
+          ]
         }
       ]
     },
     {
       "name": "Tylomon X",
       "stage": 4,
-      "attribute": "Va",
-      "power": 30,
       "version": 6,
       "special": false,
       "sleeps": "22:00",
@@ -12708,37 +14274,66 @@
       "hunger_loss": 59,
       "strength_loss": 59,
       "heal_doses": 1,
+      "power": 30,
+      "attribute": "Va",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
       "hp": 12,
       "evolve": [
         {
           "to": "RizeGreymon X",
+          "mistakes": [
+            2,
+            999999
+          ],
+          "level": [
+            6,
+            6
+          ],
           "area": 18,
-          "level": [6,6],
-          "stage-5": [1,999999],
-          "mistakes": [2,999999]
+          "stage-5": [
+            1,
+            999999
+          ]
         },
         {
           "to": "Mamemon X",
-          "level": [6,6],
-          "mistakes": [0,1]
+          "mistakes": [
+            0,
+            1
+          ],
+          "level": [
+            6,
+            6
+          ]
         },
         {
           "to": "Mamemon X",
-          "level": [1,5]
+          "level": [
+            1,
+            5
+          ]
         },
         {
           "to": "Mamemon X",
-          "stage-5": [0,0],
-          "level": [6,6],
-          "mistakes": [2,999999]
+          "mistakes": [
+            2,
+            999999
+          ],
+          "level": [
+            6,
+            6
+          ],
+          "stage-5": [
+            0,
+            0
+          ]
         }
       ]
     },
     {
       "name": "Omekamon",
       "stage": 4,
-      "attribute": "Da",
-      "power": 60,
       "version": 6,
       "special": false,
       "sleeps": "22:00",
@@ -12753,79 +14348,159 @@
       "hunger_loss": 59,
       "strength_loss": 59,
       "heal_doses": 1,
+      "power": 60,
+      "attribute": "Da",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
       "hp": 12,
       "evolve": [
         {
           "to": "CrysPaledramon",
-          "area": 45,
-          "level": [1,4],
-          "mistakes": [0,1]
+          "mistakes": [
+            0,
+            1
+          ],
+          "level": [
+            1,
+            4
+          ],
+          "area": 45
         },
         {
           "to": "Jazarichmon",
+          "mistakes": [
+            2,
+            999999
+          ],
+          "level": [
+            6,
+            6
+          ],
           "area": 45,
-          "stage-5": [0,0],
-          "level": [6,6],
-          "mistakes": [2,999999]
+          "stage-5": [
+            0,
+            0
+          ]
         },
         {
           "to": "Pumpkinmon",
-          "area": 45,
-          "level": [1,5],
-          "mistakes": [2,999999]
+          "mistakes": [
+            2,
+            999999
+          ],
+          "level": [
+            1,
+            5
+          ],
+          "area": 45
         },
         {
           "to": "Monzaemon X",
-          "area": 20,
-          "level": [5,6],
-          "mistakes": [0,1]
+          "mistakes": [
+            0,
+            1
+          ],
+          "level": [
+            5,
+            6
+          ],
+          "area": 20
         },
         {
           "to": "RizeGreymon X",
+          "mistakes": [
+            2,
+            999999
+          ],
+          "level": [
+            6,
+            6
+          ],
           "area": 18,
-          "stage-5": [1,999999],
-          "level": [6,6],
-          "mistakes": [2,999999]
+          "stage-5": [
+            1,
+            999999
+          ]
         },
         {
           "to": "Hisyaryumon",
-          "level": [1,6],
-          "mistakes": [0,1]
+          "mistakes": [
+            0,
+            1
+          ],
+          "level": [
+            1,
+            6
+          ]
         },
         {
           "to": "Grademon",
-          "level": [1,5],
-          "mistakes": [2,999999]
+          "mistakes": [
+            2,
+            999999
+          ],
+          "level": [
+            1,
+            5
+          ]
         },
         {
           "to": "Grademon",
-          "stage-5": [0,0],
-          "level": [6,6],
-          "mistakes": [2,999999]
+          "mistakes": [
+            2,
+            999999
+          ],
+          "level": [
+            6,
+            6
+          ],
+          "stage-5": [
+            0,
+            0
+          ]
         },
         {
           "to": "Grademon",
-          "level": [5,6],
-          "mistakes": [0,0]
+          "mistakes": [
+            0,
+            0
+          ],
+          "level": [
+            5,
+            6
+          ]
         },
         {
           "to": "Mamemon X",
-          "stage-5": [0,0],
-          "level": [6,6],
-          "mistakes": [2,999999]
+          "mistakes": [
+            2,
+            999999
+          ],
+          "level": [
+            6,
+            6
+          ],
+          "stage-5": [
+            0,
+            0
+          ]
         },
         {
           "to": "Mamemon X",
-          "level": [1,5],
-          "mistakes": [2,999999]
+          "mistakes": [
+            2,
+            999999
+          ],
+          "level": [
+            1,
+            5
+          ]
         }
       ]
     },
     {
       "name": "Paledramon",
       "stage": 4,
-      "attribute": "Da",
-      "power": 56,
       "version": 6,
       "special": false,
       "sleeps": "22:00",
@@ -12840,41 +14515,76 @@
       "hunger_loss": 59,
       "strength_loss": 59,
       "heal_doses": 1,
+      "power": 56,
+      "attribute": "Da",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
       "hp": 12,
       "evolve": [
         {
           "to": "CrysPaledramon",
-          "level": [4,6],
-          "mistakes": [0,2]
+          "mistakes": [
+            0,
+            2
+          ],
+          "level": [
+            4,
+            6
+          ]
         },
         {
           "to": "Pumpkinmon",
-          "level": [1,3],
-          "mistakes": [0,2]
+          "mistakes": [
+            0,
+            2
+          ],
+          "level": [
+            1,
+            3
+          ]
         },
         {
           "to": "Pumpkinmon",
-          "level": [1,5],
-          "mistakes": [3,999999]
+          "mistakes": [
+            3,
+            999999
+          ],
+          "level": [
+            1,
+            5
+          ]
         },
         {
           "to": "RizeGreymon X",
-          "stage-5": [1,999999],
-          "level": [6,6],
-          "mistakes": [3,999999]
+          "mistakes": [
+            3,
+            999999
+          ],
+          "level": [
+            6,
+            6
+          ],
+          "stage-5": [
+            1,
+            999999
+          ]
         },
         {
           "to": "Hisyaryumon",
-          "level": [6,6],
-          "mistakes": [3,999999]
+          "mistakes": [
+            3,
+            999999
+          ],
+          "level": [
+            6,
+            6
+          ]
         }
       ]
     },
     {
       "name": "Jazardmon",
       "stage": 4,
-      "attribute": "Da",
-      "power": 42,
       "version": 6,
       "special": false,
       "sleeps": "22:00",
@@ -12889,41 +14599,76 @@
       "hunger_loss": 59,
       "strength_loss": 59,
       "heal_doses": 1,
+      "power": 42,
+      "attribute": "Da",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
       "hp": 12,
       "evolve": [
         {
           "to": "Angewomon X",
-          "stage-5": [1,999999],
-          "level": [6,6],
-          "mistakes": [3,999999]
+          "mistakes": [
+            3,
+            999999
+          ],
+          "level": [
+            6,
+            6
+          ],
+          "stage-5": [
+            1,
+            999999
+          ]
         },
         {
           "to": "Scorpiomon X",
-          "level": [6,6],
-          "mistakes": [3,999999]
+          "mistakes": [
+            3,
+            999999
+          ],
+          "level": [
+            6,
+            6
+          ]
         },
         {
           "to": "Jazarichmon",
-          "level": [5,6],
-          "mistakes": [0,2]
+          "mistakes": [
+            0,
+            2
+          ],
+          "level": [
+            5,
+            6
+          ]
         },
         {
           "to": "Pumpkinmon",
-          "level": [1,4],
-          "mistakes": [0,2]
+          "mistakes": [
+            0,
+            2
+          ],
+          "level": [
+            1,
+            4
+          ]
         },
         {
           "to": "Pumpkinmon",
-          "level": [1,5],
-          "mistakes": [3,999999]
+          "mistakes": [
+            3,
+            999999
+          ],
+          "level": [
+            1,
+            5
+          ]
         }
       ]
     },
     {
       "name": "Monzaemon X",
       "stage": 5,
-      "attribute": "Va",
-      "power": 108,
       "version": 6,
       "special": true,
       "special_key": "Monzaemon X",
@@ -12939,54 +14684,104 @@
       "hunger_loss": 59,
       "strength_loss": 59,
       "heal_doses": 1,
+      "power": 108,
+      "attribute": "Va",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
       "hp": 15,
       "evolve": [
         {
           "to": "Cherubimon (Good) X",
-          "area": 30,
-          "level": [8,8],
-          "mistakes": [0,2]
+          "mistakes": [
+            0,
+            2
+          ],
+          "level": [
+            8,
+            8
+          ],
+          "area": 30
         },
         {
           "to": "Ophanimon X",
-          "area": 28,
-          "level": [8,8],
-          "mistakes": [0,2]
+          "mistakes": [
+            0,
+            2
+          ],
+          "level": [
+            8,
+            8
+          ],
+          "area": 28
         },
         {
           "to": "Magnadramon X",
-          "level": [6,8],
-          "mistakes": [0,2]
+          "mistakes": [
+            0,
+            2
+          ],
+          "level": [
+            6,
+            8
+          ]
         },
         {
           "to": "Dinotigermon",
-          "level": [1,5],
-          "mistakes": [0,2]
+          "mistakes": [
+            0,
+            2
+          ],
+          "level": [
+            1,
+            5
+          ]
         },
         {
           "to": "Plesiomon X",
-          "stage-5": [3,999999],
-          "level": [8,8],
-          "mistakes": [3,999999]
+          "mistakes": [
+            3,
+            999999
+          ],
+          "level": [
+            8,
+            8
+          ],
+          "stage-5": [
+            3,
+            999999
+          ]
         },
         {
           "to": "Ebemon X",
-          "level": [1,7],
-          "mistakes": [3,999999]
+          "mistakes": [
+            3,
+            999999
+          ],
+          "level": [
+            1,
+            7
+          ]
         },
         {
           "to": "Ebemon X",
-          "level": [8,8],
-          "stage-5": [0,2],
-          "mistakes": [3,999999]
+          "mistakes": [
+            3,
+            999999
+          ],
+          "level": [
+            8,
+            8
+          ],
+          "stage-5": [
+            0,
+            2
+          ]
         }
       ]
     },
     {
       "name": "RizeGreymon X",
       "stage": 5,
-      "attribute": "Va",
-      "power": 100,
       "version": 6,
       "special": true,
       "special_key": "RizeGreymon X",
@@ -13002,53 +14797,103 @@
       "hunger_loss": 59,
       "strength_loss": 59,
       "heal_doses": 1,
+      "power": 100,
+      "attribute": "Va",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
       "hp": 15,
       "evolve": [
         {
           "to": "Goldramon X",
-          "area": 31,
-          "level": [7,8],
-          "mistakes": [0,2]
+          "mistakes": [
+            0,
+            2
+          ],
+          "level": [
+            7,
+            8
+          ],
+          "area": 31
         },
         {
           "to": "Ouryumon",
-          "level": [5,8],
-          "mistakes": [0,2]
+          "mistakes": [
+            0,
+            2
+          ],
+          "level": [
+            5,
+            8
+          ]
         },
         {
           "to": "Magnadramon X",
-          "level": [1,4],
-          "mistakes": [0,2]
+          "mistakes": [
+            0,
+            2
+          ],
+          "level": [
+            1,
+            4
+          ]
         },
         {
           "to": "Plesiomon X",
-          "stage-5": [0,2],
-          "level": [8,8],
-          "mistakes": [3,999999]
+          "mistakes": [
+            3,
+            999999
+          ],
+          "level": [
+            8,
+            8
+          ],
+          "stage-5": [
+            0,
+            2
+          ]
         },
         {
           "to": "Gaiomon",
-          "level": [5,7],
-          "mistakes": [3,999999]
+          "mistakes": [
+            3,
+            999999
+          ],
+          "level": [
+            5,
+            7
+          ]
         },
         {
           "to": "Gaiomon",
-          "level": [8,8],
-          "stage-5": [0,2],
-          "mistakes": [3,999999]
+          "mistakes": [
+            3,
+            999999
+          ],
+          "level": [
+            8,
+            8
+          ],
+          "stage-5": [
+            0,
+            2
+          ]
         },
         {
           "to": "Ebemon X",
-          "level": [1,4],
-          "mistakes": [3,999999]
+          "mistakes": [
+            3,
+            999999
+          ],
+          "level": [
+            1,
+            4
+          ]
         }
       ]
     },
     {
       "name": "Hisyaryumon",
       "stage": 5,
-      "attribute": "Va",
-      "power": 92,
       "version": 6,
       "special": false,
       "sleeps": "23:00",
@@ -13063,35 +14908,61 @@
       "hunger_loss": 59,
       "strength_loss": 59,
       "heal_doses": 1,
+      "power": 92,
+      "attribute": "Va",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
       "hp": 15,
       "evolve": [
         {
           "to": "Ouryumon",
-          "level": [7,8],
-          "mistakes": [0,2]
+          "mistakes": [
+            0,
+            2
+          ],
+          "level": [
+            7,
+            8
+          ]
         },
         {
           "to": "Gaiomon",
-          "level": [1,6],
-          "mistakes": [0,2]
+          "mistakes": [
+            0,
+            2
+          ],
+          "level": [
+            1,
+            6
+          ]
         },
         {
           "to": "Plesiomon X",
-          "level": [8,8],
-          "mistakes": [3,999999]
+          "mistakes": [
+            3,
+            999999
+          ],
+          "level": [
+            8,
+            8
+          ]
         },
         {
           "to": "Magnadramon X",
-          "level": [5,7],
-          "mistakes": [3,999999]
+          "mistakes": [
+            3,
+            999999
+          ],
+          "level": [
+            5,
+            7
+          ]
         }
       ]
     },
     {
       "name": "Angewomon X",
       "stage": 5,
-      "attribute": "Va",
-      "power": 114,
       "version": 6,
       "special": true,
       "special_key": "Angewomon X",
@@ -13107,54 +14978,107 @@
       "hunger_loss": 59,
       "strength_loss": 59,
       "heal_doses": 1,
+      "power": 114,
+      "attribute": "Va",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
       "hp": 15,
       "evolve": [
         {
           "to": "Ophanimon X",
-          "area": 28,
-          "level": [7,8],
-          "mistakes": [0,2]
+          "mistakes": [
+            0,
+            2
+          ],
+          "level": [
+            7,
+            8
+          ],
+          "area": 28
         },
         {
           "to": "Dinotigermon",
-          "level": [1,4],
-          "mistakes": [0,2]
+          "mistakes": [
+            0,
+            2
+          ],
+          "level": [
+            1,
+            4
+          ]
         },
         {
           "to": "Dinotigermon",
-          "level": [8,8],
-          "stage-5": [0,2],
-          "mistakes": [3,999999]
+          "mistakes": [
+            3,
+            999999
+          ],
+          "level": [
+            8,
+            8
+          ],
+          "stage-5": [
+            0,
+            2
+          ]
         },
         {
           "to": "Magnadramon X",
-          "level": [5,6],
-          "mistakes": [0,2]
+          "mistakes": [
+            0,
+            2
+          ],
+          "level": [
+            5,
+            6
+          ]
         },
         {
           "to": "Magnadramon X",
-          "stage-5": [3,999999],
-          "level": [8,8],
-          "mistakes": [3,999999]
+          "mistakes": [
+            3,
+            999999
+          ],
+          "level": [
+            8,
+            8
+          ],
+          "stage-5": [
+            3,
+            999999
+          ]
         },
         {
           "to": "Magnadramon X",
-          "stage-5": [0,2],
-          "level": [7,8],
-          "mistakes": [3,999999]
+          "mistakes": [
+            3,
+            999999
+          ],
+          "level": [
+            7,
+            8
+          ],
+          "stage-5": [
+            0,
+            2
+          ]
         },
         {
           "to": "Ebemon X",
-          "level": [5,7],
-          "mistakes": [3,999999]
+          "mistakes": [
+            3,
+            999999
+          ],
+          "level": [
+            5,
+            7
+          ]
         }
       ]
     },
     {
       "name": "Scorpiomon X",
       "stage": 5,
-      "attribute": "Da",
-      "power": 80,
       "version": 6,
       "special": false,
       "sleeps": "23:00",
@@ -13169,49 +15093,96 @@
       "hunger_loss": 59,
       "strength_loss": 59,
       "heal_doses": 1,
+      "power": 80,
+      "attribute": "Da",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
       "hp": 15,
       "evolve": [
         {
           "to": "Plesiomon X",
-          "level": [7,8],
-          "mistakes": [0,2]
+          "mistakes": [
+            0,
+            2
+          ],
+          "level": [
+            7,
+            8
+          ]
         },
         {
           "to": "Gaiomon",
-          "level": [1,6],
-          "mistakes": [0,2]
+          "mistakes": [
+            0,
+            2
+          ],
+          "level": [
+            1,
+            6
+          ]
         },
         {
           "to": "Cherubimon (Good) X",
+          "mistakes": [
+            3,
+            999999
+          ],
+          "level": [
+            8,
+            8
+          ],
           "area": 30,
-          "stage-5": [5,999999],
-          "level": [8,8],
-          "mistakes": [3,999999]
+          "stage-5": [
+            5,
+            999999
+          ]
         },
         {
           "to": "Dinotigermon",
-          "level": [8,8],
-          "stage-5": [0,4],
-          "mistakes": [3,999999]
+          "mistakes": [
+            3,
+            999999
+          ],
+          "level": [
+            8,
+            8
+          ],
+          "stage-5": [
+            0,
+            4
+          ]
         },
         {
           "to": "Dinotigermon",
-          "level": [8,8],
-          "stage-5": [5,999999],
-          "mistakes": [3,999999]
+          "mistakes": [
+            3,
+            999999
+          ],
+          "level": [
+            8,
+            8
+          ],
+          "stage-5": [
+            5,
+            999999
+          ]
         },
         {
           "to": "Ebemon X",
-          "level": [5,7],
-          "mistakes": [3,999999]
+          "mistakes": [
+            3,
+            999999
+          ],
+          "level": [
+            5,
+            7
+          ]
         }
       ]
     },
     {
       "name": "Grademon",
       "stage": 5,
-      "attribute": "Va",
-      "power": 88,
       "version": 6,
       "special": false,
       "sleeps": "23:00",
@@ -13226,55 +15197,108 @@
       "hunger_loss": 59,
       "strength_loss": 59,
       "heal_doses": 1,
+      "power": 88,
+      "attribute": "Va",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
       "hp": 15,
       "evolve": [
         {
           "to": "NoblePumpkinmon",
+          "mistakes": [
+            2,
+            3
+          ],
+          "level": [
+            8,
+            8
+          ],
           "area": 45,
-          "stage-5": [5,999999],
-          "level": [8,8],
-          "mistakes": [2,3]
+          "stage-5": [
+            5,
+            999999
+          ]
         },
         {
           "to": "Goldramon X",
-          "area": 31,
-          "level": [6,8],
-          "mistakes": [0,1]
+          "mistakes": [
+            0,
+            1
+          ],
+          "level": [
+            6,
+            8
+          ],
+          "area": 31
         },
         {
           "to": "Ouryumon",
-          "level": [4,8],
-          "mistakes": [0,1]
+          "mistakes": [
+            0,
+            1
+          ],
+          "level": [
+            4,
+            8
+          ]
         },
         {
           "to": "Gaiomon",
-          "level": [1,3],
-          "mistakes": [0,1]
+          "mistakes": [
+            0,
+            1
+          ],
+          "level": [
+            1,
+            3
+          ]
         },
         {
           "to": "Gaiomon",
-          "level": [8,8],
-          "stage-5": [0,4],
-          "mistakes": [2,3]
+          "mistakes": [
+            2,
+            3
+          ],
+          "level": [
+            8,
+            8
+          ],
+          "stage-5": [
+            0,
+            4
+          ]
         },
         {
           "to": "Gaiomon",
-          "level": [8,8],
-          "stage-5": [5,999999],
-          "mistakes": [2,3]
+          "mistakes": [
+            2,
+            3
+          ],
+          "level": [
+            8,
+            8
+          ],
+          "stage-5": [
+            5,
+            999999
+          ]
         },
         {
           "to": "Ebemon X",
-          "level": [5,7],
-          "mistakes": [2,3]
+          "mistakes": [
+            2,
+            3
+          ],
+          "level": [
+            5,
+            7
+          ]
         }
       ]
     },
     {
       "name": "Mamemon X",
       "stage": 5,
-      "attribute": "Da",
-      "power": 76,
       "version": 6,
       "special": false,
       "sleeps": "23:00",
@@ -13289,61 +15313,120 @@
       "hunger_loss": 59,
       "strength_loss": 59,
       "heal_doses": 1,
+      "power": 76,
+      "attribute": "Da",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
       "hp": 15,
       "evolve": [
         {
           "to": "Metallicdramon",
-          "area": 45,
-          "level": [6,8],
-          "mistakes": [0,1]
+          "mistakes": [
+            0,
+            1
+          ],
+          "level": [
+            6,
+            8
+          ],
+          "area": 45
         },
         {
           "to": "Goldramon X",
+          "mistakes": [
+            2,
+            3
+          ],
+          "level": [
+            8,
+            8
+          ],
           "area": 31,
-          "stage-5": [5,999999],
-          "level": [8,8],
-          "mistakes": [2,3]
+          "stage-5": [
+            5,
+            999999
+          ]
         },
         {
           "to": "Cherubimon (Good) X",
-          "area": 30,
-          "level": [5,8],
-          "mistakes": [0,1]
+          "mistakes": [
+            0,
+            1
+          ],
+          "level": [
+            5,
+            8
+          ],
+          "area": 30
         },
         {
           "to": "Magnadramon X",
-          "level": [1,5],
-          "mistakes": [0,1]
+          "mistakes": [
+            0,
+            1
+          ],
+          "level": [
+            1,
+            5
+          ]
         },
         {
           "to": "Magnadramon X",
-          "level": [6,8],
-          "mistakes": [0,1]
+          "mistakes": [
+            0,
+            1
+          ],
+          "level": [
+            6,
+            8
+          ]
         },
         {
           "to": "Dinotigermon",
-          "level": [8,8],
-          "stage-5": [0,4],
-          "mistakes": [2,3]
+          "mistakes": [
+            2,
+            3
+          ],
+          "level": [
+            8,
+            8
+          ],
+          "stage-5": [
+            0,
+            4
+          ]
         },
         {
           "to": "Dinotigermon",
-          "level": [8,8],
-          "stage-5": [5,999999],
-          "mistakes": [2,3]
+          "mistakes": [
+            2,
+            3
+          ],
+          "level": [
+            8,
+            8
+          ],
+          "stage-5": [
+            5,
+            999999
+          ]
         },
         {
           "to": "Ebemon X",
-          "level": [5,7],
-          "mistakes": [2,3]
+          "mistakes": [
+            2,
+            3
+          ],
+          "level": [
+            5,
+            7
+          ]
         }
       ]
     },
     {
       "name": "CrysPaledramon",
       "stage": 5,
-      "attribute": "Da",
-      "power": 104,
       "version": 6,
       "special": false,
       "sleeps": "23:00",
@@ -13358,47 +15441,91 @@
       "hunger_loss": 59,
       "strength_loss": 59,
       "heal_doses": 1,
+      "power": 104,
+      "attribute": "Da",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
       "hp": 15,
       "evolve": [
         {
           "to": "Goldramon X",
-          "level": [4,6],
-          "mistakes": [0,2]
+          "mistakes": [
+            0,
+            2
+          ],
+          "level": [
+            4,
+            6
+          ]
         },
         {
           "to": "Ouryumon",
-          "level": [8,8],
-          "stage-5": [3,999999],
-          "mistakes": [3,999999]
+          "mistakes": [
+            3,
+            999999
+          ],
+          "level": [
+            8,
+            8
+          ],
+          "stage-5": [
+            3,
+            999999
+          ]
         },
         {
           "to": "Hexeblaumon",
-          "level": [7,8],
-          "mistakes": [0,2]
+          "mistakes": [
+            0,
+            2
+          ],
+          "level": [
+            7,
+            8
+          ]
         },
         {
           "to": "Magnadramon X",
-          "level": [1,3],
-          "mistakes": [0,1]
+          "mistakes": [
+            0,
+            1
+          ],
+          "level": [
+            1,
+            3
+          ]
         },
         {
           "to": "Magnadramon X",
-          "level": [5,7],
-          "mistakes": [3,999999]
+          "mistakes": [
+            3,
+            999999
+          ],
+          "level": [
+            5,
+            7
+          ]
         },
         {
           "to": "Magnadramon X",
-          "level": [8,8],
-          "stage-5": [0,2],
-          "mistakes": [3,999999]
+          "mistakes": [
+            3,
+            999999
+          ],
+          "level": [
+            8,
+            8
+          ],
+          "stage-5": [
+            0,
+            2
+          ]
         }
       ]
     },
     {
       "name": "Jazarichmon",
       "stage": 5,
-      "attribute": "Da",
-      "power": 104,
       "version": 6,
       "special": false,
       "sleeps": "23:00",
@@ -13413,47 +15540,91 @@
       "hunger_loss": 59,
       "strength_loss": 59,
       "heal_doses": 1,
+      "power": 104,
+      "attribute": "Da",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
       "hp": 15,
       "evolve": [
         {
           "to": "Ophanimon X",
-          "level": [4,6],
-          "mistakes": [0,2]
+          "mistakes": [
+            0,
+            2
+          ],
+          "level": [
+            4,
+            6
+          ]
         },
         {
           "to": "Plesiomon X",
-          "level": [1,3],
-          "mistakes": [0,2]
+          "mistakes": [
+            0,
+            2
+          ],
+          "level": [
+            1,
+            3
+          ]
         },
         {
           "to": "Cherubimon (Good) X",
-          "level": [8,8],
-          "stage-5": [3,999999],
-          "mistakes": [3,999999]
+          "mistakes": [
+            3,
+            999999
+          ],
+          "level": [
+            8,
+            8
+          ],
+          "stage-5": [
+            3,
+            999999
+          ]
         },
         {
           "to": "Metallicdramon",
-          "level": [7,8],
-          "mistakes": [0,2]
+          "mistakes": [
+            0,
+            2
+          ],
+          "level": [
+            7,
+            8
+          ]
         },
         {
           "to": "Ebemon X",
-          "level": [5,7],
-          "mistakes": [3,999999]
+          "mistakes": [
+            3,
+            999999
+          ],
+          "level": [
+            5,
+            7
+          ]
         },
         {
           "to": "Ebemon X",
-          "level": [8,8],
-          "stage-5": [0,2],
-          "mistakes": [3,999999]
+          "mistakes": [
+            3,
+            999999
+          ],
+          "level": [
+            8,
+            8
+          ],
+          "stage-5": [
+            0,
+            2
+          ]
         }
       ]
     },
     {
       "name": "Pumpkinmon",
       "stage": 5,
-      "attribute": "Da",
-      "power": 88,
       "version": 6,
       "special": false,
       "sleeps": "23:00",
@@ -13468,47 +15639,91 @@
       "hunger_loss": 59,
       "strength_loss": 59,
       "heal_doses": 1,
+      "power": 88,
+      "attribute": "Da",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
       "hp": 15,
       "evolve": [
         {
           "to": "Cherubimon (Good) X",
-          "level": [4,6],
-          "mistakes": [0,2]
+          "mistakes": [
+            0,
+            2
+          ],
+          "level": [
+            4,
+            6
+          ]
         },
         {
           "to": "NoblePumpkinmon",
-          "level": [7,8],
-          "mistakes": [0,2]
+          "mistakes": [
+            0,
+            2
+          ],
+          "level": [
+            7,
+            8
+          ]
         },
         {
           "to": "NoblePumpkinmon",
-          "stage-5": [3,999999],
-          "level": [8,8],
-          "mistakes": [3,999999]
+          "mistakes": [
+            3,
+            999999
+          ],
+          "level": [
+            8,
+            8
+          ],
+          "stage-5": [
+            3,
+            999999
+          ]
         },
         {
           "to": "Dinotigermon",
-          "level": [1,3],
-          "mistakes": [0,2]
+          "mistakes": [
+            0,
+            2
+          ],
+          "level": [
+            1,
+            3
+          ]
         },
         {
           "to": "Dinotigermon",
-          "level": [5,7],
-          "mistakes": [3,999999]
+          "mistakes": [
+            3,
+            999999
+          ],
+          "level": [
+            5,
+            7
+          ]
         },
         {
           "to": "Dinotigermon",
-          "level": [8,8],
-          "stage-5": [0,2],
-          "mistakes": [3,999999]
+          "mistakes": [
+            3,
+            999999
+          ],
+          "level": [
+            8,
+            8
+          ],
+          "stage-5": [
+            0,
+            2
+          ]
         }
       ]
     },
     {
       "name": "Cherubimon (Good) X",
       "stage": 6,
-      "attribute": "Va",
-      "power": 164,
       "version": 6,
       "special": true,
       "special_key": "Cherubimon (Good) X",
@@ -13524,26 +15739,40 @@
       "hunger_loss": 59,
       "strength_loss": 59,
       "heal_doses": 1,
+      "power": 164,
+      "attribute": "Va",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
       "hp": 18,
       "evolve": [
         {
           "to": "UlforceVeedramon X",
-          "area": 37,
-          "level": [8,10],
-          "mistakes": [0,2]
+          "mistakes": [
+            0,
+            2
+          ],
+          "level": [
+            8,
+            10
+          ],
+          "area": 37
         },
         {
           "to": "Kentaurosmon X",
-          "level": [5,10],
-          "mistakes": [0,2]
+          "mistakes": [
+            0,
+            2
+          ],
+          "level": [
+            5,
+            10
+          ]
         }
       ]
     },
     {
       "name": "Goldramon X",
       "stage": 6,
-      "attribute": "Va",
-      "power": 170,
       "version": 6,
       "special": true,
       "special_key": "Goldramon X",
@@ -13559,26 +15788,40 @@
       "hunger_loss": 59,
       "strength_loss": 59,
       "heal_doses": 1,
+      "power": 170,
+      "attribute": "Va",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
       "hp": 18,
       "evolve": [
         {
           "to": "Examon X",
-          "area": 39,
-          "level": [8,10],
-          "mistakes": [0,2]
+          "mistakes": [
+            0,
+            2
+          ],
+          "level": [
+            8,
+            10
+          ],
+          "area": 39
         },
         {
           "to": "Jesmon X",
-          "level": [5,10],
-          "mistakes": [0,2]
+          "mistakes": [
+            0,
+            2
+          ],
+          "level": [
+            5,
+            10
+          ]
         }
       ]
     },
     {
       "name": "Ouryumon",
       "stage": 6,
-      "attribute": "Va",
-      "power": 156,
       "version": 6,
       "special": false,
       "sleeps": "00:00",
@@ -13593,26 +15836,40 @@
       "hunger_loss": 59,
       "strength_loss": 59,
       "heal_doses": 1,
+      "power": 156,
+      "attribute": "Va",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
       "hp": 18,
       "evolve": [
         {
           "to": "Alphamon: Ouryuken",
-          "area": 46,
-          "level": [8,10],
-          "mistakes": [0,2]
+          "mistakes": [
+            0,
+            2
+          ],
+          "level": [
+            8,
+            10
+          ],
+          "area": 46
         },
         {
           "to": "Jesmon X",
-          "level": [5,10],
-          "mistakes": [0,2]
+          "mistakes": [
+            0,
+            2
+          ],
+          "level": [
+            5,
+            10
+          ]
         }
       ]
     },
     {
       "name": "Ophanimon X",
       "stage": 6,
-      "attribute": "Va",
-      "power": 160,
       "version": 6,
       "special": true,
       "special_key": "Ophanimon X",
@@ -13628,26 +15885,40 @@
       "hunger_loss": 59,
       "strength_loss": 59,
       "heal_doses": 1,
+      "power": 160,
+      "attribute": "Va",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
       "hp": 18,
       "evolve": [
         {
           "to": "Leopardmon X",
-          "area": 35,
-          "level": [8,10],
-          "mistakes": [0,2]
+          "mistakes": [
+            0,
+            2
+          ],
+          "level": [
+            8,
+            10
+          ],
+          "area": 35
         },
         {
           "to": "Kentaurosmon X",
-          "level": [5,10],
-          "mistakes": [0,2]
+          "mistakes": [
+            0,
+            2
+          ],
+          "level": [
+            5,
+            10
+          ]
         }
       ]
     },
     {
       "name": "Plesiomon X",
       "stage": 6,
-      "attribute": "Da",
-      "power": 138,
       "version": 6,
       "special": false,
       "sleeps": "00:00",
@@ -13662,26 +15933,40 @@
       "hunger_loss": 59,
       "strength_loss": 59,
       "heal_doses": 1,
+      "power": 138,
+      "attribute": "Da",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
       "hp": 18,
       "evolve": [
         {
           "to": "Omnimon X",
-          "level": [9,10],
-          "special_encounter": true,
-          "mistakes": [0,2]
+          "mistakes": [
+            0,
+            2
+          ],
+          "level": [
+            9,
+            10
+          ],
+          "special_encounter": true
         },
         {
           "to": "Kentaurosmon X",
-          "level": [9,10],
-          "mistakes": [0,2]
+          "mistakes": [
+            0,
+            2
+          ],
+          "level": [
+            9,
+            10
+          ]
         }
       ]
     },
     {
       "name": "Gaiomon",
       "stage": 6,
-      "attribute": "Vi",
-      "power": 146,
       "version": 6,
       "special": false,
       "sleeps": "00:00",
@@ -13696,26 +15981,40 @@
       "hunger_loss": 59,
       "strength_loss": 59,
       "heal_doses": 1,
+      "power": 146,
+      "attribute": "Vi",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
       "hp": 18,
       "evolve": [
         {
           "to": "Alphamon: Ouryuken",
-          "area": 46,
-          "level": [10,10],
-          "mistakes": [0,2]
+          "mistakes": [
+            0,
+            2
+          ],
+          "level": [
+            10,
+            10
+          ],
+          "area": 46
         },
         {
           "to": "Jesmon X",
-          "level": [5,10],
-          "mistakes": [0,2]
+          "mistakes": [
+            0,
+            2
+          ],
+          "level": [
+            5,
+            10
+          ]
         }
       ]
     },
     {
       "name": "Dinotigermon",
       "stage": 6,
-      "attribute": "Da",
-      "power": 142,
       "version": 6,
       "special": false,
       "sleeps": "00:00",
@@ -13730,25 +16029,39 @@
       "hunger_loss": 59,
       "strength_loss": 59,
       "heal_doses": 1,
+      "power": 142,
+      "attribute": "Da",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
       "hp": 18,
       "evolve": [
         {
           "to": "Jesmon X",
-          "level": [8,10],
-          "mistakes": [0,2]
+          "mistakes": [
+            0,
+            2
+          ],
+          "level": [
+            8,
+            10
+          ]
         },
         {
           "to": "Kentaurosmon X",
-          "level": [5,7],
-          "mistakes": [0,2]
+          "mistakes": [
+            0,
+            2
+          ],
+          "level": [
+            5,
+            7
+          ]
         }
       ]
     },
     {
       "name": "Magnadramon X",
       "stage": 6,
-      "attribute": "Va",
-      "power": 150,
       "version": 6,
       "special": false,
       "sleeps": "00:00",
@@ -13763,26 +16076,40 @@
       "hunger_loss": 59,
       "strength_loss": 59,
       "heal_doses": 1,
+      "power": 150,
+      "attribute": "Va",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
       "hp": 18,
       "evolve": [
         {
           "to": "UlforceVeedramon X",
-          "area": 37,
-          "level": [10,10],
-          "mistakes": [0,2]
+          "mistakes": [
+            0,
+            2
+          ],
+          "level": [
+            10,
+            10
+          ],
+          "area": 37
         },
         {
           "to": "Kentaurosmon X",
-          "level": [10,10],
-          "mistakes": [0,2]
+          "mistakes": [
+            0,
+            2
+          ],
+          "level": [
+            10,
+            10
+          ]
         }
       ]
     },
     {
       "name": "Ebemon X",
       "stage": 6,
-      "attribute": "Vi",
-      "power": 130,
       "version": 6,
       "special": false,
       "sleeps": "00:00",
@@ -13797,26 +16124,40 @@
       "hunger_loss": 59,
       "strength_loss": 59,
       "heal_doses": 1,
+      "power": 130,
+      "attribute": "Vi",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
       "hp": 18,
       "evolve": [
         {
           "to": "Examon X",
-          "area": 39,
-          "level": [10,10],
-          "mistakes": [0,2]
+          "mistakes": [
+            0,
+            2
+          ],
+          "level": [
+            10,
+            10
+          ],
+          "area": 39
         },
         {
           "to": "Jesmon X",
-          "level": [10,10],
-          "mistakes": [0,2]
+          "mistakes": [
+            0,
+            2
+          ],
+          "level": [
+            10,
+            10
+          ]
         }
       ]
     },
     {
       "name": "Hexeblaumon",
       "stage": 6,
-      "attribute": "Da",
-      "power": 166,
       "version": 6,
       "special": false,
       "sleeps": "00:00",
@@ -13831,30 +16172,50 @@
       "hunger_loss": 59,
       "strength_loss": 59,
       "heal_doses": 1,
+      "power": 166,
+      "attribute": "Da",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
       "hp": 18,
       "evolve": [
         {
           "to": "UlforceVeedramon X",
-          "level": [8,10],
-          "mistakes": [0,2]
+          "mistakes": [
+            0,
+            2
+          ],
+          "level": [
+            8,
+            10
+          ]
         },
         {
           "to": "Leopardmon X",
-          "level": [5,7],
-          "mistakes": [0,2]
+          "mistakes": [
+            0,
+            2
+          ],
+          "level": [
+            5,
+            7
+          ]
         },
         {
           "to": "Jesmon X",
-          "level": [1,4],
-          "mistakes": [0,2]
+          "mistakes": [
+            0,
+            2
+          ],
+          "level": [
+            1,
+            4
+          ]
         }
       ]
     },
     {
       "name": "Metallicdramon",
       "stage": 6,
-      "attribute": "Da",
-      "power": 156,
       "version": 6,
       "special": false,
       "sleeps": "00:00",
@@ -13869,30 +16230,50 @@
       "hunger_loss": 59,
       "strength_loss": 59,
       "heal_doses": 1,
+      "power": 156,
+      "attribute": "Da",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
       "hp": 18,
       "evolve": [
         {
           "to": "Examon X",
-          "level": [8,10],
-          "mistakes": [0,2]
+          "mistakes": [
+            0,
+            2
+          ],
+          "level": [
+            8,
+            10
+          ]
         },
         {
           "to": "UlforceVeedramon X",
-          "level": [5,7],
-          "mistakes": [0,2]
+          "mistakes": [
+            0,
+            2
+          ],
+          "level": [
+            5,
+            7
+          ]
         },
         {
           "to": "Kentaurosmon X",
-          "level": [1,4],
-          "mistakes": [0,2]
+          "mistakes": [
+            0,
+            2
+          ],
+          "level": [
+            1,
+            4
+          ]
         }
       ]
     },
     {
       "name": "NoblePumpkinmon",
       "stage": 6,
-      "attribute": "Da",
-      "power": 172,
       "version": 6,
       "special": false,
       "sleeps": "00:00",
@@ -13907,31 +16288,51 @@
       "hunger_loss": 59,
       "strength_loss": 59,
       "heal_doses": 1,
+      "power": 172,
+      "attribute": "Da",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
       "hp": 18,
       "evolve": [
         {
           "to": "Omnimon X",
-          "level": [8,10],
-          "special_encounter": true,
-          "mistakes": [0,2]
+          "mistakes": [
+            0,
+            2
+          ],
+          "level": [
+            8,
+            10
+          ],
+          "special_encounter": true
         },
         {
           "to": "Leopardmon X",
-          "level": [1,7],
-          "mistakes": [0,2]
+          "mistakes": [
+            0,
+            2
+          ],
+          "level": [
+            1,
+            7
+          ]
         },
         {
           "to": "Leopardmon X",
-          "level": [8,10],
-          "mistakes": [0,2]
+          "mistakes": [
+            0,
+            2
+          ],
+          "level": [
+            8,
+            10
+          ]
         }
       ]
     },
     {
       "name": "UlforceVeedramon X",
       "stage": 7,
-      "attribute": "Va",
-      "power": 198,
       "version": 6,
       "special": true,
       "special_key": "UlforceVeedramon X",
@@ -13947,14 +16348,16 @@
       "hunger_loss": 59,
       "strength_loss": 59,
       "heal_doses": 1,
+      "power": 198,
+      "attribute": "Va",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
       "hp": 20,
       "evolve": []
     },
     {
       "name": "Examon X",
       "stage": 7,
-      "attribute": "Da",
-      "power": 208,
       "version": 6,
       "special": true,
       "special_key": "Examon X",
@@ -13970,14 +16373,16 @@
       "hunger_loss": 59,
       "strength_loss": 59,
       "heal_doses": 1,
+      "power": 208,
+      "attribute": "Da",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
       "hp": 20,
       "evolve": []
     },
     {
       "name": "Leopardmon X",
       "stage": 7,
-      "attribute": "Da",
-      "power": 194,
       "version": 6,
       "special": true,
       "special_key": "Leopardmon X",
@@ -13993,14 +16398,16 @@
       "hunger_loss": 59,
       "strength_loss": 59,
       "heal_doses": 1,
+      "power": 194,
+      "attribute": "Da",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
       "hp": 20,
       "evolve": []
     },
     {
       "name": "Kentaurosmon X",
       "stage": 7,
-      "attribute": "Va",
-      "power": 186,
       "version": 6,
       "special": true,
       "special_key": "Kentaurosmon X",
@@ -14016,14 +16423,16 @@
       "hunger_loss": 59,
       "strength_loss": 59,
       "heal_doses": 1,
+      "power": 186,
+      "attribute": "Va",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
       "hp": 20,
       "evolve": []
     },
     {
       "name": "Jesmon X",
       "stage": 7,
-      "attribute": "Da",
-      "power": 190,
       "version": 6,
       "special": true,
       "special_key": "Jesmon X",
@@ -14039,20 +16448,22 @@
       "hunger_loss": 59,
       "strength_loss": 59,
       "heal_doses": 1,
+      "power": 190,
+      "attribute": "Da",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
       "hp": 20,
       "evolve": [
         {
           "to": "Jesmon GX",
-          "jogress": "Jesmon X",
-          "version": 5
+          "version": 5,
+          "jogress": "Jesmon X"
         }
       ]
     },
     {
       "name": "Omnimon X",
       "stage": 7,
-      "attribute": "Va",
-      "power": 202,
       "version": 6,
       "special": true,
       "special_key": "Omnimon X",
@@ -14068,14 +16479,16 @@
       "hunger_loss": 59,
       "strength_loss": 59,
       "heal_doses": 1,
+      "power": 202,
+      "attribute": "Va",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
       "hp": 20,
       "evolve": []
     },
     {
       "name": "Alphamon: Ouryuken",
       "stage": 7,
-      "attribute": "Va",
-      "power": 206,
       "version": 6,
       "special": true,
       "special_key": "Alphamon: Ouryuken",
@@ -14091,14 +16504,16 @@
       "hunger_loss": 59,
       "strength_loss": 59,
       "heal_doses": 1,
+      "power": 206,
+      "attribute": "Va",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
       "hp": 20,
       "evolve": []
     },
     {
       "name": "Jesmon GX",
       "stage": 8,
-      "attribute": "Da",
-      "power": 220,
       "version": 6,
       "special": false,
       "sleeps": "00:00",
@@ -14113,6 +16528,10 @@
       "hunger_loss": 59,
       "strength_loss": 59,
       "heal_doses": 1,
+      "power": 220,
+      "attribute": "Da",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
       "hp": 20,
       "evolve": []
     },
@@ -14121,9 +16540,6 @@
       "stage": 0,
       "version": 7,
       "special": true,
-      "special-key": "Version SP",
-      "sleeps": null,
-      "wakes": null,
       "atk_main": 0,
       "atk_alt": 0,
       "time": 1,
@@ -14136,6 +16552,9 @@
       "heal_doses": 0,
       "power": 0,
       "attribute": "",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
+      "hp": 0,
       "evolve": [
         {
           "to": "Kuramon"
@@ -14145,12 +16564,8 @@
     {
       "name": "Kuramon",
       "stage": 1,
-      "attribute": "",
-      "power": 0,
       "version": 7,
       "special": false,
-      "sleeps": null,
-      "wakes": null,
       "atk_main": 0,
       "atk_alt": 0,
       "time": 10,
@@ -14161,6 +16576,10 @@
       "hunger_loss": 3,
       "strength_loss": 3,
       "heal_doses": 1,
+      "power": 0,
+      "attribute": "",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
       "hp": 0,
       "evolve": [
         {
@@ -14171,8 +16590,6 @@
     {
       "name": "Tsumemon",
       "stage": 2,
-      "attribute": "",
-      "power": 18,
       "version": 7,
       "special": false,
       "sleeps": "00:00",
@@ -14187,6 +16604,10 @@
       "hunger_loss": 30,
       "strength_loss": 30,
       "heal_doses": 1,
+      "power": 18,
+      "attribute": "",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
       "hp": 10,
       "evolve": [
         {
@@ -14197,8 +16618,6 @@
     {
       "name": "Keramon X",
       "stage": 3,
-      "attribute": "",
-      "power": 60,
       "version": 7,
       "special": false,
       "sleeps": "00:00",
@@ -14213,6 +16632,10 @@
       "hunger_loss": 48,
       "strength_loss": 48,
       "heal_doses": 1,
+      "power": 60,
+      "attribute": "",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
       "hp": 10,
       "evolve": [
         {
@@ -14223,8 +16646,6 @@
     {
       "name": "Diaboromon X",
       "stage": 7,
-      "attribute": "",
-      "power": 174,
       "version": 7,
       "special": true,
       "special_key": "Diaboromon X",
@@ -14240,6 +16661,10 @@
       "hunger_loss": 59,
       "strength_loss": 59,
       "heal_doses": 1,
+      "power": 174,
+      "attribute": "",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
       "hp": 20,
       "evolve": [
         {
@@ -14251,8 +16676,6 @@
     {
       "name": "Ogudomon X",
       "stage": 8,
-      "attribute": "Vi",
-      "power": 220,
       "version": 7,
       "special": false,
       "sleeps": "00:00",
@@ -14267,6 +16690,10 @@
       "hunger_loss": 59,
       "strength_loss": 59,
       "heal_doses": 1,
+      "power": 220,
+      "attribute": "Vi",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
       "hp": 20,
       "evolve": []
     }

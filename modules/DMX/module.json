@@ -99,7 +99,7 @@
       "type": "adventure",
       "version": null,
       "label": "Alphamon: Ouryuken",
-      "area": null,
+      "area": 46,
       "to": null,
       "amount": null
     },
@@ -193,12 +193,21 @@
       "to": null,
       "amount": null
     },
+        {
+      "name": "CrysPaledramon",
+      "type": "adventure",
+      "version": null,
+      "label": "CrysPaledramon",
+      "area": 45,
+      "to": null,
+      "amount": null
+    },
     {
       "name": "Cyberdramon X",
       "type": "adventure",
       "version": null,
       "label": "Cyberdramon X",
-      "area": null,
+      "area": 21,
       "to": null,
       "amount": null
     },
@@ -261,7 +270,7 @@
       "type": "adventure",
       "version": null,
       "label": "Dynasmon X",
-      "area": null,
+      "area": 34,
       "to": null,
       "amount": null
     },
@@ -297,7 +306,7 @@
       "type": "adventure",
       "version": null,
       "label": "Gankoomon X",
-      "area": null,
+      "area": 40,
       "to": null,
       "amount": null
     },
@@ -306,7 +315,7 @@
       "type": "adventure",
       "version": null,
       "label": "Garudamon X",
-      "area": null,
+      "area": 16,
       "to": null,
       "amount": null
     },
@@ -346,7 +355,7 @@
       "to": null,
       "amount": null
     },
-     {
+    {
       "name": "Herissmon X",
       "type": "adventure",
       "version": null,
@@ -355,7 +364,16 @@
       "to": null,
       "amount": null
     },
-        {
+    {
+      "name": "Hexeblaumon",
+      "type": "adventure",
+      "version": null,
+      "label": "Hexeblaumon",
+      "area": 45,
+      "to": null,
+      "amount": null
+    },
+    {
       "name": "JagerLoweemon",
       "type": "adventure",
       "version": null,
@@ -374,6 +392,15 @@
       "amount": null
     },
     {
+      "name": "Jazarichmon",
+      "type": "adventure",
+      "version": null,
+      "label": "Jazarichmon",
+      "area": 45,
+      "to": null,
+      "amount": null
+    },
+    {
       "name": "Jesmon X",
       "type": "adventure",
       "version": null,
@@ -387,7 +414,7 @@
       "type": "adventure",
       "version": null,
       "label": "Justimon X",
-      "area": null,
+      "area": 29,
       "to": null,
       "amount": null
     },
@@ -441,7 +468,7 @@
       "type": "adventure",
       "version": null,
       "label": "Magnamon X",
-      "area": null,
+      "area": 36,
       "to": null,
       "amount": null
     },
@@ -468,7 +495,7 @@
       "type": "adventure",
       "version": null,
       "label": "Meramon X",
-      "area": null,
+      "area": 9,
       "to": null,
       "amount": null
     },
@@ -527,6 +554,15 @@
       "amount": null
     },
     {
+      "name": "NoblePumpkinmon",
+      "type": "adventure",
+      "version": null,
+      "label": "NoblePumpkinmon",
+      "area": 45,
+      "to": null,
+      "amount": null
+    },
+    {
       "name": "Numemon X",
       "type": "adventure",
       "version": null,
@@ -549,7 +585,7 @@
       "type": "adventure",
       "version": null,
       "label": "OmniShoutmon X",
-      "area": null,
+      "area": 22,
       "to": null,
       "amount": null
     },
@@ -585,7 +621,16 @@
       "type": "adventure",
       "version": null,
       "label": "Phoenixmon X",
-      "area": null,
+      "area": 27,
+      "to": null,
+      "amount": null
+    },
+    {
+      "name": "Pumpkinmon",
+      "type": "adventure",
+      "version": null,
+      "label": "Pumpkinmon",
+      "area": 45,
       "to": null,
       "amount": null
     },
@@ -594,7 +639,7 @@
       "type": "adventure",
       "version": null,
       "label": "Rapidmon X",
-      "area": null,
+      "area": 32,
       "to": null,
       "amount": null
     },
@@ -648,7 +693,7 @@
       "type": "adventure",
       "version": null,
       "label": "Seasarmon X",
-      "area": null,
+      "area": 11,
       "to": null,
       "amount": null
     },
