@@ -329,6 +329,10 @@
         },
         {
           "to": "Meramon",
+          "training": [
+            0,
+            47
+          ],
           "mistakes": [
             0,
             3
