@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Installation Guide - Omnimon Documentation</title>
+  <link rel="stylesheet" href="../assets/main.css">
+  <style>
+    .platform-section {
+      margin: 32px 0;
+      padding: 24px;
+      background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+      border-radius: 16px;
+      border-left: 4px solid #3b82f6;
+    }
+    
+    .requirements-box {
+      background: #fef3c7;
+      border: 1px solid #f59e0b;
+      border-radius: 8px;
+      padding: 16px;
+      margin: 16px 0;
+    }
+    
+    .warning-box {
+      background: #fee2e2;
+      border: 1px solid #ef4444;
+      border-radius: 8px;
+      padding: 16px;
+      margin: 16px 0;
+    }
+    
+    .success-box {
+      background: #dcfce7;
+      border: 1px solid #22c55e;
+      border-radius: 8px;
+      padding: 16px;
+      margin: 16px 0;
+    }
+    
+    .code-block {
+      background: #1e293b;
+      color: #e2e8f0;
+      padding: 16px;
+      border-radius: 8px;
+      font-family: 'Courier New', monospace;
+      overflow-x: auto;
+      margin: 16px 0;
+    }
+    
+    .folder-structure {
+      background: #f1f5f9;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      padding: 16px;
+      font-family: 'Courier New', monospace;
+      margin: 16px 0;
+      white-space: pre-line;
+    }
+    
+    .step-number {
+      display: inline-block;
+      background: #3b82f6;
+      color: white;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      text-align: center;
+      line-height: 24px;
+      font-weight: bold;
+      margin-right: 8px;
+    }
+    
+    .download-button {
+      display: inline-block;
+      background: #3b82f6;
+      color: white;
+      padding: 12px 24px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: bold;
+      margin: 8px 8px 8px 0;
+      transition: background 0.3s;
+    }
+    
+    .download-button:hover {
+      background: #2563eb;
+      color: white;
+    }
+    
+    .platform-tabs {
+      display: flex;
+      margin-bottom: 24px;
+      border-bottom: 2px solid #e2e8f0;
+    }
+    
+    .platform-tab {
+      padding: 12px 24px;
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-bottom: none;
+      cursor: pointer;
+      font-weight: bold;
+      color: #64748b;
+      transition: all 0.3s;
+    }
+    
+    .platform-tab.active {
+      background: #3b82f6;
+      color: white;
+      border-color: #3b82f6;
+    }
+    
+    .platform-content {
+      display: none;
+    }
+    
+    .platform-content.active {
+      display: block;
+    }
+  </style>
+</head>
+<body>
+  <div class="page-content">
+    <div class="page-header">
+      <h1 class="page-title">Installation Guide</h1>
+      <p class="page-subtitle">Complete setup instructions for Windows, Linux, and Batocera</p>
+    </div>
+
+    <div class="content-section">
+      <h2 class="section-title">Quick Start</h2>
+      <p>Omnimon is a cross-platform virtual pet simulator that can run on Windows, Linux, and Batocera systems. Choose your platform below for detailed installation instructions:</p>
+      
+      <div class="platform-tabs">
+        <div class="platform-tab active" onclick="showPlatform('windows')">🪟 Windows</div>
+        <div class="platform-tab" onclick="showPlatform('linux')">🐧 Linux</div>
+        <div class="platform-tab" onclick="showPlatform('batocera')">🎮 Batocera</div>
+      </div>
+
+      <!-- Windows Installation -->
+      <div id="windows-content" class="platform-content active">
+        <div class="platform-section">
+          <h3>🪟 Windows Installation</h3>
+          
+          <h4>Option 1: Standalone Executable (Recommended for most users)</h4>
+          <p>The easiest way to run Omnimon on Windows is using the pre-built executable.</p>
+          
+          <div class="success-box">
+            <strong>✅ Advantages:</strong>
+            <ul>
+              <li>No Python installation required</li>
+              <li>One-click launch</li>
+              <li>All dependencies included</li>
+              <li>Works on any Windows 10/11 system</li>
+            </ul>
+          </div>
+          
+          <p><span class="step-number">1</span>Download the latest Omnimon release:</p>
+          <a href="https://github.com/sundeth/omnimon/releases" class="download-button">📥 Download Omnimon.exe</a>
+          
+          <p><span class="step-number">2</span>Extract the downloaded ZIP file to your desired location (e.g., <code>C:\Games\Omnimon\</code>)</p>
+          
+          <p><span class="step-number">3</span>Double-click <code>Omnimon.exe</code> to launch the game</p>
+          
+          <div class="warning-box">
+            <strong>⚠️ Windows Defender Warning:</strong> Windows may show a security warning for unsigned executables. Click "More info" → "Run anyway" to proceed.
+          </div>
+
+          <h4>Option 2: Python Source Installation</h4>
+          <p>For developers or users who want to modify the game.</p>
+          
+          <div class="requirements-box">
+            <strong>📋 Requirements:</strong>
+            <ul>
+              <li>Python 3.8 or higher</li>
+              <li>Pygame 2.0+ library</li>
+              <li>At least 100MB free disk space</li>
+            </ul>
+          </div>
+          
+          <p><span class="step-number">1</span>Install Python from <a href="https://python.org/downloads/">python.org</a></p>
+          <div class="warning-box">
+            <strong>Important:</strong> Make sure to check "Add Python to PATH" during installation!
+          </div>
+          
+          <p><span class="step-number">2</span>Open Command Prompt and install Pygame:</p>
+          <div class="code-block">pip install pygame</div>
+          
+          <p><span class="step-number">3</span>Download and extract the Omnimon source code</p>
+          
+          <p><span class="step-number">4</span>Navigate to the game folder and run:</p>
+          <div class="code-block">cd path\to\omnimon
+python main.py</div>
+
+          <h4>Folder Structure</h4>
+          <p>Your Omnimon installation should look like this:</p>
+          <div class="folder-structure">Omnimon/
+├── main.py                 # Main game launcher
+├── Omnimon.exe            # Standalone executable (if using pre-built)
+├── omnimon.pygame         # Batocera launcher
+├── config/
+│   ├── config.json        # Game configuration
+│   └── input_config.json  # Input mappings
+├── game/                  # Game engine
+├── modules/               # Game modules (pets, rulesets)
+│   ├── DMC/              # Digital Monster Color module
+│   ├── DMX/              # Digital Monster X module
+│   └── PENC/             # Pendulum Color module
+├── resources/             # Game assets
+├── save/                  # Save files
+├── logs/                  # Game logs
+└── Documentation/         # Game documentation</div>
+        </div>
+      </div>
+
+      <!-- Linux Installation -->
+      <div id="linux-content" class="platform-content">
+        <div class="platform-section">
+          <h3>🐧 Linux Installation</h3>
+          
+          <div class="requirements-box">
+            <strong>📋 System Requirements:</strong>
+            <ul>
+              <li>Linux distribution with Python 3.8+</li>
+              <li>X11 or Wayland display server</li>
+              <li>Audio system (ALSA/PulseAudio)</li>
+              <li>At least 100MB free disk space</li>
+            </ul>
+          </div>
+
+          <h4>Ubuntu/Debian Installation</h4>
+          <p><span class="step-number">1</span>Update your package list and install dependencies:</p>
+          <div class="code-block">sudo apt update
+sudo apt install python3 python3-pip python3-pygame git</div>
+          
+          <p><span class="step-number">2</span>Clone or download Omnimon:</p>
+          <div class="code-block">git clone https://github.com/username/omnimon.git
+cd omnimon</div>
+          
+          <p><span class="step-number">3</span>Install Python dependencies:</p>
+          <div class="code-block">pip3 install pygame</div>
+          
+          <p><span class="step-number">4</span>Make the main script executable and run:</p>
+          <div class="code-block">chmod +x main.py
+python3 main.py</div>
+
+          <h4>Arch Linux Installation</h4>
+          <p><span class="step-number">1</span>Install dependencies:</p>
+          <div class="code-block">sudo pacman -S python python-pygame git</div>
+          
+          <p><span class="step-number">2</span>Follow steps 2-4 from Ubuntu instructions above</p>
+
+          <h4>Fedora/CentOS Installation</h4>
+          <p><span class="step-number">1</span>Install dependencies:</p>
+          <div class="code-block">sudo dnf install python3 python3-pygame git</div>
+          
+          <p><span class="step-number">2</span>Follow steps 2-4 from Ubuntu instructions above</p>
+
+          <h4>Running in Fullscreen</h4>
+          <p>For dedicated gaming setups, you can launch Omnimon in fullscreen mode:</p>
+          <div class="code-block">python3 main.py --fullscreen</div>
+          
+          <p>Or set the environment variable:</p>
+          <div class="code-block">OMNIMON_FULLSCREEN=1 python3 main.py</div>
+
+          <div class="success-box">
+            <strong>💡 Pro Tip:</strong> Create a desktop shortcut by making a <code>.desktop</code> file in <code>~/.local/share/applications/</code>
+          </div>
+        </div>
+      </div>
+
+      <!-- Batocera Installation -->
+      <div id="batocera-content" class="platform-content">
+        <div class="platform-section">
+          <h3>🎮 Batocera Installation</h3>
+          <p>Omnimon can run natively on Batocera systems as a Pygame application, perfect for handheld devices and retro gaming setups.</p>
+          
+          <div class="requirements-box">
+            <strong>📋 Batocera Requirements:</strong>
+            <ul>
+              <li>Batocera v35 or higher</li>
+              <li>At least 200MB free space on userdata</li>
+              <li>Network access for initial setup (optional)</li>
+            </ul>
+          </div>
+
+          <h4>Installation Steps</h4>
+          <p><span class="step-number">1</span>Access your Batocera system via:</p>
+          <ul>
+            <li><strong>Network:</strong> <code>\\batocera</code> (Windows) or <code>smb://batocera</code> (Linux/Mac)</li>
+            <li><strong>SSH:</strong> <code>ssh root@batocera</code> (password: linux)</li>
+            <li><strong>Direct access:</strong> Remove SD card and access on PC</li>
+          </ul>
+          
+          <p><span class="step-number">2</span>Navigate to the pygame folder:</p>
+          <div class="code-block">/userdata/roms/pygame/</div>
+          
+          <p><span class="step-number">3</span>Create the Omnimon directory and copy files:</p>
+          <div class="folder-structure">/userdata/roms/pygame/omnimon/
+├── omnimon.pygame         # Batocera launcher (REQUIRED)
+├── main.py                # Main game file
+├── config/               
+├── game/                 
+├── modules/              
+├── resources/            
+├── save/                 
+└── Documentation/        </div>
+          
+          <p><span class="step-number">4</span>Ensure the launcher is properly configured:</p>
+          <p>The <code>omnimon.pygame</code> file should contain:</p>
+          <div class="code-block">#!/usr/bin/env python3
+"""
+Omnimon Virtual Pet Game - Batocera Pygame Launcher
+"""
+
+import os
+import sys
+
+def main():
+    # Set environment variables for Batocera
+    os.environ["SDL_VIDEO_CENTERED"] = "1"
+    os.environ["OMNIMON_FULLSCREEN"] = "1"
+    os.environ["AUTO_RESOLUTION"] = "1"
+    
+    # Change to the game directory
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    os.chdir(script_dir)
+    sys.path.insert(0, script_dir)
+    
+    try:
+        from main import main as game_main
+        print("[Batocera] Starting Omnimon...")
+        game_main()
+    except Exception as e:
+        print(f"[Batocera] Error: {e}")
+        return 1
+    
+    return 0
+
+if __name__ == "__main__":
+    sys.exit(main())</div>
+          
+          <p><span class="step-number">5</span>Make the launcher executable:</p>
+          <div class="code-block">chmod +x omnimon.pygame</div>
+          
+          <p><span class="step-number">6</span>Refresh EmulationStation or restart Batocera</p>
+          
+          <div class="success-box">
+            <strong>✅ Success!</strong> Omnimon should now appear in the "Pygame" system in EmulationStation.
+          </div>
+
+          <h4>Batocera-Specific Features</h4>
+          <ul>
+            <li><strong>Auto-Resolution:</strong> Automatically detects and uses your screen's native resolution</li>
+            <li><strong>Controller Support:</strong> Works with any controller configured in Batocera</li>
+            <li><strong>Save Data:</strong> Saves are stored in the game directory and persist across reboots</li>
+            <li><strong>Low Resource Usage:</strong> Optimized for handheld devices and low-power systems</li>
+          </ul>
+
+          <h4>Troubleshooting Batocera</h4>
+          <div class="warning-box">
+            <strong>Game doesn't appear in EmulationStation:</strong>
+            <ul>
+              <li>Ensure the <code>omnimon.pygame</code> file is in the correct location</li>
+              <li>Check that the file has execute permissions</li>
+              <li>Restart EmulationStation or reboot Batocera</li>
+            </ul>
+          </div>
+          
+          <div class="warning-box">
+            <strong>Game crashes on startup:</strong>
+            <ul>
+              <li>Check that all game files are present</li>
+              <li>Verify Python syntax in the launcher file</li>
+              <li>Look for error messages in <code>/tmp/pygame_stdout.log</code></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="content-section">
+      <h2 class="section-title">Post-Installation Setup</h2>
+      
+      <h3>First Launch</h3>
+      <p>When you first start Omnimon:</p>
+      <ol>
+        <li>Make sure you have a save directory</li>
+        <li>Make sure you have a config directory with the config files in it</li>
+        <li>To access the module documentation from within the game main documentation files, run the game at least once</li>
+        <li>You'll see the main game screen with an egg ready to hatch</li>
+      </ol>
+
+      <h3>Configuration</h3>
+      <p>Key configuration files:</p>
+      <ul>
+        <li><strong>config.json:</strong> Display settings, sound levels, game options</li>
+        <li><strong>input_config.json:</strong> Customize button mappings</li>
+        <li><strong>Module configs:</strong> Each module has its own configuration options</li>
+      </ul>
+
+      <h3>Adding Modules</h3>
+      <p>To add new modules:</p>
+      <ol>
+        <li>Create a new folder in the <code>modules/</code> directory</li>
+        <li>Add the required module files (module.json, monster.json, etc.)</li>
+        <li>Restart the game to load the new module</li>
+        <li>The module documentation will be added to the guide list</li>
+      </ol>
+
+      <div class="success-box">
+        <strong>🎉 You're all set!</strong> Check out the <a href="manual.html">User Manual</a> to learn how to play, or explore the <a href="module-guide.html">Module Guide</a> for available content.
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function showPlatform(platform) {
+      // Hide all platform contents
+      const contents = document.querySelectorAll('.platform-content');
+      contents.forEach(content => content.classList.remove('active'));
+      
+      // Hide all tabs
+      const tabs = document.querySelectorAll('.platform-tab');
+      tabs.forEach(tab => tab.classList.remove('active'));
+      
+      // Show selected platform content
+      document.getElementById(platform + '-content').classList.add('active');
+      
+      // Highlight selected tab
+      event.target.classList.add('active');
+    }
+  </script>
+</body>
+</html>

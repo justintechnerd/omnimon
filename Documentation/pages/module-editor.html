@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Module Editor - Omnimon Documentation</title>
+  <link rel="stylesheet" href="../assets/main.css">
+</head>
+
+<body>
+  <div class="page-content">
+    <div class="page-header">
+      <h1 class="page-title">Module Editor</h1>
+      <p class="page-subtitle">Create and customize your own Omnimon modules</p>
+    </div>
+
+    <div class="content-section">
+      <h2 class="section-title" onclick="toggleSection(this)">System Requirements<span class="arrow">▼</span></h2>
+      <div class="section-content" style="display:none;">
+        <p>These are the minimum system requirements to run the Module Editor:</p>
+        <ul style="list-style: none; padding: 0; margin-top: 20px;">
+          <li style="margin-bottom: 15px; padding-left: 20px; position: relative;">
+            <span style="position: absolute; left: 0; color: #667eea;">•</span>
+            Windows 7 SP1, 8, 8.1, 10 or 11
+          </li>
+          <li style="margin-bottom: 15px; padding-left: 20px; position: relative;">
+            <span style="position: absolute; left: 0; color: #667eea;">•</span>
+            NET Framework 4.7.2 or higher
+          </li>
+          <li style="margin-bottom: 15px; padding-left: 20px; position: relative;">
+            <span style="position: absolute; left: 0; color: #667eea;">•</span>
+            200 MB of free disk space
+          </li>
+          <li style="margin-bottom: 15px; padding-left: 20px; position: relative;">
+            <span style="position: absolute; left: 0; color: #667eea;">•</span>
+            1 GB of RAM
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="content-section">
+      <h2 class="section-title" onclick="toggleSection(this)">Getting Started with the Editor<span
+          class="arrow">▼</span></h2>
+      <div class="section-content" style="display:none;">
+        <div style="text-align: center;"><img src="../assets/Editor1.PNG" alt="Getting Started with the Module Editor">
+        </div>
+        <p>After starting the editor you should be presented with a list of avaliable modules, if not then use the
+          button "Find" and locate the folder "modules" in your Omnimon Installation Directory.</p>
+        <p>If you get errors, make sure you selected the root folder of the modules, not the modules themselves.</p>
+        <p>When creating a new module, you will be asked to set a name for it, this name will be used as the folder
+          name, make sure you don't use invalid characters. Double click a module or select and click "Edit" to edit a
+          module.</p>
+        <p>Don't forget to save your changes and make backups!</p>
+        <p>The "Remove" button will permanently delete the selected module, so use it with caution.</p>
+      </div>
+    </div>
+
+    <div class="content-section">
+      <h2 class="section-title" onclick="toggleSection(this)">Main View<span class="arrow">▼</span></h2>
+      <div class="section-content" style="display:none;">
+        <div style="text-align: center;"><img src="../assets/MainPageEditor.png"></div>
+        <ul style="list-style: none; padding: 0; margin-top: 20px;">
+          <li style="margin-bottom: 15px; padding-left: 20px; position: relative;">
+            <span style="position: absolute; left: 0; color: #667eea;">1</span>
+            The tab controls are used to navigate between different sections of the module editor.
+            <ul style="list-style: none; padding: 0; margin-top: 10px;">
+              <li style="margin-bottom: 5px;"><strong>Module</strong> - General information, unlocks and backgrounds
+              </li>
+              <li style="margin-bottom: 5px;"><strong>Pet</strong> - The pets and their evolution lines</li>
+              <li style="margin-bottom: 5px;"><strong>Battle</strong> - The module's adventure mode</li>
+              <li style="margin-bottom: 5px;"><strong>Item</strong> - The item editor</li>
+            </ul>
+          </li>
+          <li style="margin-bottom: 15px; padding-left: 20px; position: relative;">
+            <span style="position: absolute; left: 0; color: #667eea;">2</span>
+            The main editor area where you can edit the content of the selected tab.
+          </li>
+          <li style="margin-bottom: 15px; padding-left: 20px; position: relative;">
+            <span style="position: absolute; left: 0; color: #667eea;">3</span>
+            This is the main buttons panel.
+            <ul style="list-style: none; padding: 0; margin-top: 10px;">
+              <li style="margin-bottom: 5px;"><strong>Save</strong> - Save data from all tabs into the disk.</li>
+              <li style="margin-bottom: 5px;"><strong>Cancel</strong> - Moves back to the Mod Selection form, this loses
+                all changes not saved to the module.</li>
+              <li style="margin-bottom: 5px;"><strong>Generate Documentation</strong> - Overrides the module's
+                documentation files using the currently saved data. Changes not yet saved are ignored.</li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="content-section">
+      <h2 class="section-title" onclick="toggleSection(this)">Module Editor Tab - Main<span class="arrow">▼</span></h2>
+      <div class="section-content" style="display:none;">
+        <div style="text-align: center;"><img src="../assets/ModuleTab.png"></div>
+        <h3>Guide to Main Tab Fields</h3>
+        <ul style="list-style: none; padding: 0; margin-top: 20px;">
+          <!-- Sprites -->
+          <li style="margin-bottom: 15px; padding-left: 20px;">
+            <strong>Flag:</strong><br>
+            This sprite will be used as a mark on all pets of this module, displayed on the pet's status window, Party
+            Box, and Freezer Box. Standard size is 48x48.
+          </li>
+          <li style="margin-bottom: 15px; padding-left: 20px;">
+            <strong>Logo:</strong><br>
+            The module's logo image sprite, used in the Egg Selection Scene. Standard size is 480x240, file named
+            <code>logo.png</code>.
+          </li>
+          <li style="margin-bottom: 15px; padding-left: 20px;">
+            <strong>BattleIcon:</strong><br>
+            This sprite is used in the Battle Menu for the module's adventure mode. Default size is 48x48, recommended
+            to use a square sprite.
+          </li>
+          <!-- General Info -->
+          <li style="margin-bottom: 15px; padding-left: 20px;">
+            <strong>Name:</strong><br>
+            The module's display name.
+          </li>
+          <li style="margin-bottom: 15px; padding-left: 20px;">
+            <strong>Version:</strong><br>
+            The module's version number.
+          </li>
+          <li style="margin-bottom: 15px; padding-left: 20px;">
+            <strong>Description:</strong><br>
+            The module's description text.
+          </li>
+          <li style="margin-bottom: 15px; padding-left: 20px;">
+            <strong>Author:</strong><br>
+            The module's author name.
+          </li>
+          <li style="margin-bottom: 15px; padding-left: 20px;">
+            <strong>Name Format:</strong><br>
+            Template string for pet sprite folder names. '$' is replaced with the pet's name. Example:
+            <code>$_dmc</code> creates folders like <code>Agumon_dmc</code>.
+          </li>
+          <li style="margin-bottom: 15px; padding-left: 20px;">
+            <strong>Ruleset:</strong><br>
+            Defines the type of mini-game used in the module's Adventure Mode and the way traited eggs are obtained.
+            Also defines the bonuses for power.
+          </li>
+          <li style="margin-bottom: 15px; padding-left: 20px;">
+            <strong>Adventure Mode:</strong><br>
+            Enables or disables adventure mode gameplay features. Required to add the module's Adventure Mode to the
+            Battle Menu.
+          </li>
+          <!-- Care Meat -->
+          <li style="margin-bottom: 15px; padding-left: 20px;">
+            <strong>Care Meat Weight Gain:</strong><br>
+            Weight increase when feeding meat/hunger food. Applied only to pets above stage 1 and below 99 weight.
+          </li>
+          <li style="margin-bottom: 15px; padding-left: 20px;">
+            <strong>Care Meat Hunger Gain:</strong><br>
+            Amount of hunger restored per meat feeding. Pets can't eat when hunger equals stomach capacity or during
+            overfeed timer.
+          </li>
+          <li style="margin-bottom: 15px; padding-left: 20px;">
+            <strong>Care Meat Care Mistake Time:</strong><br>
+            Minutes of empty hunger before triggering a care mistake. Timer resets when pet is fed.
+          </li>
+          <li style="margin-bottom: 15px; padding-left: 20px;">
+            <strong>Care Overfeed Timer:</strong><br>
+            Minutes pet refuses food after trying to overfeed. During this time, pet will display 'nope' animation when
+            offered food.
+          </li>
+          <li style="margin-bottom: 15px; padding-left: 20px;">
+            <strong>Care Condition Heart:</strong><br>
+            When enabled, uses condition hearts system instead of mistake counter. Each care mistake reduces condition
+            hearts.
+          </li>
+          <li style="margin-bottom: 15px; padding-left: 20px;">
+            <strong>Care Can Eat Sleeping:</strong><br>
+            Allows pets to eat food while in nap state. When disabled, feeding attempts during sleep hours will fail.
+          </li>
+          <li style="margin-bottom: 15px; padding-left: 20px;">
+            <strong>Care Back To Sleep Time:</strong><br>
+            Minutes before pet automatically returns to sleep after being woken up during sleep hours.
+          </li>
+          <li style="margin-bottom: 15px; padding-left: 20px;">
+            <strong>Care Enable Shaken Egg:</strong><br>
+            Allows eggs to be "shaken" (shake_counter &gt;= 99) for evolution bonuses.
+          </li>
+          <!-- Care Protein -->
+          <li style="margin-bottom: 15px; padding-left: 20px;">
+            <strong>Care Protein Weight Gain:</strong><br>
+            Weight increase when feeding protein/strength food. Applied only to pets above stage 1 and below 99 weight.
+          </li>
+          <li style="margin-bottom: 15px; padding-left: 20px;">
+            <strong>Care Protein Strengh Gain:</strong><br>
+            Amount of strength restored per protein feeding. Also added when training.
+          </li>
+          <li style="margin-bottom: 15px; padding-left: 20px;">
+            <strong>Care Protein Dp Gain:</strong><br>
+            DP is your stamina, gained every 4th protein feeding, if current DP is below maximum energy.
+          </li>
+          <li style="margin-bottom: 15px; padding-left: 20px;">
+            <strong>Care Protein Care Mistake Time:</strong><br>
+            Minutes of empty strength before triggering a care mistake. Timer resets when pet receives protein.
+          </li>
+          <li style="margin-bottom: 15px; padding-left: 20px;">
+            <strong>Care Protein Overdose Max:</strong><br>
+            Maximum protein overdose counter that affects battle sick chance. Each protein feeding increases overdose.
+          </li>
+          <li style="margin-bottom: 15px; padding-left: 20px;">
+            <strong>Care Disturbance Penalty Max:</strong><br>
+            Maximum penalty from sleep disturbances that affects battle sick chance. Each disturbance adds 2 to penalty.
+          </li>
+          <li style="margin-bottom: 15px; padding-left: 20px;">
+            <strong>Care Sleep Care Mistake Timer:</strong><br>
+            Minutes of sleep deprivation before triggering a care mistake.
+          </li>
+          <!-- Training -->
+          <li style="margin-bottom: 15px; padding-left: 20px;">
+            <strong>Training Effort Gain:</strong><br>
+            Effort points gained when winning training sessions. At 16+ effort, pets gain significant power bonuses.
+          </li>
+          <li style="margin-bottom: 15px; padding-left: 20px;">
+            <strong>Training Strengh Gain:</strong><br>
+            Strength increase from training sessions (both win and lose).
+          </li>
+          <li style="margin-bottom: 15px; padding-left: 20px;">
+            <strong>Training Weight Win:</strong><br>
+            Weight loss when winning training.
+          </li>
+          <li style="margin-bottom: 15px; padding-left: 20px;">
+            <strong>Training Weight Lose:</strong><br>
+            Weight loss when losing training.
+          </li>
+          <li style="margin-bottom: 15px; padding-left: 20px;">
+            <strong>Traited Egg Starting Level:</strong><br>
+            Initial level for pets hatched from traited eggs. Higher levels provide stat bonuses.
+          </li>
+          <li style="margin-bottom: 15px; padding-left: 20px;">
+            <strong>Reverse Atk Frames:</strong><br>
+            Swaps attack animation frames (ATK1↔ATK2, TRAIN1↔TRAIN2) during sprite loading.
+          </li>
+          <!-- Battle -->
+          <li style="margin-bottom: 15px; padding-left: 20px;">
+            <strong>Battle Base Sick Chance Win:</strong><br>
+            Base percentage chance of getting sick after winning a battle.
+          </li>
+          <li style="margin-bottom: 15px; padding-left: 20px;">
+            <strong>Battle Base Sick Chance Lose:</strong><br>
+            Base percentage chance of getting sick after losing a battle.
+          </li>
+          <li style="margin-bottom: 15px; padding-left: 20px;">
+            <strong>Battle Atribute Advantage:</strong><br>
+            Percentage advantage when pet's attribute matches favorably against enemy.
+          </li>
+          <li style="margin-bottom: 15px; padding-left: 20px;">
+            <strong>Battle Global Hit Points:</strong><br>
+            When &gt; 0, makes the module ignore pets' individual Health Points.
+          </li>
+          <li style="margin-bottom: 15px; padding-left: 20px;">
+            <strong>Battle Sequential Rounds:</strong><br>
+            Controls battle area progression mechanics. When enabled, battles progress through rounds sequentially.
+          </li>
+          <!-- Death -->
+          <li style="margin-bottom: 15px; padding-left: 20px;">
+            <strong>Death Max Injuries:</strong><br>
+            Maximum injuries before death. Injuries are gained from sickness, poop neglect, and battle losses.
+          </li>
+          <li style="margin-bottom: 15px; padding-left: 20px;">
+            <strong>Death Care Mistake:</strong><br>
+            Total care mistakes before death. Includes hunger, strength, sleep, and sickness mistakes.
+          </li>
+          <li style="margin-bottom: 15px; padding-left: 20px;">
+            <strong>Death Sick Timer:</strong><br>
+            Minutes of continuous sickness before death.
+          </li>
+          <li style="margin-bottom: 15px; padding-left: 20px;">
+            <strong>Death Hunger Timer:</strong><br>
+            Minutes of empty hunger before death.
+          </li>
+          <li style="margin-bottom: 15px; padding-left: 20px;">
+            <strong>Death Starvation Count:</strong><br>
+            Number of hunger depletion cycles before death.
+          </li>
+          <li style="margin-bottom: 15px; padding-left: 20px;">
+            <strong>Death Strength Timer:</strong><br>
+            Minutes of empty strength before death.
+          </li>
+          <li style="margin-bottom: 15px; padding-left: 20px;">
+            <strong>Death Stage45 Mistake:</strong><br>
+            Mistakes threshold for stage 4-5 pets after evolution time expires.
+          </li>
+          <li style="margin-bottom: 15px; padding-left: 20px;">
+            <strong>Death Stage67 Mistake:</strong><br>
+            Mistakes threshold for stage 6+ pets after 48 hours of age.
+          </li>
+          <li style="margin-bottom: 15px; padding-left: 20px;">
+            <strong>Death Save By B Press:</strong><br>
+            Enables death prevention by B button press. Gives a 1 minute window to save pet from death conditions.
+          </li>
+          <li style="margin-bottom: 15px; padding-left: 20px;">
+            <strong>Death Save By Shake:</strong><br>
+            Enables death prevention by device shaking. Gives a 1 minute window to save pet through physical
+            interaction.
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="content-section">
+      <h2 class="section-title" onclick="toggleSection(this)">Module Editor Tab - Unlocks<span class="arrow">▼</span>
+      </h2>
+      <div class="section-content" style="display:none;">
+        <div style="text-align: center;"><img src="../assets/EditorUnlocks.PNG"></div>
+        <p>Here its possible to manage in-game secrets and unlocks for your module.</p>
+        <p>Use the Add/Remove buttons to change the number of unlocks in the table. Click a cell to edit its value.</p>
+        <ul style="list-style: none; padding: 0; margin-top: 20px;">
+          <li style="margin-bottom: 15px; padding-left: 20px; position: relative;">
+            <span style="position: absolute; left: 0; color: #667eea;">•</span>
+            <strong>Name:</strong> This is the internal key for the unlock, it needs to be unique inside a module.
+          </li>
+          <li style="margin-bottom: 15px; padding-left: 20px; position: relative;">
+            <span style="position: absolute; left: 0; color: #667eea;">•</span>
+            <strong>Label:</strong> The display name for the unlock, this is what will be shown in the game in the
+            Unlocks section of the Settings Menu.
+          </li>
+          <li style="margin-bottom: 15px; padding-left: 20px; position: relative;">
+            <span style="position: absolute; left: 0; color: #667eea;">•</span>
+            <strong>Type:</strong> The type defines in which part of the game the unlock can be obtained.
+            <ul style="list-style: none; padding: 0; margin-top: 10px;">
+              <li style="margin-bottom: 5px;"><strong>Egg</strong> - Obtained through hatching an egg of a specific
+                version. Ignores Area, Amount and To.</li>
+              <li style="margin-bottom: 5px;"><strong>Adventure</strong> - Obtained by defeating the boss in the
+                module's adventure mode of a specific area. Ignores Version, Amount and To.</li>
+              <li style="margin-bottom: 5px;"><strong>Evolution</strong> - Obtained by reaching a specific evolution
+                stage. Ignores Version, Area and Amount.</li>
+              <li style="margin-bottom: 5px;"><strong>Digidex</strong> - Obtained by discovering a certain number of
+                unique pets. Ignores Version, Area and To.</li>
+          </li>
+          <li style="margin-bottom: 15px; padding-left: 20px; position: relative;">
+            <span style="position: absolute; left: 0; color: #667eea;">•</span>
+            <strong>Version:</strong> The requirements that must be met to obtain the unlock.
+          </li>
+          <li style="margin-bottom: 15px; padding-left: 20px; position: relative;">
+            <span style="position: absolute; left: 0; color: #667eea;">•</span>
+            <strong>Area:</strong> The area where the unlock can be obtained.
+          </li>
+          <li style="margin-bottom: 15px; padding-left: 20px; position: relative;">
+            <span style="position: absolute; left: 0; color: #667eea;">•</span>
+            <strong>Amount:</strong> The number of records needed to obtain the unlock.
+          </li>
+          <li style="margin-bottom: 15px; padding-left: 20px; position: relative;">
+            <span style="position: absolute; left: 0; color: #667eea;">•</span>
+            <strong>To:</strong> The unlock can be obtained by reaching a specific evolution stage.
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="content-section">
+      <h2 class="section-title" onclick="toggleSection(this)">Module Editor Tab - Backgrounds<span
+          class="arrow">▼</span></h2>
+      <div class="section-content" style="display:none;">
+        <div style="text-align: center;"><img src="../assets/EditorBackgrounds.PNG"></div>
+        <p>Here you can manage the backgrounds of your module, including their properties and settings.</p>
+        <p>Use the Add/Remove buttons to change the number of backgrounds in the table. Click a cell to edit its value.
+        </p>
+        <p>Use Refresh to validate the background list - there are 2 validations checked:</p>
+        <ul style="list-style: none; padding: 0; margin-top: 20px;">
+          <li style="margin-bottom: 15px; padding-left: 20px; position: relative;">
+            <span style="position: absolute; left: 0; color: #667eea;">•</span>
+            Does the background have a HiDefinition version? (Optional)
+          </li>
+          <li style="margin-bottom: 15px; padding-left: 20px; position: relative;">
+            <span style="position: absolute; left: 0; color: #667eea;">•</span>
+            Does the background have a valid sprite? (Required) A valid sprite is named as
+            <code>bg_NAME(_day/_dusk/_night)(_high)</code>
+            and is located in the background folder.
+          </li>
+          <p>Use "Import" to load an existing background asset into the editor. If the file is named with background
+            expected naming conventions, it will be imported with its settings already configured.
+          </p>
+          <ul style="list-style: none; padding: 0; margin-top: 20px;">
+            <li style="margin-bottom: 15px; padding-left: 20px; position: relative;">
+              <span style="position: absolute; left: 0; color: #667eea;">•</span>
+              <strong>Name:</strong> The name of the background, this is used directly to get the background file inside
+              the module. Don't use special characters and make it unique.
+            </li>
+            <li style="margin-bottom: 15px; padding-left: 20px; position: relative;">
+              <span style="position: absolute; left: 0; color: #667eea;">•</span>
+              <strong>Label:</strong> The display name of the background, this is what will be shown in the game in the
+              Backgrounds section of the Settings Menu.
+            </li>
+            <li style="margin-bottom: 15px; padding-left: 20px; position: relative;">
+              <span style="position: absolute; left: 0; color: #667eea;">•</span>
+              <strong>Day/Night:</strong> If enabled, the game will expect different background sprites for day, dusk,
+              and night, they should be named with _day/_dusk/_night suffix.
+            </li>
+          </ul>
+          <p>Examples:</p>
+          <ul>
+            <li><code>bg_forest</code> - A simple background without support for different times of day (Day/Night off).
+            </li>
+            <li><code>bg_forest_day</code> - The day version of the forest background.</li>
+            <li><code>bg_forest_dusk</code> - The dusk version of the forest background.</li>
+            <li><code>bg_forest_night</code> - The night version of the forest background.</li>
+            <li><code>bg_forest_high</code> - The high definition version of the forest background.</li>
+          </ul>
+      </div>
+    </div>
+
+    <div class="content-section">
+      <h2 class="section-title" onclick="toggleSection(this)">Pet Editor Tab<span class="arrow">▼</span></h2>
+      <div class="section-content" style="display:none;">
+        <div style="text-align: center;"><img src="../assets/EditorPet1.PNG"></div>
+        <p>Here you can manage the pets of your module, including their evolution lines and properties.</p>
+        <p>To the left, you will see a list of all pets in the module, select an existing pet to edit its properties. Or
+          use buttons Add, Remove, Copy, Paste.</p>
+        <img src="../assets/EditorNewPet.gif">
+        <p>To create a new pet the easy way, you can follow these steps:</p>
+        <ol>
+          <li><span style="position: absolute; left: 0; color: #667eea;">•</span>Click in Add.</li>
+          <li><span style="position: absolute; left: 0; color: #667eea;">•</span>Select the desired stage for the new
+            pet. The stage selection creates a new pet from a template, all values can be changed afterwards.</li>
+          <li><span style="position: absolute; left: 0; color: #667eea;">•</span>Fill the name of the new pet.</li>
+          <li><span style="position: absolute; left: 0; color: #667eea;">•</span>Click on Save! All other
+            functionalities work only on saved pets!</li>
+          <li><span style="position: absolute; left: 0; color: #667eea;">•</span>Click the Download button, it copy the
+            saved pet's name to the clipboard and open the sprite database (https://dmc-sprite-database.vercel.app/)
+          </li>
+          <li><span style="position: absolute; left: 0; color: #667eea;">•</span>Press Ctrl+V to paste the pet's name in
+            the search bar.</li>
+          <li><span style="position: absolute; left: 0; color: #667eea;">•</span>Click on Download on the sprite pack of
+            your choice.</li>
+          <li><span style="position: absolute; left: 0; color: #667eea;">•</span>Go back to the Editor and click
+            "Import". If done correctly, the sprites will be loaded.</li>
+          <li><span style="position: absolute; left: 0; color: #667eea;">•</span>Customize the stats as needed. And
+            click on save to apply the changes.</li>
+        </ol>
+        <p>Here's a list of pet properties you can edit:</p>
+        <ul style="list-style: none; padding: 0; margin-top: 20px;">
+          <li style="margin-bottom: 15px; padding-left: 20px; position: relative;">
+            <span style="position: absolute; left: 0; color: #667eea;">•</span>
+            <strong>Name:</strong> The name of the pet. Used for sprite folder lookup. Must be unique and not contain
+            special characters.
+          </li>
+          <li style="margin-bottom: 15px; padding-left: 20px; position: relative;">
+            <span style="position: absolute; left: 0; color: #667eea;">•</span>
+            <strong>Stage:</strong> Evolution stage: 0=Egg, 1=Baby, 2=Baby II, 3=Child, 4=Adult, 5=Perfect, 6=Ultimate,
+            7=Super, 8=Super+.
+          </li>
+          <li style="margin-bottom: 15px; padding-left: 20px; position: relative;">
+            <span style="position: absolute; left: 0; color: #667eea;">•</span>
+            <strong>Version:</strong> Version roster this pet belongs to. Different versions may have different
+            evolution paths and requirements.
+          </li>
+          <li style="margin-bottom: 15px; padding-left: 20px; position: relative;">
+            <span style="position: absolute; left: 0; color: #667eea;">•</span>
+            <strong>Time:</strong> Evolution timer in hours. Pet evolves when this time expires (if evolution
+            requirements are met).
+          </li>
+          <li style="margin-bottom: 15px; padding-left: 20px; position: relative;">
+            <span style="position: absolute; left: 0; color: #667eea;">•</span>
+            <strong>Attribute:</strong> Pet's attribute: Free, Data, Virus, or Vaccine. Determines type advantage in
+            battle (Data > Virus > Vaccine > Data).
+          </li>
+          <li style="margin-bottom: 15px; padding-left: 20px; position: relative;">
+            <span style="position: absolute; left: 0; color: #667eea;">•</span>
+            <strong>Energy:</strong> Maximum DP (energy) capacity. DP is consumed during battles and training.
+          </li>
+          <li style="margin-bottom: 15px; padding-left: 20px; position: relative;">
+            <span style="position: absolute; left: 0; color: #667eea;">•</span>
+            <strong>Sleeps:</strong> Sleep start time (HH:mm). Pet will call to be put to sleep at this time.
+          </li>
+          <li style="margin-bottom: 15px; padding-left: 20px; position: relative;">
+            <span style="position: absolute; left: 0; color: #667eea;">•</span>
+            <strong>ATK Main:</strong> Primary attack animation ID. Used for main battle attacks and training.
+          </li>
+          <li style="margin-bottom: 15px; padding-left: 20px; position: relative;">
+            <span style="position: absolute; left: 0; color: #667eea;">•</span>
+            <strong>Wakes:</strong> Wake up time (HH:mm). Pet will wake automatically at this time.
+          </li>
+          <li style="margin-bottom: 15px; padding-left: 20px; position: relative;">
+            <span style="position: absolute; left: 0; color: #667eea;">•</span>
+            <strong>ATK Alt:</strong> Alternative attack animation ID. Used for secondary attacks or special moves.
+          </li>
+          <li style="margin-bottom: 15px; padding-left: 20px; position: relative;">
+            <span style="position: absolute; left: 0; color: #667eea;">•</span>
+            <strong>Power:</strong> Base battle power. Higher power increases damage output and battle effectiveness.
+          </li>
+          <li style="margin-bottom: 15px; padding-left: 20px; position: relative;">
+            <span style="position: absolute; left: 0; color: #667eea;">•</span>
+            <strong>HP:</strong> Health Points. Higher HP allows the pet to survive more damage in battles. If set to 0,
+            default values will be used.
+          </li>
+          <li style="margin-bottom: 15px; padding-left: 20px; position: relative;">
+            <span style="position: absolute; left: 0; color: #667eea;">•</span>
+            <strong>Hunger Loss:</strong> Rate of hunger depletion over time (in minutes). Hunger will decrease by 1 at
+            this interval.
+          </li>
+          <li style="margin-bottom: 15px; padding-left: 20px; position: relative;">
+            <span style="position: absolute; left: 0; color: #667eea;">•</span>
+            <strong>Stomach:</strong> Hunger capacity. Determines how much food the pet can eat before becoming full.
+          </li>
+          <li style="margin-bottom: 15px; padding-left: 20px; position: relative;">
+            <span style="position: absolute; left: 0; color: #667eea;">•</span>
+            <strong>Strength Loss:</strong> Rate of strength depletion over time (in minutes). Strength affects power
+            and evolution.
+          </li>
+          <li style="margin-bottom: 15px; padding-left: 20px; position: relative;">
+            <span style="position: absolute; left: 0; color: #667eea;">•</span>
+            <strong>Min Weight:</strong> Minimum weight threshold. Weight can cause sickness when it reaches 99g. Can be
+            lost through training, but never below the minimum.
+          </li>
+          <li style="margin-bottom: 15px; padding-left: 20px; position: relative;">
+            <span style="position: absolute; left: 0; color: #667eea;">•</span>
+            <strong>Poop Timer:</strong> Time between pooping cycles (in minutes). Neglecting poop cleanup causes care
+            mistakes.
+          </li>
+          <li style="margin-bottom: 15px; padding-left: 20px; position: relative;">
+            <span style="position: absolute; left: 0; color: #667eea;">•</span>
+            <strong>Condition Hearts:</strong> Condition/health hearts. Represents overall care quality and affects
+            evolution.
+          </li>
+          <li style="margin-bottom: 15px; padding-left: 20px; position: relative;">
+            <span style="position: absolute; left: 0; color: #667eea;">•</span>
+            <strong>Heal Doses:</strong> Number of medicine doses needed to cure sickness.
+          </li>
+          <li style="margin-bottom: 15px; padding-left: 20px; position: relative;">
+            <span style="position: absolute; left: 0; color: #667eea;">•</span>
+            <strong>Jogress Available:</strong> Can participate in Jogress (fusion) evolution with another compatible
+            pet.
+          </li>
+
+          <!-- Column 2 fields (right side of the Pet Editor form) -->
+          <li style="margin-bottom: 15px; padding-left: 20px; position: relative;">
+            <span style="position: absolute; left: 0; color: #667eea;">•</span>
+            <strong>Special:</strong> Marks this pet as special. Special pets may have unique evolution or unlock
+            requirements.
+          </li>
+          <li style="margin-bottom: 15px; padding-left: 20px; position: relative;">
+            <span style="position: absolute; left: 0; color: #667eea;">•</span>
+            <strong>Special Key:</strong> Unique identifier for special evolution or unlock conditions. Only enabled if
+            Special is checked.
+          </li>
+          <li style="margin-bottom: 15px; padding-left: 20px; position: relative;">
+            <span style="position: absolute; left: 0; color: #667eea;">•</span>
+            <strong>Unlocks:</strong> List of unlock conditions for this pet. Separate multiple conditions with commas.
+          </li>
+          <li style="margin-bottom: 15px; padding-left: 20px; position: relative;">
+            <span style="position: absolute; left: 0; color: #667eea;">•</span>
+            <strong>Egg Group:</strong> Determines compatible egg types for this pet. Separate multiple groups with
+            commas.
+          </li>
+          <li style="margin-bottom: 15px; padding-left: 20px; position: relative;">
+            <span style="position: absolute; left: 0; color: #667eea;">•</span>
+            <strong>Rarity:</strong> Rarity level for this pet. Affects availability and encounter rates in the wild.
+          </li>
+          <li style="margin-bottom: 15px; padding-left: 20px; position: relative;">
+            <span style="position: absolute; left: 0; color: #667eea;">•</span>
+            <strong>Base EXP:</strong> Base experience points gained when this pet is used in battle.
+          </li>
+          <li style="margin-bottom: 15px; padding-left: 20px; position: relative;">
+            <span style="position: absolute; left: 0; color: #667eea;">•</span>
+            <strong>Max Level:</strong> Maximum level this pet can reach. Experience requirements increase with each
+            level.
+          </li>
+          <li style="margin-bottom: 15px; padding-left: 20px; position: relative;">
+            <span style="position: absolute; left: 0; color: #667eea;">•</span>
+            <strong>Type:</strong> Pet type, affects performance in battles and training. Types include:
+            <ul style="list-style: none; padding: 0; margin-top: 10px;">
+              <li style="margin-bottom: 5px;"><strong>Normal</strong> - Balanced stats and abilities.</li>
+              <li style="margin-bottom: 5px;"><strong>Attack</strong> - Higher power and attack-related stats.</li>
+              <li style="margin-bottom: 5px;"><strong>Defense</strong> - Higher HP and defense-related stats.</li>
+              <li style="margin-bottom: 5px;"><strong>Speed</strong> - Higher speed and evasion-related stats.</li>
+              <li style="margin-bottom: 5px;"><strong>Special</strong> - Unique abilities and higher base EXP.</li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="content-section">
+      <h2 class="section-title" onclick="toggleSection(this)">Pet Editor Tab - Evolution Editor<span
+          class="arrow">▼</span></h2>
+      <div class="section-content" style="display:none;">
+        <div style="text-align: center;"><img src="../assets/EditorPetEvolution.PNG"></div>
+        <p>After adding a new pet, you can use the Evolution Editor to define its evolution requirements.</p>
+        <p>To the left you are again presented with the Pet List, but this time, a combo box filters your pets by
+          Version. Pets can only evolve into other pets of the same version., This means that Jogress evolutions between
+          versions need to duplicate the evolution result to work.</p>
+        <p>First drag the pets from the Pet List into the Evolution Editor area to begin defining their evolution paths.
+          You can click in "Organize" to adjust the layout automatically.</p>
+        <p>Click the "Toggle Connection" button to enable the Connection Tool</p>
+        <p>Click the "SOURCE" pet and then click the "TARGET" pet to create a connection between them.</p>
+        <p>Disable the Connection Tool by clicking the "Toggle Connection" button again.</p>
+        <p>Click the Criteria Box to define the evolution conditions.</p>
+        <p>Here you can edit the evolution conditions, by default, empty and 0 fields will be ignored. You can use value
+          <strong>999999</strong> to indicate infinite. You can find below a description of all evolution criterias.</p>
+        <p>Once you have defined the evolution criterias, click .</p>
+      </div>
+    </div>
+
+    <div class=" content-section">
+      <h2 class="section-title" onclick="toggleSection(this)">Publishing Your Module<span class="arrow">▼</span>
+      </h2>
+      <div class="section-content" style="display:none;">
+        <p>Once your module is complete, you can:</p>
+        <ul style="list-style: none; padding: 0; margin-top: 20px;">
+          <li style="margin-bottom: 15px; padding-left: 20px; position: relative;">
+            <span style="position: absolute; left: 0; color: #ffd700;">✅</span>
+            Test it thoroughly in the module tester
+          </li>
+          <li style="margin-bottom: 15px; padding-left: 20px; position: relative;">
+            <span style="position: absolute; left: 0; color: #ffd700;">✅</span>
+            Package it for distribution
+          </li>
+          <li style="margin-bottom: 15px; padding-left: 20px; position: relative;">
+            <span style="position: absolute; left: 0; color: #ffd700;">✅</span>
+            Share it with the community
+          </li>
+          <li style="margin-bottom: 15px; padding-left: 20px; position: relative;">
+            <span style="position: absolute; left: 0; color: #ffd700;">✅</span>
+            Submit it to the official module repository
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="content-section">
+      <h2 class="section-title" onclick="toggleSection(this)">Best Practices<span class="arrow">▼</span></h2>
+      <div class="section-content" style="display:none;">
+        <ul style="list-style: none; padding: 0;">
+          <li style="margin-bottom: 15px; padding-left: 20px; position: relative;">
+            <span style="position: absolute; left: 0; color: #667eea;">💡</span>
+            Start simple and gradually add complexity
+          </li>
+          <li style="margin-bottom: 15px; padding-left: 20px; position: relative;">
+            <span style="position: absolute; left: 0; color: #667eea;">💡</span>
+            Test your module with different game states
+          </li>
+          <li style="margin-bottom: 15px; padding-left: 20px; position: relative;">
+            <span style="position: absolute; left: 0; color: #667eea;">💡</span>
+            Provide clear documentation for users
+          </li>
+          <li style="margin-bottom: 15px; padding-left: 20px; position: relative;">
+            <span style="position: absolute; left: 0; color: #667eea;">💡</span>
+            Follow the community guidelines for content
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <script>
+    function toggleSection(titleElem) {
+      var content = titleElem.closest('.content-section').querySelector('.section-content');
+      var isOpen = titleElem.classList.contains('open');
+      if (isOpen) {
+        content.style.display = 'none';
+        titleElem.classList.remove('open');
+      } else {
+        content.style.display = '';
+        titleElem.classList.add('open');
+      }
+    }
+  </script>
+</body>
+
+</html>
