@@ -184,6 +184,14 @@ def load() -> None:
     # Get all available save files in order (newest first)
     save_files_to_try = []
     
+    if not os.path.exists(SAVE_DIR):
+        try:
+            os.makedirs(SAVE_DIR)
+            print(f"[Save] Created save directory: {SAVE_DIR}")
+        except Exception as e:
+            print(f"[Save] Failed to create save directory: {e}")
+            return
+
     if os.path.exists(SAVE_DIR):
         # Find all save files with their numbers
         all_saves = []
@@ -248,6 +256,9 @@ def load() -> None:
                 
                 pet_list = valid_pets
                 poop_list = data.get("poop_list", [])
+                for poop in poop_list:
+                    poop.patch()  # Ensure all poops have necessary attributes
+
                 traited = data.get("traited", [])
                 game_background = data.get("game_background", None)
                 battle_area = data.get("battle_area", {})

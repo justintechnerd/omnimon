@@ -68,6 +68,17 @@ class SceneMainGame:
         self.frame_counter = 0  # Tracks frames for time updates
         self.last_menu_index = -1
         self.cached_static_surface = None
+        
+        # Optimized cached surfaces for main rendering
+        self.cached_poops_surface = None
+        self.cached_pets_surface = None
+        self.cached_hearts_surface = None
+        self.last_pet_positions = []  # Track pet positions for hearts cache invalidation
+        self.last_show_hearts = False
+        
+        # Force initial cache creation
+        self._last_poop_count = -1  # Force initial poop cache creation
+        self._last_selection_state = (None, None, ())
 
     def update(self) -> None:
         """
@@ -168,11 +179,16 @@ class SceneMainGame:
         self.cleaning_x -= self.cleaning_speed
         for poop in game_globals.poop_list:
             poop.x -= self.cleaning_speed
+            # Mark poop as dirty since position changed
+            if hasattr(poop, 'dirty'):
+                poop.dirty = True
 
         if self.cleaning_x <= -runtime_globals.misc_sprites["Wash"].get_width():
             game_globals.poop_list.clear()
             self.cleaning = False
             self.cleaning_x = constants.SCREEN_WIDTH
+            # Invalidate poop cache since all poops are removed
+            self.cached_poops_surface = None
             runtime_globals.game_sound.play("happy")
             for pet in game_globals.pet_list:
                 pet.set_state("happy2")
@@ -216,48 +232,124 @@ class SceneMainGame:
             if game_globals.showClock:
                 self.clock.draw(self.cached_static_surface)
 
-    def draw(self, surface: pygame.Surface) -> None:
+    def update_poops_surface(self) -> None:
         """
-        Draws the cached static surface and dynamic elements like pets, poops, and animations.
+        Updates the cached surface for all poops when any poop is dirty.
         """
-        # Update the cached static surface if needed
-        self.update_static_surface()
-
-        # Blit the cached static surface
-        surface.blit(self.cached_static_surface, (0, 0))
-
-        # Draw pets and their overlays
-        pets = game_globals.pet_list
-        selected_pets = set(runtime_globals.selected_pets) if runtime_globals.selected_pets else set()
-        show_hearts = runtime_globals.show_hearts
-
-        for i, pet in enumerate(pets):
-            self.draw_pet(surface, pet, i, selected_pets, show_hearts)
-
-        # Draw poops only if present
-        if game_globals.poop_list:
+        needs_update = False
+        
+        # Check if any poop is dirty (collect them first, don't reset flags yet)
+        dirty_poops = []
+        for poop in game_globals.poop_list:
+            if hasattr(poop, 'dirty') and poop.dirty:
+                dirty_poops.append(poop)
+                needs_update = True
+        
+        # Also update if the number of poops changed
+        current_poop_count = len(game_globals.poop_list)
+        if not hasattr(self, '_last_poop_count'):
+            self._last_poop_count = -1  # Force initial update
+        
+        if current_poop_count != self._last_poop_count:
+            needs_update = True
+            self._last_poop_count = current_poop_count
+        
+        # Always update if surface doesn't exist
+        if not self.cached_poops_surface:
+            needs_update = True
+        
+        if needs_update:
+            self.cached_poops_surface = pygame.Surface((constants.SCREEN_WIDTH, constants.SCREEN_HEIGHT), pygame.SRCALPHA)
+            self.cached_poops_surface.fill((0, 0, 0, 0))  # Transparent background
+            
+            # Draw all poops to the cached surface
             for poop in game_globals.poop_list:
-                poop.draw(surface, self.frame_counter)
+                poop.draw(self.cached_poops_surface)
+            
+            # Reset dirty flags AFTER successful redraw
+            for poop in dirty_poops:
+                poop.dirty = False
 
-        # Draw cleaning animation only if active
-        if self.cleaning:
-            self.draw_cleaning(surface)
-
-        # Draw fade overlay and evolved pets only if fading
-        if self.lock_inputs and self.fade_alpha > 0:
-            self.draw_fade_overlay(surface)
-            for i, pet in enumerate(pets):
-                self.draw_pet_evolved(surface, pet, i)
-
-        # Draw food animation for eating pets
-        self.draw_food_anims(surface)
-
-        # Draw game messages last
-        runtime_globals.game_message.draw(surface)
-
-    def draw_pet(self, surface: pygame.Surface, pet, index: int, selected_pets: set, show_hearts: bool) -> None:
+    def update_pets_surface(self) -> None:
         """
-        Draws a single pet with selection/outline indicators.
+        Updates the cached surface for all pets when any pet is dirty.
+        """
+        needs_update = False
+        selected_pets = set(runtime_globals.selected_pets) if runtime_globals.selected_pets else set()
+        
+        # Check if any pet is dirty (collect them first, don't reset flags yet)
+        dirty_pets = []
+        for pet in game_globals.pet_list:
+            if hasattr(pet, 'dirty') and pet.dirty:
+                dirty_pets.append(pet)
+                needs_update = True
+        
+        # Check if selection state changed
+        current_selection_mode = self.selection_mode
+        current_pet_selection_index = self.pet_selection_index
+        current_selected_pets = tuple(id(pet) for pet in selected_pets)
+        
+        if not hasattr(self, '_last_selection_state'):
+            self._last_selection_state = (None, None, ())
+        
+        last_mode, last_index, last_selected = self._last_selection_state
+        if (current_selection_mode != last_mode or 
+            current_pet_selection_index != last_index or 
+            current_selected_pets != last_selected):
+            needs_update = True
+            self._last_selection_state = (current_selection_mode, current_pet_selection_index, current_selected_pets)
+        
+        # Always update if surface doesn't exist
+        if not self.cached_pets_surface:
+            needs_update = True
+        
+        if needs_update:
+            self.cached_pets_surface = pygame.Surface((constants.SCREEN_WIDTH, constants.SCREEN_HEIGHT), pygame.SRCALPHA)
+            self.cached_pets_surface.fill((0, 0, 0, 0))  # Transparent background
+            
+            # Draw all pets to the cached surface
+            for i, pet in enumerate(game_globals.pet_list):
+                self.draw_pet_to_surface(self.cached_pets_surface, pet, i, selected_pets, False)  # No hearts here
+            
+            # Reset dirty flags AFTER successful redraw
+            for pet in dirty_pets:
+                pet.dirty = False
+
+    def update_hearts_surface(self) -> None:
+        """
+        Updates the cached surface for all hearts when pet positions change or show_hearts toggles.
+        """
+        needs_update = False
+        show_hearts = runtime_globals.show_hearts
+        
+        # Check if show_hearts state changed
+        if show_hearts != self.last_show_hearts:
+            needs_update = True
+            self.last_show_hearts = show_hearts
+        
+        # Check if any pet position changed
+        current_positions = [(pet.x, pet.y, pet.hunger, pet.strength) for pet in game_globals.pet_list]
+        if current_positions != self.last_pet_positions:
+            needs_update = True
+            self.last_pet_positions = current_positions[:]
+        
+        # Always update if surface doesn't exist
+        if not self.cached_hearts_surface:
+            needs_update = True
+        
+        if needs_update:
+            self.cached_hearts_surface = pygame.Surface((constants.SCREEN_WIDTH, constants.SCREEN_HEIGHT), pygame.SRCALPHA)
+            self.cached_hearts_surface.fill((0, 0, 0, 0))  # Transparent background
+            
+            # Draw all hearts to the cached surface if show_hearts is enabled
+            if show_hearts:
+                for pet in game_globals.pet_list:
+                    self.draw_hearts(self.cached_hearts_surface, pet.x + (constants.PET_WIDTH // 4), pet.y + constants.PET_HEIGHT, pet.hunger)
+                    self.draw_hearts(self.cached_hearts_surface, pet.x + (constants.PET_WIDTH // 4), pet.y + constants.PET_HEIGHT + (6 * constants.UI_SCALE), pet.strength)
+
+    def draw_pet_to_surface(self, surface: pygame.Surface, pet, index: int, selected_pets: set, draw_hearts: bool) -> None:
+        """
+        Draws a single pet with selection/outline indicators to the specified surface.
         """
         pet.draw(surface)
 
@@ -272,9 +364,249 @@ class SceneMainGame:
         if self.selection_mode == "pet" and index == self.pet_selection_index:
             draw_pet_outline(surface, frame, pet.x, pet.y, color=constants.FONT_COLOR_YELLOW)  # yellow highlight
 
-        if show_hearts:
+        if draw_hearts:
             self.draw_hearts(surface, pet.x + (constants.PET_WIDTH // 4), pet.y + constants.PET_HEIGHT, pet.hunger)
             self.draw_hearts(surface, pet.x + (constants.PET_WIDTH // 4), pet.y + constants.PET_HEIGHT + (6 * constants.UI_SCALE), pet.strength)
+
+    def draw_pet_evolved(self, surface: pygame.Surface, pet, index: int) -> None:
+        """
+        Draws a single pet during evolution sequence (faded overlay mode).
+        """
+        # Only draw the evolving pet during evolution
+        if runtime_globals.evolution_pet and pet == runtime_globals.evolution_pet:
+            pet.draw(surface)
+
+    def invalidate_pet_cache(self) -> None:
+        """
+        Forces regeneration of the pet cache on next draw.
+        """
+        self.cached_pets_surface = None
+
+    def invalidate_poop_cache(self) -> None:
+        """
+        Forces regeneration of the poop cache on next draw.
+        """
+        self.cached_poops_surface = None
+
+    def invalidate_hearts_cache(self) -> None:
+        """
+        Forces regeneration of the hearts cache on next draw.
+        """
+        self.cached_hearts_surface = None
+
+    def invalidate_all_caches(self) -> None:
+        """
+        Forces regeneration of all cached surfaces on next draw.
+        """
+        self.cached_static_surface = None
+        self.cached_pets_surface = None
+        self.cached_poops_surface = None
+        self.cached_hearts_surface = None
+        # Reset tracking variables to force updates
+        self._last_poop_count = -1
+        self._last_selection_state = (None, None, ())
+        self.last_pet_positions = []
+
+    def force_cache_refresh(self) -> None:
+        """
+        Forces immediate regeneration of all cached surfaces.
+        """
+        self.invalidate_all_caches()
+        # Mark all pets and poops as dirty to force redraw
+        for pet in game_globals.pet_list:
+            if hasattr(pet, 'dirty'):
+                pet.dirty = True
+        for poop in game_globals.poop_list:
+            if hasattr(poop, 'dirty'):
+                poop.dirty = True
+
+    def update_static_surface(self) -> None:
+        """
+        Updates the cached surface for the background, menu, and clock.
+        """
+        menu_index_changed = self.last_menu_index != runtime_globals.main_menu_index
+        clock_changed = self.frame_counter > constants.FRAME_RATE  # Update once per second
+
+        if not self.cached_static_surface or menu_index_changed or clock_changed:
+            self.frame_counter = 0
+            self.cached_static_surface = pygame.Surface((constants.SCREEN_WIDTH, constants.SCREEN_HEIGHT))
+            
+            # Draw background
+            self.background.draw(self.cached_static_surface)
+            
+            # Draw menu
+            self.menu.draw(self.cached_static_surface)
+            self.last_menu_index = runtime_globals.main_menu_index
+            
+            # Draw clock
+            if game_globals.showClock:
+                self.clock.draw(self.cached_static_surface)
+
+    def update_poops_surface(self) -> None:
+        """
+        Updates the cached surface for all poops when any poop is dirty.
+        """
+        needs_update = False
+        
+        # Check if any poop is dirty (collect them first, don't reset flags yet)
+        dirty_poops = []
+        for poop in game_globals.poop_list:
+            if hasattr(poop, 'dirty') and poop.dirty:
+                dirty_poops.append(poop)
+                needs_update = True
+        
+        # Also update if the number of poops changed
+        current_poop_count = len(game_globals.poop_list)
+        if not hasattr(self, '_last_poop_count'):
+            self._last_poop_count = -1  # Force initial update
+        
+        if current_poop_count != self._last_poop_count:
+            needs_update = True
+            self._last_poop_count = current_poop_count
+        
+        # Always update if surface doesn't exist
+        if not self.cached_poops_surface:
+            needs_update = True
+        
+        if needs_update:
+            self.cached_poops_surface = pygame.Surface((constants.SCREEN_WIDTH, constants.SCREEN_HEIGHT), pygame.SRCALPHA)
+            self.cached_poops_surface.fill((0, 0, 0, 0))  # Transparent background
+            
+            # Draw all poops to the cached surface
+            for poop in game_globals.poop_list:
+                poop.draw(self.cached_poops_surface)
+            
+            # Reset dirty flags AFTER successful redraw
+            for poop in dirty_poops:
+                poop.dirty = False
+
+    def update_pets_surface(self) -> None:
+        """
+        Updates the cached surface for all pets when any pet is dirty.
+        """
+        needs_update = False
+        selected_pets = set(runtime_globals.selected_pets) if runtime_globals.selected_pets else set()
+        
+        # Check if any pet is dirty (collect them first, don't reset flags yet)
+        dirty_pets = []
+        for pet in game_globals.pet_list:
+            if hasattr(pet, 'dirty') and pet.dirty:
+                dirty_pets.append(pet)
+                needs_update = True
+        
+        # Check if selection state changed
+        current_selection_mode = self.selection_mode
+        current_pet_selection_index = self.pet_selection_index
+        current_selected_pets = tuple(id(pet) for pet in selected_pets)
+        
+        if not hasattr(self, '_last_selection_state'):
+            self._last_selection_state = (None, None, ())
+        
+        last_mode, last_index, last_selected = self._last_selection_state
+        if (current_selection_mode != last_mode or 
+            current_pet_selection_index != last_index or 
+            current_selected_pets != last_selected):
+            needs_update = True
+            self._last_selection_state = (current_selection_mode, current_pet_selection_index, current_selected_pets)
+        
+        # Always update if surface doesn't exist
+        if not self.cached_pets_surface:
+            needs_update = True
+        
+        if needs_update:
+            self.cached_pets_surface = pygame.Surface((constants.SCREEN_WIDTH, constants.SCREEN_HEIGHT), pygame.SRCALPHA)
+            self.cached_pets_surface.fill((0, 0, 0, 0))  # Transparent background
+            
+            # Draw all pets to the cached surface
+            for i, pet in enumerate(game_globals.pet_list):
+                self.draw_pet_to_surface(self.cached_pets_surface, pet, i, selected_pets, False)  # No hearts here
+            
+            # Reset dirty flags AFTER successful redraw
+            for pet in dirty_pets:
+                pet.dirty = False
+
+    def update_hearts_surface(self) -> None:
+        """
+        Updates the cached surface for all hearts when pet positions change or show_hearts toggles.
+        """
+        needs_update = False
+        show_hearts = runtime_globals.show_hearts
+        
+        # Check if show_hearts state changed
+        if show_hearts != self.last_show_hearts:
+            needs_update = True
+            self.last_show_hearts = show_hearts
+        
+        # Check if any pet position changed
+        current_positions = [(pet.x, pet.y, pet.hunger, pet.strength) for pet in game_globals.pet_list]
+        if current_positions != self.last_pet_positions:
+            needs_update = True
+            self.last_pet_positions = current_positions[:]
+        
+        # Always update if surface doesn't exist
+        if not self.cached_hearts_surface:
+            needs_update = True
+        
+        if needs_update:
+            self.cached_hearts_surface = pygame.Surface((constants.SCREEN_WIDTH, constants.SCREEN_HEIGHT), pygame.SRCALPHA)
+            self.cached_hearts_surface.fill((0, 0, 0, 0))  # Transparent background
+            
+            # Draw all hearts to the cached surface if show_hearts is enabled
+            if show_hearts:
+                for pet in game_globals.pet_list:
+                    self.draw_hearts(self.cached_hearts_surface, pet.x + (constants.PET_WIDTH // 4), pet.y + constants.PET_HEIGHT, pet.hunger)
+                    self.draw_hearts(self.cached_hearts_surface, pet.x + (constants.PET_WIDTH // 4), pet.y + constants.PET_HEIGHT + (6 * constants.UI_SCALE), pet.strength)
+
+    def draw(self, surface: pygame.Surface) -> None:
+        """
+        Draws the cached static surface and dynamic elements like pets, poops, and animations.
+        """
+        # Update all cached surfaces if needed
+        self.update_static_surface()
+        
+        # Skip expensive surface updates during evolution lock (except for evolving pet)
+        if not self.lock_updates:
+            # Only update dynamic surfaces if something changed
+            if game_globals.poop_list:
+                self.update_poops_surface()
+            else:
+                # Clear poop surface if no poops exist
+                if self.cached_poops_surface:
+                    self.cached_poops_surface = None
+            
+            self.update_pets_surface()
+            self.update_hearts_surface()
+
+        # Blit the cached static surface (background, menu, clock)
+        blit_with_cache(surface, self.cached_static_surface, (0, 0))
+
+        # Blit cached pets surface
+        if self.cached_pets_surface and not self.lock_updates:
+            blit_with_cache(surface, self.cached_pets_surface, (0, 0))
+
+        # Blit cached poops surface only if there are poops
+        if game_globals.poop_list and self.cached_poops_surface and not self.lock_updates:
+            blit_with_cache(surface, self.cached_poops_surface, (0, 0))
+
+        # Blit cached hearts surface
+        if self.cached_hearts_surface and not self.lock_updates:
+            blit_with_cache(surface, self.cached_hearts_surface, (0, 0))
+
+        # Draw cleaning animation only if active
+        if self.cleaning:
+            self.draw_cleaning(surface)
+
+        # Draw fade overlay and evolved pets only if fading
+        if self.lock_inputs and self.fade_alpha > 0:
+            self.draw_fade_overlay(surface)
+            for i, pet in enumerate(game_globals.pet_list):
+                self.draw_pet_evolved(surface, pet, i)
+
+        # Draw food animation for eating pets
+        self.draw_food_anims(surface)
+
+        # Draw game messages last
+        runtime_globals.game_message.draw(surface)
 
     def draw_cleaning(self, surface: pygame.Surface) -> None:
         """
@@ -283,7 +615,7 @@ class SceneMainGame:
         wash_sprite = runtime_globals.misc_sprites.get("Wash")
         if wash_sprite:
             pet_x = (24 * constants.UI_SCALE) + (constants.SCREEN_HEIGHT - constants.PET_HEIGHT) // 2
-            surface.blit(wash_sprite, (self.cleaning_x, pet_x - (wash_sprite.get_height() - constants.PET_HEIGHT)))
+            blit_with_cache(surface, wash_sprite, (self.cleaning_x, pet_x - (wash_sprite.get_height() - constants.PET_HEIGHT)))
 
     def draw_fade_overlay(self, surface: pygame.Surface) -> None:
         """
@@ -294,7 +626,7 @@ class SceneMainGame:
             fade_overlay.fill((0, 0, 0))
             fade_overlay.set_alpha(self.fade_alpha)
             self._fade_overlay_cache = fade_overlay
-        surface.blit(self._fade_overlay_cache, (0, 0))
+        blit_with_cache(surface, self._fade_overlay_cache, (0, 0))
 
     def draw_food_anims(self, surface: pygame.Surface) -> None:
         """
@@ -317,7 +649,7 @@ class SceneMainGame:
                         food_sprite = anim_frames[frame_idx]
                         x = pet.x
                         y = pet.y - (food_sprite.get_height() // 2)
-                        surface.blit(food_sprite, (x, y))
+                        blit_with_cache(surface, food_sprite, (x, y))
                 elif idx in self.food_anims:
                     # Clean up if pet is no longer eating
                     game_pet_eating.pop(idx, None)
@@ -344,7 +676,7 @@ class SceneMainGame:
                     heart_sprite = self.sprites["heart_half"]
                 else:
                     heart_sprite = self.sprites["heart_empty"]
-                heart_surface.blit(heart_sprite, (heart_x, 0))
+                blit_with_cache(heart_surface, heart_sprite, (heart_x, 0))
             self._hearts_cache[cache_key] = (heart_surface, now)
         else:
             heart_surface = cache_entry[0]
@@ -405,7 +737,7 @@ class SceneMainGame:
         elif input_action == "F4":
             for pet in get_selected_pets():
                 pet.force_poop()
-                runtime_globals.game_console.log(f"[DEBUG] {pet.name} forced to poop")
+                runtime_globals.game.console.log(f"[DEBUG] {pet.name} forced to poop")
         elif input_action == "F5":
             for pet in get_selected_pets():
                 if get_module(pet.module).use_condition_hearts:
@@ -459,7 +791,10 @@ class SceneMainGame:
         elif input_action == "F12":
             for pet in get_selected_pets():
                 pet.sleep_disturbances += 1
-                runtime_globals.game_console.log(f"[DEBUG] {pet.name} sleep_disturbances counter: {pet.sleep_disturbances}")
+                runtime_globals.game.console.log(f"[DEBUG] {pet.name} sleep_disturbances counter: {pet.sleep_disturbances}")
+        elif input_action == "`":  # Backtick key for cache refresh debug
+            self.force_cache_refresh()
+            runtime_globals.game_console.log("[DEBUG] Forced cache refresh")
 
     def handle_navigation_keys(self, input_action) -> None:
         """Handles cyclic LEFT, RIGHT, UP, DOWN for menu navigation."""
@@ -537,11 +872,13 @@ class SceneMainGame:
 
         elif input_action == "R":
             runtime_globals.game_sound.play("menu")
-            distribute_pets_evenly()
+            self.distribute_pets_evenly()
 
         elif input_action == "X":
             runtime_globals.game_sound.play("menu")
             runtime_globals.show_hearts = not runtime_globals.show_hearts
+            # Invalidate hearts cache when toggling hearts display
+            self.invalidate_hearts_cache()
 
 
     def start_scene(self, scene_name: str) -> None:
@@ -604,6 +941,13 @@ class SceneMainGame:
             runtime_globals.game_sound.play("cancel")
             runtime_globals.game_console.log("[SceneMainGame] Cannot start battle: no eligible pets.")
 
+    def distribute_pets_evenly(self) -> None:
+        """
+        Distributes pets evenly and invalidates pet cache.
+        """
+        distribute_pets_evenly()
+        self.invalidate_pet_cache()
+
     def start_cleaning(self) -> None:
         """
         Starts the screen cleaning action if there are poops.
@@ -627,9 +971,12 @@ class SceneMainGame:
             return
 
         runtime_globals.game_sound.play("fail")
-        distribute_pets_evenly()
+        self.distribute_pets_evenly()  # This now invalidates pet cache
 
         for pet in sick_pets:
             pet.sick = max(0, pet.sick - 1)
             pet.set_state("angry")
             runtime_globals.game_console.log(f"[SceneMainGame] {pet.name} healed. Remaining sickness: {pet.sick}")
+        
+        # Invalidate pet cache since pets changed state
+        self.invalidate_pet_cache()

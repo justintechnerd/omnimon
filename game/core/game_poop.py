@@ -22,28 +22,45 @@ class GamePoop:
         """
         self.x = x
         self.y = y
+        self.frame_counter = 0
+        self.current_frame = 0
+        self.frame_index = 0
+        self.dirty = False
         self.jumbo = jumbo
-        # Use a random offset in frames for smooth desynchronization
-        self._frame_offset = random.randint(0, constants.FRAME_RATE - 1)
-        runtime_globals.game_console.log(f"[GamePoop] Initialized at ({self.x}, {self.y}), Jumbo: {self.jumbo}")
 
     def update(self) -> None:
         """
         Updates the internal animation counter.
         """
-        pass
+        self.frame_counter += 1
+        # Alternate between "Poop1" and "Poop2" every 30 frames
+        self.frame_index = (self.frame_counter // constants.FRAME_RATE) % 2
+        if self.current_frame != self.frame_index:
+            self.current_frame = self.frame_index
+            self.dirty = True
 
-    def draw(self, surface, frame_counter) -> None:
+
+    def draw(self, surface) -> None:
         """
         Draws the poop on the given surface.
 
         Args:
             surface: The Pygame surface where the poop is drawn.
         """
-        if not hasattr(self, "_frame_offset"):
-            self._frame_offset = random.randint(0, constants.FRAME_RATE - 1)
-        # Switch frame every second, but offset start for each poop
-        self.frame_index = ((frame_counter + self._frame_offset) // constants.FRAME_RATE) % 2
+        
         sprite_key = f"JumboPoop{self.frame_index + 1}" if self.jumbo else f"Poop{self.frame_index + 1}"
         sprite = runtime_globals.misc_sprites.get(sprite_key)
+        #surface.blit(sprite, (self.x, self.y))
         blit_with_cache(surface, sprite, (self.x, self.y))
+
+    def patch(self):
+        """
+        Patches the poop object to ensure it has the necessary attributes.
+        """
+        if not hasattr(self, "frame_counter"):
+            self.frame_counter = 0
+        if not hasattr(self, "current_frame"):
+            self.current_frame = 0
+        if not hasattr(self, "dirty"):
+            self.dirty = False
+

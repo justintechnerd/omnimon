@@ -140,6 +140,11 @@ class GamePet:
             self.animation_counter = 0
             self.animation_frames = getattr(Animation, new_state.upper(), Animation.IDLE)
             self.frame_index = self.frame_counter = self.animation_counter = 0
+            
+            # Mark as dirty when state changes since overlays may change
+            if hasattr(self, 'dirty'):
+                self.dirty = True
+            
             runtime_globals.game_console.log(f"{self.name} status {self.state}")
 
             if self.state == "nap" and self.should_sleep() and new_state != "nap":
@@ -209,7 +214,7 @@ class GamePet:
             overlay = runtime_globals.misc_sprites.get(f"Mad{anim_phase + 1}")
         elif getattr(self, "dying", False):
             overlay = runtime_globals.misc_sprites.get(f"Sick{anim_phase + 1}")
-        
+
         if overlay:
             x = self.x + constants.PET_WIDTH
             y = self.y - (constants.PET_WIDTH // 2)
@@ -227,6 +232,7 @@ class GamePet:
         self.timer += 1
         self.age_timer += 1
         self.update_animation()
+        self.update_cache()
 
         if self.state != "nap" and self.state in ("moving", "idle"):
             self.update_idle_movement()
@@ -236,8 +242,12 @@ class GamePet:
         elif self.state == "pooping":
             if self.frame_counter in [0, int(6 * (constants.FRAME_RATE / 30))]:
                 self.x += int(2 * constants.UI_SCALE)
+                if hasattr(self, 'dirty'):
+                    self.dirty = True
             elif self.frame_counter in [int(3 * (constants.FRAME_RATE / 30)), int(9 * (constants.FRAME_RATE / 30))]:
                 self.x -= int(2 * constants.UI_SCALE)
+                if hasattr(self, 'dirty'):
+                    self.dirty = True
 
             if self.animation_counter == int(15 * (constants.FRAME_RATE / 30)):
                 self.poop()
@@ -270,6 +280,35 @@ class GamePet:
             if self.state not in ("nap", "dead"):
                 self.update_vital_values_gain()
 
+    def update_cache(self):
+        # Check for changes that require cache invalidation
+        frame_key = self.animation_frames[self.frame_index].value
+        
+        # Determine if there's an overlay (same logic as in draw method)
+        anim_phase = (self.animation_counter // constants.FRAME_RATE) % 2
+        has_overlay = (
+            self.state == "nap" or
+            (self.state in {"happy2", "happy3"} and anim_phase == 0) or
+            (self.sick > 0 and self.state != "dead") or
+            self.state == "angry" or
+            getattr(self, "dying", False)
+        )
+        
+        # Mark as dirty if position, frame, or overlay state changed
+        if (hasattr(self, 'cache_x') and hasattr(self, 'cache_frame_index') and hasattr(self, 'cache_has_overlay')):
+            if (self.cache_x != self.x or 
+                self.cache_frame_index != frame_key or 
+                self.cache_has_overlay != has_overlay):
+                self.dirty = True
+        else:
+            # First time setup
+            self.dirty = True
+        
+        # Update cache values
+        self.cache_x = self.x
+        self.cache_frame_index = frame_key
+        self.cache_has_overlay = has_overlay
+
     def update_idle_movement(self):
         if self.stage == 0 or self.state == "nap":
             return
@@ -295,6 +334,7 @@ class GamePet:
         # Move in sync with frame updates (choppy movement)
         if self.state == "moving" and self.frame_counter % int(constants.FRAME_RATE / 3) == 0:  # move only when animation frame updates
             step = random.choice([2, 6])
+            old_x = self.x
             self.x += (step * (constants.SCREEN_WIDTH / 240)) * self.direction
             if self.x <= self.x_range[0]:
                 self.x = self.x_range[0]
@@ -302,6 +342,10 @@ class GamePet:
             elif self.x >= self.x_range[1]:
                 self.x = self.x_range[1]
                 self.direction = -1
+            
+            # Mark as dirty if position actually changed
+            if old_x != self.x and hasattr(self, 'dirty'):
+                self.dirty = True
 
     def update_animation(self):
         # Handle special 'nope' animation with direction flip
@@ -328,7 +372,7 @@ class GamePet:
                 self.set_state("happy"if self.state == "eat" else "idle")
 
         # Handle hatching animation
-        if self.stage == 0 and (self.timer * constants.FRAME_RATE / 30) >= 1750:
+        if self.stage == 0 and ((self.timer / constants.FRAME_RATE) - (self.time * 60)) >= -5:
             self.set_state("hatch")
 
     def evolve_to(self, name, version):
@@ -1004,3 +1048,8 @@ class GamePet:
             self.vital_values = 0
         if not hasattr(self, "vital_activities"):
             self.vital_activities = []
+        if not hasattr(self, "dirty"):
+            self.dirty = True  # Force initial update
+            self.cache_x = -1  # Invalid initial value to force update
+            self.cache_frame_index = -1  # Invalid initial value to force update
+            self.cache_has_overlay = False

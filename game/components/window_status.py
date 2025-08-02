@@ -334,7 +334,7 @@ class WindowStatus:
         # Evolution time
         evolution_label = self.font_small.render("Evolution:", True, constants.FONT_COLOR_DEFAULT)
         if self.pet.time >= 0 and self.pet.evolve:
-            evolution_seconds = (self.pet.time * 60) - (self.pet.timer // 30)
+            evolution_seconds = (self.pet.time * 60) - (self.pet.timer // constants.FRAME_RATE)
             evolution_text = format_seconds(evolution_seconds) if evolution_seconds > 0 else "00:00"
         else:
             evolution_text = ""
@@ -359,7 +359,7 @@ class WindowStatus:
         # Poop Time
         y += distance
         poop_label = self.font_small.render("Poop Time:", True, constants.FONT_COLOR_DEFAULT)
-        poop_seconds = (self.pet.poop_timer * 60) - (self.pet.timer // 30 % (self.pet.poop_timer * 60))
+        poop_seconds = (self.pet.poop_timer * 60) - ((self.pet.timer // constants.FRAME_RATE) % (self.pet.poop_timer * 60))
         poop_text = format_seconds(poop_seconds)
         poop_value = self.font_small.render(poop_text, True, constants.FONT_COLOR_DEFAULT)
         blit_with_shadow(surface, poop_label, (PAGE_MARGIN, y))
@@ -368,7 +368,7 @@ class WindowStatus:
         # Feed Time
         y += distance
         feed_label = self.font_small.render("Feed Time:", True, constants.FONT_COLOR_DEFAULT)
-        feed_seconds = (self.pet.hunger_loss * 60) - (self.pet.timer // 30 % (self.pet.hunger_loss * 60))
+        feed_seconds = (self.pet.hunger_loss * 60) - ((self.pet.timer // constants.FRAME_RATE) % (self.pet.hunger_loss * 60))
         feed_text = format_seconds(feed_seconds)
         feed_value = self.font_small.render(feed_text, True, constants.FONT_COLOR_DEFAULT)
         blit_with_shadow(surface, feed_label, (PAGE_MARGIN, y))

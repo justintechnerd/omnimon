@@ -41,6 +41,8 @@ class BattleEncounter:
         """
         Initializes the BattleEncounter, loading graphics and setting initial state.
         """
+        # Load module-specific attack sprites for pets and enemies
+        self.module_attack_sprites = {}
         self.module = get_module(module)
         self.set_initial_state(area, round, version)
 
@@ -80,8 +82,7 @@ class BattleEncounter:
         self.mega_hit = sprite_load_percent(constants.MEGA_HIT_PATH, 100, keep_proportion=True, base_on="width")
         self.attack_sprites = load_attack_sprites()
         
-        # Load module-specific attack sprites for pets and enemies
-        self.module_attack_sprites = {}
+        
         self.load_module_attack_sprites()
         
         self.hit_animation_frames = self.load_hit_animation()
