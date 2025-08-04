@@ -271,6 +271,51 @@
       ]
     },
     {
+      "name": "Drimogemon",
+      "stage": 4,
+      "version": 1,
+      "special": false,
+      "special_key": "",
+      "sleeps": "07:00",
+      "wakes": "16:00",
+      "atk_main": 3,
+      "atk_alt": 25,
+      "time": 8640,
+      "poop_timer": 180,
+      "energy": 3,
+      "min_weight": 5,
+      "stomach": 7,
+      "hunger_loss": 48,
+      "strength_loss": 48,
+      "heal_doses": 1,
+      "power": 25,
+      "attribute": "Da",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
+      "hp": 15,
+      "evolve": [
+        {
+          "to": "MetalGreymon",
+          "win_count": [
+            30,
+            999999
+          ],
+          "mistakes": [
+            0,
+            10
+          ],
+          "trophies": [
+            23,
+            999999
+          ],
+          "weigth": [
+            60,
+            70
+          ]
+        }
+      ]
+    },
+    {
       "name": "Greymon",
       "stage": 4,
       "version": 1,
@@ -613,51 +658,6 @@
       ]
     },
     {
-      "name": "Drimogemon",
-      "stage": 4,
-      "version": 1,
-      "special": false,
-      "special_key": "",
-      "sleeps": "07:00",
-      "wakes": "16:00",
-      "atk_main": 3,
-      "atk_alt": 25,
-      "time": 8640,
-      "poop_timer": 180,
-      "energy": 3,
-      "min_weight": 5,
-      "stomach": 7,
-      "hunger_loss": 48,
-      "strength_loss": 48,
-      "heal_doses": 1,
-      "power": 25,
-      "attribute": "Da",
-      "condition_hearts": 0,
-      "jogress_avaliable": false,
-      "hp": 15,
-      "evolve": [
-        {
-          "to": "MetalGreymon",
-          "win_count": [
-            30,
-            999999
-          ],
-          "mistakes": [
-            0,
-            10
-          ],
-          "trophies": [
-            23,
-            999999
-          ],
-          "weigth": [
-            60,
-            70
-          ]
-        }
-      ]
-    },
-    {
       "name": "Andromon",
       "stage": 5,
       "version": 1,
@@ -915,8 +915,10 @@
       "version": 2,
       "special": false,
       "special_key": "",
-      "atk_main": 0,
-      "atk_alt": 0,
+      "sleeps": "22:00",
+      "wakes": "07:00",
+      "atk_main": 7,
+      "atk_alt": 6,
       "time": 4320,
       "poop_timer": 240,
       "energy": 1,
@@ -1951,8 +1953,10 @@
       "version": 3,
       "special": false,
       "special_key": "",
-      "atk_main": 0,
-      "atk_alt": 0,
+      "sleeps": "22:00",
+      "wakes": "07:00",
+      "atk_main": 7,
+      "atk_alt": 6,
       "time": 4320,
       "poop_timer": 240,
       "energy": 1,
