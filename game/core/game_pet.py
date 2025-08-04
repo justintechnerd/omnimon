@@ -770,7 +770,7 @@ class GamePet:
         return self.stage > 1 and self.power > 0 and self.state != "dead" and self.atk_main > 0
     
     def can_train(self):
-        return self.stage > 1 and self.state != "dead" and self.atk_main > 0
+        return self.stage > 0 and self.state != "dead" and self.atk_main > 0
 
     def set_back_to_sleep(self):
         self.back_to_sleep = get_module(self.module).back_to_sleep_time
