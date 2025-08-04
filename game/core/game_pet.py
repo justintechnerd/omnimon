@@ -505,7 +505,7 @@ class GamePet:
                 self.set_state("nope")
             else:
                 self.set_state("eat", True)
-                self.hunger = min(self.stomach, self.hunger + amount)
+                self.hunger = min(self.stomach, self.hunger + module.meat_hunger_gain)
                 if self.stage > 1 and self.weight < 99:
                     self.weight += module.meat_weight_gain
                 self.care_food_mistake_timer = 0
@@ -513,7 +513,7 @@ class GamePet:
                 runtime_globals.game_console.log(f"{self.name} ate food (hunger). Hunger {self.hunger}")
         elif food_type == "strength":
             self.set_state("eat")
-            self.strength = min(4, self.strength + amount)
+            self.strength = min(4, self.strength + module.protein_strengh_gain)
             self.protein_overdose += 1
             if self.stage > 1 and self.weight < 99:
                 self.weight += module.protein_weight_gain
