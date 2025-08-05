@@ -9,7 +9,7 @@
       "atk_main": 0,
       "atk_alt": 0,
       "time": 1,
-      "poop_timer": 180,
+      "poop_timer": 3,
       "energy": 0,
       "min_weight": 5,
       "stomach": 2,
@@ -266,51 +266,6 @@
           "weigth": [
             0,
             10
-          ]
-        }
-      ]
-    },
-    {
-      "name": "Drimogemon",
-      "stage": 4,
-      "version": 1,
-      "special": false,
-      "special_key": "",
-      "sleeps": "07:00",
-      "wakes": "16:00",
-      "atk_main": 3,
-      "atk_alt": 25,
-      "time": 8640,
-      "poop_timer": 180,
-      "energy": 3,
-      "min_weight": 5,
-      "stomach": 7,
-      "hunger_loss": 48,
-      "strength_loss": 48,
-      "heal_doses": 1,
-      "power": 25,
-      "attribute": "Da",
-      "condition_hearts": 0,
-      "jogress_avaliable": false,
-      "hp": 15,
-      "evolve": [
-        {
-          "to": "MetalGreymon",
-          "win_count": [
-            30,
-            999999
-          ],
-          "mistakes": [
-            0,
-            10
-          ],
-          "trophies": [
-            23,
-            999999
-          ],
-          "weigth": [
-            60,
-            70
           ]
         }
       ]
@@ -1732,7 +1687,7 @@
       "strength_loss": 2,
       "heal_doses": 1,
       "power": 0,
-      "attribute": "",
+      "attribute": "Da",
       "condition_hearts": 0,
       "jogress_avaliable": false,
       "hp": 0,
@@ -1748,15 +1703,17 @@
       "version": 3,
       "special": false,
       "special_key": "",
-      "atk_main": 0,
+      "sleeps": "20:00",
+      "wakes": "08:00",
+      "atk_main": 56,
       "atk_alt": 0,
       "time": 360,
-      "poop_timer": 3,
+      "poop_timer": 180,
       "energy": 0,
       "min_weight": 5,
-      "stomach": 4,
-      "hunger_loss": 3,
-      "strength_loss": 3,
+      "stomach": 2,
+      "hunger_loss": 120,
+      "strength_loss": 120,
       "heal_doses": 1,
       "power": 0,
       "attribute": "Da",
@@ -1777,15 +1734,15 @@
       "special_key": "",
       "sleeps": "20:00",
       "wakes": "08:00",
-      "atk_main": 0,
+      "atk_main": 57,
       "atk_alt": 0,
       "time": 1440,
-      "poop_timer": 60,
+      "poop_timer": 360,
       "energy": 0,
       "min_weight": 10,
-      "stomach": 4,
-      "hunger_loss": 30,
-      "strength_loss": 30,
+      "stomach": 2,
+      "hunger_loss": 200,
+      "strength_loss": 200,
       "heal_doses": 1,
       "power": 0,
       "attribute": "Da",
@@ -1805,6 +1762,17 @@
           "time_range": [
             "06:00",
             "18:00"
+          ]
+        },
+        {
+          "to": "Kunemon",
+          "overfeed": [
+            1,
+            999999
+          ],
+          "time_range": [
+            "23:00",
+            "05:00"
           ]
         }
       ]
@@ -2084,6 +2052,31 @@
           "to": "Numemon"
         }
       ]
+    },
+    {
+      "name": "Kunemon",
+      "stage": 3,
+      "version": 3,
+      "special": true,
+      "special_key": "Kunemon",
+      "sleeps": "07:00",
+      "wakes": "16:00",
+      "atk_main": 6,
+      "atk_alt": 5,
+      "time": 4320,
+      "poop_timer": 240,
+      "energy": 2,
+      "min_weight": 5,
+      "stomach": 4,
+      "hunger_loss": 120,
+      "strength_loss": 120,
+      "heal_doses": 1,
+      "power": 5,
+      "attribute": "Vi",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
+      "hp": 10,
+      "evolve": []
     },
     {
       "name": "Birdramon",
@@ -2953,7 +2946,7 @@
     },
     {
       "name": "Pun_Egg",
-      "stage": 1,
+      "stage": 0,
       "version": 4,
       "special": false,
       "special_key": "",
@@ -2979,8 +2972,159 @@
       ]
     },
     {
-      "name": "Poy_Egg",
+      "name": "Punimon",
       "stage": 1,
+      "version": 4,
+      "special": false,
+      "special_key": "",
+      "sleeps": "20:00",
+      "wakes": "08:00",
+      "atk_main": 56,
+      "atk_alt": 0,
+      "time": 360,
+      "poop_timer": 180,
+      "energy": 0,
+      "min_weight": 5,
+      "stomach": 2,
+      "hunger_loss": 120,
+      "strength_loss": 120,
+      "heal_doses": 1,
+      "power": 0,
+      "attribute": "Da",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
+      "hp": 0,
+      "evolve": [
+        {
+          "to": "Tsunomon"
+        }
+      ]
+    },
+    {
+      "name": "Tsunomon",
+      "stage": 2,
+      "version": 4,
+      "special": false,
+      "special_key": "",
+      "sleeps": "20:00",
+      "wakes": "08:00",
+      "atk_main": 57,
+      "atk_alt": 0,
+      "time": 1440,
+      "poop_timer": 360,
+      "energy": 0,
+      "min_weight": 10,
+      "stomach": 2,
+      "hunger_loss": 200,
+      "strength_loss": 200,
+      "heal_doses": 1,
+      "power": 0,
+      "attribute": "Da",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
+      "hp": 0,
+      "evolve": [
+        {
+          "to": "Elecmon",
+          "training": [
+            8,
+            999999
+          ]
+        },
+        {
+          "to": "Penguinmon"
+        },
+        {
+          "to": "Kunemon",
+          "overfeed": [
+            1,
+            999999
+          ],
+          "time_range": [
+            "23:00",
+            "05:00"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Elecmon",
+      "stage": 3,
+      "version": 4,
+      "special": false,
+      "special_key": "",
+      "sleeps": "19:00",
+      "wakes": "04:00",
+      "atk_main": 5,
+      "atk_alt": 82,
+      "time": 4320,
+      "poop_timer": 240,
+      "energy": 1,
+      "min_weight": 5,
+      "stomach": 4,
+      "hunger_loss": 120,
+      "strength_loss": 120,
+      "heal_doses": 1,
+      "power": 10,
+      "attribute": "Da",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
+      "hp": 5,
+      "evolve": []
+    },
+    {
+      "name": "Kunemon",
+      "stage": 3,
+      "version": 4,
+      "special": true,
+      "special_key": "Kunemon",
+      "sleeps": "07:00",
+      "wakes": "16:00",
+      "atk_main": 6,
+      "atk_alt": 5,
+      "time": 4320,
+      "poop_timer": 240,
+      "energy": 2,
+      "min_weight": 5,
+      "stomach": 4,
+      "hunger_loss": 120,
+      "strength_loss": 120,
+      "heal_doses": 1,
+      "power": 5,
+      "attribute": "Vi",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
+      "hp": 10,
+      "evolve": []
+    },
+    {
+      "name": "Penguinmon",
+      "stage": 3,
+      "version": 4,
+      "special": false,
+      "special_key": "",
+      "sleeps": "19:00",
+      "wakes": "04:00",
+      "atk_main": 38,
+      "atk_alt": 48,
+      "time": 4320,
+      "poop_timer": 240,
+      "energy": 1,
+      "min_weight": 5,
+      "stomach": 4,
+      "hunger_loss": 120,
+      "strength_loss": 120,
+      "heal_doses": 1,
+      "power": 5,
+      "attribute": "Da",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
+      "hp": 5,
+      "evolve": []
+    },
+    {
+      "name": "Poy_Egg",
+      "stage": 0,
       "version": 5,
       "special": false,
       "special_key": "",
@@ -3006,8 +3150,159 @@
       ]
     },
     {
-      "name": "Yur_Egg",
+      "name": "Poyomon",
       "stage": 1,
+      "version": 5,
+      "special": false,
+      "special_key": "",
+      "sleeps": "20:00",
+      "wakes": "08:00",
+      "atk_main": 56,
+      "atk_alt": 0,
+      "time": 360,
+      "poop_timer": 180,
+      "energy": 0,
+      "min_weight": 5,
+      "stomach": 2,
+      "hunger_loss": 120,
+      "strength_loss": 120,
+      "heal_doses": 1,
+      "power": 0,
+      "attribute": "Da",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
+      "hp": 0,
+      "evolve": [
+        {
+          "to": "Tokomon"
+        }
+      ]
+    },
+    {
+      "name": "Tokomon",
+      "stage": 2,
+      "version": 5,
+      "special": false,
+      "special_key": "",
+      "sleeps": "20:00",
+      "wakes": "08:00",
+      "atk_main": 57,
+      "atk_alt": 0,
+      "time": 1440,
+      "poop_timer": 360,
+      "energy": 0,
+      "min_weight": 10,
+      "stomach": 2,
+      "hunger_loss": 200,
+      "strength_loss": 200,
+      "heal_doses": 1,
+      "power": 0,
+      "attribute": "Da",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
+      "hp": 0,
+      "evolve": [
+        {
+          "to": "Biyomon"
+        },
+        {
+          "to": "Patamon",
+          "training": [
+            8,
+            999999
+          ]
+        },
+        {
+          "to": "Kunemon",
+          "overfeed": [
+            1,
+            999999
+          ],
+          "time_range": [
+            "23:00",
+            "05:00"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Biyomon",
+      "stage": 3,
+      "version": 5,
+      "special": false,
+      "special_key": "",
+      "sleeps": "19:00",
+      "wakes": "04:00",
+      "atk_main": 48,
+      "atk_alt": 17,
+      "time": 4320,
+      "poop_timer": 240,
+      "energy": 2,
+      "min_weight": 5,
+      "stomach": 4,
+      "hunger_loss": 120,
+      "strength_loss": 120,
+      "heal_doses": 1,
+      "power": 5,
+      "attribute": "Va",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
+      "hp": 5,
+      "evolve": []
+    },
+    {
+      "name": "Kunemon",
+      "stage": 3,
+      "version": 5,
+      "special": true,
+      "special_key": "Kunemon",
+      "sleeps": "07:00",
+      "wakes": "16:00",
+      "atk_main": 6,
+      "atk_alt": 5,
+      "time": 4320,
+      "poop_timer": 240,
+      "energy": 2,
+      "min_weight": 5,
+      "stomach": 4,
+      "hunger_loss": 120,
+      "strength_loss": 120,
+      "heal_doses": 1,
+      "power": 5,
+      "attribute": "Vi",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
+      "hp": 10,
+      "evolve": []
+    },
+    {
+      "name": "Patamon",
+      "stage": 3,
+      "version": 5,
+      "special": false,
+      "special_key": "",
+      "sleeps": "19:00",
+      "wakes": "04:00",
+      "atk_main": 48,
+      "atk_alt": 7,
+      "time": 4320,
+      "poop_timer": 240,
+      "energy": 1,
+      "min_weight": 5,
+      "stomach": 4,
+      "hunger_loss": 120,
+      "strength_loss": 120,
+      "heal_doses": 1,
+      "power": 10,
+      "attribute": "Da",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
+      "hp": 5,
+      "evolve": []
+    },
+    {
+      "name": "Yur_Egg",
+      "stage": 0,
       "version": 6,
       "special": false,
       "special_key": "",
@@ -3031,6 +3326,153 @@
           "to": "Yuramon"
         }
       ]
+    },
+    {
+      "name": "Yuramon",
+      "stage": 1,
+      "version": 6,
+      "special": false,
+      "special_key": "",
+      "sleeps": "20:00",
+      "wakes": "08:00",
+      "atk_main": 56,
+      "atk_alt": 0,
+      "time": 360,
+      "poop_timer": 180,
+      "energy": 0,
+      "min_weight": 5,
+      "stomach": 2,
+      "hunger_loss": 120,
+      "strength_loss": 120,
+      "heal_doses": 1,
+      "power": 0,
+      "attribute": "Da",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
+      "hp": 0,
+      "evolve": [
+        {
+          "to": "Tanemon"
+        }
+      ]
+    },
+    {
+      "name": "Tanemon",
+      "stage": 2,
+      "version": 6,
+      "special": false,
+      "special_key": "",
+      "sleeps": "20:00",
+      "wakes": "08:00",
+      "atk_main": 57,
+      "atk_alt": 0,
+      "time": 1440,
+      "poop_timer": 360,
+      "energy": 0,
+      "min_weight": 10,
+      "stomach": 2,
+      "hunger_loss": 200,
+      "strength_loss": 200,
+      "heal_doses": 1,
+      "power": 0,
+      "attribute": "Da",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
+      "hp": 0,
+      "evolve": [
+        {
+          "to": "Betamon"
+        },
+        {
+          "to": "Palmon"
+        },
+        {
+          "to": "Kunemon",
+          "overfeed": [
+            1,
+            999999
+          ],
+          "time_range": [
+            "23:00",
+            "05:00"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Betamon",
+      "stage": 3,
+      "version": 6,
+      "special": false,
+      "special_key": "",
+      "sleeps": "22:00",
+      "wakes": "07:00",
+      "atk_main": 7,
+      "atk_alt": 5,
+      "time": 4320,
+      "poop_timer": 240,
+      "energy": 1,
+      "min_weight": 5,
+      "stomach": 4,
+      "hunger_loss": 120,
+      "strength_loss": 120,
+      "heal_doses": 1,
+      "power": 5,
+      "attribute": "Vi",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
+      "hp": 10,
+      "evolve": []
+    },
+    {
+      "name": "Kunemon",
+      "stage": 3,
+      "version": 6,
+      "special": true,
+      "special_key": "Kunemon",
+      "sleeps": "07:00",
+      "wakes": "16:00",
+      "atk_main": 6,
+      "atk_alt": 5,
+      "time": 4320,
+      "poop_timer": 240,
+      "energy": 2,
+      "min_weight": 5,
+      "stomach": 4,
+      "hunger_loss": 120,
+      "strength_loss": 120,
+      "heal_doses": 1,
+      "power": 5,
+      "attribute": "Vi",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
+      "hp": 10,
+      "evolve": []
+    },
+    {
+      "name": "Palmon",
+      "stage": 3,
+      "version": 6,
+      "special": false,
+      "special_key": "",
+      "sleeps": "16:00",
+      "wakes": "01:00",
+      "atk_main": 43,
+      "atk_alt": 28,
+      "time": 4320,
+      "poop_timer": 240,
+      "energy": 2,
+      "min_weight": 5,
+      "stomach": 4,
+      "hunger_loss": 120,
+      "strength_loss": 120,
+      "heal_doses": 1,
+      "power": 5,
+      "attribute": "Va",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
+      "hp": 5,
+      "evolve": []
     }
   ]
 }
