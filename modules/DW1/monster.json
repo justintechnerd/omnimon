@@ -3025,16 +3025,6 @@
       "hp": 0,
       "evolve": [
         {
-          "to": "Elecmon",
-          "training": [
-            8,
-            999999
-          ]
-        },
-        {
-          "to": "Penguinmon"
-        },
-        {
           "to": "Kunemon",
           "overfeed": [
             1,
@@ -3044,6 +3034,16 @@
             "23:00",
             "05:00"
           ]
+        },
+        {
+          "to": "Elecmon",
+          "training": [
+            8,
+            999999
+          ]
+        },
+        {
+          "to": "Penguinmon"
         }
       ]
     },
@@ -3203,16 +3203,6 @@
       "hp": 0,
       "evolve": [
         {
-          "to": "Biyomon"
-        },
-        {
-          "to": "Patamon",
-          "training": [
-            8,
-            999999
-          ]
-        },
-        {
           "to": "Kunemon",
           "overfeed": [
             1,
@@ -3222,6 +3212,16 @@
             "23:00",
             "05:00"
           ]
+        },
+        {
+          "to": "Patamon",
+          "training": [
+            8,
+            999999
+          ]
+        },
+        {
+          "to": "Biyomon"
         }
       ]
     },
@@ -3381,12 +3381,6 @@
       "hp": 0,
       "evolve": [
         {
-          "to": "Betamon"
-        },
-        {
-          "to": "Palmon"
-        },
-        {
           "to": "Kunemon",
           "overfeed": [
             1,
@@ -3396,6 +3390,16 @@
             "23:00",
             "05:00"
           ]
+        },
+        {
+          "to": "Palmon",
+          "sleep_disturbances": [
+            3,
+            999999
+          ]
+        },
+        {
+          "to": "Betamon"
         }
       ]
     },
