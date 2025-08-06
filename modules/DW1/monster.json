@@ -1699,7 +1699,7 @@
     },
     {
       "name": "Botamon",
-      "stage": 1,
+      "stage": 2,
       "version": 3,
       "special": false,
       "special_key": "",
@@ -2973,7 +2973,7 @@
     },
     {
       "name": "Punimon",
-      "stage": 1,
+      "stage": 2,
       "version": 4,
       "special": false,
       "special_key": "",
@@ -3151,7 +3151,7 @@
     },
     {
       "name": "Poyomon",
-      "stage": 1,
+      "stage": 2,
       "version": 5,
       "special": false,
       "special_key": "",
@@ -3329,7 +3329,7 @@
     },
     {
       "name": "Yuramon",
-      "stage": 1,
+      "stage": 2,
       "version": 6,
       "special": false,
       "special_key": "",
