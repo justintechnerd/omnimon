@@ -122,17 +122,18 @@
   <div class="page-content">
     <div class="page-header">
       <h1 class="page-title">Installation Guide</h1>
-      <p class="page-subtitle">Complete setup instructions for Windows, Linux, and Batocera</p>
+      <p class="page-subtitle">Complete setup instructions for Windows, Linux, Batocera, and macOS</p>
     </div>
 
     <div class="content-section">
       <h2 class="section-title">Quick Start</h2>
-      <p>Omnimon is a cross-platform virtual pet simulator that can run on Windows, Linux, and Batocera systems. Choose your platform below for detailed installation instructions:</p>
+      <p>Omnimon is a cross-platform virtual pet simulator that can run on Windows, Linux, Batocera, and macOS systems. Choose your platform below for detailed installation instructions:</p>
       
       <div class="platform-tabs">
         <div class="platform-tab active" onclick="showPlatform('windows')">🪟 Windows</div>
         <div class="platform-tab" onclick="showPlatform('linux')">🐧 Linux</div>
         <div class="platform-tab" onclick="showPlatform('batocera')">🎮 Batocera</div>
+        <div class="platform-tab" onclick="showPlatform('macos')">🍎 macOS</div>
       </div>
 
       <!-- Windows Installation -->
@@ -376,6 +377,53 @@ if __name__ == "__main__":
         </div>
       </div>
     </div>
+
+        <!-- macOS Installation -->
+      <div id="macos-content" class="platform-content">
+        <div class="platform-section">
+          <h3>🍎 macOS Installation</h3>
+          
+          <div class="requirements-box">
+            <strong>📋 System Requirements:</strong>
+            <ul>
+              <li>Recent macOS with Python 3.8+</li>
+              <li>Pygame 2.0+ library</li>
+              <li>At least 1GB free disk space</li>
+            </ul>
+          </div>
+
+          <h4>macOS Installation</h4>
+          
+          <p><span class="step-number">1</span>Install Python from <a href="https://python.org/downloads/">python.org</a></p>
+          <div class="warning-box">
+            <strong>Important:</strong> If customizing the installation, make sure "Shell profile updater" is checked!
+          </div>
+          
+          <p><span class="step-number">2</span>Open Terminal and install Pygame:</p>
+          <div class="code-block">pip3 install pygame</div>
+          
+          <p><span class="step-number">3</span>Download Omnimon from <a href="https://github.com/sundeth/omnimon">github.com</a></p>
+
+          <br>
+          
+          <p><span class="step-number">4</span>Navigate to the game folder and run:</p>
+          <div class="code-block">
+            <ul>cd path/to/omnimon</ul>
+            <ul>chmod +x launch.sh</ul>
+            <ul>./launch.sh</ul>
+          </div>
+
+          <h4>Running in Fullscreen</h4>
+          <p>For dedicated gaming setups, you can launch Omnimon in fullscreen mode:</p>
+          <div class="code-block">./launch.sh --fullscreen</div>
+          
+          <p>Or set environment variables:</p>
+          <div class="code-block">SDL_VIDEODRIVER=cocoa OMNIMON_FULLSCREEN=1 python3 main.py</div>
+
+        </div>
+      </div>
+
+
 
     <div class="content-section">
       <h2 class="section-title">Post-Installation Setup</h2>
