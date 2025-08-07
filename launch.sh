@@ -1,6 +1,6 @@
 #!/bin/bash
 # Launch script for Omnimon Virtual Pet Game
-# Works on Ubuntu, Batocera, and other Linux distributions
+# Works on Ubuntu, Batocera, other Linux distributions, and macOS
 # Edit config.json to change fullscreen, screen size, and other settings
 
 # Set environment variables for better compatibility
