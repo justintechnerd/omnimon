@@ -21,7 +21,7 @@ from game.vpet import VirtualPetGame
 from game.core.constants import *
 
 # Game Version
-VERSION = "0.9.6b"
+VERSION = "0.9.7"
 
 # Check Pygame version for compatibility
 PYGAME_VERSION = tuple(map(int, pygame.version.ver.split('.')))
@@ -75,6 +75,8 @@ def try_set_video_driver():
             drivers = ["x11", "wayland", "fbcon"]
     elif platform.system() == "Windows":
         drivers = ["windows"]
+    elif platform.system() == "Darwin":
+        drivers = ["cocoa"]
     else:
         drivers = ["x11", "wayland", "fbcon"]
 
