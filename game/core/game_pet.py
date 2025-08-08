@@ -767,7 +767,7 @@ class GamePet:
 
 
     def can_battle(self):
-        return self.stage > 1 and self.power > 0 and self.state != "dead" and self.atk_main > 0
+        return self.stage > 1 and self.power > 0 and self.state != "dead" and self.atk_main > 0 and self.dp > 0
     
     def can_train(self):
         return self.stage > 0 and self.state != "dead" and self.atk_main > 0
