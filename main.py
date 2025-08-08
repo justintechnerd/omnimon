@@ -75,6 +75,8 @@ def try_set_video_driver():
             drivers = ["x11", "wayland", "fbcon"]
     elif platform.system() == "Windows":
         drivers = ["windows"]
+    elif platform.system() == "Darwin":
+        drivers = ["cocoa"]
     else:
         drivers = ["x11", "wayland", "fbcon"]
 
