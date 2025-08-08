@@ -187,7 +187,7 @@ class SceneFeedingMenu:
         else:
             # Auto selection
             if food_status == "hunger":
-                return [pet for pet in game_globals.pet_list if pet.hunger < pet.stomach and pet.state != "dead" and pet.stage > 0]
+                return [pet for pet in game_globals.pet_list if pet.hunger < pet.stomach and pet.hunger < 4 and pet.state != "dead" and pet.stage > 0]
             elif food_status == "strength":
                 return [pet for pet in game_globals.pet_list if pet.strength < 4 and pet.state != "dead" and pet.stage > 0]
             elif effect == "status_boost":
