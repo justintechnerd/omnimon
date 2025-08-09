@@ -461,6 +461,9 @@ class BattleEncounter:
         if self.victory_status == "Defeat":
             self.battle_player.xp = 0
             self.battle_player.bonus = 0
+            # Call finish_battle here to update DP, battle number, and win rate for a loss.
+            for i, pet in enumerate(self.battle_player.team1):
+                pet.finish_battle(self.victory_status == "Victory", self.battle_player.team2[0], self.area, (self.boss or not self.module.battle_sequential_rounds))
             return
 
         # If victory, calculate XP for winners and bonus
@@ -1519,5 +1522,7 @@ class BattleEncounter:
         self.victory_status = "Victory" if result.winner == "device1" else "Defeat"
 
         # Process battle results for animations and rewards
-        self.process_battle_results()
+        #Remove because it is called by calling function calculate_combat_for_pairs() directly,
+        #otherwise it is called twice, and DP and battles are updated twice, not once.
+        #self.process_battle_results()
 
