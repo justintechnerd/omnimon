@@ -433,7 +433,7 @@ class WindowStatus:
             filled_blocks = visible_blocks
         else:
             # Scale value proportionally to the number of visible blocks
-            filled_blocks = ((value - 1) * visible_blocks) // (max_energy - 1) + 1
+            filled_blocks = (value * visible_blocks) // max_energy
 
         # Draw background of the energy bar (offset for border effect)
         #surface.blit(self.sprites["energy_bar_back"], ((x - 5) - (visible_blocks * (block_width + block_spacing) * UI_SCALE), y + int(4 * UI_SCALE)))
