@@ -82,7 +82,7 @@ class GameBattle:
         """
         Resets the cooldowns for each pet in the player's team.
         """
-        self.cooldowns = [random.randint(40 * (constants.FRAME_RATE / 30), 60 * (constants.FRAME_RATE / 30)) for _ in range(len(self.team1))]
+        self.cooldowns = [random.randint(40 * (constants.FRAME_RATE // 30), 60 * (constants.FRAME_RATE // 30)) for _ in range(len(self.team1))]
 
     def decrement_cooldowns(self):
         """
