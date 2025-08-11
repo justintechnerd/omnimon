@@ -255,7 +255,7 @@ class GamePet:
             self.set_state("tired")
 
         # Increase age every day (24 * 60 * 60 = 86.400)
-        if self.age_timer % (constants.FRAME_RATE * 86.400) == 0:
+        if self.age_timer % (constants.FRAME_RATE * 86400) == 0:
             self.age += 1
             runtime_globals.game_console.log(f"{self.name} aged to {self.age}")
 
