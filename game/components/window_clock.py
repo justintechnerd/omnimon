@@ -53,9 +53,9 @@ class WindowClock:
             return "battery_charging"
         elif percent <= 5.0:
             return "battery_empty"
-        elif percent <= 20.0:
+        elif percent <= 33.3:
             return "battery_low"
-        elif percent <= 50.0:
+        elif percent <= 66.7:
             return "battery_half"
         else:
             return "battery_full"

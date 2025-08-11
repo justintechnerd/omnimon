@@ -8,6 +8,12 @@ try:
 except ImportError:
     HAS_SMBUS = False
 
+try:
+    import psutil
+    HAS_PSUTIL = True
+except ImportError:
+    HAS_PSUTIL = False
+
 import platform
 
 IS_LINUX = platform.system() == "Linux"
@@ -17,14 +23,14 @@ CW2015_ADDRESS = 0x62
 CW2015_REG_VCELL = 0x02
 CW2015_REG_SOC = 0x04
 CW2015_REG_MODE = 0x0A
-
+BMI160_ADDRESS = 0x69
 
 class I2CUtils:
     def __init__(self):
         i2c_device_exists = os.path.exists("/dev/i2c-1")
         self.bus = smbus.SMBus(1) if IS_RPI and i2c_device_exists else None
-        self.battery_addr = 0x62
-        self.bmi160_addr = 0x69
+        self.battery_addr = CW2015_ADDRESS
+        self.bmi160_addr = BMI160_ADDRESS
         self.valid = IS_RPI and i2c_device_exists
         self.charging = False
 
@@ -69,7 +75,7 @@ class I2CUtils:
             return None
 
     def read_capacity(self):
-        """ Read battery percentage """
+        """ Read battery capacity on RPI """
         if not IS_RPI:
             return None
         try:
@@ -81,13 +87,32 @@ class I2CUtils:
             return None
 
     def is_charging(self):
+        if HAS_PSUTIL:
+            if psutil.sensors_battery() == None:
+                # Assume a system without a battery is plugged in
+                self.charging = True
+            else:
+                battery = psutil.sensors_battery()
+                if battery.power_plugged == True:
+                    self.charging = True
+                else:
+                    self.charging = False
+        #If HAS_PSUTIL is False, self.charging is left as defined in __init__(self) - currently defaults to False
         return self.charging
 
     def get_battery_percentage(self):
-        value = self.read_capacity() if IS_RPI else 100
-        if value is None:
+        if HAS_PSUTIL: # All systems with psutil, including RPI with psutil installed, will use this and return
+            if psutil.sensors_battery() == None:
+                return 0.0
+            else:
+                battery = psutil.sensors_battery()
+                return battery.percent
+        elif IS_RPI: # RPI systems without psutil will use this and return
+            value = self.read_capacity()
+            return value
+        else:
+            # A non-RPI system without psutil will default to empty battery to show the user it is non-functional
             return 0.0
-        return value
 
     def test_battery(self):
         """ Run continuous battery monitoring """
