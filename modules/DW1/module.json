@@ -1,6 +1,6 @@
 {
   "name": "DigimonWorld1",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "A vpet take on Digimon World 1 PS1 game. Data adapted from Syd Montague and Ginoshie guide, and Prima guide.",
   "author": "justintechnerd",
   "name_format": "$_dmc",
