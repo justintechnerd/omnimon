@@ -434,7 +434,10 @@ class SceneSettingsMenu:
     def _change_time(self, current, increase, start_hour, end_hour):
         # If None, set to start
         if current is None:
-            return datetime.time(hour=start_hour, minute=30)
+            if increase:
+                return datetime.time(hour=start_hour, minute=30)
+            else:
+                return datetime.time(hour=end_hour if end_hour != 24 else 23, minute=0 if end_hour != 24 else 30)
         # Convert to minutes
         minutes = current.hour * 60 + current.minute
         step = 30 if increase else -30
