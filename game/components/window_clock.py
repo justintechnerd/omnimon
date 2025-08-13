@@ -65,8 +65,7 @@ class WindowClock:
         if now - self.last_battery_update < 5:
             return
 
-        percent = self.battery.get_battery_percentage()
-        charging = self.battery.is_charging()
+        percent, charging = self.battery.get_battery_info()
         icon_key = self.select_icon_key(percent, charging)
 
         icon = self.battery_icons.get(icon_key)

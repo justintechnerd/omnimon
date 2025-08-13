@@ -33,6 +33,7 @@ class I2CUtils:
         self.bmi160_addr = BMI160_ADDRESS
         self.valid = IS_RPI and i2c_device_exists
         self.charging = False
+        self.battery_percent = 0.0
 
         self._last_voltage = None
         self._charging_counter = 0  # For debounce
@@ -86,33 +87,25 @@ class I2CUtils:
             print(f"Capacity read error: {e}")
             return None
 
-    def is_charging(self):
+    def get_battery_info(self):
         if HAS_PSUTIL:
-            if psutil.sensors_battery() == None:
-                # Assume a system without a battery is plugged in
+            battery_stats = psutil.sensors_battery()
+            if battery_stats == None:
+                self.battery_percent = 0.0
+                self.charging = True
+            elif battery_stats.power_plugged == True:
+                self.battery_percent = battery_stats.percent
                 self.charging = True
             else:
-                battery = psutil.sensors_battery()
-                if battery.power_plugged == True:
-                    self.charging = True
-                else:
-                    self.charging = False
-        #If HAS_PSUTIL is False, self.charging is left as defined in __init__(self) - currently defaults to False
-        return self.charging
-
-    def get_battery_percentage(self):
-        if HAS_PSUTIL: # All systems with psutil, including RPI with psutil installed, will use this and return
-            if psutil.sensors_battery() == None:
-                return 0.0
-            else:
-                battery = psutil.sensors_battery()
-                return battery.percent
-        elif IS_RPI: # RPI systems without psutil will use this and return
-            value = self.read_capacity()
-            return value
+                self.battery_percent = battery_stats.percent
+                self.charging = False
+        elif IS_RPI:
+            self.battery_percent = self.read_capacity()
+            self.charging = False
         else:
-            # A non-RPI system without psutil will default to empty battery to show the user it is non-functional
-            return 0.0
+            self.battery_percent = 0.0
+            self.charging = False
+        return self.battery_percent, self.charging
 
     def test_battery(self):
         """ Run continuous battery monitoring """
