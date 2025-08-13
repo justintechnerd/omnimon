@@ -48,6 +48,14 @@ class WindowPetSelector:
                 runtime_globals.game_sound.play("menu")
                 self.selected_index = (self.selected_index + 1) % len(self.pets)
                 self.adjust_scroll()
+            elif input_action == "LEFT":
+                runtime_globals.game_sound.play("menu")
+                self.selected_index = (self.selected_index - 4) % len(self.pets)
+                self.adjust_scroll()
+            elif input_action == "RIGHT":
+                runtime_globals.game_sound.play("menu")
+                self.selected_index = (self.selected_index + 4) % len(self.pets)
+                self.adjust_scroll()
             elif input_action == "UP":
                 runtime_globals.game_sound.play("menu")
                 self.selected_index = (self.selected_index - 1) % len(self.pets)
