@@ -189,7 +189,10 @@ class SceneFeedingMenu:
             if food_status == "hunger":
                 return [pet for pet in game_globals.pet_list if pet.hunger < pet.stomach and pet.hunger < 4 and pet.state != "dead" and pet.stage > 0]
             elif food_status == "strength":
-                return [pet for pet in game_globals.pet_list if pet.strength < 4 and pet.state != "dead" and pet.stage > 0]
+                return [pet for pet in game_globals.pet_list if (pet.strength < 4 and pet.state != "dead" and pet.stage > 0 and
+                                                                 runtime_globals.game_modules.get(pet.module).protein_strengh_gain > 0
+                                                                 )
+                       ]
             elif effect == "status_boost":
                 return [pet for pet in game_globals.pet_list if pet.can_battle() and pet.state != "dead" and pet.stage > 0]
             else:
