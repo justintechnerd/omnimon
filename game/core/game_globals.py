@@ -32,6 +32,8 @@ inventory = {}
 battle_effects = {}
 wake_time = None
 sleep_time = None
+screensaver = False
+screen_timeout = 60
 
 # Internal timer for autosave
 _last_save_time = time.time()
@@ -150,6 +152,8 @@ def save() -> None:
         "background_high_res": background_high_res,
         "wake_time": wake_time,
         "sleep_time": sleep_time,
+        "screensaver": screensaver,
+        "screen_timeout": screen_timeout
     }
 
     # Get the next save number and create the filename
@@ -179,7 +183,7 @@ def load() -> None:
     """
     global pet_list, poop_list, traited, unlocks, battle_area, battle_round, xai, xai_date, background_high_res
     global game_background, background_module_name, showClock, sound, inventory, battle_effects
-    global wake_time, sleep_time
+    global wake_time, sleep_time, screensaver, screen_timeout
 
     # Get all available save files in order (newest first)
     save_files_to_try = []
@@ -274,6 +278,8 @@ def load() -> None:
                 background_high_res = data.get("background_high_res", False)
                 wake_time = data.get("wake_time", None)
                 sleep_time = data.get("sleep_time", None)
+                screensaver = data.get("screensaver", False)
+                screen_timeout = data.get("screen_timeout", 60)
                 
                 print(f"[Game] Successfully loaded save file: {os.path.basename(save_path)} with {len(pet_list)} valid pets")
                 return  # Successfully loaded, exit the function
@@ -302,6 +308,8 @@ def load() -> None:
     background_high_res = False
     wake_time = None
     sleep_time = None
+    screensaver = False
+    screen_timeout = 60
 
 def autosave() -> None:
     """

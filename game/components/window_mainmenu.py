@@ -138,5 +138,6 @@ class WindowMenu:
             runtime_globals.pet_alert = alert
             if alert:
                 runtime_globals.game_sound.play("alarm")
+                runtime_globals.last_input_time = now    # Ensure the screen turns back on from a screensaver at the next draw phase
 
         return runtime_globals.pet_alert
