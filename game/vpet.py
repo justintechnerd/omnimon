@@ -96,6 +96,16 @@ class VirtualPetGame:
             rotated_surface = pygame.transform.rotate(surface, 180)  # Rotate only the surface
             surface.blit(rotated_surface, (0, 0))
 
+        # Screensaver Logic. Blank the screen if conditions are met.
+        now = time.time()
+        if (
+            game_globals.screensaver == True and
+            (now - runtime_globals.last_input_time) > game_globals.screen_timeout and
+            runtime_globals.pet_alert == False
+        ):
+            black = (0,0,0)
+            pygame.Surface.fill(surface, black)
+
     def handle_event(self, event: pygame.event.Event) -> None:
         """
         Delegates event handling to the current scene.
@@ -103,14 +113,17 @@ class VirtualPetGame:
         input_action = runtime_globals.game_input.process_event(event)
         if input_action:
             self.scene.handle_event(input_action)
+            runtime_globals.last_input_time = time.time()   # Reset Screensaver Timer
         else: #Analog inputs
             for action in runtime_globals.game_input.get_just_pressed_joystick():
                 if action in ("ANALOG_UP", "ANALOG_DOWN", "ANALOG_LEFT", "ANALOG_RIGHT"):
                     self.scene.handle_event(action.replace("ANALOG_", ""))
+                    runtime_globals.last_input_time = time.time()   # Reset Screensaver Timer
 
     def poll_gpio_inputs(self):
         for action in runtime_globals.game_input.get_gpio_just_pressed():
             self.scene.handle_event(action)
+            runtime_globals.last_input_time = time.time()   # Reset Screensaver Timer
 
     def change_scene(self) -> None:
         """
