@@ -31,7 +31,7 @@ from scenes.scene_training import SceneTraining
 from scenes.scene_debug import SceneDebug
 
 # Game Version
-runtime_globals.VERSION = "0.9.7"
+runtime_globals.VERSION = "0.9.8"
 
 # Global timing variable for system stats updates
 last_stats_update = time.time()
@@ -94,7 +94,7 @@ class VirtualPetGame:
             if now - last_stats_update >= 3:  # Update stats every 3 seconds
                 cached_stats = get_system_stats()
                 last_stats_update = now
-            #draw_system_stats(clock, surface, cached_stats, self.stat_font)
+            draw_system_stats(clock, surface, cached_stats, self.stat_font)
 
         if self.rotated:
             rotated_surface = pygame.transform.rotate(surface, 180)  # Rotate only the surface

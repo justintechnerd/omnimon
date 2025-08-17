@@ -173,9 +173,9 @@ def save() -> None:
         "sleep_time": sleep_time,
         "screensaver": screensaver,
         "screen_timeout": screen_timeout,
-        "quests": quests,           # <-- Added
-        "event": event,             # <-- Added
-        "event_time": event_time,   # <-- Added
+        "quests": quests,
+        "event": event,
+        "event_time": event_time,
     }
 
     # Get the next save number and create the filename
@@ -265,6 +265,11 @@ def load() -> None:
                                 pet.trophies = 0
                             if not hasattr(pet, 'vital_values'):
                                 pet.vital_values = 0
+                            # Ensure PvP counters exist for compatibility with older saves
+                            if not hasattr(pet, 'pvp_battles'):
+                                pet.pvp_battles = 0
+                            if not hasattr(pet, 'pvp_wins'):
+                                pet.pvp_wins = 0
                             
                             # Apply any patches from the pet class
                             if hasattr(pet, 'patch'):
@@ -302,9 +307,9 @@ def load() -> None:
                 sleep_time = data.get("sleep_time", None)
                 screensaver = data.get("screensaver", False)
                 screen_timeout = data.get("screen_timeout", 60)
-                quests = data.get("quests", [])           # <-- Added
-                event = data.get("event", None)           # <-- Added
-                event_time = data.get("event_time", None) # <-- Added
+                quests = data.get("quests", [])
+                event = data.get("event", None)
+                event_time = data.get("event_time", None)
 
                 print(f"[Game] Successfully loaded save file: {os.path.basename(save_path)} with {len(pet_list)} valid pets")
                 return  # Successfully loaded, exit the function
