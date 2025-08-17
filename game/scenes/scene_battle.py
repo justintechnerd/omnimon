@@ -19,7 +19,7 @@ from core.utils.module_utils import get_module
 from core.utils.pet_utils import get_battle_targets
 from core.utils.pygame_utils import blit_with_shadow, get_font, sprite_load_percent
 from core.utils.scene_utils import change_scene
-from core.utils.inventory_utils import remove_from_inventory
+from core.utils.inventory_utils import get_inventory_value, remove_from_inventory
 
 #=====================================================================
 # SceneTraining (Training Menu)
@@ -578,6 +578,11 @@ class SceneBattle:
                         runtime_globals.game_sound.play("evolution")
                         runtime_globals.game_console.log(f"[Armor Evolution] {pet.name} evolved to {evo['to']} using {digimental_item.name}!")
                         runtime_globals.game_message.add_slide(f"{pet.name} evolved to {evo['to']}!", constants.FONT_COLOR_GREEN, 56 * constants.UI_SCALE, constants.FONT_SIZE_SMALL)
+                        
+                        # Update quest progress for armor evolution
+                        from core.utils.quest_event_utils import update_evolution_quest_progress
+                        update_evolution_quest_progress("armor", pet.module)
+                        
                         break
                 # Return to game scene
                 change_scene("game")
@@ -658,6 +663,11 @@ class SceneBattle:
                     game_globals.pet_list.remove(pet2)
                     runtime_globals.game_sound.play("evolution")
                     runtime_globals.game_console.log(f"[Jogress] {pet1.name} jogressed to {evo['to']}!")
+                    
+                    # Update quest progress for jogress
+                    from core.utils.quest_event_utils import update_evolution_quest_progress
+                    update_evolution_quest_progress("jogress", pet1.module)
+                    
                     change_scene("game")
                     return
 
@@ -710,7 +720,7 @@ class SceneBattle:
             if hasattr(module, "items"):
                 for item in module.items:
                     if getattr(item, "effect", "") == "digimental":
-                        amount = game_globals.inventory.get(item.id, 0)
+                        amount = get_inventory_value(item.id)
                         if amount > 0:
                             sprite_name = item.sprite_name
                             if not sprite_name.lower().endswith(".png"):

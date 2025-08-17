@@ -121,7 +121,10 @@
     </Compile>
     <Compile Include="docgenerators\IndexGenerator.cs" />
     <Compile Include="docgenerators\ItemGenerator.cs" />
+    <Compile Include="docgenerators\QuestEventGenerator.cs" />
     <Compile Include="docgenerators\UnlockGenerator.cs" />
+    <Compile Include="models\Event.cs" />
+    <Compile Include="models\Quest.cs" />
     <Compile Include="tabs\editors\EnemyFastEditorForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -171,6 +174,9 @@
     </Compile>
     <Compile Include="tabs\ModuleTab.cs">
       <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="tabs\QuestEventTab.cs">
+      <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="utils\PetUtils.cs" />
     <Compile Include="controls\StageSelectForm.cs">
@@ -236,6 +242,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="template\module.css">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="template\questevents.html">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="template\unlocks.html">

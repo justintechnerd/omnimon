@@ -15,6 +15,8 @@ from core.utils.inventory_utils import add_to_inventory, get_inventory_value, re
 from core.utils.pet_utils import distribute_pets_evenly, get_selected_pets
 from core.utils.pygame_utils import sprite_load_percent
 from core.utils.scene_utils import change_scene
+from game.core.game_quest import QuestType
+from game.core.utils.quest_event_utils import update_quest_progress
 
 #=====================================================================
 # SceneFeedingMenu
@@ -49,7 +51,7 @@ class SceneFeedingMenu:
                 for item in module.items:
                     if getattr(item, "effect", "") == "digimental":
                         continue
-                    amount = game_globals.inventory.get(item.id, 0)
+                    amount = get_inventory_value(item.id)
                     if amount > 0:
                         sprite_name = item.sprite_name
                         if not sprite_name.lower().endswith(".png"):
@@ -117,7 +119,7 @@ class SceneFeedingMenu:
                     for item in module.items:
                         if getattr(item, "effect", "") == "digimental":
                             continue
-                        amount = game_globals.inventory.get(item.id, 0)
+                        amount = get_inventory_value(item.id)
                         if amount > 0:
                             sprite_name = item.sprite_name
                             if not sprite_name.lower().endswith(".png"):
@@ -352,10 +354,25 @@ class SceneFeedingMenu:
 
                     # Remove 1 from inventory for non-default items
                     if item_obj and item_obj.id not in [ditem.id for ditem in runtime_globals.default_items.values()]:
-                        if item_obj.id in game_globals.inventory:
-                            game_globals.inventory[item_obj.id] -= 1
-                            if game_globals.inventory[item_obj.id] <= 0:
-                                del game_globals.inventory[item_obj.id]
+                        remove_from_inventory(item_obj.id)
+
+            # Update FEEDING quest progress if items were consumed (excluding component and default items)
+            if (item_obj and item_obj.effect != "component" and 
+                item_obj.id not in [ditem.id for ditem in runtime_globals.default_items.values()] and
+                len(runtime_globals.game_pet_eating) > 0):
+                # Find the module for this item
+                item_module = None
+                for module in runtime_globals.game_modules.values():
+                    if hasattr(module, "items"):
+                        for it in module.items:
+                            if it.id == item_obj.id:
+                                item_module = module.name
+                                break
+                        if item_module:
+                            break
+                
+                if item_module:
+                    update_quest_progress(QuestType.FEEDING, len(runtime_globals.game_pet_eating), item_module)
 
             runtime_globals.game_console.log(f"[SceneFeedingMenu] Fed {len(runtime_globals.game_pet_eating)} pets with {food_name}")
             change_scene("game")

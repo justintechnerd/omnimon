@@ -763,6 +763,7 @@ namespace OmnimonModuleEditor
                 if (evo.Trophies != null) lines.Add($"Trophies: {formatRange(evo.Trophies)}"); // New field
                 if (evo.VitalValues != null) lines.Add($"Vital Values: {formatRange(evo.VitalValues)}"); // New field
                 if (evo.Weigth != null) lines.Add($"Weight: {formatRange(evo.Weigth)}"); // New field
+                if (evo.QuestsCompleted != null) lines.Add($"Quests Completed: {formatRange(evo.QuestsCompleted)}"); // New field
             }
 
             // Define the click event handler that opens the EvolutionCriteriaForm
@@ -1030,7 +1031,8 @@ namespace OmnimonModuleEditor
                 TimeRange = evo.TimeRange != null ? (string[])evo.TimeRange.Clone() : null, // <-- Adicionado
                 Trophies = evo.Trophies != null ? (int[])evo.Trophies.Clone() : null, // New field
                 VitalValues = evo.VitalValues != null ? (int[])evo.VitalValues.Clone() : null, // New field
-                Weigth = evo.Weigth != null ? (int[])evo.Weigth.Clone() : null // New field
+                Weigth = evo.Weigth != null ? (int[])evo.Weigth.Clone() : null, // New field
+                QuestsCompleted = evo.QuestsCompleted != null ? (int[])evo.QuestsCompleted.Clone() : null // New field
             };
         }
 

@@ -14,17 +14,21 @@ from core.utils.module_utils import load_modules
 from core.utils.pygame_utils import blit_with_cache, load_misc_sprites
 from game.core import constants
 from scenes.scene_battle import SceneBattle
+from scenes.scene_battle_pvp import SceneBattlePvP
 from scenes.scene_boot import SceneBoot
+from scenes.scene_connect import SceneConnect
 from scenes.scene_digidex import SceneDigidex
 from scenes.scene_eggselection import SceneEggSelection
 from scenes.scene_evolution import SceneEvolution
 from scenes.scene_freezerbox import SceneFreezerBox
+from scenes.scene_library import SceneLibrary
 from scenes.scene_settingsmenu import SceneSettingsMenu
 from scenes.scene_sleepmenu import SceneSleepMenu
 from scenes.scene_statusmenu import SceneStatusMenu
 from scenes.scene_maingame import SceneMainGame
 from scenes.scene_feedingmenu import SceneFeedingMenu
 from scenes.scene_training import SceneTraining
+from scenes.scene_debug import SceneDebug
 
 # Game Version
 runtime_globals.VERSION = "0.9.7"
@@ -90,7 +94,7 @@ class VirtualPetGame:
             if now - last_stats_update >= 3:  # Update stats every 3 seconds
                 cached_stats = get_system_stats()
                 last_stats_update = now
-            draw_system_stats(clock, surface, cached_stats, self.stat_font)
+            #draw_system_stats(clock, surface, cached_stats, self.stat_font)
 
         if self.rotated:
             rotated_surface = pygame.transform.rotate(surface, 180)  # Rotate only the surface
@@ -128,9 +132,13 @@ class VirtualPetGame:
             "training": SceneTraining,
             "sleepmenu": SceneSleepMenu,
             "battle": SceneBattle,
+            "battle_pvp": SceneBattlePvP,
+            "connect": SceneConnect,
             "digidex": SceneDigidex,
             "evolution": SceneEvolution,
             "freezer": SceneFreezerBox,
+            "library": SceneLibrary,
+            "debug": SceneDebug,
         }
 
         scene_class = scene_mapping.get(state)

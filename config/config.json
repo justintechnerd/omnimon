@@ -5,6 +5,6 @@
     "MAX_PETS": 4,
     "FULLSCREEN": false,
     "AUTO_RESOLUTION": false,
-    "DEBUG": false,
+    "DEBUG": true,
     "LOGGING": false
 }

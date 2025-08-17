@@ -121,6 +121,7 @@ FONT_COLOR_GREEN = (0, 231, 58)
 FONT_COLOR_RED = (237, 83, 80)
 FONT_COLOR_YELLOW = (255, 255, 0)
 FONT_COLOR_BLUE = (0, 0, 255)
+FONT_COLOR_ORANGE = (255, 200, 50)
 BACKGROUND_COLOR = (198, 203, 173)
 
 #=====================================================================
@@ -140,6 +141,8 @@ MENU_BACKGROUND_PATH = "resources/MenuBackground.png"
 PET_SELECTION_BACKGROUND_PATH = "resources/PetSelectionBack.png"
 PET_SELECTION_SMALL_ON_PATH = "resources/PetSelectionSmallOn.png"
 PET_SELECTION_SMALL_OFF_PATH = "resources/PetSelectionSmallOff.png"
+GIFT_PATH = "resources/Gift.png"
+ALERT_ICON_PATH = "resources/Alert.png"
 
 #=====================================================================
 # Paths: Battle & Training Sprites
@@ -181,8 +184,11 @@ OVERFEED_ICON_PATH = "resources/Overfeed.png"
 SICK_ICON_PATH = "resources/Sick1.png"
 SLEEP_DISTURBANCES_ICON_PATH = "resources/SleepDisturbances.png"
 XAI_ICON_PATH = "resources/Xai.png"
-TROPHIES_ICON_PATH = "resources/trophies.png"
+TROPHIES_ICON_PATH = "resources/Trophies.png"
 VITAL_VALUES_ICON_PATH = "resources/vitalvalues.png"
+DIGIDEX_ICON_PATH = "resources/DigidexIcon.png"
+FREEZER_ICON_PATH = "resources/FreezerIcon.png"
+
 
 #=====================================================================
 # Paths: UI Icons

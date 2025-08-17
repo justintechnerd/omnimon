@@ -19,6 +19,9 @@ from core.utils.module_utils import get_module
 from core.utils.pet_utils import all_pets_hatched, distribute_pets_evenly, draw_pet_outline, get_selected_pets
 from core.utils.pygame_utils import blit_with_cache
 from core.utils.scene_utils import change_scene
+from core.utils.inventory_utils import add_to_inventory, get_item_by_name
+from game.core.utils.quest_event_utils import generate_daily_quests, get_hourly_random_event
+from core.utils.inventory_utils import add_to_inventory
 
 HEARTS_SIZE = int(8 * constants.UI_SCALE)
 
@@ -60,7 +63,9 @@ class SceneMainGame:
         if game_globals.xai_date < today:
             game_globals.xai = random.randint(1, 7)
             game_globals.xai_date = today
-            game_globals.xai_date = today
+            # Reset daily quests when day changes
+            game_globals.quests = []
+            runtime_globals.game_console.log(f"[SceneMainGame] New day detected, XAI set to {game_globals.xai}, quests reset")
 
         self.food_anims = {}  # {pet_index: [frames]} for animated food sprites
         self.load()
@@ -68,6 +73,26 @@ class SceneMainGame:
         self.frame_counter = 0  # Tracks frames for time updates
         self.last_menu_index = -1
         self.cached_static_surface = None
+        
+        # Event system variables
+        self.event_stage = 0  # 0 = no event, 1 = alert/choice, 2 = animation
+        self.event_alert_blink = 0  # Counter for blinking alert icon
+        self.event_gift_x = -100  # X position for gift animation
+        self.event_gift_timer = 0  # Timer for gift animation phases
+        self.event_sound_played = False  # Track if alert sound was played
+        
+        # Cached event sprites to avoid loading/scaling every frame
+        self.event_sprites = {
+            'alert': None,
+            'gift': None
+        }
+
+        if game_globals.quests is None or len(game_globals.quests) == 0:
+            game_globals.quests = generate_daily_quests()
+        
+        # Initialize event timer if not set
+        if game_globals.event_time is None:
+            game_globals.event_time = 60  # 60 minutes until first event check
 
     def update(self) -> None:
         """
@@ -97,6 +122,9 @@ class SceneMainGame:
         # Update cleaning animation only if active
         if self.cleaning:
             self.update_cleaning()
+
+        # Update event system
+        self.update_events()
 
         # Check evolution start
         self.check_evolution_start()
@@ -178,6 +206,111 @@ class SceneMainGame:
                 pet.set_state("happy2")
             runtime_globals.game_console.log("[SceneMainGame] Cleaning complete.")
 
+    def update_events(self) -> None:
+        """
+        Updates the event system - checks for new events every hour based on XAI and pet awakeness.
+        """
+        # Stage 1: Check for new events every hour (optimized using frame counter)
+        if game_globals.event is None and self.event_stage == 0:
+            # Count minutes using frame rate - every 60 seconds * frame rate = 1 minute
+            if self.frame_counter % (constants.FRAME_RATE * 60) == 0:
+                game_globals.event_time -= 1
+                if game_globals.event_time <= 0:
+                    # Check if all pets are awake before triggering events
+                    all_pets_awake = all(pet.state != "nap" and pet.state != "sleep" for pet in game_globals.pet_list)
+                    
+                    if all_pets_awake:
+                        # Time to check for an event with XAI-based probability
+                        game_globals.event = get_hourly_random_event()
+                        runtime_globals.game_console.log(f"[Event] Event check with XAI {game_globals.xai} (all pets awake)")
+                    else:
+                        runtime_globals.game_console.log(f"[Event] Skipping event check - some pets are sleeping")
+                    
+                    game_globals.event_time = 60  # Reset timer for next hour
+                    
+                    if game_globals.event:
+                        self.event_stage = 1  # Move to alert stage
+                        self.event_sound_played = False
+                        runtime_globals.game_console.log(f"[Event] New event: {game_globals.event.name}")
+        
+        # Stage 2: Alert stage - blink alert icon and wait for player input
+        elif game_globals.event is not None and self.event_stage == 1:
+            # Play alert sound once
+            if not self.event_sound_played:
+                runtime_globals.game_sound.play("need_attention")
+                self.event_sound_played = True
+            
+            # Blink counter for alert icon
+            self.event_alert_blink += 1
+        
+        # Stage 3: Animation stage - handle event execution
+        elif game_globals.event is not None and self.event_stage == 2:
+            from core.game_event import EventType
+            
+            if game_globals.event.type == EventType.ITEM_PACKAGE:
+                self.update_gift_animation()
+            elif game_globals.event.type == EventType.ENEMY_BATTLE:
+                # Change to battle scene
+                runtime_globals.game_console.log(f"[Event] Starting battle event: {game_globals.event.name}")
+                # Set battle parameters based on event
+                game_globals.battle_area[game_globals.event.module] = game_globals.event.area
+                game_globals.battle_round[game_globals.event.module] = game_globals.event.round
+                change_scene("battle")
+                # Reset event
+                game_globals.event = None
+                self.event_stage = 0
+
+    def update_gift_animation(self) -> None:
+        """
+        Handles the gift animation for ITEM_PACKAGE events.
+        """
+        gift_move_duration = 4 * constants.FRAME_RATE  # 4 seconds
+        if self.event_gift_timer < gift_move_duration:
+            # Smooth movement using easing
+            progress = self.event_gift_timer / gift_move_duration
+            # Ease-out cubic for smoother deceleration
+            eased_progress = 1 - (1 - progress) ** 3
+            start_x = -100
+            end_x = constants.SCREEN_WIDTH // 2 - 24  # Center position
+            self.event_gift_x = start_x + (end_x - start_x) * eased_progress
+            self.event_gift_timer += 1
+        
+        # Phase 2: Gift "opens" - show item only (2 seconds)
+        elif self.event_gift_timer < gift_move_duration + (2 * constants.FRAME_RATE):
+            self.event_gift_x = constants.SCREEN_WIDTH // 2 - 24  # Keep centered
+
+            # On first frame of this phase, add item to inventory using utils
+            if self.event_gift_timer == gift_move_duration:
+                item_name = game_globals.event.item
+                item_quantity = game_globals.event.item_quantity
+                module_name = game_globals.event.module
+                
+                # Get the item object to use its ID instead of name
+                item_obj = get_item_by_name(module_name, item_name)
+                if item_obj:
+                    add_to_inventory(item_obj.id, item_quantity)
+                    runtime_globals.game_console.log(f"[Event] Received {item_quantity}x {item_name} (ID: {item_obj.id})")
+                else:
+                    # Fallback: use item name as ID if item object not found
+                    add_to_inventory(item_name, item_quantity)
+                    runtime_globals.game_console.log(f"[Event] Received {item_quantity}x {item_name} (fallback)")
+
+            self.event_gift_timer += 1
+        
+        # Phase 3: Animation complete, make pets happy and cleanup
+        else:
+            # Make all pets happy and play sound only once when cleaning up
+            if self.event_gift_timer == gift_move_duration + (2 * constants.FRAME_RATE):
+                for pet in game_globals.pet_list:
+                    pet.set_state("happy2")
+                runtime_globals.game_sound.play("happy")
+            
+            # Reset event system
+            game_globals.event = None
+            self.event_stage = 0
+            self.event_gift_timer = 0
+            self.event_gift_x = -100
+
     def load(self):
         """
         Loads the scene, preparing pets, background, and any necessary resources.
@@ -252,6 +385,9 @@ class SceneMainGame:
         # Draw food animation for eating pets
         self.draw_food_anims(surface)
 
+        # Draw event animations and alerts
+        self.draw_events(surface)
+
         # Draw game messages last
         runtime_globals.game_message.draw(surface)
 
@@ -323,6 +459,100 @@ class SceneMainGame:
                     game_pet_eating.pop(idx, None)
                     self.food_anims.pop(idx, None)
 
+    def draw_events(self, surface: pygame.Surface) -> None:
+        """
+        Draws event-related graphics: alert icon and gift animation.
+        """
+        # Stage 1: Draw blinking alert icon when event is available
+        if game_globals.event is not None and self.event_stage == 1:
+            # Blink every 30 frames (1 second at 30fps)
+            if (self.event_alert_blink // 30) % 2 == 0:
+                # Load and cache alert sprite if not already cached
+                if not self.event_sprites['alert']:
+                    try:
+                        alert_sprite = pygame.image.load(constants.ALERT_ICON_PATH).convert_alpha()
+                        self.event_sprites['alert'] = pygame.transform.scale(alert_sprite, 
+                                                        (int(32 * constants.UI_SCALE), int(32 * constants.UI_SCALE)))
+                    except:
+                        # Create fallback sprite if file not found
+                        self.event_sprites['alert'] = pygame.Surface((int(32 * constants.UI_SCALE), int(32 * constants.UI_SCALE)))
+                        self.event_sprites['alert'].fill((255, 255, 0))  # Yellow square
+                
+                # Position in top-right corner
+                x = 4 * constants.UI_SCALE
+                y = 68 * constants.UI_SCALE if game_globals.showClock else 52 * constants.UI_SCALE
+                surface.blit(self.event_sprites['alert'], (x, y))
+        
+        # Stage 2: Draw gift animation for ITEM_PACKAGE events
+        elif game_globals.event is not None and self.event_stage == 2:
+            from core.game_event import EventType
+            
+            if game_globals.event.type == EventType.ITEM_PACKAGE:
+                gift_move_duration = 4 * constants.FRAME_RATE  # 4 seconds
+                
+                # Phase 1: Show gift sprite moving to center
+                if self.event_gift_timer < gift_move_duration:
+                    # Load and cache gift sprite if not already cached
+                    if not self.event_sprites['gift']:
+                        try:
+                            gift_sprite = pygame.image.load(constants.GIFT_PATH).convert_alpha()
+                            self.event_sprites['gift'] = pygame.transform.scale(gift_sprite,
+                                                           (int(48 * constants.UI_SCALE), int(48 * constants.UI_SCALE)))
+                        except:
+                            # Create fallback sprite if file not found
+                            self.event_sprites['gift'] = pygame.Surface((int(48 * constants.UI_SCALE), int(48 * constants.UI_SCALE)))
+                            self.event_sprites['gift'].fill((255, 215, 0))  # Gold square
+                    
+                    # Calculate Y position with floating effect
+                    base_y = constants.SCREEN_HEIGHT // 2 - self.event_sprites['gift'].get_height() // 2
+                    float_offset = int(5 * constants.UI_SCALE * 
+                                     pygame.math.Vector2(0, 1).rotate(self.event_gift_timer * 3).y)
+                    y = base_y + float_offset
+                    
+                    surface.blit(self.event_sprites['gift'], (int(self.event_gift_x), y))
+                
+                # Phase 2: Show item sprite only (gift "opened")
+                else:
+                    item_name = game_globals.event.item
+                    item_sprite = None
+                    
+                    # Try to load item sprite from modules
+                    try:
+                        item_sprite_path = f"modules/{game_globals.event.module}/items/{item_name}.png"
+                        if os.path.exists(item_sprite_path):
+                            item_sprite = pygame.image.load(item_sprite_path).convert_alpha()
+                            item_sprite = pygame.transform.scale(item_sprite,
+                                                               (int(48 * constants.UI_SCALE), int(48 * constants.UI_SCALE)))
+                    except:
+                        pass
+                    
+                    # Calculate center position
+                    center_x = constants.SCREEN_WIDTH // 2
+                    center_y = constants.SCREEN_HEIGHT // 2
+                    
+                    if item_sprite:
+                        # Show item sprite with floating effect
+                        float_offset = int(8 * constants.UI_SCALE * 
+                                         pygame.math.Vector2(0, 1).rotate(self.event_gift_timer * 2).y)
+                        item_x = center_x - item_sprite.get_width() // 2
+                        item_y = center_y - item_sprite.get_height() // 2 + float_offset
+                        surface.blit(item_sprite, (item_x, item_y))
+                        
+                        # Show quantity text below item
+                        font = pygame.font.Font(None, int(20 * constants.UI_SCALE))
+                        quantity_text = font.render(f"+{game_globals.event.item_quantity}", True, constants.FONT_COLOR_DEFAULT)
+                        text_x = center_x - quantity_text.get_width() // 2
+                        text_y = item_y + item_sprite.get_height() + 5
+                        surface.blit(quantity_text, (text_x, text_y))
+                    else:
+                        # Fallback: show item name and quantity as text
+                        font = pygame.font.Font(None, int(24 * constants.UI_SCALE))
+                        text_surface = font.render(f"+{game_globals.event.item_quantity} {item_name}", 
+                                                 True, constants.FONT_COLOR_DEFAULT)
+                        text_x = center_x - text_surface.get_width() // 2
+                        text_y = center_y - text_surface.get_height() // 2
+                        surface.blit(text_surface, (text_x, text_y))
+
     def draw_hearts(self, surface: pygame.Surface, x: int, y: int, value: int, factor: int = 1) -> None:
         """
         Draws heart icons to represent hunger, strength or effort.
@@ -361,6 +591,46 @@ class SceneMainGame:
         if self.lock_inputs:
             return
 
+        # Handle event system inputs
+        if self.event_stage > 0 and game_globals.event:
+            if self.event_stage == 1 and input_action in ["A", "B"]:
+                # Alert stage - any button to proceed to animation
+                self.event_stage = 2
+                self.event_gift_timer = 0
+                runtime_globals.game_sound.play("menu")
+                runtime_globals.game_console.log(f"[Events] Proceeding to animation for event: {game_globals.event.name}")
+                return
+            elif self.event_stage == 2:
+                # Animation stage input handling
+                from core.game_event import EventType
+                if game_globals.event.type == EventType.ITEM_PACKAGE:
+                    gift_move_duration = 4 * constants.FRAME_RATE  # 4 seconds
+                    if input_action == "A" and self.event_gift_timer > gift_move_duration:  # Accept item after gift opens
+                        # Complete event (cleanup handled in update_gift_animation)
+                        pass  # Let the animation finish naturally
+                    elif input_action == "B":
+                        # Decline item - immediate cleanup
+                        game_globals.event = None
+                        game_globals.event_time = None
+                        self.event_stage = 0
+                        self.event_gift_timer = 0
+                        runtime_globals.game_sound.play("menu")
+                        runtime_globals.game_console.log(f"[Events] Declined event")
+                        return
+                else:
+                    # Other event types - A to complete after 0.5 seconds
+                    if input_action == "A" and self.event_gift_timer > constants.FRAME_RATE // 2:
+                        game_globals.event = None
+                        game_globals.event_time = None
+                        self.event_stage = 0
+                        self.event_gift_timer = 0
+                        runtime_globals.game_sound.play("menu")
+                        runtime_globals.game_console.log(f"[Events] Completed event")
+                        return
+            # Return early if in event mode to prevent normal input processing
+            if self.event_stage > 0:
+                return
+
         if not all_pets_hatched():
             if input_action == "Y" or input_action == "SHAKE":
                 for pet in game_globals.pet_list:
@@ -386,119 +656,52 @@ class SceneMainGame:
 
     def handle_debug_keys(self, input_action) -> None:
         """
-        Debugging shortcuts (F1-F12).
+        Debugging shortcuts (F12).
         """
-        if input_action == "F1":
-            for pet in get_selected_pets():
-                pet.timer += constants.FRAME_RATE * 60 * 60
-                pet.age_timer += constants.FRAME_RATE * 60 * 60
-                runtime_globals.game_console.log(f"[DEBUG] {pet.name} age {(pet.timer // 30) // 60}/{(pet.age_timer // 30) // 60}")
-        elif input_action == "F2":
-            for pet in get_selected_pets():
-                pet.sick += 1
-                pet.injuries += 1
-                runtime_globals.game_console.log(f"[DEBUG] {pet.name} forced to get sick")
-        elif input_action == "F3":
-            for pet in get_selected_pets():
-                pet.set_state("nap")
-                runtime_globals.game_console.log(f"[DEBUG] {pet.name} forced to nap")
-        elif input_action == "F4":
-            for pet in get_selected_pets():
-                pet.force_poop()
-                runtime_globals.game_console.log(f"[DEBUG] {pet.name} forced to poop")
-        elif input_action == "F5":
-            for pet in get_selected_pets():
-                if get_module(pet.module).use_condition_hearts:
-                    if pet.condition_hearts > 0:
-                        pet.condition_hearts -= 1
-                        runtime_globals.game_console.log(f"[DEBUG] {pet.name} lost a condition heart, current: {pet.condition_hearts}")
-                else:
-                    pet.mistakes += 1
-                    runtime_globals.game_console.log(f"[DEBUG] {pet.name} got a care mistake , current: {pet.mistakes}")
-        elif input_action == "F6":
-            for pet in get_selected_pets():
-                pet.dp = pet.energy
-            return
-            if len(game_globals.pet_list) > 1:
-                runtime_globals.game_sound.play("evolution_plus")
-                evo = GameEvolutionEntity(
-                    from_name = "MetalGreymon",
-                    from_attribute = "Da",
-                    from_sprite = runtime_globals.pet_sprites[game_globals.pet_list[0]][0],
-                    to_attribute = "Vi",
-                    to_name = "WarGreymon",
-                    to_sprite = runtime_globals.pet_sprites[game_globals.pet_list[1]][0],
-                    stage = 5)
-                
-                runtime_globals.evolution_data = [evo]
-                change_scene("evolution")
-        elif input_action == "F7":
-            for pet in get_selected_pets():
-                pet.battles += 1
-                pet.totalBattles += 1
-                pet.win += 1
-                pet.totalWin += 1
-                runtime_globals.game_console.log(f"[DEBUG] {pet.battles} battle counter")
-
-        elif input_action == "F8":
-            for pet in get_selected_pets():
-                pet.effort += 1
-                runtime_globals.game_console.log(f"[DEBUG] {pet.effort} strength up")
-        elif input_action == "F9":
-            for pet in get_selected_pets():
-                pet.level += 1
-                runtime_globals.game_console.log(f"[DEBUG] {pet.level} level up")
-        elif input_action == "F10":
-            for pet in get_selected_pets():
-                pet.enemy_kills[5] += 1
-                runtime_globals.game_console.log(f"[DEBUG] {pet.enemy_kills[5]} stage 5 kills")
-        elif input_action == "F11":
-            for pet in get_selected_pets():
-                pet.overfeed += 1
-                runtime_globals.game_console.log(f"[DEBUG] {pet.name} overfeed counter: {pet.overfeed}")
-        elif input_action == "F12":
-            for pet in get_selected_pets():
-                pet.sleep_disturbances += 1
-                runtime_globals.game_console.log(f"[DEBUG] {pet.name} sleep_disturbances counter: {pet.sleep_disturbances}")
+        if input_action == "F12":
+            # Open debug scene
+            runtime_globals.game_sound.play("menu")
+            change_scene("debug")
+            runtime_globals.game_console.log("[DEBUG] Opening debug scene")
 
     def handle_navigation_keys(self, input_action) -> None:
         """Handles cyclic LEFT, RIGHT, UP, DOWN for menu navigation."""
-        rows, cols = 2, 4  # 🔹 Menu layout (2 rows × 4 columns)
-        max_index = rows * cols - 1  # 🔹 Maximum valid index (7)
+        rows, cols = 2, 5  # 🔹 Menu layout (2 rows × 5 columns)
+        max_index = rows * cols - 1  # 🔹 Maximum valid index (8)
         if runtime_globals.main_menu_index < 0 and input_action in ["LEFT","RIGHT","UP","DOWN"]:
             runtime_globals.game_sound.play("menu")
             runtime_globals.main_menu_index = 0
         elif input_action == "LEFT":
             runtime_globals.game_sound.play("menu")
-            if runtime_globals.main_menu_index in [0, 4, -1]:  
-                runtime_globals.main_menu_index = runtime_globals.main_menu_index + 3
+            if runtime_globals.main_menu_index in [0, 5, -1]:  
+                runtime_globals.main_menu_index = runtime_globals.main_menu_index + 4
             else:
                 runtime_globals.main_menu_index -= 1
 
         elif input_action == "RIGHT":
             runtime_globals.game_sound.play("menu")
-            if runtime_globals.main_menu_index in [3, 7, -1]:  
-                runtime_globals.main_menu_index = runtime_globals.main_menu_index - 3
+            if runtime_globals.main_menu_index in [4, 8, -1]:  
+                runtime_globals.main_menu_index = runtime_globals.main_menu_index - 4
             else:
                 runtime_globals.main_menu_index += 1
 
         elif input_action == "UP":
             runtime_globals.game_sound.play("menu")
             if runtime_globals.main_menu_index in range(0, cols) or runtime_globals.main_menu_index == -1:
-                runtime_globals.main_menu_index += 4  # 🔹 Wrap from top to bottom
+                runtime_globals.main_menu_index += 5  # 🔹 Wrap from top to bottom
             else:
-                runtime_globals.main_menu_index -= 4
+                runtime_globals.main_menu_index -= 5
 
         elif input_action == "DOWN":
             runtime_globals.game_sound.play("menu")
-            if runtime_globals.main_menu_index in range(4, max_index + 1) or runtime_globals.main_menu_index == -1:
-                runtime_globals.main_menu_index -= 4  # 🔹 Wrap from bottom to top
+            if runtime_globals.main_menu_index in range(5, max_index + 1) or runtime_globals.main_menu_index == -1:
+                runtime_globals.main_menu_index -= 5  # 🔹 Wrap from bottom to top
             else:
-                runtime_globals.main_menu_index += 4
+                runtime_globals.main_menu_index += 5
 
         # 🔹 Handle `-1` case correctly
-        if runtime_globals.main_menu_index == 7:
-            runtime_globals.main_menu_index = -1  
+        if runtime_globals.main_menu_index == 9:
+            runtime_globals.main_menu_index = -1
 
         if runtime_globals.main_menu_index != -1:
             runtime_globals.main_menu_index %= (max_index + 1)  # 🔥 Ensure cyclic behavior
@@ -526,6 +729,11 @@ class SceneMainGame:
                 self.start_scene("sleepmenu")
             elif index == 6:
                 self.heal_sick_pets()
+            elif index == 7:
+                runtime_globals.game_sound.play("menu")
+                self.start_scene("library")
+            elif index == 8:
+                self.start_scene("connect")
 
         elif input_action == "START" or (platform.system() == "Windows" and input_action == "B"):  # Maps to ESC (PC) & "START" button (Pi)
             runtime_globals.game_sound.play("cancel")

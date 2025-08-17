@@ -23,7 +23,7 @@ def get_shadow(sprite, shadow_color=(0, 0, 0, 100)):
 def blit_with_shadow(surface, sprite, pos, offset=(2, 2)):
     """
     Blits a sprite with a shadow effect and logs the number of calls per second.
-    """
+    
     if constants.DEBUG:
         global _blit_shadow_calls, _last_log_time
 
@@ -35,7 +35,7 @@ def blit_with_shadow(surface, sprite, pos, offset=(2, 2)):
         if current_time - _last_log_time >= 1:
             runtime_globals.game_console.log(f"blit_with_shadow calls per second: {_blit_shadow_calls}")
             _blit_shadow_calls = 0
-            _last_log_time = current_time
+            _last_log_time = current_time"""
 
     # Perform the blit with shadow
     shadow = get_shadow(sprite)
@@ -170,7 +170,7 @@ blit_cache = {}
 def blit_with_cache(surface, sprite, pos):
     """
     Blits a sprite using caching and logs the number of calls per second.
-    """
+    
     if constants.DEBUG:
         global _blit_cache_calls, _last_cache_log_time
 
@@ -189,7 +189,7 @@ def blit_with_cache(surface, sprite, pos):
         if current_time - _last_cache_log_time >= 1:
             runtime_globals.game_console.log(f"blit_with_cache calls per second: {_blit_cache_calls}")
             _blit_cache_calls = 0
-            _last_cache_log_time = current_time
+            _last_cache_log_time = current_time"""
 
     # Perform the blit
     surface.blit(sprite, pos)

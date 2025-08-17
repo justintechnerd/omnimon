@@ -517,6 +517,8 @@ namespace OmnimonModuleEditor.docgenerators
                 requirements.Add("VitalValues"); // New field
             if (evolution.Weigth != null && evolution.Weigth.Length > 0)
                 requirements.Add("Weight"); // New field
+            if (evolution.QuestsCompleted != null && evolution.QuestsCompleted.Length > 0)
+                requirements.Add("QuestsCompleted"); // New field
             return string.Join(", ", requirements.Take(2));
         }
 
@@ -666,6 +668,11 @@ namespace OmnimonModuleEditor.docgenerators
                 {
                     var formatRange = string.Join(",", evo.Weigth.Select(v => v == 999999 ? "+" : v.ToString()));
                     lines.Add($"Weight: {formatRange}");
+                }
+                if (evo.QuestsCompleted != null)
+                {
+                    var formatRange = string.Join(",", evo.QuestsCompleted.Select(v => v == 999999 ? "+" : v.ToString()));
+                    lines.Add($"Quests Completed: {formatRange}");
                 }
             }
             if (lines.Count == 0)

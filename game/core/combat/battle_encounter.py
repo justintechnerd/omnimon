@@ -21,6 +21,8 @@ from core.utils import inventory_utils
 from core.combat.sim.global_battle_simulator import GlobalBattleSimulator
 from game.core import constants
 from game.core.combat import combat_constants
+from game.core.game_quest import QuestType
+from game.core.utils.quest_event_utils import update_quest_progress
 
 #=====================================================================
 # BattleEncounter Class
@@ -37,11 +39,12 @@ class BattleEncounter:
     # Region: Setup & State
     #========================
 
-    def __init__(self, module, area=0, round=0, version=1):
+    def __init__(self, module, area=0, round=0, version=1, pvp_mode=False):
         """
         Initializes the BattleEncounter, loading graphics and setting initial state.
         """
         # Load module-specific attack sprites for pets and enemies
+        self.pvp_mode = pvp_mode
         self.module_attack_sprites = {}
         self.module = get_module(module)
         self.set_initial_state(area, round, version)
@@ -95,19 +98,20 @@ class BattleEncounter:
         Set all non-graphic variables for (re)initialization.
         """
         # --- Jumper Gate: skip to boss if status_boost is active ---
-        if (
-            "skip_to_boss" in game_globals.battle_effects
-            and game_globals.battle_effects["skip_to_boss"].get("amount", 0) > 0
-        ):
-            # Find the next boss round for this area
-            current_area = game_globals.battle_area[self.module.name] if area == 0 else area
-            round_to_check = game_globals.battle_round[self.module.name] if round == 0 else round
-            # Only skip if not already at boss
-            while not self.module.is_boss(current_area, round_to_check, version):
-                round_to_check += 1
-            # Use local variables for area and round
-            area = current_area
-            round = round_to_check  # Set round to boss round
+        if not self.pvp_mode:
+            if (
+                "skip_to_boss" in game_globals.battle_effects
+                and game_globals.battle_effects["skip_to_boss"].get("amount", 0) > 0
+            ):
+                # Find the next boss round for this area
+                current_area = game_globals.battle_area[self.module.name] if area == 0 else area
+                round_to_check = game_globals.battle_round[self.module.name] if round == 0 else round
+                # Only skip if not already at boss
+                while not self.module.is_boss(current_area, round_to_check, version):
+                    round_to_check += 1
+                # Use local variables for area and round
+                area = current_area
+                round = round_to_check  # Set round to boss round
 
         self.phase = "level"
         self.after_attack_phase = None
@@ -116,33 +120,40 @@ class BattleEncounter:
         self.frame_counter = 0
         self.enemies = []
 
-        # Use self.area and self.round, not the global values
-        self.area = area if area != 0 else game_globals.battle_area[self.module.name]
-        self.round = round if round != 0 else game_globals.battle_round[self.module.name]
+        if self.pvp_mode:
+            self.area = 0
+            self.round = 0
 
-        self.boss = self.module.is_boss(self.area, self.round, version)
-        self.enemy_entry_counter = constants.PET_WIDTH + (2 * constants.UI_SCALE)
+            self.boss = False
+            self.enemy_entry_counter = 0
+        else:
+            # Use self.area and self.round, not the global values
+            self.area = area if area != 0 else game_globals.battle_area[self.module.name]
+            self.round = round if round != 0 else game_globals.battle_round[self.module.name]
+
+            self.boss = self.module.is_boss(self.area, self.round, version)
+            self.enemy_entry_counter = constants.PET_WIDTH + (2 * constants.UI_SCALE)
+
+            # --- Apply XAI roll boost (Seven Switch) ---
+            if "xai_roll" in game_globals.battle_effects:
+                xai_val = game_globals.battle_effects["xai_roll"].get("amount", None)
+                if xai_val is not None:
+                    runtime_globals.game_console.log(f"[BattleEncounter] XAI roll boost applied: {xai_val}")
+
+            # --- Apply EXP multiplier boost (EXP Coat) ---
+            if "exp_multiplier" in game_globals.battle_effects:
+                exp_val = game_globals.battle_effects["exp_multiplier"].get("amount", None)
+                if exp_val is not None:
+                    runtime_globals.game_console.log(f"[BattleEncounter] EXP multiplier boost applied: x{exp_val}")
+
+            # --- Apply Jumper Gate boost ---
+            if "skip_to_boss" in game_globals.battle_effects:
+                skip_val = game_globals.battle_effects["skip_to_boss"].get("amount", None)
+                if skip_val:
+                    runtime_globals.game_console.log(f"[BattleEncounter] Jumper Gate: Skipping to boss round.")
+
         self.strength = 0
         self.bar_level = 14
-
-        # --- Apply XAI roll boost (Seven Switch) ---
-        if "xai_roll" in game_globals.battle_effects:
-            xai_val = game_globals.battle_effects["xai_roll"].get("amount", None)
-            if xai_val is not None:
-                runtime_globals.game_console.log(f"[BattleEncounter] XAI roll boost applied: {xai_val}")
-
-        # --- Apply EXP multiplier boost (EXP Coat) ---
-        if "exp_multiplier" in game_globals.battle_effects:
-            exp_val = game_globals.battle_effects["exp_multiplier"].get("amount", None)
-            if exp_val is not None:
-                runtime_globals.game_console.log(f"[BattleEncounter] EXP multiplier boost applied: x{exp_val}")
-
-        # --- Apply Jumper Gate boost ---
-        if "skip_to_boss" in game_globals.battle_effects:
-            skip_val = game_globals.battle_effects["skip_to_boss"].get("amount", None)
-            if skip_val:
-                runtime_globals.game_console.log(f"[BattleEncounter] Jumper Gate: Skipping to boss round.")
-
         self.xai_phase = 0
         self.xai_number = 1
         self.window_xai = None
@@ -153,30 +164,237 @@ class BattleEncounter:
         self.final_color = 3
         self.correct_color = 0
 
-        self.load_enemies()
+        if self.pvp_mode:
+            self.hp_boost = 0
+            self.attack_boost = 0
+            self.strength_bonus = 0
+        else:
+            self.load_enemies()
 
-        # --- Apply HP boost from status_boost items if present ---
-        self.hp_boost = 0
-        if "hp" in game_globals.battle_effects:
-            self.hp_boost = game_globals.battle_effects["hp"].get("amount", 0)
-            runtime_globals.game_console.log(f"[BattleEncounter] HP boost applied: +{self.hp_boost}")
+            # --- Apply HP boost from status_boost items if present ---
+            self.hp_boost = 0
+            if "hp" in game_globals.battle_effects:
+                self.hp_boost = game_globals.battle_effects["hp"].get("amount", 0)
+                runtime_globals.game_console.log(f"[BattleEncounter] HP boost applied: +{self.hp_boost}")
 
-        # --- Apply Attack boost from status_boost items (DMX ruleset) ---
-        self.attack_boost = 0
-        if "attack" in game_globals.battle_effects:
-            self.attack_boost = game_globals.battle_effects["attack"].get("amount", 0)
-            runtime_globals.game_console.log(f"[BattleEncounter] Attack boost applied: +{self.attack_boost}")
+            # --- Apply Attack boost from status_boost items (DMX ruleset) ---
+            self.attack_boost = 0
+            if "attack" in game_globals.battle_effects:
+                self.attack_boost = game_globals.battle_effects["attack"].get("amount", 0)
+                runtime_globals.game_console.log(f"[BattleEncounter] Attack boost applied: +{self.attack_boost}")
 
-        # --- Apply Strength boost from status_boost items (PW Board) ---
-        self.strength_bonus = 0
-        if "strength" in game_globals.battle_effects:
-            self.strength_bonus = game_globals.battle_effects["strength"].get("amount", 0)
-            runtime_globals.game_console.log(f"[BattleEncounter] Strength boost applied: +{self.strength_bonus}")
+            # --- Apply Strength boost from status_boost items (PW Board) ---
+            self.strength_bonus = 0
+            if "strength" in game_globals.battle_effects:
+                self.strength_bonus = game_globals.battle_effects["strength"].get("amount", 0)
+                runtime_globals.game_console.log(f"[BattleEncounter] Strength boost applied: +{self.strength_bonus}")
 
         self.battle_player = GameBattle(get_battle_targets(), self.enemies, self.hp_boost, self.attack_boost, self.module)
-        
+        # PvP ordering flag: when True, enemy actions are processed before pets
+        self.enemy_first = False
+
+        # Debug battle log display (when DEBUG flag is on)
+        self.debug_battle_logs = []  # List of log entries per pet position: [{"turn": int, "hit": str, "arrow": str}, ...]
+        self.init_debug_battle_logs()
+
         # Reload module attack sprites for the current battle participants
         self.load_module_attack_sprites()
+
+    def prime_enemy_first(self):
+        """Configure this encounter so enemy actions are processed before pets.
+
+        This sets the flag and primes the BattlePlayer shot/phase arrays so
+        the enemy (team2) will fire on the first update cycle.
+        """
+        self.enemy_first = True
+        if not hasattr(self, 'battle_player') or self.battle_player is None:
+            return
+        bp = self.battle_player
+        n = max(len(bp.team1), len(bp.team2))
+        for i in range(n):
+            if i < len(bp.team1_shot):
+                bp.team1_shot[i] = False
+            if i < len(bp.team2_shot):
+                bp.team2_shot[i] = True
+            if i < len(bp.phase):
+                bp.phase[i] = "enemy_attack"
+
+    def setup_pvp_teams(self, my_pets, enemy_pet_data):
+        """Sets up teams for PvP battle from pet data."""
+        from core.game_enemy import GameEnemy
+        
+        # Create enemy objects from received pet data
+        enemy_objects = []
+        for i, pet_data in enumerate(enemy_pet_data):
+            # Create GameEnemy with the pet data
+            enemy = GameEnemy(
+                name=pet_data["name"], 
+                power=pet_data["power"],
+                attribute=pet_data["attribute"], 
+                area=0,  # PvP doesn't use area/round
+                round=0,
+                version=1,  # Default version
+                atk_main=pet_data["atk_main"],
+                atk_alt=pet_data["atk_alt"],
+                handicap=0,  # No handicap in PvP
+                id=i,  # Use index as ID
+                stage=pet_data["stage"],
+                hp=pet_data["hp"],
+                unlock="",  # No unlock requirements for PvP
+                prize=""  # No prizes in PvP
+            )
+            
+            # Set additional properties that might be needed
+            enemy.level = pet_data["level"]
+            enemy.sick = 1 if pet_data["sick"] else 0
+            enemy.traited = pet_data["traited"]
+            enemy.shook = pet_data["shook"]
+            enemy.module = pet_data["module"]
+            
+            # Load sprite for the enemy
+            enemy.load_sprite(self.module.folder_path, boss=False)
+            
+            enemy_objects.append(enemy)
+        
+        # Update battle_player with PvP teams (my pets vs enemy objects)
+        self.battle_player = GameBattle(my_pets, enemy_objects, 0, 0, self.module)
+        self.enemies = enemy_objects
+        
+        # Initialize debug logs for PvP
+        if constants.DEBUG:
+            self.init_debug_battle_logs()
+
+    def init_debug_battle_logs(self):
+        """Initialize debug battle log entries for each pet position."""
+        if not constants.DEBUG:
+            return
+        
+        num_pets = len(get_battle_targets()) if not self.pvp_mode else len(self.battle_player.team1)
+        self.debug_battle_logs = []
+        for i in range(num_pets):
+            self.debug_battle_logs.append({
+                "turn": 1,
+                "hit": "",
+                "arrow": ""
+            })
+
+    def update_debug_battle_logs(self):
+        """Update debug battle logs with current phase information and hit results."""
+        if not constants.DEBUG or not hasattr(self, 'debug_battle_logs'):
+            return
+            
+        for i in range(len(self.debug_battle_logs)):
+            if i >= len(self.battle_player.phase) or i >= len(self.battle_player.turns):
+                continue
+                
+            phase = self.battle_player.phase[i]
+            turn = self.battle_player.turns[i]
+            
+            # Update turn number
+            self.debug_battle_logs[i]["turn"] = turn
+            
+            # Update arrow and hit info based on phase
+            if phase == "pet_charge":
+                self.debug_battle_logs[i]["arrow"] = ">"
+                # Show last hit result if available
+                self.debug_battle_logs[i]["hit"] = self.get_last_hit_result(i, "pet")
+            elif phase == "pet_attack":
+                self.debug_battle_logs[i]["arrow"] = ">"
+                self.debug_battle_logs[i]["hit"] = ""
+            elif phase == "enemy_charge":
+                self.debug_battle_logs[i]["arrow"] = "<"
+                # Show last hit result if available
+                self.debug_battle_logs[i]["hit"] = self.get_last_hit_result(i, "enemy")
+            elif phase == "enemy_attack":
+                self.debug_battle_logs[i]["arrow"] = "<"
+                self.debug_battle_logs[i]["hit"] = ""
+            else:
+                self.debug_battle_logs[i]["arrow"] = ""
+                self.debug_battle_logs[i]["hit"] = ""
+
+    def get_last_hit_result(self, pet_index, attacker_type):
+        """Get the last hit result for display in debug logs."""
+        if not hasattr(self, 'global_battle_log') or not self.global_battle_log:
+            return ""
+            
+        try:
+            # Predict the upcoming attack for the current turn (show before it lands)
+            turn = self.battle_player.turns[pet_index]
+            turn_idx = max(0, int(turn) - 1)  # use current turn (0-based)
+            if turn_idx < len(self.global_battle_log.battle_log):
+                turn_log = self.global_battle_log.battle_log[turn_idx]
+
+                # Support both dataclass objects and dict shapes
+                attacks = None
+                if hasattr(turn_log, 'attacks'):
+                    attacks = turn_log.attacks
+                elif isinstance(turn_log, dict):
+                    attacks = turn_log.get('attacks', [])
+                else:
+                    attacks = []
+
+                for attack in attacks:
+                    # extract fields generically
+                    if isinstance(attack, dict):
+                        dev = attack.get('device')
+                        attacker = attack.get('attacker')
+                        defender = attack.get('defender')
+                        hit = attack.get('hit')
+                        damage = attack.get('damage', 0)
+                    else:
+                        dev = getattr(attack, 'device', None)
+                        attacker = getattr(attack, 'attacker', None)
+                        defender = getattr(attack, 'defender', None)
+                        hit = getattr(attack, 'hit', None)
+                        damage = getattr(attack, 'damage', 0)
+
+                    try:
+                        attacker = int(attacker) if attacker is not None else None
+                    except Exception:
+                        attacker = None
+                    try:
+                        defender = int(defender) if defender is not None else None
+                    except Exception:
+                        defender = None
+
+                    if attacker_type == 'pet' and dev == 'device1' and attacker == pet_index:
+                        if not hit:
+                            return 'Miss!'
+                        if damage <= 2:
+                            return 'Hit!'
+                        if damage == 3:
+                            return 'SuperHit!'
+                        if damage >= 4:
+                            return 'MegaHit!'
+                        return 'Hit!'
+
+                    if attacker_type == 'enemy' and dev == 'device2' and defender == pet_index:
+                        if not hit:
+                            return 'Miss!'
+                        if damage <= 2:
+                            return 'Hit!'
+                        if damage == 3:
+                            return 'SuperHit!'
+                        if damage >= 4:
+                            return 'MegaHit!'
+                        return 'Hit!'
+        except:
+            pass
+            
+        return ""
+
+    def get_hit_text_color(self, hit_text):
+        """Get the color for hit text display."""
+        if hit_text == "Miss!":
+            return constants.FONT_COLOR_RED
+        elif hit_text == "Hit!":
+            return constants.FONT_COLOR_DEFAULT  # White
+        elif hit_text == "SuperHit!":
+            return constants.FONT_COLOR_GREEN
+        elif hit_text == "MegaHit!":
+            return (255, 192, 203)  # Pink
+        else:
+            return constants.FONT_COLOR_DEFAULT
 
     def load_enemies(self):
         """
@@ -457,6 +675,11 @@ class BattleEncounter:
         """
         Processes the results of a global protocol battle using the new log structure.
         """
+        # Skip experience and level-ups for PvP mode
+        if self.pvp_mode:
+            runtime_globals.game_console.log("[BattleEncounter] PvP battle completed - no experience awarded")
+            return
+            
         # If defeat, no XP for anyone
         if self.victory_status == "Defeat":
             self.battle_player.xp = 0
@@ -518,15 +741,33 @@ class BattleEncounter:
     def update_battle(self):
         self.battle_player.update()
 
-        for i in range(len(self.battle_player.team1)):
-            if self.battle_player.turns[i] <= self.turn_limit and self.battle_player.team1_shot[i] and self.battle_player.phase[i] == "pet_attack":
-                self.setup_pet_attack(self.battle_player.team1[i])
-                self.battle_player.team1_shot[i] = False
+        # Update debug battle logs based on current phases
+        if constants.DEBUG:
+            self.update_debug_battle_logs()
 
-        for i in range(len(self.battle_player.team2)):
-            if self.battle_player.turns[i] <= self.turn_limit and self.battle_player.team2_shot[i] and self.battle_player.phase[i] == "enemy_attack":
-                self.setup_enemy_attack(self.battle_player.team2[i])
-                self.battle_player.team2_shot[i] = False
+        # Allow PvP to reverse processing order so host team acts first.
+        if getattr(self, 'enemy_first', False):
+            # Process enemy attacks before pet attacks
+            for i in range(len(self.battle_player.team2)):
+                if self.battle_player.turns[i] <= self.turn_limit and self.battle_player.team2_shot[i] and self.battle_player.phase[i] == "enemy_attack":
+                    self.setup_enemy_attack(self.battle_player.team2[i])
+                    self.battle_player.team2_shot[i] = False
+
+            for i in range(len(self.battle_player.team1)):
+                if self.battle_player.turns[i] <= self.turn_limit and self.battle_player.team1_shot[i] and self.battle_player.phase[i] == "pet_attack":
+                    self.setup_pet_attack(self.battle_player.team1[i])
+                    self.battle_player.team1_shot[i] = False
+        else:
+            # Default: pets then enemies
+            for i in range(len(self.battle_player.team1)):
+                if self.battle_player.turns[i] <= self.turn_limit and self.battle_player.team1_shot[i] and self.battle_player.phase[i] == "pet_attack":
+                    self.setup_pet_attack(self.battle_player.team1[i])
+                    self.battle_player.team1_shot[i] = False
+
+            for i in range(len(self.battle_player.team2)):
+                if self.battle_player.turns[i] <= self.turn_limit and self.battle_player.team2_shot[i] and self.battle_player.phase[i] == "enemy_attack":
+                    self.setup_enemy_attack(self.battle_player.team2[i])
+                    self.battle_player.team2_shot[i] = False
 
         self.update_battle_pet_projectiles()
         self.update_battle_enemy_projectiles()
@@ -568,6 +809,12 @@ class BattleEncounter:
         if pet_index != defender_idx:
             runtime_globals.game_console.log(f"[BattleEncounter] Pet {pet_index} attacking defender {defender_idx} with hits: {hits}")
 
+        # Update debug battle log for this pet
+        if constants.DEBUG and pet_index < len(self.debug_battle_logs):
+            self.debug_battle_logs[pet_index]["turn"] = turn
+            self.debug_battle_logs[pet_index]["arrow"] = ">"
+            # Don't show hit info during attack phase, only during charge
+
         # Choose attack sprite
         if self.module.ruleset == "dmc":
             if hits == 2 and getattr(pet, "atk_alt", 0) > 0:
@@ -575,7 +822,7 @@ class BattleEncounter:
             else:
                 atk_id = str(pet.atk_main)
         else:
-            if getattr(pet, "atk_alt", 0) > 0 and random.random() < 0.3:
+            if getattr(pet, "atk_alt", 0) > 0 and hits >= 3:
                 atk_id = str(pet.atk_alt)
             else:
                 atk_id = str(pet.atk_main)
@@ -644,13 +891,22 @@ class BattleEncounter:
 
         # Choose attack sprite
         hits = attack_entries[0].damage if attack_entries and attack_entries[0].hit else 0
+        
+        # Update debug battle log for enemy attacks (affects the defender pet)
+        if constants.DEBUG and attack_entries:
+            for attack_entry in attack_entries:
+                defender_idx = attack_entry.defender
+                if defender_idx < len(self.debug_battle_logs):
+                    self.debug_battle_logs[defender_idx]["turn"] = turn
+                    self.debug_battle_logs[defender_idx]["arrow"] = "<"
+                    # Don't show hit info during attack phase, only during charge
         if self.module.ruleset == "dmc":
             if hits == 2 and getattr(enemy, "atk_alt", 0) > 0:
                 atk_id = str(enemy.atk_alt)
             else:
                 atk_id = str(enemy.atk_main)
         else:
-            if getattr(enemy, "atk_alt", 0) > 0 and random.random() < 0.3:
+            if getattr(enemy, "atk_alt", 0) > 0 and hits >= 3:
                 atk_id = str(enemy.atk_alt)
             else:
                 atk_id = str(enemy.atk_main)
@@ -821,6 +1077,64 @@ class BattleEncounter:
             # pisca aviso clear
             return
 
+        # For PvP battles, update per-pet PvP counters, run unlock checks, then
+        # return to game after showing results. We maintain per-pet counters so
+        # unlocks that rely on PvP wins/participation can reference them.
+        if self.pvp_mode:
+            # Play appropriate sound
+            runtime_globals.game_sound.play("happy" if self.victory_status == "Victory" else "fail")
+
+            # Update each local pet's PvP counters. Pets on team1 are the local
+            # owner's pets in PvP mode.
+            for i, pet in enumerate(self.battle_player.team1):
+                try:
+                    # Ensure counters exist
+                    if not hasattr(pet, 'pvp_battles'):
+                        pet.pvp_battles = 0
+                    if not hasattr(pet, 'pvp_wins'):
+                        pet.pvp_wins = 0
+
+                    pet.pvp_battles += 1
+                    # Determine if this pet won its pairing
+                    if hasattr(self.battle_player, 'winners') and i < len(self.battle_player.winners):
+                        winner = self.battle_player.winners[i]
+                        local_won = (winner == 'team1') or (self.victory_status == 'Victory')
+                    else:
+                        # Fallback: use global victory_status when per-pair winners
+                        # are not available
+                        local_won = (self.victory_status == 'Victory')
+
+                    if local_won:
+                        pet.pvp_wins += 1
+
+                    # Persist these counters to global save state via runtime globals
+                    # so they'll be picked up on next autosave
+                    runtime_globals.game_console.log(f"[PvP] Pet {getattr(pet,'name',i)} pvp_battles={pet.pvp_battles} pvp_wins={pet.pvp_wins}")
+                except Exception as e:
+                    runtime_globals.game_console.log(f"[PvP] Error updating pet PvP counters: {e}")
+
+            # Unlock logic for PvP: scan module unlock entries of type 'pvp' and
+            # compare their "amount" to the pet owner's pvp_wins count.
+            try:
+                module_unlocks = getattr(self.module, 'unlocks', []) or []
+                for unlock in module_unlocks:
+                    if unlock.get('type') == 'pvp':
+                        req = unlock.get('amount', None)
+                        name = unlock.get('name')
+                        if req is None or not name:
+                            continue
+                        # If any local pet has pvp_wins >= req, unlock for module
+                        for pet in self.battle_player.team1:
+                            if getattr(pet, 'pvp_wins', 0) >= int(req):
+                                unlock_item(self.module.name, 'pvp', name)
+                                break
+            except Exception as e:
+                runtime_globals.game_console.log(f"[PvP] Error processing PvP unlocks: {e}")
+
+            # Return to main scene after PvP
+            self.return_to_main_scene()
+            return
+
         if self.victory_status == "Victory":
             runtime_globals.game_sound.play("happy")
             if not self.boss:
@@ -910,6 +1224,10 @@ class BattleEncounter:
             self.draw_clear(surface)
         elif self.phase == "result":
             self.draw_result(surface)
+
+        # Draw debug battle logs if DEBUG flag is enabled
+        if constants.DEBUG and self.phase in ["battle", "charge"]:
+            self.draw_debug_battle_logs(surface)
 
     def draw_level(self, surface):
         """
@@ -1487,21 +1805,30 @@ class BattleEncounter:
         for i, enemy in enumerate(self.battle_player.team2):
             enemy_stage_index = max(1, enemy.stage - 1)
             enemy_level = constants.MAX_LEVEL.get(enemy_stage_index, 1)
+            
+            # Get enemy power - handle PvP pets with custom power values
+            if hasattr(enemy, '_pvp_power'):
+                enemy_power = enemy._pvp_power
+            elif hasattr(enemy, 'get_power') and callable(enemy.get_power):
+                enemy_power = enemy.get_power()
+            else:
+                enemy_power = getattr(enemy, 'power', 1)
+            
             team2.append(Digimon(
                 name=enemy.name,
                 order=i,
-                traited=0,
-                egg_shake=0,
+                traited=getattr(enemy, 'traited', 0),
+                egg_shake=getattr(enemy, 'shook', 0),
                 index=i,
                 hp=self.battle_player.team2_hp[i],
                 attribute=enemy.attribute,
-                power=enemy.power,
+                power=enemy_power,
                 handicap=getattr(enemy, "handicap", 0),
                 buff=0,
                 mini_game=1,
-                level=enemy_level,
+                level=getattr(enemy, 'level', enemy_level),
                 stage=enemy.stage,
-                sick=0,
+                sick=1 if getattr(enemy, 'sick', 0) > 0 else 0,
                 shot1=enemy.atk_main,
                 shot2=enemy.atk_alt,
                 tag_meter=0
@@ -1517,7 +1844,68 @@ class BattleEncounter:
         # Store the result for animation/processing
         self.global_battle_log = result
         self.victory_status = "Victory" if result.winner == "device1" else "Defeat"
+        
+        # Update quest progress if battle was won (skip for PvP)
+        if not self.pvp_mode and self.victory_status == "Victory":
+            if self.boss:
+                # Update BOSS quest progress
+                update_quest_progress(QuestType.BOSS, 1, self.module.name)
+            # Update BATTLE quest progress
+            update_quest_progress(QuestType.BATTLE, 1, self.module.name)
 
         # Process battle results for animations and rewards
         self.process_battle_results()
+
+    def draw_debug_battle_logs(self, surface):
+        """
+        Draws debug battle log information between enemies and pets when DEBUG flag is enabled.
+        Shows turn number, hit results, and attack direction arrows.
+        """
+        if not constants.DEBUG or not hasattr(self, 'debug_battle_logs'):
+            return
+            
+        font_small = get_font(constants.FONT_SIZE_SMALL)
+        
+        for i, log_entry in enumerate(self.debug_battle_logs):
+            if i >= len(self.battle_player.team1):
+                continue
+                
+            # Calculate position between enemy and pet
+            pet_y = self.get_y(i, len(self.battle_player.team1))
+            pet_x = self.get_team1_x(i)
+            
+            if i < len(self.battle_player.team2):
+                enemy_x = self.get_team2_x(i) + (constants.PET_WIDTH * constants.BOSS_MULTIPLIER if self.boss else constants.PET_WIDTH)
+            else:
+                # For cases where there are fewer enemies than pets (boss battle)
+                enemy_x = self.get_team2_x(0) + (constants.PET_WIDTH * constants.BOSS_MULTIPLIER if self.boss else constants.PET_WIDTH)
+            
+            # Position debug log in the middle between enemy and pet
+            log_x = (enemy_x + pet_x) // 2
+            log_y = pet_y + constants.PET_HEIGHT // 2
+            
+            # Draw turn information
+            turn_text = f"Turn {log_entry['turn']}"
+            arrow = log_entry['arrow']
+            hit_text = log_entry['hit']
+            
+            # Combine arrow and turn text
+            if arrow == ">":
+                display_text = f"{turn_text} >"
+            elif arrow == "<":
+                display_text = f"< {turn_text}"
+            else:
+                display_text = turn_text
+                
+            # Draw turn text
+            turn_surface = font_small.render(display_text, True, constants.FONT_COLOR_DEFAULT)
+            text_rect = turn_surface.get_rect(center=(log_x, log_y - int(10 * constants.UI_SCALE)))
+            surface.blit(turn_surface, text_rect)
+            
+            # Draw hit result if available
+            if hit_text:
+                hit_color = self.get_hit_text_color(hit_text)
+                hit_surface = font_small.render(hit_text, True, hit_color)
+                hit_rect = hit_surface.get_rect(center=(log_x, log_y + int(10 * constants.UI_SCALE)))
+                surface.blit(hit_surface, hit_rect)
 

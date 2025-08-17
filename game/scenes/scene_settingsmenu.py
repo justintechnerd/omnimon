@@ -119,7 +119,7 @@ class SceneSettingsMenu:
 
             if self.mode == "unlockables":
                 blit_with_shadow(cached_surface, overlay, (0, 0))
-                title_surface = title_font.render("Unlockables", True, (255, 200, 50))
+                title_surface = title_font.render("Unlockables", True, constants.FONT_COLOR_ORANGE)
                 blit_with_shadow(cached_surface, title_surface, (constants.SCREEN_WIDTH // 2 - title_surface.get_width() // 2, int(10 * constants.UI_SCALE)))
 
                 module_count = len(self.unlockables_data)
@@ -151,7 +151,7 @@ class SceneSettingsMenu:
                         blit_with_shadow(cached_surface, text_surface, (int(40 * constants.UI_SCALE), start_y + i * int(40 * constants.UI_SCALE)))
                         if actual_index == item_idx:
                             pygame.draw.rect(
-                                cached_surface, (255, 200, 50),
+                                cached_surface, constants.FONT_COLOR_ORANGE,
                                 (int(30 * constants.UI_SCALE), start_y + i * int(40 * constants.UI_SCALE), constants.SCREEN_WIDTH - int(60 * constants.UI_SCALE), int(36 * constants.UI_SCALE)), 2
                             )
 
@@ -162,14 +162,14 @@ class SceneSettingsMenu:
 
             elif self.mode == "menu":
                 blit_with_shadow(cached_surface, overlay, (0, 0))
-                title_surface = title_font.render("Settings Menu", True, (255, 200, 50))
+                title_surface = title_font.render("Settings Menu", True, constants.FONT_COLOR_ORANGE)
                 options_list = self.options
             elif self.mode == "settings":
                 blit_with_shadow(cached_surface, overlay, (0, 0))
-                title_surface = title_font.render("Settings", True, (255, 200, 50))
+                title_surface = title_font.render("Settings", True, constants.FONT_COLOR_ORANGE)
                 options_list = self.settings_options
             elif self.mode == "background":
-                title_surface = title_font.render("Select Background", True, (255, 200, 50))
+                title_surface = title_font.render("Select Background", True, constants.FONT_COLOR_ORANGE)
                 options_list = []  # No list needed for background selection
 
                 # Draw the current background label
@@ -253,7 +253,7 @@ class SceneSettingsMenu:
                     if option_idx == self.selected_index:
                         pygame.draw.rect(
                             cached_surface,
-                            (255, 200, 50),
+                            constants.FONT_COLOR_ORANGE,
                             (int(15 * constants.UI_SCALE), int(54 * constants.UI_SCALE) + i * int(40 * constants.UI_SCALE), constants.SCREEN_WIDTH - int(30 * constants.UI_SCALE), int(36 * constants.UI_SCALE)),
                             2
                         )

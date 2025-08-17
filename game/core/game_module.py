@@ -10,6 +10,7 @@ from core.game_enemy import GameEnemy
 import copy
 
 from core.game_item import GameItem
+from core.quest_event_data import QuestData, EventData
 
 
 #=====================================================================
@@ -125,6 +126,115 @@ class GameModule:
                     runtime_globals.game_console.log(f"Error: Failed to parse {json_path}")
         else:
             self.items = {}
+
+    def load_quests_json(self) -> List[QuestData]:
+        """Loads quest data from quests.json if it exists in the module folder."""
+        json_path = os.path.join(self.folder_path, "quests.json")
+        if not os.path.exists(json_path):
+            return []
+            
+        try:
+            with open(json_path, "r", encoding="utf-8") as file:
+                data = json.load(file)
+                return self.parse_quests_from_json(data)
+        except json.JSONDecodeError:
+            runtime_globals.game_console.log(f"Error: Failed to parse {json_path}")
+            return []
+
+    def load_events_json(self) -> List[EventData]:
+        """Loads event data from events.json if it exists in the module folder."""
+        json_path = os.path.join(self.folder_path, "events.json")
+        if not os.path.exists(json_path):
+            return []
+            
+        try:
+            with open(json_path, "r", encoding="utf-8") as file:
+                data = json.load(file)
+                return self.parse_events_from_json(data)
+        except json.JSONDecodeError:
+            runtime_globals.game_console.log(f"Error: Failed to parse {json_path}")
+            return []
+
+    def parse_quests_from_json(self, data) -> List[QuestData]:
+        """
+        Parse quest data from JSON into QuestData objects.
+        """
+        # If data is a string, parse it as JSON
+        if isinstance(data, str):
+            data = json.loads(data)
+        # If data is a dict, extract the first list value (e.g., "quest" or "quests")
+        if isinstance(data, dict):
+            # Try common keys, fallback to first list found
+            for key in ("quests", "quest"):
+                if key in data and isinstance(data[key], list):
+                    data = data[key]
+                    break
+            else:
+                # Fallback: find the first list value in the dict
+                for v in data.values():
+                    if isinstance(v, list):
+                        data = v
+                        break
+                        
+        quests = []
+        for entry in data:
+            if not isinstance(entry, dict):
+                continue  # skip invalid entries
+                
+            quest_data = QuestData(
+                id=entry["id"],
+                name=entry["name"],
+                type=entry.get("type", 0),
+                target_amount_range=entry.get("target_amount_range"),
+                target_amount=entry.get("target_amount"),
+                reward_type=entry.get("reward_type", 0),
+                reward_value=entry.get("reward_value"),
+                reward_item=entry.get("reward_item"),
+                reward_quantity=entry.get("reward_quantity", 1),
+                reward_amount=entry.get("reward_amount", 1)
+            )
+            quests.append(quest_data)
+        return quests
+
+    def parse_events_from_json(self, data) -> List[EventData]:
+        """
+        Parse event data from JSON into EventData objects.
+        """
+        # If data is a string, parse it as JSON
+        if isinstance(data, str):
+            data = json.loads(data)
+        # If data is a dict, extract the first list value (e.g., "event" or "events")
+        if isinstance(data, dict):
+            # Try common keys, fallback to first list found
+            for key in ("events", "event"):
+                if key in data and isinstance(data[key], list):
+                    data = data[key]
+                    break
+            else:
+                # Fallback: find the first list value in the dict
+                for v in data.values():
+                    if isinstance(v, list):
+                        data = v
+                        break
+                        
+        events = []
+        for entry in data:
+            if not isinstance(entry, dict):
+                continue  # skip invalid entries
+                
+            event_data = EventData(
+                id=entry["id"],
+                name=entry["name"],
+                global_event=entry.get("global", False),
+                type=entry.get("type", 0),
+                chance_percent=entry.get("chance_percent", 1),
+                area=entry.get("area", 1),
+                round=entry.get("round", 1),
+                item=entry.get("item", ""),
+                item_quantity=entry.get("item_quantity", 1)
+            )
+            events.append(event_data)
+        return events
 
     def load_items_from_json(self, data, module_name):
         """

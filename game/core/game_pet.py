@@ -104,6 +104,8 @@ class GamePet:
         self.shake_counter = 0
         self.death_save_counter = 0
 
+        self.quests_completed = 0
+
         self.trophies = 0
         self.vital_values = 100
         self.overfeed = 0
@@ -566,8 +568,9 @@ class GamePet:
                 ("condition_hearts" in evo and not in_range(self.condition_hearts, evo["condition_hearts"])) or
                 ("training" in evo and not in_range(self.effort, evo["training"])) or
                 ("overfeed" in evo and not in_range(self.overfeed, evo["overfeed"])) or
-                #("special_encounter" in evo and not self.special_encounter) or
+                ("special_encounter" in evo and not self.special_encounter) or
                 ("level" in evo and not in_range(self.level, evo["level"])) or
+                ("quests_completed" in evo and not in_range(self.quests_completed, evo["quests_completed"])) or
                 ("weight" in evo and not in_range(self.weight, evo["weight"])) or
                 ("trophies" in evo and not in_range(self.trophies, evo["trophies"])) or
                 ("vital_values" in evo and not in_range(self.vital_values, evo["vital_values"])) or
@@ -608,6 +611,11 @@ class GamePet:
                 self.shook = True
                 
             self.evolve_to(evo["to"], evo.get("version", self.version))
+            
+            # Update quest progress for normal evolution
+            from core.utils.quest_event_utils import update_evolution_quest_progress
+            update_evolution_quest_progress("normal", self.module)
+            
             break
 
     def update_needs(self):
@@ -934,11 +942,13 @@ class GamePet:
             if self.protein_overdose > get_module(self.module).protein_overdose_max:
                 self.protein_overdose = get_module(self.module).protein_overdose_max
             sick_chance += self.protein_overdose * 10
+            self.protein_overdose = 0
 
             if self.disturbance_penalty > get_module(self.module).disturbance_penalty_max:
                 self.disturbance_penalty = get_module(self.module).disturbance_penalty_max
 
             sick_chance += self.disturbance_penalty
+            self.disturbance_penalty = 0
 
         sick_chance = max(0.05, min(sick_chance / 100, 0.5))
         
@@ -1053,3 +1063,5 @@ class GamePet:
             self.cache_x = -1  # Invalid initial value to force update
             self.cache_frame_index = -1  # Invalid initial value to force update
             self.cache_has_overlay = False
+        if not hasattr(self, "quests_completed"):
+            self.quests_completed = 0
