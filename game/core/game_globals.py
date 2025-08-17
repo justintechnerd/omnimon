@@ -32,6 +32,8 @@ inventory = {}
 battle_effects = {}
 wake_time = None
 sleep_time = None
+screensaver = False
+screen_timeout = 60
 quests = []
 event = None
 event_time = None
@@ -169,6 +171,8 @@ def save() -> None:
         "background_high_res": background_high_res,
         "wake_time": wake_time,
         "sleep_time": sleep_time,
+        "screensaver": screensaver,
+        "screen_timeout": screen_timeout
         "quests": quests,           # <-- Added
         "event": event,             # <-- Added
         "event_time": event_time,   # <-- Added
@@ -198,7 +202,7 @@ def load() -> None:
     """
     global pet_list, poop_list, traited, unlocks, battle_area, battle_round, xai, xai_date, background_high_res
     global game_background, background_module_name, showClock, sound, inventory, battle_effects
-    global wake_time, sleep_time
+    global wake_time, sleep_time, screensaver, screen_timeout
     global quests, event, event_time  # <-- Added
 
     # Get all available save files in order (newest first)
@@ -296,6 +300,8 @@ def load() -> None:
                 background_high_res = data.get("background_high_res", False)
                 wake_time = data.get("wake_time", None)
                 sleep_time = data.get("sleep_time", None)
+                screensaver = data.get("screensaver", False)
+                screen_timeout = data.get("screen_timeout", 60)
                 quests = data.get("quests", [])           # <-- Added
                 event = data.get("event", None)           # <-- Added
                 event_time = data.get("event_time", None) # <-- Added
@@ -327,6 +333,8 @@ def load() -> None:
     background_high_res = False
     wake_time = None
     sleep_time = None
+    screensaver = False
+    screen_timeout = 60
 
 def autosave() -> None:
     """

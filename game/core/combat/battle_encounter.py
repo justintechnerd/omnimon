@@ -684,6 +684,9 @@ class BattleEncounter:
         if self.victory_status == "Defeat":
             self.battle_player.xp = 0
             self.battle_player.bonus = 0
+            # Call finish_battle here to update DP, battle number, and win rate for a loss.
+            for i, pet in enumerate(self.battle_player.team1):
+                pet.finish_battle(self.victory_status == "Victory", self.battle_player.team2[0], self.area, (self.boss or not self.module.battle_sequential_rounds))
             return
 
         # If victory, calculate XP for winners and bonus
@@ -1358,36 +1361,44 @@ class BattleEncounter:
         # Draw Level, Exp, Bonus headers and values (adjusted for new sprite size)
         label_y = y + sprite_height + int(10 * constants.UI_SCALE)
         col_xs = [offset_x + i * spacing + sprite_width // 2 for i in range(total)]
-        # Draw headers
-        for idx, label in enumerate(["Lv", "Xp", "+"]):
-            text = self.font_small.render(label, True, constants.FONT_COLOR_GREEN).convert_alpha()
-            blit_with_cache(surface, text, (20 * constants.UI_SCALE, label_y + idx * 24 * constants.UI_SCALE))
-        # Draw values for each pet
+
+        any_dmx_pets = False
         for i, pet in enumerate(pets):
-            # Level
-            level = getattr(pet, "level", "-")
-            level_text = self.font_small.render(
-                f"{level}{'+' if self.battle_player.level_up[i] else ''}", True,
-                constants.FONT_COLOR_YELLOW if self.battle_player.level_up[i] else constants.FONT_COLOR_DEFAULT
-            ).convert_alpha()
-            level_text_width = level_text.get_width()
-            blit_with_cache(surface, level_text, (col_xs[i] - level_text_width // 2, label_y))
+            if pet.module == "DMX":
+                any_dmx_pets = True
 
-            # Exp (show XP gained this battle)
-            exp = self.battle_player.xp if self.victory_status == "Victory" else 0
-            xp_color = constants.FONT_COLOR_DEFAULT
-            if not self.battle_player.level_up[i] and self.battle_player.team1[i].level == constants.MAX_LEVEL[self.battle_player.team1[i].stage]:
-                exp = 0
-                xp_color = constants.FONT_COLOR_RED
-            exp_text = self.font_small.render(str(exp), True, xp_color).convert_alpha()
-            exp_text_width = exp_text.get_width()
-            blit_with_cache(surface, exp_text, (col_xs[i] - exp_text_width // 2, label_y + 24 * constants.UI_SCALE))
+        if any_dmx_pets:            
+            # Draw headers
+            for idx, label in enumerate(["Lv", "Xp", "+"]):
+                text = self.font_small.render(label, True, constants.FONT_COLOR_GREEN).convert_alpha()
+                blit_with_cache(surface, text, (20 * constants.UI_SCALE, label_y + idx * 24 * constants.UI_SCALE))
+            # Draw values for each pet
+            for i, pet in enumerate(pets):
+                if pet.module == "DMX":
+                    # Level
+                    level = getattr(pet, "level", "-")
+                    level_text = self.font_small.render(
+                        f"{level}{'+' if self.battle_player.level_up[i] else ''}", True,
+                        constants.FONT_COLOR_YELLOW if self.battle_player.level_up[i] else constants.FONT_COLOR_DEFAULT
+                    ).convert_alpha()
+                    level_text_width = level_text.get_width()
+                    blit_with_cache(surface, level_text, (col_xs[i] - level_text_width // 2, label_y))
 
-            # Bonus
-            bonus = self.battle_player.bonus if self.victory_status == "Victory" else 0
-            bonus_text = self.font_small.render(str(bonus), True, constants.FONT_COLOR_DEFAULT).convert_alpha()
-            bonus_text_width = bonus_text.get_width()
-            blit_with_cache(surface, bonus_text, (col_xs[i] - bonus_text_width // 2, label_y + 48 * constants.UI_SCALE))
+                    # Exp (show XP gained this battle)
+                    exp = self.battle_player.xp if self.victory_status == "Victory" else 0
+                    xp_color = constants.FONT_COLOR_DEFAULT
+                    if not self.battle_player.level_up[i] and self.battle_player.team1[i].level == constants.MAX_LEVEL[self.battle_player.team1[i].stage]:
+                        exp = 0
+                        xp_color = constants.FONT_COLOR_RED
+                    exp_text = self.font_small.render(str(exp), True, xp_color).convert_alpha()
+                    exp_text_width = exp_text.get_width()
+                    blit_with_cache(surface, exp_text, (col_xs[i] - exp_text_width // 2, label_y + 24 * constants.UI_SCALE))
+
+                    # Bonus
+                    bonus = self.battle_player.bonus if self.victory_status == "Victory" else 0
+                    bonus_text = self.font_small.render(str(bonus), True, constants.FONT_COLOR_DEFAULT).convert_alpha()
+                    bonus_text_width = bonus_text.get_width()
+                    blit_with_cache(surface, bonus_text, (col_xs[i] - bonus_text_width // 2, label_y + 48 * constants.UI_SCALE))
 
         # Draw Prize
         if self.victory_status == "Victory" and getattr(self, "prize_item", None):
@@ -1854,7 +1865,9 @@ class BattleEncounter:
             update_quest_progress(QuestType.BATTLE, 1, self.module.name)
 
         # Process battle results for animations and rewards
-        self.process_battle_results()
+        #Remove because it is called by calling function calculate_combat_for_pairs() directly,
+        #otherwise it is called twice, and DP and battles are updated twice, not once.
+        #self.process_battle_results()
 
     def draw_debug_battle_logs(self, surface):
         """

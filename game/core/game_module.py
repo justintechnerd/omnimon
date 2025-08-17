@@ -61,7 +61,7 @@ class GameModule:
                     self.protein_strengh_gain = int(data.get("care_protein_strengh_gain"))
                     self.protein_dp_gain = int(data.get("care_protein_dp_gain"))
                     self.protein_care_mistake_time = int(data.get("care_protein_care_mistake_time"))
-                    self.protein_overdose_max = int(data.get("care_protein_care_mistake_time", 0))
+                    self.protein_overdose_max = int(data.get("care_protein_overdose_max", 0))
                     self.disturbance_penalty_max = int(data.get("care_disturbance_penalty_max", 0))
 
                     self.sleep_care_mistake_timer = int(data.get("care_sleep_care_mistake_timer"))

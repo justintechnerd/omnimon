@@ -136,6 +136,7 @@ class SceneMainGame:
     def check_evolution_start(self):
         """Begins evolution sequence when a pet is ready to evolve."""
         if runtime_globals.evolution_pet:
+            runtime_globals.last_input_time = time.time() # Ensure the screen turns back on from a screensaver at the next draw cycle
             self.start_evolution_sequence()
 
     def start_evolution_sequence(self):
