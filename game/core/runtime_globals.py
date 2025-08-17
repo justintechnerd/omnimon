@@ -1,4 +1,5 @@
 import random
+import time
 
 from core.game_console import GameConsole
 from core.game_item import GameItem
@@ -85,3 +86,4 @@ vb_enabled = False
 # --- Hardware/Input ---
 i2c = I2CUtils()
 shake_detector = ShakeDetector(i2c)
+last_input_time = time.time()

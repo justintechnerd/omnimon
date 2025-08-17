@@ -34,7 +34,9 @@ class SceneSettingsMenu:
             "Show Clock",
             "Sound",
             "Global Wake",
-            "Global Sleep"
+            "Global Sleep",
+            "Screensaver",
+            "Scr.Timeout"
         ]
 
         # Load sprites for visual indicators using the new method and scale
@@ -245,6 +247,28 @@ class SceneSettingsMenu:
                                 int(60 * constants.UI_SCALE) + i * int(40 * constants.UI_SCALE)
                             )
                         )
+                    elif label == "Screensaver":
+                        screensaver_enabled_str = self._format_screensaver(game_globals.screensaver)
+                        value_surface = option_font.render(screensaver_enabled_str, True, color)
+                        blit_with_shadow(
+                            cached_surface,
+                            value_surface,
+                            (
+                                constants.SCREEN_WIDTH - value_surface.get_width() - int(30 * constants.UI_SCALE),
+                                int(60 * constants.UI_SCALE) + i * int(40 * constants.UI_SCALE)
+                            )
+                        )
+                    elif label == "Scr.Timeout":
+                        screen_timeout_str = str(game_globals.screen_timeout // 60)
+                        value_surface = option_font.render(screen_timeout_str, True, color)
+                        blit_with_shadow(
+                            cached_surface,
+                            value_surface,
+                            (
+                                constants.SCREEN_WIDTH - value_surface.get_width() - int(30 * constants.UI_SCALE),
+                                int(60 * constants.UI_SCALE) + i * int(40 * constants.UI_SCALE)
+                            )
+                        )
                     else:
                         sprite = self.get_setting_sprite(label)
                         if sprite:
@@ -410,6 +434,14 @@ class SceneSettingsMenu:
                 game_globals.sleep_time, increase, 12, 24
             )
             runtime_globals.game_console.log(f"[SceneSettingsMenu] Global Sleep set to {self._format_time(game_globals.sleep_time)}")
+        elif option == "Screensaver":
+            game_globals.screensaver = not game_globals.screensaver
+            runtime_globals.game_console.log(f"[SceneSettingsMenu] Screensaver set to {self._format_screensaver(game_globals.screensaver)}")
+        elif option == "Scr.Timeout":
+            game_globals.screen_timeout = self._change_screen_timeout(
+                game_globals.screen_timeout, increase
+            )
+            runtime_globals.game_console.log(f"[SceneSettingsMenu] Screen Timeout set to {game_globals.screen_timeout // 60} minutes")
 
     def change_background(self, increase: bool) -> None:
         """Changes background index while keeping it cyclic."""
@@ -430,11 +462,20 @@ class SceneSettingsMenu:
         if t is None:
             return "Off"
         return t.strftime("%H:%M")
+    
+    def _format_screensaver(self, setting):
+        if setting is True:
+            return "On"
+        else:
+            return "Off"
 
     def _change_time(self, current, increase, start_hour, end_hour):
         # If None, set to start
         if current is None:
-            return datetime.time(hour=start_hour, minute=30)
+            if increase:
+                return datetime.time(hour=start_hour, minute=30)
+            else:
+                return datetime.time(hour=end_hour if end_hour != 24 else 23, minute=0 if end_hour != 24 else 30)
         # Convert to minutes
         minutes = current.hour * 60 + current.minute
         step = 30 if increase else -30
@@ -457,6 +498,21 @@ class SceneSettingsMenu:
         hour = (minutes // 60) % 24
         minute = minutes % 60
         return datetime.time(hour=hour, minute=minute)
+    
+    def _change_screen_timeout(self, current, increase):
+        # Range in minutes
+        min_minutes = 1
+        max_minutes = 60
+        minutes = current // 60
+        step = 1 if increase else -1
+        # Wrap around
+        minutes += step
+        if minutes > max_minutes:
+            minutes = min_minutes
+        elif minutes < min_minutes:
+            minutes = max_minutes
+        seconds = minutes * 60
+        return seconds
 
     def update(self):
         pass

@@ -255,7 +255,7 @@ class GamePet:
             self.set_state("tired")
 
         # Increase age every day (24 * 60 * 60 = 86.400)
-        if self.age_timer % (constants.FRAME_RATE * 86.400) == 0:
+        if self.age_timer % (constants.FRAME_RATE * 86400) == 0:
             self.age += 1
             runtime_globals.game_console.log(f"{self.name} aged to {self.age}")
 
@@ -505,7 +505,7 @@ class GamePet:
                 self.set_state("nope")
             else:
                 self.set_state("eat", True)
-                self.hunger = min(self.stomach, self.hunger + amount)
+                self.hunger = min(self.stomach, self.hunger + module.meat_hunger_gain)
                 if self.stage > 1 and self.weight < 99:
                     self.weight += module.meat_weight_gain
                 self.care_food_mistake_timer = 0
@@ -513,7 +513,7 @@ class GamePet:
                 runtime_globals.game_console.log(f"{self.name} ate food (hunger). Hunger {self.hunger}")
         elif food_type == "strength":
             self.set_state("eat")
-            self.strength = min(4, self.strength + amount)
+            self.strength = min(4, self.strength + module.protein_strengh_gain)
             self.protein_overdose += 1
             if self.stage > 1 and self.weight < 99:
                 self.weight += module.protein_weight_gain
@@ -544,6 +544,9 @@ class GamePet:
             return
         
         for evo in self.evolve:
+            import time
+            now = time.time()
+            runtime_globals.last_input_time = now   # Ensure the screen turns back on from the screensaver
             def in_range(val, r): return r[0] <= val <= r[1]
             def in_time_range(time_range):
                 try:
@@ -767,10 +770,10 @@ class GamePet:
 
 
     def can_battle(self):
-        return self.stage > 1 and self.power > 0 and self.state != "dead" and self.atk_main > 0
+        return self.stage > 1 and self.power > 0 and self.state != "dead" and self.atk_main > 0 and self.dp > 0
     
     def can_train(self):
-        return self.stage > 1 and self.state != "dead" and self.atk_main > 0
+        return self.stage > 0 and self.state != "dead" and self.atk_main > 0
 
     def set_back_to_sleep(self):
         self.back_to_sleep = get_module(self.module).back_to_sleep_time
