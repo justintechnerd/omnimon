@@ -106,7 +106,7 @@ class SceneFreezerBox:
 
     def handle_event(self, input_action):
         # Mode switching with SELECT
-        if input_action == "SELECT":
+        if not self.menu.active and input_action == "SELECT":
             runtime_globals.game_sound.play("menu")
             self.mode = "party" if self.mode == "freezer" else "freezer"
             runtime_globals.game_console.log(f"[SceneFreezerBox] Switched to {self.mode}")
