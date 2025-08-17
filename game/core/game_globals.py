@@ -172,7 +172,7 @@ def save() -> None:
         "wake_time": wake_time,
         "sleep_time": sleep_time,
         "screensaver": screensaver,
-        "screen_timeout": screen_timeout
+        "screen_timeout": screen_timeout,
         "quests": quests,           # <-- Added
         "event": event,             # <-- Added
         "event_time": event_time,   # <-- Added
