@@ -171,7 +171,6 @@ def save() -> None:
         "background_high_res": background_high_res,
         "wake_time": wake_time,
         "sleep_time": sleep_time,
-        "screensaver": screensaver,
         "screen_timeout": screen_timeout,
         "quests": quests,
         "event": event,
@@ -305,7 +304,6 @@ def load() -> None:
                 background_high_res = data.get("background_high_res", False)
                 wake_time = data.get("wake_time", None)
                 sleep_time = data.get("sleep_time", None)
-                screensaver = data.get("screensaver", False)
                 screen_timeout = data.get("screen_timeout", 60)
                 quests = data.get("quests", [])
                 event = data.get("event", None)
@@ -338,7 +336,6 @@ def load() -> None:
     background_high_res = False
     wake_time = None
     sleep_time = None
-    screensaver = False
     screen_timeout = 60
 
 def autosave() -> None:

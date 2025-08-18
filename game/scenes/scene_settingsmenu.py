@@ -29,14 +29,16 @@ class SceneSettingsMenu:
         ]
         
         # Settings submenu
+        # Screen timeout choices in seconds (0 = off). Cycle: 0,10,20,30,60,120
+        self._SCREEN_TIMEOUT_CHOICES = [0, 10, 20, 30, 60, 120]
+
         self.settings_options = [
             "Background",
             "Show Clock",
             "Sound",
             "Global Wake",
             "Global Sleep",
-            "Screensaver",
-            "Scr.Timeout"
+            "Screen Timeout"
         ]
 
         # Load sprites for visual indicators using the new method and scale
@@ -247,9 +249,16 @@ class SceneSettingsMenu:
                                 int(60 * constants.UI_SCALE) + i * int(40 * constants.UI_SCALE)
                             )
                         )
-                    elif label == "Screensaver":
-                        screensaver_enabled_str = self._format_screensaver(game_globals.screensaver)
-                        value_surface = option_font.render(screensaver_enabled_str, True, color)
+                    elif label == "Screen Timeout":
+                        timeout = game_globals.screen_timeout if hasattr(game_globals, 'screen_timeout') else 0
+                        # display seconds as 0 or minutes when >=60
+                        if timeout == 0:
+                            screen_timeout_str = "Off"
+                        elif timeout < 60:
+                            screen_timeout_str = f"{timeout}s"
+                        else:
+                            screen_timeout_str = f"{timeout // 60}m"
+                        value_surface = option_font.render(screen_timeout_str, True, color)
                         blit_with_shadow(
                             cached_surface,
                             value_surface,
@@ -437,11 +446,11 @@ class SceneSettingsMenu:
         elif option == "Screensaver":
             game_globals.screensaver = not game_globals.screensaver
             runtime_globals.game_console.log(f"[SceneSettingsMenu] Screensaver set to {self._format_screensaver(game_globals.screensaver)}")
-        elif option == "Scr.Timeout":
-            game_globals.screen_timeout = self._change_screen_timeout(
-                game_globals.screen_timeout, increase
-            )
-            runtime_globals.game_console.log(f"[SceneSettingsMenu] Screen Timeout set to {game_globals.screen_timeout // 60} minutes")
+        elif option == "Screen Timeout":
+            current = getattr(game_globals, 'screen_timeout', 0)
+            new_val = self._cycle_screen_timeout(current, increase)
+            game_globals.screen_timeout = new_val
+            runtime_globals.game_console.log(f"[SceneSettingsMenu] Screen Timeout set to {new_val} seconds")
 
     def change_background(self, increase: bool) -> None:
         """Changes background index while keeping it cyclic."""
@@ -468,6 +477,16 @@ class SceneSettingsMenu:
             return "On"
         else:
             return "Off"
+
+    def _cycle_screen_timeout(self, current, increase: bool):
+        # Find index in choices and move forward/back with wrap
+        try:
+            idx = self._SCREEN_TIMEOUT_CHOICES.index(current)
+        except ValueError:
+            idx = 0
+        idx = (idx + (1 if increase else -1)) % len(self._SCREEN_TIMEOUT_CHOICES)
+        # Ensure minimum of 10 for non-zero values is already enforced by choices
+        return self._SCREEN_TIMEOUT_CHOICES[idx]
 
     def _change_time(self, current, increase, start_hour, end_hour):
         # If None, set to start

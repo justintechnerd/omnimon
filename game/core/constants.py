@@ -143,6 +143,7 @@ PET_SELECTION_SMALL_ON_PATH = "resources/PetSelectionSmallOn.png"
 PET_SELECTION_SMALL_OFF_PATH = "resources/PetSelectionSmallOff.png"
 GIFT_PATH = "resources/Gift.png"
 ALERT_ICON_PATH = "resources/Alert.png"
+CALL_SIGN_INVERSE_PATH = "resources/CallSignInverse.png"
 
 #=====================================================================
 # Paths: Battle & Training Sprites
