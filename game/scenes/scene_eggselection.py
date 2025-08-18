@@ -38,6 +38,17 @@ class SceneEggSelection:
             base_on="height"
         )
 
+        # Traited overlay (same size as egg sprite) - optional
+        try:
+            self.traited_sprite = sprite_load_percent(
+                "resources/TraitedEgg.png",
+                percent=(self.EGG_SIZE[1] / constants.SCREEN_HEIGHT) * 100,
+                keep_proportion=True,
+                base_on="height"
+            )
+        except Exception:
+            self.traited_sprite = None
+
         runtime_globals.game_console.log(f"[SceneEggSelection] Modules loaded: {len(self.eggs_by_module)}")
         # Use new method for background, scale to screen height
         if constants.SCREEN_WIDTH > constants.SCREEN_HEIGHT:
@@ -74,10 +85,10 @@ class SceneEggSelection:
                 eggs_by_module[module_name] = eggs
                 for egg in eggs:
                     if egg.get("special", False):
-                        special_key = egg.get("special-key", "")
+                        special_key = egg.get("special_key", "")
                         module_val = egg.get("module", module_name)
-                        if not is_unlocked(module_val, "eggs", special_key):
-                            continue  # Skip locked special eggs
+                        if not is_unlocked(module_val, None, special_key):
+                            continue  # Skip locked special egg
         return eggs_by_module
 
     def load_egg_sprites(self):
@@ -104,9 +115,9 @@ class SceneEggSelection:
         for module_name, eggs in self.eggs_by_module.items():
             for egg in eggs:
                 if egg.get("special", False):
-                    special_key = egg.get("special-key", "")
+                    special_key = egg.get("special_key", "")
                     module = egg.get("module", module_name)
-                    locked = not is_unlocked(module, "eggs", special_key)
+                    locked = not is_unlocked(module, None, special_key)
                     self.locked_special_eggs[(module, egg["name"])] = locked
                     
     def load_module_logo(self):
@@ -259,6 +270,12 @@ class SceneEggSelection:
                 elif egg_sprite:
                     blit_with_shadow(cached_surface, egg_sprite, (x, y))
 
+                # Overlay trait mark if this egg/version is marked as traited
+                egg_key = f"{module_name}@{egg.get('version')}"
+                if egg_key in game_globals.traited:
+                    blit_with_shadow(cached_surface, self.traited_sprite, (x, y))
+
+
                 display_name = "???" if is_locked_special else egg_name.replace("DmC", "").replace("PenC", "").replace("Version", "")
                 text = self.font.render(display_name, True, constants.FONT_COLOR_DEFAULT)
                 blit_with_shadow(cached_surface, text, (x + (self.EGG_SIZE[0] // 2) - (text.get_width() // 2), y + self.EGG_SIZE[1]))
@@ -318,7 +335,7 @@ class SceneEggSelection:
     def select_egg(self, selected_egg):
         runtime_globals.game_console.log(f"[SceneEggSelection] Selected egg: {selected_egg['name']}")
         pet = GamePet(selected_egg)
-        egg_key = (selected_egg["module"], selected_egg["version"])
+        egg_key = f"{selected_egg['module']}@{selected_egg['version']}"
         register_digidex_entry(pet.name, pet.module, pet.version)
         if egg_key in game_globals.traited:
             pet.traited = True

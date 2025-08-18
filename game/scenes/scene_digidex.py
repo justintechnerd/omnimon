@@ -95,8 +95,8 @@ class SceneDigidex:
             if isinstance(unlocks, list):
                 module_known_count = known_count_by_module.get(module.name, 0)
                 for unlock in unlocks:
-                    if unlock.get("type") == "digidex" and "amout" in unlock:
-                        if module_known_count >= unlock["amout"]:
+                    if unlock.get("type") == "digidex" and "amount" in unlock:
+                        if module_known_count >= unlock["amount"]:
                             unlock_item(module.name, "digidex", unlock["name"])
 
         # Ordena: estágio, nome do módulo, versão
