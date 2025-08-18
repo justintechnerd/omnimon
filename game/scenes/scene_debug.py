@@ -538,42 +538,16 @@ class SceneDebug:
         random_module = runtime_globals.game_modules[random_module_name]
         
         # Get random egg from that module
-        eggs = random_module.get_eggs()
+        eggs = random_module.get_monsters_by_stage(0)
         if not eggs:
             return False
             
         random_egg = random.choice(eggs)
-        egg_data = {
-            "module": random_module_name,
-            "name": random_egg.name,
-            "stage": random_egg.stage,
-            "version": random_egg.version,
-            "special": random_egg.special,
-            "evolve": random_egg.evolve,
-            "sleeps": getattr(random_egg, 'sleeps', None),
-            "wakes": getattr(random_egg, 'wakes', None),
-            "atk_main": getattr(random_egg, 'atk_main', 0),
-            "atk_alt": getattr(random_egg, 'atk_alt', 0),
-            "time": getattr(random_egg, 'time', 0),
-            "poop_timer": getattr(random_egg, 'poop_timer', 60),
-            "min_weight": getattr(random_egg, 'min_weight', 0),
-            "stomach": getattr(random_egg, 'stomach', 4),
-            "hunger_loss": getattr(random_egg, 'hunger_loss', 4),
-            "strength_loss": getattr(random_egg, 'strength_loss', 12),
-            "power": getattr(random_egg, 'power', 0),
-            "attribute": getattr(random_egg, 'attribute', ""),
-            "energy": getattr(random_egg, 'energy', 0),
-            "heal_doses": getattr(random_egg, 'heal_doses', 1),
-            "hp": getattr(random_egg, 'hp', 0),
-            "condition_hearts": getattr(random_egg, 'condition_hearts', 0),
-            "jogress_avaliable": getattr(random_egg, 'jogress_avaliable', 0)
-        }
-        
-        # Create traited pet
-        new_pet = GamePet(egg_data, traited=True)
-        game_globals.pet_list.append(new_pet)
-        
-        runtime_globals.game_console.log(f"[SceneDebug] Added traited egg: {new_pet.name} from {random_module_name}")
+        key = f"{random_module_name}@{random_egg['version']}"
+        if key not in game_globals.traited:
+            game_globals.traited.append(key)
+
+        runtime_globals.game_console.log(f"[SceneDebug] Added traited egg: {random_egg['name']} from {random_module_name}")
         return True
 
     def _reset_quests(self) -> bool:

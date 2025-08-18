@@ -96,9 +96,9 @@ class SceneMainGame:
         self._ss_poop_sprite = None
         # Track state used in screensaver to allow immediate cache invalidation
         self._ss_last_pet_alert = bool(getattr(runtime_globals, 'pet_alert', False))
-        self._ss_last_poop_count = len(game_globals.poop_list) if hasattr(game_globals, 'poop_list') else 0
+        self._ss_last_poop_count = len(game_globals.poop_list)
         # Track sick state for cache invalidation (show sick icon if any pet is sick)
-        self._ss_last_sick_flag = any(getattr(p, 'sick', 0) > 0 for p in getattr(game_globals, 'pet_list', []))
+        self._ss_last_sick_flag = any(p.sick > 0 for p in game_globals.pet_list)
 
         # Screensaver position randomizer: change position every minute (frame-based)
         self._ss_position = (0, 0)  # offset from center (x_offset, y_offset)
@@ -451,8 +451,8 @@ class SceneMainGame:
             # Use cached screensaver surface and refresh every 5 seconds using the frame counter
             # Invalidate cache immediately if relevant state changed
             current_pet_alert = bool(getattr(runtime_globals, 'pet_alert', False))
-            current_poop_count = len(game_globals.poop_list) if hasattr(game_globals, 'poop_list') else 0
-            current_sick_flag = any(getattr(p, 'sick', 0) > 0 for p in getattr(game_globals, 'pet_list', []))
+            current_poop_count = len(game_globals.poop_list)
+            current_sick_flag = any(p.sick > 0 for p in game_globals.pet_list)
             if current_pet_alert != self._ss_last_pet_alert or current_poop_count != self._ss_last_poop_count:
                 self._screensaver_cache = None
                 self._ss_last_pet_alert = current_pet_alert

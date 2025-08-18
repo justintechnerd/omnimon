@@ -596,7 +596,7 @@ class GamePet:
 
                 if pet_data.get("special", False):
                     special_key = pet_data.get("special_key")
-                    if special_key and not is_unlocked(self.module, "evolutions", special_key):
+                    if special_key and not is_unlocked(self.module, None, special_key):
                         runtime_globals.game_console.log(f"{self.name} cannot evolve into {evo['to']}—special evolution {special_key} is locked.")
                         continue  # Skip this evolution
                     else:

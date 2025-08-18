@@ -167,7 +167,7 @@ class SceneFreezerBox:
                         # Store to freezer
                         game_globals.pet_list.pop(self.party_view.selected_index)
                         self.freezer_pets[self.current_freezer_page].pets.append(selected_pet)
-                        runtime_globals.game.console.log(f"Stored {selected_pet.name}.")
+                        runtime_globals.game_console.log(f"Stored {selected_pet.name}.")
                 else:
                     # In freezer mode
                     if getattr(selected_pet, "state", None) == "dead":
