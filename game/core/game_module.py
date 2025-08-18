@@ -438,6 +438,46 @@ class GameModule:
             runtime_globals.game_console.log(f"⚠️ Failed to parse {json_path}")
             return []
         
+    def is_valid_area_round(self, area: int, round_: int) -> bool:
+        """
+        Return True if this module has any battle entry for the given area and round.
+        """
+        battle_path = os.path.join(self.folder_path, "battle.json")
+        all_enemies = self._parse_battle_json(battle_path)
+        if not all_enemies:
+            return False
+        for entry in all_enemies:
+            try:
+                a = int(entry.get("area", -1))
+                r = int(entry.get("round", -1))
+            except Exception:
+                continue
+            if a == int(area) and r == int(round_):
+                return True
+        return False
+
+    def get_available_area_rounds(self) -> dict:
+        """
+        Return a dict mapping available area -> sorted list of rounds defined
+        in this module's battle.json. Example: {1: [1,2,3], 2: [1,2]}
+        """
+        battle_path = os.path.join(self.folder_path, "battle.json")
+        all_enemies = self._parse_battle_json(battle_path)
+        if not all_enemies:
+            return {}
+        area_rounds = {}
+        for entry in all_enemies:
+            try:
+                a = int(entry.get("area", -1))
+                r = int(entry.get("round", -1))
+            except Exception:
+                continue
+            if a == -1 or r == -1:
+                continue
+            area_rounds.setdefault(a, set()).add(r)
+        # convert sets to sorted lists
+        return {a: sorted(list(rounds)) for a, rounds in area_rounds.items()}
+        
 def sprite_load(path, size=None, scale=1):
     """Loads a sprite and optionally scales it to a fixed size or by a scale factor."""
     img = pygame.image.load(path).convert_alpha()

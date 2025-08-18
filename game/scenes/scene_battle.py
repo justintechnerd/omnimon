@@ -62,6 +62,11 @@ class SceneBattle:
                 game_globals.battle_round[module.name] = 1
                 game_globals.battle_area[module.name] = 1
 
+            if not module.is_valid_area_round(game_globals.battle_area[module.name], game_globals.battle_round[module.name]):
+                runtime_globals.game_console.log(f"[SceneBattle] Invalid saved area/round for {module.name}: {game_globals.battle_area[module.name]}/{game_globals.battle_round[module.name]} -> reset to 1/1")
+                game_globals.battle_round[module.name] = 1
+                game_globals.battle_area[module.name] = 1
+                
             # Initialize selection to max unlocked
             self.selected_area[module.name] = game_globals.battle_area[module.name]
             self.selected_round[module.name] = game_globals.battle_round[module.name]
