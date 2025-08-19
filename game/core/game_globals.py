@@ -47,8 +47,12 @@ def get_next_save_number():
         return 1
 
     # Get the highest number and increment by 1
-    latest_save = os.path.basename(get_latest_save_file())
-    next_number = int(latest_save.replace("save_data_", "").replace(".dat", "")) + 1
+    latest_save = get_latest_save_file()
+    if latest_save == None:
+        next_number = 1
+    else:
+        latest_save = os.path.basename(latest_save)
+        next_number = int(latest_save.replace("save_data_", "").replace(".dat", "")) + 1
     
     # If we exceed MAX_BACKUPS, wrap around to 1
     if next_number > MAX_BACKUPS:
