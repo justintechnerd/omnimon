@@ -32,7 +32,6 @@ inventory = {}
 battle_effects = {}
 wake_time = None
 sleep_time = None
-screensaver = False
 screen_timeout = 60
 quests = []
 event = None
@@ -47,31 +46,9 @@ def get_next_save_number():
     if not os.path.exists(SAVE_DIR):
         return 1
 
-    # Check if old save_data.dat exists and migrate it
-    old_save_path = os.path.join(SAVE_DIR, "save_data.dat")
-    if os.path.exists(old_save_path):
-        # Rename old save_data.dat to save_data_1.dat
-        new_save_path = os.path.join(SAVE_DIR, "save_data_1.dat")
-        try:
-            os.rename(old_save_path, new_save_path)
-            print(f"[Save] Migrated save_data.dat to save_data_1.dat")
-        except Exception as e:
-            print(f"[Save] Failed to migrate save_data.dat: {e}")
-
-    save_numbers = []
-    for filename in os.listdir(SAVE_DIR):
-        if filename.startswith("save_data_") and filename.endswith(".dat"):
-            try:
-                number_part = filename.replace("save_data_", "").replace(".dat", "")
-                save_numbers.append(int(number_part))
-            except ValueError:
-                continue
-
-    if not save_numbers:
-        return 1
-
     # Get the highest number and increment by 1
-    next_number = max(save_numbers) + 1
+    latest_save = os.path.basename(get_latest_save_file())
+    next_number = int(latest_save.replace("save_data_", "").replace(".dat", "")) + 1
     
     # If we exceed MAX_BACKUPS, wrap around to 1
     if next_number > MAX_BACKUPS:
@@ -107,9 +84,9 @@ def get_latest_save_file():
     
     if not save_files:
         return None
-    
-    # Return the file with the highest number (most recent)
-    save_files.sort(key=lambda x: x[0], reverse=True)
+
+    # Return the most recent file
+    save_files.sort(key=lambda x: os.path.getmtime(x[1]), reverse=True)
     return save_files[0][1]
 
 def cleanup_old_saves():
@@ -130,7 +107,7 @@ def cleanup_old_saves():
     
     # Keep only the most recent MAX_BACKUPS files
     if len(save_files) > MAX_BACKUPS:
-        save_files.sort(key=lambda x: x[0], reverse=True)
+        save_files.sort(key=lambda x: os.path.getmtime(x[1]), reverse=True)
         files_to_remove = save_files[MAX_BACKUPS:]
         
         for _, file_path in files_to_remove:
@@ -201,7 +178,7 @@ def load() -> None:
     """
     global pet_list, poop_list, traited, unlocks, battle_area, battle_round, xai, xai_date, background_high_res
     global game_background, background_module_name, showClock, sound, inventory, battle_effects
-    global wake_time, sleep_time, screensaver, screen_timeout
+    global wake_time, sleep_time, screen_timeout
     global quests, event, event_time  # <-- Added
 
     # Get all available save files in order (newest first)
