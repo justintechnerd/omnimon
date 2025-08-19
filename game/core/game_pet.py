@@ -546,9 +546,6 @@ class GamePet:
             return
         
         for evo in self.evolve:
-            import time
-            now = time.time()
-            runtime_globals.last_input_time = now   # Ensure the screen turns back on from the screensaver
             def in_range(val, r): return r[0] <= val <= r[1]
             def in_time_range(time_range):
                 try:
