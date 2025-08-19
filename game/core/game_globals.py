@@ -32,7 +32,6 @@ inventory = {}
 battle_effects = {}
 wake_time = None
 sleep_time = None
-screensaver = False
 screen_timeout = 60
 quests = []
 event = None
@@ -201,7 +200,7 @@ def load() -> None:
     """
     global pet_list, poop_list, traited, unlocks, battle_area, battle_round, xai, xai_date, background_high_res
     global game_background, background_module_name, showClock, sound, inventory, battle_effects
-    global wake_time, sleep_time, screensaver, screen_timeout
+    global wake_time, sleep_time, screen_timeout
     global quests, event, event_time  # <-- Added
 
     # Get all available save files in order (newest first)
