@@ -1,6 +1,6 @@
 {
   "name": "DW1",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "A vpet interpretation of the Digimon World PS1 game. Pet data adapted from the guide by Syd Montague and Ginoshie, and from the Prima guide.",
   "author": "justintechnerd",
   "name_format": "$_dmc",

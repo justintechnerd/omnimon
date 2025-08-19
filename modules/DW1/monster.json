@@ -2144,6 +2144,16 @@
             5,
             15
           ]
+        },
+        {
+          "to": "Sukamon",
+          "mistakes": [
+            16,
+            999999
+          ]
+        },
+        {
+          "to": "Numemon"
         }
       ]
     },
@@ -4993,6 +5003,16 @@
             25,
             35
           ]
+        },
+        {
+          "to": "Sukamon",
+          "mistakes": [
+            16,
+            999999
+          ]
+        },
+        {
+          "to": "Numemon"
         }
       ]
     },
@@ -5079,6 +5099,16 @@
             5,
             15
           ]
+        },
+        {
+          "to": "Sukamon",
+          "mistakes": [
+            16,
+            999999
+          ]
+        },
+        {
+          "to": "Numemon"
         }
       ]
     },
@@ -5211,6 +5241,16 @@
             25,
             35
           ]
+        },
+        {
+          "to": "Sukamon",
+          "mistakes": [
+            16,
+            999999
+          ]
+        },
+        {
+          "to": "Numemon"
         }
       ]
     },
@@ -5737,6 +5777,51 @@
       ]
     },
     {
+      "name": "Numemon",
+      "stage": 4,
+      "version": 5,
+      "special": false,
+      "special_key": "",
+      "sleeps": "22:00",
+      "wakes": "07:00",
+      "atk_main": 3,
+      "atk_alt": 25,
+      "time": 8640,
+      "poop_timer": 360,
+      "energy": 1,
+      "min_weight": 5,
+      "stomach": 7,
+      "hunger_loss": 60,
+      "strength_loss": 60,
+      "heal_doses": 1,
+      "power": 6,
+      "attribute": "Vi",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
+      "hp": 6,
+      "evolve": [
+        {
+          "to": "Monzaemon",
+          "win_count": [
+            50,
+            999999
+          ],
+          "mistakes": [
+            0,
+            1
+          ],
+          "trophies": [
+            18,
+            999999
+          ],
+          "weigth": [
+            35,
+            45
+          ]
+        }
+      ]
+    },
+    {
       "name": "Ogremon",
       "stage": 4,
       "version": 5,
@@ -5796,6 +5881,51 @@
           "weigth": [
             0,
             10
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Sukamon",
+      "stage": 4,
+      "version": 5,
+      "special": false,
+      "special_key": "",
+      "sleeps": "19:00",
+      "wakes": "04:00",
+      "atk_main": 3,
+      "atk_alt": 25,
+      "time": 8640,
+      "poop_timer": 240,
+      "energy": 1,
+      "min_weight": 5,
+      "stomach": 7,
+      "hunger_loss": 60,
+      "strength_loss": 60,
+      "heal_doses": 1,
+      "power": 4,
+      "attribute": "Vi",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
+      "hp": 4,
+      "evolve": [
+        {
+          "to": "Etemon",
+          "win_count": [
+            50,
+            999999
+          ],
+          "mistakes": [
+            0,
+            1
+          ],
+          "trophies": [
+            18,
+            999999
+          ],
+          "weigth": [
+            10,
+            20
           ]
         }
       ]
@@ -5995,6 +6125,31 @@
       "evolve": []
     },
     {
+      "name": "Etemon",
+      "stage": 5,
+      "version": 5,
+      "special": false,
+      "special_key": "",
+      "sleeps": "19:00",
+      "wakes": "04:00",
+      "atk_main": 10,
+      "atk_alt": 2,
+      "time": 2400,
+      "poop_timer": 360,
+      "energy": 10,
+      "min_weight": 20,
+      "stomach": 7,
+      "hunger_loss": 60,
+      "strength_loss": 60,
+      "heal_doses": 1,
+      "power": 60,
+      "attribute": "Vi",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
+      "hp": 40,
+      "evolve": []
+    },
+    {
       "name": "Giromon",
       "stage": 5,
       "version": 5,
@@ -6142,6 +6297,31 @@
       "condition_hearts": 0,
       "jogress_avaliable": false,
       "hp": 30,
+      "evolve": []
+    },
+    {
+      "name": "Monzaemon",
+      "stage": 5,
+      "version": 5,
+      "special": false,
+      "special_key": "",
+      "sleeps": "19:00",
+      "wakes": "04:00",
+      "atk_main": 10,
+      "atk_alt": 2,
+      "time": 2400,
+      "poop_timer": 180,
+      "energy": 10,
+      "min_weight": 40,
+      "stomach": 7,
+      "hunger_loss": 75,
+      "strength_loss": 75,
+      "heal_doses": 1,
+      "power": 50,
+      "attribute": "Va",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
+      "hp": 50,
       "evolve": []
     },
     {
@@ -6345,7 +6525,18 @@
       "condition_hearts": 0,
       "jogress_avaliable": false,
       "hp": 10,
-      "evolve": []
+      "evolve": [
+        {
+          "to": "Sukamon",
+          "mistakes": [
+            16,
+            999999
+          ]
+        },
+        {
+          "to": "Numemon"
+        }
+      ]
     },
     {
       "name": "Kunemon",
@@ -6430,6 +6621,16 @@
             5,
             15
           ]
+        },
+        {
+          "to": "Sukamon",
+          "mistakes": [
+            16,
+            999999
+          ]
+        },
+        {
+          "to": "Numemon"
         }
       ]
     },
@@ -6456,7 +6657,18 @@
       "condition_hearts": 0,
       "jogress_avaliable": false,
       "hp": 5,
-      "evolve": []
+      "evolve": [
+        {
+          "to": "Sukamon",
+          "mistakes": [
+            16,
+            999999
+          ]
+        },
+        {
+          "to": "Numemon"
+        }
+      ]
     },
     {
       "name": "Bakemon",
@@ -6643,6 +6855,96 @@
       ]
     },
     {
+      "name": "Numemon",
+      "stage": 4,
+      "version": 6,
+      "special": false,
+      "special_key": "",
+      "sleeps": "22:00",
+      "wakes": "07:00",
+      "atk_main": 3,
+      "atk_alt": 25,
+      "time": 8640,
+      "poop_timer": 360,
+      "energy": 1,
+      "min_weight": 5,
+      "stomach": 7,
+      "hunger_loss": 60,
+      "strength_loss": 60,
+      "heal_doses": 1,
+      "power": 6,
+      "attribute": "Vi",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
+      "hp": 6,
+      "evolve": [
+        {
+          "to": "Monzaemon",
+          "win_count": [
+            50,
+            999999
+          ],
+          "mistakes": [
+            0,
+            1
+          ],
+          "trophies": [
+            18,
+            999999
+          ],
+          "weigth": [
+            35,
+            45
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Sukamon",
+      "stage": 4,
+      "version": 6,
+      "special": false,
+      "special_key": "",
+      "sleeps": "19:00",
+      "wakes": "04:00",
+      "atk_main": 3,
+      "atk_alt": 25,
+      "time": 8640,
+      "poop_timer": 240,
+      "energy": 1,
+      "min_weight": 5,
+      "stomach": 7,
+      "hunger_loss": 60,
+      "strength_loss": 60,
+      "heal_doses": 1,
+      "power": 4,
+      "attribute": "Vi",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
+      "hp": 4,
+      "evolve": [
+        {
+          "to": "Etemon",
+          "win_count": [
+            50,
+            999999
+          ],
+          "mistakes": [
+            0,
+            1
+          ],
+          "trophies": [
+            18,
+            999999
+          ],
+          "weigth": [
+            10,
+            20
+          ]
+        }
+      ]
+    },
+    {
       "name": "Vegiemon",
       "stage": 4,
       "version": 6,
@@ -6682,6 +6984,31 @@
           ]
         }
       ]
+    },
+    {
+      "name": "Etemon",
+      "stage": 5,
+      "version": 6,
+      "special": false,
+      "special_key": "",
+      "sleeps": "19:00",
+      "wakes": "04:00",
+      "atk_main": 10,
+      "atk_alt": 2,
+      "time": 2400,
+      "poop_timer": 360,
+      "energy": 10,
+      "min_weight": 20,
+      "stomach": 7,
+      "hunger_loss": 60,
+      "strength_loss": 60,
+      "heal_doses": 1,
+      "power": 60,
+      "attribute": "Vi",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
+      "hp": 40,
+      "evolve": []
     },
     {
       "name": "Giromon",
@@ -6756,6 +7083,31 @@
       "condition_hearts": 0,
       "jogress_avaliable": false,
       "hp": 30,
+      "evolve": []
+    },
+    {
+      "name": "Monzaemon",
+      "stage": 5,
+      "version": 6,
+      "special": false,
+      "special_key": "",
+      "sleeps": "19:00",
+      "wakes": "04:00",
+      "atk_main": 10,
+      "atk_alt": 2,
+      "time": 2400,
+      "poop_timer": 180,
+      "energy": 10,
+      "min_weight": 40,
+      "stomach": 7,
+      "hunger_loss": 75,
+      "strength_loss": 75,
+      "heal_doses": 1,
+      "power": 50,
+      "attribute": "Va",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
+      "hp": 50,
       "evolve": []
     },
     {
