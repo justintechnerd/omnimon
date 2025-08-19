@@ -6427,6 +6427,35 @@
       ]
     },
     {
+      "name": "Yuramon",
+      "stage": 2,
+      "version": 6,
+      "special": false,
+      "special_key": "",
+      "sleeps": "20:00",
+      "wakes": "08:00",
+      "atk_main": 56,
+      "atk_alt": 0,
+      "time": 360,
+      "poop_timer": 180,
+      "energy": 0,
+      "min_weight": 5,
+      "stomach": 2,
+      "hunger_loss": 120,
+      "strength_loss": 120,
+      "heal_doses": 1,
+      "power": 0,
+      "attribute": "Da",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
+      "hp": 0,
+      "evolve": [
+        {
+          "to": "Tanemon"
+        }
+      ]
+    },
+    {
       "name": "Tanemon",
       "stage": 2,
       "version": 6,
@@ -6474,35 +6503,6 @@
       ]
     },
     {
-      "name": "Yuramon",
-      "stage": 2,
-      "version": 6,
-      "special": false,
-      "special_key": "",
-      "sleeps": "20:00",
-      "wakes": "08:00",
-      "atk_main": 56,
-      "atk_alt": 0,
-      "time": 360,
-      "poop_timer": 180,
-      "energy": 0,
-      "min_weight": 5,
-      "stomach": 2,
-      "hunger_loss": 120,
-      "strength_loss": 120,
-      "heal_doses": 1,
-      "power": 0,
-      "attribute": "Da",
-      "condition_hearts": 0,
-      "jogress_avaliable": false,
-      "hp": 0,
-      "evolve": [
-        {
-          "to": "Tanemon"
-        }
-      ]
-    },
-    {
       "name": "Betamon",
       "stage": 3,
       "version": 6,
@@ -6526,6 +6526,74 @@
       "jogress_avaliable": false,
       "hp": 10,
       "evolve": [
+        {
+          "to": "Seadramon",
+          "win_count": [
+            0,
+            5
+          ],
+          "mistakes": [
+            3,
+            15
+          ],
+          "trophies": [
+            2,
+            999999
+          ],
+          "weigth": [
+            25,
+            35
+          ]
+        },
+        {
+          "to": "Coelamon",
+          "win_count": [
+            0,
+            5
+          ],
+          "mistakes": [
+            3,
+            15
+          ],
+          "trophies": [
+            1,
+            999999
+          ],
+          "weigth": [
+            25,
+            35
+          ]
+        },
+        {
+          "to": "Shellmon",
+          "mistakes": [
+            5,
+            15
+          ],
+          "trophies": [
+            2,
+            999999
+          ],
+          "weigth": [
+            35,
+            45
+          ]
+        },
+        {
+          "to": "Whamon",
+          "mistakes": [
+            0,
+            5
+          ],
+          "trophies": [
+            2,
+            999999
+          ],
+          "weigth": [
+            35,
+            45
+          ]
+        },
         {
           "to": "Sukamon",
           "mistakes": [
@@ -6566,7 +6634,7 @@
           "to": "Bakemon",
           "mistakes": [
             3,
-            999999
+            15
           ],
           "trophies": [
             1,
@@ -6596,7 +6664,7 @@
           "to": "Kuwagamon",
           "mistakes": [
             5,
-            999999
+            15
           ],
           "trophies": [
             4,
@@ -6611,7 +6679,7 @@
           "to": "Vegiemon",
           "mistakes": [
             5,
-            999999
+            15
           ],
           "trophies": [
             1,
@@ -6659,6 +6727,89 @@
       "hp": 5,
       "evolve": [
         {
+          "to": "Coelamon",
+          "win_count": [
+            0,
+            5
+          ],
+          "mistakes": [
+            3,
+            15
+          ],
+          "trophies": [
+            1,
+            999999
+          ],
+          "weigth": [
+            25,
+            35
+          ]
+        },
+        {
+          "to": "Kuwagamon",
+          "mistakes": [
+            5,
+            15
+          ],
+          "trophies": [
+            4,
+            999999
+          ],
+          "weigth": [
+            25,
+            35
+          ]
+        },
+        {
+          "to": "Ninjamon",
+          "win_count": [
+            15,
+            999999
+          ],
+          "mistakes": [
+            0,
+            1
+          ],
+          "trophies": [
+            3,
+            999999
+          ],
+          "weigth": [
+            5,
+            15
+          ]
+        },
+        {
+          "to": "Vegiemon",
+          "mistakes": [
+            5,
+            15
+          ],
+          "trophies": [
+            1,
+            999999
+          ],
+          "weigth": [
+            5,
+            15
+          ]
+        },
+        {
+          "to": "Whamon",
+          "mistakes": [
+            0,
+            5
+          ],
+          "trophies": [
+            2,
+            999999
+          ],
+          "weigth": [
+            35,
+            45
+          ]
+        },
+        {
           "to": "Sukamon",
           "mistakes": [
             16,
@@ -6695,6 +6846,25 @@
       "hp": 15,
       "evolve": [
         {
+          "to": "Giromon",
+          "win_count": [
+            100,
+            999999
+          ],
+          "mistakes": [
+            15,
+            999999
+          ],
+          "trophies": [
+            11,
+            999999
+          ],
+          "weigth": [
+            0,
+            10
+          ]
+        },
+        {
           "to": "SkullGreymon",
           "win_count": [
             40,
@@ -6712,24 +6882,50 @@
             25,
             35
           ]
-        },
+        }
+      ]
+    },
+    {
+      "name": "Coelamon",
+      "stage": 4,
+      "version": 6,
+      "special": false,
+      "special_key": "",
+      "sleeps": "02:00",
+      "wakes": "11:00",
+      "atk_main": 3,
+      "atk_alt": 25,
+      "time": 8640,
+      "poop_timer": 240,
+      "energy": 3,
+      "min_weight": 5,
+      "stomach": 7,
+      "hunger_loss": 100,
+      "strength_loss": 100,
+      "heal_doses": 1,
+      "power": 15,
+      "attribute": "Da",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
+      "hp": 15,
+      "evolve": [
         {
-          "to": "Giromon",
+          "to": "MegaSeadramon",
           "win_count": [
-            100,
-            999999
+            0,
+            1
           ],
           "mistakes": [
-            15,
-            999999
+            0,
+            5
           ],
           "trophies": [
-            11,
+            17,
             999999
           ],
           "weigth": [
-            0,
-            10
+            25,
+            35
           ]
         }
       ]
@@ -6855,6 +7051,77 @@
       ]
     },
     {
+      "name": "Ninjamon",
+      "stage": 4,
+      "version": 6,
+      "special": false,
+      "special_key": "",
+      "sleeps": "16:00",
+      "wakes": "01:00",
+      "atk_main": 3,
+      "atk_alt": 25,
+      "time": 8640,
+      "poop_timer": 720,
+      "energy": 4,
+      "min_weight": 5,
+      "stomach": 7,
+      "hunger_loss": 150,
+      "strength_loss": 150,
+      "heal_doses": 1,
+      "power": 20,
+      "attribute": "Da",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
+      "hp": 15,
+      "evolve": [
+        {
+          "to": "Mamemon",
+          "mistakes": [
+            15,
+            999999
+          ],
+          "trophies": [
+            15,
+            999999
+          ],
+          "weigth": [
+            0,
+            10
+          ]
+        },
+        {
+          "to": "MetalMamemon",
+          "mistakes": [
+            0,
+            15
+          ],
+          "trophies": [
+            17,
+            999999
+          ],
+          "weigth": [
+            0,
+            10
+          ]
+        },
+        {
+          "to": "Pixiemon",
+          "mistakes": [
+            15,
+            999999
+          ],
+          "trophies": [
+            14,
+            999999
+          ],
+          "weigth": [
+            0,
+            10
+          ]
+        }
+      ]
+    },
+    {
       "name": "Numemon",
       "stage": 4,
       "version": 6,
@@ -6895,6 +7162,134 @@
           "weigth": [
             35,
             45
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Seadramon",
+      "stage": 4,
+      "version": 6,
+      "special": false,
+      "special_key": "",
+      "sleeps": "22:00",
+      "wakes": "07:00",
+      "atk_main": 3,
+      "atk_alt": 25,
+      "time": 8640,
+      "poop_timer": 240,
+      "energy": 4,
+      "min_weight": 5,
+      "stomach": 7,
+      "hunger_loss": 60,
+      "strength_loss": 60,
+      "heal_doses": 1,
+      "power": 15,
+      "attribute": "Da",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
+      "hp": 20,
+      "evolve": [
+        {
+          "to": "Megadramon",
+          "win_count": [
+            30,
+            999999
+          ],
+          "mistakes": [
+            0,
+            10
+          ],
+          "trophies": [
+            24,
+            999999
+          ],
+          "weigth": [
+            50,
+            60
+          ]
+        },
+        {
+          "to": "MegaSeadramon",
+          "win_count": [
+            0,
+            1
+          ],
+          "mistakes": [
+            0,
+            5
+          ],
+          "trophies": [
+            17,
+            999999
+          ],
+          "weigth": [
+            25,
+            35
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Shellmon",
+      "stage": 4,
+      "version": 6,
+      "special": false,
+      "special_key": "",
+      "sleeps": "22:00",
+      "wakes": "07:00",
+      "atk_main": 3,
+      "atk_alt": 25,
+      "time": 8640,
+      "poop_timer": 180,
+      "energy": 3,
+      "min_weight": 5,
+      "stomach": 7,
+      "hunger_loss": 48,
+      "strength_loss": 48,
+      "heal_doses": 1,
+      "power": 15,
+      "attribute": "Da",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
+      "hp": 20,
+      "evolve": [
+        {
+          "to": "H-Kabuterimon",
+          "win_count": [
+            0,
+            1
+          ],
+          "mistakes": [
+            0,
+            5
+          ],
+          "trophies": [
+            21,
+            999999
+          ],
+          "weigth": [
+            50,
+            60
+          ]
+        },
+        {
+          "to": "MegaSeadramon",
+          "win_count": [
+            0,
+            1
+          ],
+          "mistakes": [
+            0,
+            5
+          ],
+          "trophies": [
+            17,
+            999999
+          ],
+          "weigth": [
+            25,
+            35
           ]
         }
       ]
@@ -6986,6 +7381,66 @@
       ]
     },
     {
+      "name": "Whamon",
+      "stage": 4,
+      "version": 6,
+      "special": false,
+      "special_key": "",
+      "sleeps": "19:00",
+      "wakes": "04:00",
+      "atk_main": 3,
+      "atk_alt": 25,
+      "time": 8640,
+      "poop_timer": 180,
+      "energy": 3,
+      "min_weight": 5,
+      "stomach": 7,
+      "hunger_loss": 48,
+      "strength_loss": 48,
+      "heal_doses": 1,
+      "power": 10,
+      "attribute": "Va",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
+      "hp": 25,
+      "evolve": [
+        {
+          "to": "Mamemon",
+          "mistakes": [
+            15,
+            999999
+          ],
+          "trophies": [
+            14,
+            999999
+          ],
+          "weigth": [
+            0,
+            10
+          ]
+        },
+        {
+          "to": "MegaSeadramon",
+          "win_count": [
+            0,
+            1
+          ],
+          "mistakes": [
+            0,
+            5
+          ],
+          "trophies": [
+            17,
+            999999
+          ],
+          "weigth": [
+            25,
+            35
+          ]
+        }
+      ]
+    },
+    {
       "name": "Etemon",
       "stage": 5,
       "version": 6,
@@ -7058,6 +7513,81 @@
       "condition_hearts": 0,
       "jogress_avaliable": false,
       "hp": 50,
+      "evolve": []
+    },
+    {
+      "name": "Mamemon",
+      "stage": 5,
+      "version": 6,
+      "special": false,
+      "special_key": "",
+      "sleeps": "19:00",
+      "wakes": "04:00",
+      "atk_main": 10,
+      "atk_alt": 2,
+      "time": 2400,
+      "poop_timer": 720,
+      "energy": 6,
+      "min_weight": 5,
+      "stomach": 7,
+      "hunger_loss": 150,
+      "strength_loss": 150,
+      "heal_doses": 1,
+      "power": 60,
+      "attribute": "Da",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
+      "hp": 30,
+      "evolve": []
+    },
+    {
+      "name": "Megadramon",
+      "stage": 5,
+      "version": 6,
+      "special": false,
+      "special_key": "",
+      "sleeps": "07:00",
+      "wakes": "16:00",
+      "atk_main": 10,
+      "atk_alt": 2,
+      "time": 2400,
+      "poop_timer": 144,
+      "energy": 12,
+      "min_weight": 50,
+      "stomach": 7,
+      "hunger_loss": 60,
+      "strength_loss": 60,
+      "heal_doses": 1,
+      "power": 60,
+      "attribute": "Vi",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
+      "hp": 60,
+      "evolve": []
+    },
+    {
+      "name": "MegaSeadramon",
+      "stage": 5,
+      "version": 6,
+      "special": false,
+      "special_key": "",
+      "sleeps": "22:00",
+      "wakes": "07:00",
+      "atk_main": 10,
+      "atk_alt": 2,
+      "time": 2400,
+      "poop_timer": 240,
+      "energy": 12,
+      "min_weight": 30,
+      "stomach": 7,
+      "hunger_loss": 75,
+      "strength_loss": 75,
+      "heal_doses": 1,
+      "power": 60,
+      "attribute": "Da",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
+      "hp": 30,
       "evolve": []
     },
     {
