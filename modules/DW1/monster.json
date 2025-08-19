@@ -1686,8 +1686,8 @@
       "name": "Bot_Egg",
       "stage": 0,
       "version": 3,
-      "special": false,
-      "special_key": "",
+      "special": true,
+      "special_key": "Bot_Egg",
       "atk_main": 0,
       "atk_alt": 0,
       "time": 1,
@@ -1763,10 +1763,14 @@
       "hp": 0,
       "evolve": [
         {
-          "to": "Gabumon",
+          "to": "Kunemon",
+          "overfeed": [
+            1,
+            999999
+          ],
           "time_range": [
-            "18:01",
-            "05:59"
+            "23:00",
+            "05:00"
           ]
         },
         {
@@ -1777,14 +1781,10 @@
           ]
         },
         {
-          "to": "Kunemon",
-          "overfeed": [
-            1,
-            999999
-          ],
+          "to": "Gabumon",
           "time_range": [
-            "23:00",
-            "05:00"
+            "18:01",
+            "05:59"
           ]
         }
       ]
@@ -3304,8 +3304,8 @@
       "name": "Pun_Egg",
       "stage": 0,
       "version": 4,
-      "special": false,
-      "special_key": "",
+      "special": true,
+      "special_key": "Pun_Egg",
       "atk_main": 0,
       "atk_alt": 0,
       "time": 1,
@@ -4796,8 +4796,8 @@
       "name": "Poy_Egg",
       "stage": 0,
       "version": 5,
-      "special": false,
-      "special_key": "",
+      "special": true,
+      "special_key": "Poy_Egg",
       "atk_main": 0,
       "atk_alt": 0,
       "time": 1,
@@ -5385,8 +5385,8 @@
       "name": "Yur_Egg",
       "stage": 0,
       "version": 6,
-      "special": false,
-      "special_key": "",
+      "special": true,
+      "special_key": "Yur_Egg",
       "atk_main": 0,
       "atk_alt": 0,
       "time": 1,
