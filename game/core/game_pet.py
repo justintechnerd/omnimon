@@ -103,6 +103,8 @@ class GamePet:
         self.protein_overdose = 0
         self.shake_counter = 0
         self.death_save_counter = 0
+        self.pvp_wins = 0
+        self.pvp_battles = 0
 
         self.quests_completed = 0
 
@@ -579,6 +581,7 @@ class GamePet:
                 ("stage-7" in evo and not in_range(self.enemy_kills[7], evo["stage-7"])) or
                 ("stage-8" in evo and not in_range(self.enemy_kills[8], evo["stage-8"])) or
                 ("stage-9" in evo and not in_range(self.enemy_kills[9], evo["stage-9"])) or
+                ("pvp" in evo and not in_range(self.pvp_wins, evo["pvp"])) or
                 ("sleep_disturbances" in evo and not in_range(self.sleep_disturbances, evo["sleep_disturbances"])) or
                 ("battles" in evo and not in_range(self.battles, evo["battles"])) or
                 ("win_count" in evo and not in_range(self.win, evo["win_count"])) or
@@ -1065,3 +1068,7 @@ class GamePet:
             self.cache_has_overlay = False
         if not hasattr(self, "quests_completed"):
             self.quests_completed = 0
+        if not hasattr(self, "pvp_wins"):
+            self.pvp_wins = 0
+        if not hasattr(self, "pvp_battles"):
+            self.pvp_battles = 0

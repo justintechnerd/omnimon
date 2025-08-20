@@ -28,7 +28,7 @@ namespace OmnimonModuleEditor.Tabs
         private void InitializeComponent()
         {
             this.Text = "Edit Group Unlock List";
-            this.Size = new Size(400, 500);
+            this.Size = new Size(450, 550);
             this.StartPosition = FormStartPosition.CenterParent;
             this.FormBorderStyle = FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
@@ -39,7 +39,7 @@ namespace OmnimonModuleEditor.Tabs
                 Dock = DockStyle.Fill,
                 RowCount = 3,
                 ColumnCount = 1,
-                Padding = new Padding(10)
+                Padding = new Padding(15)
             };
             mainLayout.RowStyles.Add(new RowStyle(SizeType.AutoSize));
             mainLayout.RowStyles.Add(new RowStyle(SizeType.Percent, 100));
@@ -51,7 +51,8 @@ namespace OmnimonModuleEditor.Tabs
                 Text = "Select which unlocks must be completed for this group unlock to trigger:",
                 Dock = DockStyle.Fill,
                 AutoSize = true,
-                Font = new Font(SystemFonts.DefaultFont, FontStyle.Bold)
+                Font = new Font(SystemFonts.DefaultFont, FontStyle.Bold),
+                Padding = new Padding(0, 0, 0, 10)
             };
             mainLayout.Controls.Add(titleLabel, 0, 0);
 
@@ -61,55 +62,29 @@ namespace OmnimonModuleEditor.Tabs
                 Dock = DockStyle.Fill,
                 CheckOnClick = true,
                 IntegralHeight = false,
-                AutoSize = false // <- importante
+                AutoSize = false
             };
             mainLayout.Controls.Add(checkedListBox, 0, 1);
 
             // Buttons panel
-            var buttonPanel = new FlowLayoutPanel
+            var buttonPanel = new TableLayoutPanel
             {
                 Dock = DockStyle.Fill,
-                FlowDirection = FlowDirection.RightToLeft,
-                Height = 35
+                RowCount = 1,
+                ColumnCount = 4,
+                Height = 40,
+                Padding = new Padding(0, 10, 0, 0)
             };
-
-            btnCancel = new Button
-            {
-                Text = "Cancel",
-                DialogResult = DialogResult.Cancel,
-                Width = 75,
-                Height = 25,
-                Margin = new Padding(5, 5, 0, 0)
-            };
-
-            btnOK = new Button
-            {
-                Text = "OK",
-                DialogResult = DialogResult.OK,
-                Width = 75,
-                Height = 25,
-                Margin = new Padding(5, 5, 0, 0)
-            };
-
-            btnSelectNone = new Button
-            {
-                Text = "Select None",
-                Width = 80,
-                Height = 25,
-                Margin = new Padding(5, 5, 0, 0)
-            };
-            btnSelectNone.Click += (s, e) =>
-            {
-                for (int i = 0; i < checkedListBox.Items.Count; i++)
-                    checkedListBox.SetItemChecked(i, false);
-            };
+            buttonPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 25));
+            buttonPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 25));
+            buttonPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 25));
+            buttonPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 25));
 
             btnSelectAll = new Button
             {
                 Text = "Select All",
-                Width = 80,
-                Height = 25,
-                Margin = new Padding(5, 5, 0, 0)
+                Dock = DockStyle.Fill,
+                Margin = new Padding(0, 0, 5, 0)
             };
             btnSelectAll.Click += (s, e) =>
             {
@@ -117,10 +92,37 @@ namespace OmnimonModuleEditor.Tabs
                     checkedListBox.SetItemChecked(i, true);
             };
 
-            buttonPanel.Controls.Add(btnCancel);
-            buttonPanel.Controls.Add(btnOK);
-            buttonPanel.Controls.Add(btnSelectNone);
-            buttonPanel.Controls.Add(btnSelectAll);
+            btnSelectNone = new Button
+            {
+                Text = "Select None",
+                Dock = DockStyle.Fill,
+                Margin = new Padding(0, 0, 5, 0)
+            };
+            btnSelectNone.Click += (s, e) =>
+            {
+                for (int i = 0; i < checkedListBox.Items.Count; i++)
+                    checkedListBox.SetItemChecked(i, false);
+            };
+
+            btnOK = new Button
+            {
+                Text = "OK",
+                DialogResult = DialogResult.OK,
+                Dock = DockStyle.Fill,
+                Margin = new Padding(0, 0, 5, 0)
+            };
+
+            btnCancel = new Button
+            {
+                Text = "Cancel",
+                DialogResult = DialogResult.Cancel,
+                Dock = DockStyle.Fill
+            };
+
+            buttonPanel.Controls.Add(btnSelectAll, 0, 0);
+            buttonPanel.Controls.Add(btnSelectNone, 1, 0);
+            buttonPanel.Controls.Add(btnOK, 2, 0);
+            buttonPanel.Controls.Add(btnCancel, 3, 0);
 
             mainLayout.Controls.Add(buttonPanel, 0, 2);
 
@@ -142,12 +144,13 @@ namespace OmnimonModuleEditor.Tabs
                     if (unlock.Type != "group") // Don't allow group unlocks to reference other group unlocks to avoid circular dependencies
                     {
                         string displayText = $"{unlock.Label ?? unlock.Name ?? "Unnamed"} ({unlock.Type})";
-                        checkedListBox.Items.Add(new UnlockItem { Unlock = unlock, DisplayText = displayText });
+                        var unlockItem = new UnlockItem { Unlock = unlock, DisplayText = displayText };
+                        int index = checkedListBox.Items.Add(unlockItem);
                         
                         // Check if this unlock is in the current selection
                         if (currentSelection != null && currentSelection.Contains(unlock.Name))
                         {
-                            checkedListBox.SetItemChecked(checkedListBox.Items.Count - 1, true);
+                            checkedListBox.SetItemChecked(index, true);
                         }
                     }
                 }
@@ -454,7 +457,10 @@ namespace OmnimonModuleEditor.Tabs
 
             // Unlocks
             if (unlocksPanel != null)
-                unlocksPanel.LoadUnlocks(module.Unlocks ?? new System.Collections.Generic.List<OmnimonModuleEditor.Models.Unlock>());
+            {
+                var pets = OmnimonModuleEditor.Utils.PetUtils.LoadPetsFromJson(mainPanel.ModulePath);
+                unlocksPanel.LoadUnlocks(module.Unlocks ?? new System.Collections.Generic.List<OmnimonModuleEditor.Models.Unlock>(), pets);
+            }
         }
 
         #endregion
@@ -889,6 +895,7 @@ namespace OmnimonModuleEditor.Tabs
             private Button btnAdd;
             private Button btnRemove;
             private System.Collections.Generic.List<OmnimonModuleEditor.Models.Unlock> unlocks;
+            private List<OmnimonModuleEditor.Models.Pet> pets;
 
             public UnlocksPanel()
             {
@@ -931,7 +938,7 @@ namespace OmnimonModuleEditor.Tabs
                 {
                     DataPropertyName = "Type",
                     HeaderText = "Type",
-                    DataSource = new[] { "egg", "adventure", "evolution", "digidex", "group" },
+                    DataSource = new[] { "egg", "adventure", "evolution", "digidex", "group", "pvp", "versus" },
                     FlatStyle = FlatStyle.Flat
                 };
                 dgvUnlocks.Columns.Add(colType);
@@ -963,23 +970,21 @@ namespace OmnimonModuleEditor.Tabs
                 };
                 dgvUnlocks.Columns.Add(colAmount);
 
-                // To column
+                // To column - make it consistent with List column
                 var colTo = new DataGridViewTextBoxColumn
                 {
-                    DataPropertyName = "To",
                     HeaderText = "To",
-                    ReadOnly = false,
+                    ReadOnly = true,
                     Name = "To"
                 };
                 dgvUnlocks.Columns.Add(colTo);
 
-                // List column (for group unlock type)
-                var colList = new DataGridViewButtonColumn
+                // List column - make it consistent with To column
+                var colList = new DataGridViewTextBoxColumn
                 {
                     HeaderText = "List",
-                    Name = "List",
-                    UseColumnTextForButtonValue = false,
-                    Text = "Edit"
+                    ReadOnly = true,
+                    Name = "List"
                 };
                 dgvUnlocks.Columns.Add(colList);
 
@@ -1032,11 +1037,13 @@ namespace OmnimonModuleEditor.Tabs
 
                 dgvUnlocks.CellFormatting += DgvUnlocks_CellFormatting;
                 dgvUnlocks.CellClick += DgvUnlocks_CellClick;
+                dgvUnlocks.CellBeginEdit += DgvUnlocks_CellBeginEdit;
             }
 
-            public void LoadUnlocks(System.Collections.Generic.List<OmnimonModuleEditor.Models.Unlock> unlocks)
+            public void LoadUnlocks(System.Collections.Generic.List<OmnimonModuleEditor.Models.Unlock> unlocks, List<OmnimonModuleEditor.Models.Pet> pets)
             {
                 this.unlocks = unlocks ?? new System.Collections.Generic.List<OmnimonModuleEditor.Models.Unlock>();
+                this.pets = pets ?? new List<OmnimonModuleEditor.Models.Pet>();
                 foreach (var u in this.unlocks)
                 {
                     u.To = u.To ?? new List<string>();
@@ -1053,23 +1060,6 @@ namespace OmnimonModuleEditor.Tabs
                 {
                     if (row.DataBoundItem is OmnimonModuleEditor.Models.Unlock unlock)
                     {
-                        // Sempre crie uma nova instância para evitar sobrescrever o objeto original
-                        var toCell = row.Cells["To"].Value;
-                        List<string> toList = new List<string>();
-
-                        if (toCell is string str)
-                        {
-                            toList = str.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries).Select(s => s.Trim()).ToList();
-                        }
-                        else if (toCell is IEnumerable<string> strList)
-                        {
-                            toList = strList.ToList();
-                        }
-                        else if (toCell != null)
-                        {
-                            toList = toCell.ToString().Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries).Select(s => s.Trim()).ToList();
-                        }
-
                         result.Add(new OmnimonModuleEditor.Models.Unlock
                         {
                             Name = unlock.Name,
@@ -1078,7 +1068,7 @@ namespace OmnimonModuleEditor.Tabs
                             Version = unlock.Version,
                             Area = unlock.Area,
                             Amount = unlock.Amount,
-                            To = toList,
+                            To = unlock.To ?? new List<string>(),
                             List = unlock.List ?? new List<string>()
                         });
                     }
@@ -1128,17 +1118,21 @@ namespace OmnimonModuleEditor.Tabs
                 if (dgvUnlocks.Columns[e.ColumnIndex].Name == "To")
                 {
                     var unlock = dgvUnlocks.Rows[e.RowIndex].DataBoundItem as OmnimonModuleEditor.Models.Unlock;
-                    if (unlock != null && unlock.To != null)
-                        e.Value = string.Join(",", unlock.To);
+                    if (unlock != null && unlock.To != null && unlock.To.Count > 0)
+                    {
+                        e.Value = string.Join(", ", unlock.To);
+                    }
+                    else
+                    {
+                        e.Value = "";
+                    }
                 }
                 else if (dgvUnlocks.Columns[e.ColumnIndex].Name == "List")
                 {
                     var unlock = dgvUnlocks.Rows[e.RowIndex].DataBoundItem as OmnimonModuleEditor.Models.Unlock;
-                    if (unlock != null && unlock.Type == "group")
+                    if (unlock != null && unlock.List != null && unlock.List.Count > 0)
                     {
-                        e.Value = unlock.List != null && unlock.List.Count > 0 
-                            ? $"{unlock.List.Count} items" 
-                            : "Edit";
+                        e.Value = string.Join(", ", unlock.List);
                     }
                     else
                     {
@@ -1149,21 +1143,44 @@ namespace OmnimonModuleEditor.Tabs
 
             private void DgvUnlocks_CellClick(object sender, DataGridViewCellEventArgs e)
             {
-                if (e.RowIndex >= 0 && e.ColumnIndex >= 0 && 
-                    dgvUnlocks.Columns[e.ColumnIndex].Name == "List")
+                if (e.RowIndex >= 0 && e.ColumnIndex >= 0)
                 {
                     var unlock = dgvUnlocks.Rows[e.RowIndex].DataBoundItem as OmnimonModuleEditor.Models.Unlock;
-                    if (unlock != null && unlock.Type == "group")
+                    if (unlock == null) return;
+
+                    // Handle 'To' column for evolution/digidex
+                    if (dgvUnlocks.Columns[e.ColumnIndex].Name == "To" && (unlock.Type == "evolution" || unlock.Type == "digidex"))
                     {
-                        using (var form = new GroupUnlockEditorForm(unlock.List ?? new List<string>(), unlocks))
+                        using (var form = new PetListEditorForm(unlock.To ?? new List<string>(), pets))
                         {
                             if (form.ShowDialog() == DialogResult.OK)
                             {
-                                unlock.List = form.SelectedUnlocks;
+                                unlock.To = form.SelectedPets ?? new List<string>();
                                 dgvUnlocks.InvalidateRow(e.RowIndex);
                             }
                         }
                     }
+                    // Handle 'List' column for group unlocks
+                    else if (dgvUnlocks.Columns[e.ColumnIndex].Name == "List" && unlock.Type == "group")
+                    {
+                        using (var form = new GroupUnlockEditorForm(unlock.List ?? new List<string>(), unlocks.Where(u => u.Type != "group").ToList()))
+                        {
+                            if (form.ShowDialog() == DialogResult.OK)
+                            {
+                                unlock.List = form.SelectedUnlocks ?? new List<string>();
+                                dgvUnlocks.InvalidateRow(e.RowIndex);
+                            }
+                        }
+                    }
+                }
+            }
+
+            private void DgvUnlocks_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
+            {
+                // Cancel editing for To and List columns since they use forms
+                if (dgvUnlocks.Columns[e.ColumnIndex].Name == "To" || dgvUnlocks.Columns[e.ColumnIndex].Name == "List")
+                {
+                    e.Cancel = true;
                 }
             }
         }
@@ -1508,6 +1525,175 @@ namespace OmnimonModuleEditor.Tabs
                 // Checa bg_bgname_high.png
                 string hiRes = Path.Combine(backgroundsDir, $"bg_{bg.Name}_high.png");
                 return File.Exists(hiRes);
+            }
+        }
+
+        // Pet List Editor Form class
+        public class PetListEditorForm : Form
+        {
+            private CheckedListBox checkedListBox;
+            private Button btnOK;
+            private Button btnCancel;
+            private Button btnSelectAll;
+            private Button btnSelectNone;
+        
+            public List<string> SelectedPets { get; private set; }
+
+            public PetListEditorForm(List<string> currentSelection, List<OmnimonModuleEditor.Models.Pet> allPets)
+            {
+                InitializeComponent();
+                PopulatePets(allPets, currentSelection);
+            }
+
+            private void InitializeComponent()
+            {
+                this.Text = "Edit Pet List";
+                this.Size = new Size(450, 550);
+                this.StartPosition = FormStartPosition.CenterParent;
+                this.FormBorderStyle = FormBorderStyle.FixedDialog;
+                this.MaximizeBox = false;
+                this.MinimizeBox = false;
+
+                var mainLayout = new TableLayoutPanel
+                {
+                    Dock = DockStyle.Fill,
+                    RowCount = 3,
+                    ColumnCount = 1,
+                    Padding = new Padding(15)
+                };
+                mainLayout.RowStyles.Add(new RowStyle(SizeType.AutoSize));
+                mainLayout.RowStyles.Add(new RowStyle(SizeType.Percent, 100));
+                mainLayout.RowStyles.Add(new RowStyle(SizeType.AutoSize));
+
+                var titleLabel = new Label
+                {
+                    Text = "Select pets for this unlock:",
+                    Dock = DockStyle.Fill,
+                    AutoSize = true,
+                    Font = new Font(SystemFonts.DefaultFont, FontStyle.Bold),
+                    Padding = new Padding(0, 0, 0, 10)
+                };
+                mainLayout.Controls.Add(titleLabel, 0, 0);
+
+                checkedListBox = new CheckedListBox
+                {
+                    Dock = DockStyle.Fill,
+                    CheckOnClick = true,
+                    IntegralHeight = false,
+                    AutoSize = false
+                };
+                mainLayout.Controls.Add(checkedListBox, 0, 1);
+
+                // Buttons panel
+                var buttonPanel = new TableLayoutPanel
+                {
+                    Dock = DockStyle.Fill,
+                    RowCount = 1,
+                    ColumnCount = 4,
+                    Height = 40,
+                    Padding = new Padding(0, 10, 0, 0)
+                };
+                buttonPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 25));
+                buttonPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 25));
+                buttonPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 25));
+                buttonPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 25));
+
+                btnSelectAll = new Button
+                {
+                    Text = "Select All",
+                    Dock = DockStyle.Fill,
+                    Margin = new Padding(0, 0, 5, 0)
+                };
+                btnSelectAll.Click += (s, e) =>
+                {
+                    for (int i = 0; i < checkedListBox.Items.Count; i++)
+                        checkedListBox.SetItemChecked(i, true);
+                };
+
+                btnSelectNone = new Button
+                {
+                    Text = "Select None",
+                    Dock = DockStyle.Fill,
+                    Margin = new Padding(0, 0, 5, 0)
+                };
+                btnSelectNone.Click += (s, e) =>
+                {
+                    for (int i = 0; i < checkedListBox.Items.Count; i++)
+                        checkedListBox.SetItemChecked(i, false);
+                };
+
+                btnOK = new Button
+                {
+                    Text = "OK",
+                    DialogResult = DialogResult.OK,
+                    Dock = DockStyle.Fill,
+                    Margin = new Padding(0, 0, 5, 0)
+                };
+
+                btnCancel = new Button
+                {
+                    Text = "Cancel",
+                    DialogResult = DialogResult.Cancel,
+                    Dock = DockStyle.Fill
+                };
+
+                buttonPanel.Controls.Add(btnSelectAll, 0, 0);
+                buttonPanel.Controls.Add(btnSelectNone, 1, 0);
+                buttonPanel.Controls.Add(btnOK, 2, 0);
+                buttonPanel.Controls.Add(btnCancel, 3, 0);
+
+                mainLayout.Controls.Add(buttonPanel, 0, 2);
+
+                this.Controls.Add(mainLayout);
+                this.AcceptButton = btnOK;
+                this.CancelButton = btnCancel;
+
+                btnOK.Click += BtnOK_Click;
+            }
+
+            private void PopulatePets(List<OmnimonModuleEditor.Models.Pet> allPets, List<string> currentSelection)
+            {
+                checkedListBox.Items.Clear();
+                
+                if (allPets != null)
+                {
+                    foreach (var pet in allPets)
+                    {
+                        string displayText = $"{pet.Name} (Stage {pet.Stage})";
+                        var petItem = new PetItem { Pet = pet, DisplayText = displayText };
+                        int index = checkedListBox.Items.Add(petItem);
+                        
+                        // Check if this pet is in the current selection
+                        if (currentSelection != null && currentSelection.Contains(pet.Name))
+                        {
+                            checkedListBox.SetItemChecked(index, true);
+                        }
+                    }
+                }
+            }
+
+            private void BtnOK_Click(object sender, EventArgs e)
+            {
+                SelectedPets = new List<string>();
+                
+                foreach (var item in checkedListBox.CheckedItems)
+                {
+                    if (item is PetItem petItem)
+                    {
+                        SelectedPets.Add(petItem.Pet.Name);
+                    }
+                }
+            }
+
+            private class PetItem
+            {
+                public OmnimonModuleEditor.Models.Pet Pet { get; set; }
+                public string DisplayText { get; set; }
+
+                public override string ToString()
+                {
+                    return DisplayText;
+                }
             }
         }
 

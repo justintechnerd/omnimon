@@ -33,6 +33,7 @@ public class EvolutionCriteriaForm : Form
     private NumericUpDown[] numVitalValues = new NumericUpDown[2]; // New field
     private NumericUpDown[] numWeigth = new NumericUpDown[2]; // New field
     private NumericUpDown[] numQuestsCompleted = new NumericUpDown[2]; // New field
+    private NumericUpDown[] numPvp = new NumericUpDown[2]; // New field
 
     private NumericUpDown numArea;
     private NumericUpDown numStage;
@@ -196,6 +197,7 @@ public class EvolutionCriteriaForm : Form
         AddRange("Vital Values:", numVitalValues, 0, 999999); // New field
         AddRange("Weight:", numWeigth, 0, 100); // New field
         AddRange("Quests Completed:", numQuestsCompleted, 0, 100); // New field
+        AddRange("PVP:", numPvp, 0, 999999); // New field
 
         AddLabel(Resources.EvolutionCriteriaForm_LabelItem);
         cmbItem = new ComboBox { DropDownStyle = ComboBoxStyle.DropDownList, Width = 150 };
@@ -325,6 +327,7 @@ public class EvolutionCriteriaForm : Form
         dest.VitalValues = src.VitalValues != null ? (int[])src.VitalValues.Clone() : null; // New field
         dest.Weigth = src.Weigth != null ? (int[])src.Weigth.Clone() : null; // New field
         dest.QuestsCompleted = src.QuestsCompleted != null ? (int[])src.QuestsCompleted.Clone() : null; // New field
+        dest.Pvp = src.Pvp != null ? (int[])src.Pvp.Clone() : null; // New field
     }
 
     /// <summary>
@@ -354,6 +357,7 @@ public class EvolutionCriteriaForm : Form
         SetRange(numVitalValues, evolution.VitalValues); // New field
         SetRange(numWeigth, evolution.Weigth); // New field
         SetRange(numQuestsCompleted, evolution.QuestsCompleted); // New field
+        SetRange(numPvp, evolution.Pvp); // New field
 
         numArea.Value = evolution.Area ?? 0;
         numStage.Value = evolution.Stage ?? 0;
@@ -406,6 +410,7 @@ public class EvolutionCriteriaForm : Form
         evolution.VitalValues = GetRange(numVitalValues, 999999); // New field
         evolution.Weigth = GetRange(numWeigth, 100); // New field
         evolution.QuestsCompleted = GetRange(numQuestsCompleted, 100); // New field
+        evolution.Pvp = GetRange(numPvp, 999999); // New field
 
         evolution.Area = numArea.Value == 0 ? (int?)null : (int)numArea.Value;
         evolution.Stage = numStage.Value == 0 ? (int?)null : (int)numStage.Value;

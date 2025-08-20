@@ -74,5 +74,7 @@ namespace OmnimonModuleEditor.Models
         public int[] Weigth { get; set; }
         [JsonPropertyName("quests_completed")]
         public int[] QuestsCompleted { get; set; }
+        [JsonPropertyName("pvp")]
+        public int[] Pvp { get; set; }
     }
 }
