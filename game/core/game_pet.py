@@ -410,35 +410,40 @@ class GamePet:
 
         result = False
 
+        module = get_module(self.module)
+
         # 1. 15 ou mais ferimentos em uma forma
-        if get_module(self.module).death_max_injuries > 0 and self.injuries >= get_module(self.module).death_max_injuries:
+        if module.death_max_injuries > 0 and self.injuries >= module.death_max_injuries:
             result = True
 
         # 2. Ficou ferido por 6h contínuas (sem curar)
-        if get_module(self.module).death_sick_timer > 0 and self.care_sick_mistake_timer > get_module(self.module).death_sick_timer:
+        if module.death_sick_timer > 0 and self.care_sick_mistake_timer > module.death_sick_timer:
             result = True
 
         # 3. Fome OU força vazia por 12h contínuas
-        if (get_module(self.module).death_hunger_timer > 0 and self.care_food_mistake_timer > get_module(self.module).death_hunger_timer) or (get_module(self.module).death_strength_timer > 0 and self.care_strength_mistake_timer > get_module(self.module).death_strength_timer):
+        if (module.death_hunger_timer > 0 and self.care_food_mistake_timer > module.death_hunger_timer) or (module.death_strength_timer > 0 and self.care_strength_mistake_timer > module.death_strength_timer):
             result = True
 
         # 4. Stage IV ou V + 5+ erros após fim do tempo de evolução
-        if self.stage in [4, 5] and self.mistakes >= get_module(self.module).death_stage45_mistake > 0 and self.mistakes >= get_module(self.module).death_stage45_mistake:
+        if self.stage in [4, 5] and self.mistakes >= module.death_stage45_mistake > 0 and self.mistakes >= module.death_stage45_mistake:
             if self.timer > self.time * 60 * constants.FRAME_RATE:
                 result = True
 
         # 5. Stage VI ou VI+ + 5+ erros após 48h
-        if self.stage >= 6 and get_module(self.module).death_stage67_mistake > 0 and self.mistakes >= get_module(self.module).death_stage67_mistake:
+        if self.stage >= 6 and module.death_stage67_mistake > 0 and self.mistakes >= module.death_stage67_mistake:
             if self.age_timer >= 48 * 60 * 60 * constants.FRAME_RATE:
                 result = True
 
-        if get_module(self.module).death_starvation_count > 0 and self.starvation_counter > get_module(self.module).death_starvation_count:
+        if module.death_old_age > 0 and self.age >= module.death_old_age:
             result = True
 
-        if get_module(self.module).death_care_mistake > 0 and self.mistakes >= get_module(self.module).death_care_mistake:
+        if module.death_starvation_count > 0 and self.starvation_counter > module.death_starvation_count:
             result = True
 
-        if result and get_module(self.module).death_save_by_b_press:
+        if module.death_care_mistake > 0 and self.mistakes >= module.death_care_mistake:
+            result = True
+
+        if result and module.death_save_by_b_press:
             if self.death_save_counter == -1:
                 runtime_globals.game_sound.play("alert")
                 self.dying = True
@@ -449,7 +454,7 @@ class GamePet:
             else:
                 self.death_save_counter = -1
 
-        if result and get_module(self.module).death_save_by_shake:
+        if result and module.death_save_by_shake:
             if self.shake_counter == -1:
                 self.shake_counter = 50
                 self.dying = True
@@ -784,7 +789,7 @@ class GamePet:
         return self.stage > 0 and self.state != "dead" and self.atk_main > 0
 
     def set_back_to_sleep(self):
-        self.back_to_sleep = get_module(self.module).back_to_sleep_time
+        self.back_to_sleep = get_module(self.module).care_back_to_sleep_time
 
     def check_disturbed_sleep(self):
         if self.state == "nap":
@@ -886,10 +891,15 @@ class GamePet:
             attack += 1
         return attack
     
-    def finish_training(self, won = False):
+    def finish_training(self, won = False, grade=0):
+        module = get_module(self.module)
         if won:
             self.set_state("happy2")
-            self.effort += get_module(self.module).training_effort_gain
+            self.effort += module.training_effort_gain
+            if grade > 0 and module.training_strengh_multiplier > 0:
+                self.strength += int(module.training_strengh_gain_win * grade * module.training_strengh_multiplier)
+            else:
+                self.strength += module.training_strengh_gain_win
             if self.disturbance_penalty >= 2:
                 self.disturbance_penalty -= 2
             
@@ -898,10 +908,9 @@ class GamePet:
                 self.vital_activities.append("training")
         else:
             self.set_state("angry")
+            self.strength += module.training_strengh_gain_lose
 
-        self.strength += get_module(self.module).training_strengh_gain
-
-        weight_loss = get_module(self.module).training_weight_win if won else get_module(self.module).training_weight_lose
+        weight_loss = module.training_weight_win if won else module.training_weight_lose
         self.weight = max(self.min_weight, self.weight - weight_loss)
 
     def finish_versus(self, won=False):

@@ -54,7 +54,8 @@ class GameModule:
                     self.overfeed_timer = int(data.get("care_overfeed_timer"))
                     self.use_condition_hearts = bool(data.get("care_condition_heart", False))
                     self.can_eat_sleeping = bool(data.get("care_can_eat_sleeping", True))
-                    self.back_to_sleep_time = bool(data.get("care_back_to_sleep_time", True))
+                    
+                    self.back_to_sleep_time = int(data.get("care_back_to_sleep_time", 10))
                     self.enable_shaken_egg = bool(data.get("care_enable_shaken_egg", False))
 
                     self.protein_weight_gain = int(data.get("care_protein_weight_gain"))
@@ -66,11 +67,14 @@ class GameModule:
 
                     self.sleep_care_mistake_timer = int(data.get("care_sleep_care_mistake_timer"))
 
-                    self.training_effort_gain = int(data.get("training_effort_gain"))
-                    self.training_strengh_gain = int(data.get("training_strengh_gain"))
+                    self.training_effort_gain = int(data.get("training_effort_gain", 0))
 
-                    self.training_weight_win = int(data.get("training_weight_win"))
-                    self.training_weight_lose = int(data.get("training_weight_lose"))
+                    self.training_strengh_gain_win = int(data.get("training_strengh_gain_win", 1))
+                    self.training_strengh_gain_lose = int(data.get("training_strengh_gain_lose", 0))
+                    self.training_strengh_multiplier = float(data.get("training_strengh_multiplier", 1.0))
+
+                    self.training_weight_win = int(data.get("training_weight_win", 1))
+                    self.training_weight_lose = int(data.get("training_weight_lose", 1))
 
                     self.traited_egg_starting_level = int(data.get("traited_egg_starting_level"))
 
@@ -80,7 +84,8 @@ class GameModule:
                     self.battle_base_sick_chance_lose = int(data.get("battle_base_sick_chance_lose"))
                     self.battle_atribute_advantage = int(data.get("battle_atribute_advantage", 5))
                     self.battle_global_hit_points = int(data.get("battle_global_hit_points", 0))
-                    self.battle_sequential_rounds = int(data.get("battle_sequential_rounds", False))
+                    # sequential rounds is a boolean flag in newer module.json files
+                    self.battle_sequential_rounds = bool(data.get("battle_sequential_rounds", False))
 
                     self.death_max_injuries = int(data.get("death_max_injuries"))
                     self.death_sick_timer = int(data.get("death_sick_timer"))
@@ -92,6 +97,7 @@ class GameModule:
                     self.death_care_mistake = int(data.get("death_care_mistake",999999))
                     self.death_save_by_b_press = int(data.get("death_save_by_b_press",0))
                     self.death_save_by_shake = int(data.get("death_save_by_shake",0))
+                    self.death_old_age = int(data.get("death_old_age",0))
 
                     self.vital_value_base = int(data.get("vital_value_base", 50))
                     self.vital_value_loss = int(data.get("vital_value_loss", 50))

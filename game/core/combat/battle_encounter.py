@@ -1671,7 +1671,7 @@ class BattleEncounter:
         margin_bottom = int(10 * constants.UI_SCALE)
         available_height = constants.SCREEN_HEIGHT - margin_top - margin_bottom
 
-        sprite_height = int(constants.PET_HEIGHT * constants.UI_SCALE)
+        sprite_height = constants.PET_HEIGHT
 
         if total == 1:
             # Center single sprite vertically

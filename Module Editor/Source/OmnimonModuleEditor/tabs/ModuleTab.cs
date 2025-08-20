@@ -323,7 +323,7 @@ namespace OmnimonModuleEditor.Tabs
                 Ruleset = mainPanel.cmbRuleset?.SelectedItem?.ToString() ?? "",
                 AdventureMode = mainPanel.chkAdventureMode?.Checked ?? false,
                 CareMeatWeightGain = (int)(mainPanel.numCareMeatWeightGain?.Value ?? 0),
-                CareMeatHungerGain = (int)(mainPanel.numCareMeatHungerGain?.Value ?? 0),
+                CareMeatHungerGain = (float)(mainPanel.numCareMeatHungerGain?.Value ?? 0),
                 CareMeatCareMistakeTime = (int)(mainPanel.numCareMeatCareMistakeTime?.Value ?? 0),
                 CareOverfeedTimer = (int)(mainPanel.numCareOverfeedTimer?.Value ?? 0),
                 CareConditionHeart = mainPanel.chkCareConditionHeart?.Checked ?? false,
@@ -331,14 +331,16 @@ namespace OmnimonModuleEditor.Tabs
                 CareBackToSleepTime = (int)(mainPanel.numCareBackToSleepTime?.Value ?? 0),
                 CareEnableShakenEgg = mainPanel.chkCareEnableShakenEgg?.Checked ?? false,
                 CareProteinWeightGain = (int)(mainPanel.numCareProteinWeightGain?.Value ?? 0),
-                CareProteinStrenghGain = (int)(mainPanel.numCareProteinStrenghGain?.Value ?? 0),
+                CareProteinStrenghGain = (float)(mainPanel.numCareProteinStrenghGain?.Value ?? 0),
                 CareProteinDpGain = (int)(mainPanel.numCareProteinDpGain?.Value ?? 0),
                 CareProteinCareMistakeTime = (int)(mainPanel.numCareProteinCareMistakeTime?.Value ?? 0),
                 CareProteinOverdoseMax = (int)(mainPanel.numCareProteinOverdoseMax?.Value ?? 0),
                 CareDisturbancePenaltyMax = (int)(mainPanel.numCareDisturbancePenaltyMax?.Value ?? 0),
                 CareSleepCareMistakeTimer = (int)(mainPanel.numCareSleepCareMistakeTimer?.Value ?? 0),
                 TrainingEffortGain = (int)(mainPanel.numTrainingEffortGain?.Value ?? 0),
-                TrainingStrenghGain = (int)(mainPanel.numTrainingStrenghGain?.Value ?? 0),
+                TrainingStrenghGainWin = (int)(mainPanel.numTrainingStrenghGainWin?.Value ?? 0),
+                TrainingStrenghGainLose = (int)(mainPanel.numTrainingStrenghGainLose?.Value ?? 0),
+                TrainingStrenghMultiplier = (float)(mainPanel.numTrainingStrenghMultiplier?.Value ?? 0),
                 TrainingWeightWin = (int)(mainPanel.numTrainingWeightWin?.Value ?? 0),
                 TrainingWeightLose = (int)(mainPanel.numTrainingWeightLose?.Value ?? 0),
                 TraitedEggStartingLevel = (int)(mainPanel.numTraitedEggStartingLevel?.Value ?? 0),
@@ -358,6 +360,7 @@ namespace OmnimonModuleEditor.Tabs
                 DeathStage67Mistake = (int)(mainPanel.numDeathStage67Mistake?.Value ?? 0),
                 DeathSaveByBPress = (int)(mainPanel.numDeathSaveByBPress?.Value ?? 0),
                 DeathSaveByShake = (int)(mainPanel.numDeathSaveByShake?.Value ?? 0),
+                DeathOldAge = (int)(mainPanel.numDeathOldAge?.Value ?? 0),
                 VitalValueBase = (int)(mainPanel.numVitalValueBase?.Value ?? 0),
                 VitalValueLoss = (int)(mainPanel.numVitalValueLoss?.Value ?? 0)
             };
@@ -401,7 +404,7 @@ namespace OmnimonModuleEditor.Tabs
 
             // Care Meat
             mainPanel.numCareMeatWeightGain.Value = module.CareMeatWeightGain;
-            mainPanel.numCareMeatHungerGain.Value = module.CareMeatHungerGain;
+            mainPanel.numCareMeatHungerGain.Value = (decimal)module.CareMeatHungerGain;
             mainPanel.numCareMeatCareMistakeTime.Value = module.CareMeatCareMistakeTime;
             mainPanel.numCareOverfeedTimer.Value = module.CareOverfeedTimer;
             mainPanel.chkCareConditionHeart.Checked = module.CareConditionHeart;
@@ -411,7 +414,7 @@ namespace OmnimonModuleEditor.Tabs
 
             // Care Protein
             mainPanel.numCareProteinWeightGain.Value = module.CareProteinWeightGain;
-            mainPanel.numCareProteinStrenghGain.Value = module.CareProteinStrenghGain;
+            mainPanel.numCareProteinStrenghGain.Value = (decimal)module.CareProteinStrenghGain;
             mainPanel.numCareProteinDpGain.Value = module.CareProteinDpGain;
             mainPanel.numCareProteinCareMistakeTime.Value = module.CareProteinCareMistakeTime;
             mainPanel.numCareProteinOverdoseMax.Value = module.CareProteinOverdoseMax;
@@ -421,8 +424,9 @@ namespace OmnimonModuleEditor.Tabs
             mainPanel.numCareSleepCareMistakeTimer.Value = module.CareSleepCareMistakeTimer;
 
             // Training
-            mainPanel.numTrainingEffortGain.Value = module.TrainingEffortGain;
-            mainPanel.numTrainingStrenghGain.Value = module.TrainingStrenghGain;
+            mainPanel.numTrainingStrenghGainWin.Value = module.TrainingStrenghGainWin;
+            mainPanel.numTrainingStrenghGainLose.Value = module.TrainingStrenghGainLose;
+            mainPanel.numTrainingStrenghMultiplier.Value = (decimal)module.TrainingStrenghMultiplier;
             mainPanel.numTrainingWeightWin.Value = module.TrainingWeightWin;
             mainPanel.numTrainingWeightLose.Value = module.TrainingWeightLose;
             mainPanel.numTraitedEggStartingLevel.Value = module.TraitedEggStartingLevel;
@@ -446,6 +450,7 @@ namespace OmnimonModuleEditor.Tabs
             mainPanel.numDeathStage67Mistake.Value = module.DeathStage67Mistake;
             mainPanel.numDeathSaveByBPress.Value = module.DeathSaveByBPress;
             mainPanel.numDeathSaveByShake.Value = module.DeathSaveByShake;
+            mainPanel.numDeathOldAge.Value = module.DeathOldAge;
 
             // Vital Values - NEW
             mainPanel.numVitalValueBase.Value = module.VitalValueBase;
@@ -494,7 +499,7 @@ namespace OmnimonModuleEditor.Tabs
             public NumericUpDown numCareSleepCareMistakeTimer;
 
             // Training
-            public NumericUpDown numTrainingEffortGain, numTrainingStrenghGain, numTrainingWeightWin, numTrainingWeightLose, numTraitedEggStartingLevel;
+            public NumericUpDown numTrainingEffortGain, numTrainingStrenghGainWin, numTrainingStrenghGainLose, numTrainingStrenghMultiplier, numTrainingWeightWin, numTrainingWeightLose, numTraitedEggStartingLevel;
             public CheckBox chkReverseAtkFrames;
 
             // Battle
@@ -502,7 +507,7 @@ namespace OmnimonModuleEditor.Tabs
             public CheckBox chkBattleSequentialRounds;
 
             // Death
-            public NumericUpDown numDeathMaxInjuries, numDeathCareMistake, numDeathSickTimer, numDeathHungerTimer, numDeathStarvationCount, numDeathStrengthTimer, numDeathStage45Mistake, numDeathStage67Mistake, numDeathSaveByBPress, numDeathSaveByShake;
+            public NumericUpDown numDeathMaxInjuries, numDeathCareMistake, numDeathSickTimer, numDeathHungerTimer, numDeathStarvationCount, numDeathStrengthTimer, numDeathStage45Mistake, numDeathStage67Mistake, numDeathSaveByBPress, numDeathSaveByShake, numDeathOldAge;
 
             // Vital Values - NEW
             public NumericUpDown numVitalValueBase, numVitalValueLoss;
@@ -651,7 +656,9 @@ namespace OmnimonModuleEditor.Tabs
                     ("Ruleset:", cmbRuleset = new ComboBox() { DropDownStyle = ComboBoxStyle.DropDownList, Width = 140 }),
                     ("Adventure Mode:", chkAdventureMode = new CheckBox()),
                     ("Training Effort Gain:", numTrainingEffortGain = CreateNumeric(0, 100, 1)),
-                    ("Training Strengh Gain:", numTrainingStrenghGain = CreateNumeric(0, 100, 1)),
+                    ("Training Strength Gain Win:", numTrainingStrenghGainWin = CreateNumeric(0, 100, 1)),
+                    ("Training Strength Gain Lose:", numTrainingStrenghGainLose = CreateNumeric(0, 100, 1)),
+                    ("Training Strength Multiplier:", numTrainingStrenghMultiplier = CreateFloatNumeric(0, 10, 1)),
                     ("Training Weight Win:", numTrainingWeightWin = CreateNumeric(0, 100, 4)),
                     ("Training Weight Lose:", numTrainingWeightLose = CreateNumeric(0, 100, 1)),
                     ("Traited Egg Starting Level:", numTraitedEggStartingLevel = CreateNumeric(0, 100, 3)),
@@ -661,6 +668,7 @@ namespace OmnimonModuleEditor.Tabs
                     ("Battle Atribute Advantage:", numBattleAtributeAdvantage = CreateNumeric(0, 100, 5)),
                     ("Battle Global Hit Points:", numBattleGlobalHitPoints = CreateNumeric(0, 100, 4)),
                     ("Battle Sequential Rounds:", chkBattleSequentialRounds = new CheckBox()),
+                    ("", new Label()),
                 };
 
                 cmbRuleset.Items.AddRange(Enum.GetNames(typeof(Models.RulesetType)));
@@ -669,7 +677,7 @@ namespace OmnimonModuleEditor.Tabs
                 var col2 = new (string, Control)[]
                 {
                     ("Care Meat Weight Gain:", numCareMeatWeightGain = CreateNumeric(0, 100, 1)),
-                    ("Care Meat Hunger Gain:", numCareMeatHungerGain = CreateNumeric(0, 100, 1)),
+                    ("Care Meat Hunger Gain:", numCareMeatHungerGain = CreateFloatNumeric(0, 100, 1)),
                     ("Care Meat Care Mistake Time:", numCareMeatCareMistakeTime = CreateNumeric(1, 1000, 10)),
                     ("Care Overfeed Timer:", numCareOverfeedTimer = CreateNumeric(1, 10000, 120)),
                     ("Care Condition Heart:", chkCareConditionHeart = new CheckBox()),
@@ -677,7 +685,7 @@ namespace OmnimonModuleEditor.Tabs
                     ("Care Back To Sleep Time:", numCareBackToSleepTime = CreateNumeric(1, 1000, 10)),
                     ("Care Enable Shaken Egg:", chkCareEnableShakenEgg = new CheckBox()),
                     ("Care Protein Weight Gain:", numCareProteinWeightGain = CreateNumeric(0, 100, 1)),
-                    ("Care Protein Strengh Gain:", numCareProteinStrenghGain = CreateNumeric(0, 100, 1)),
+                    ("Care Protein Strengh Gain:", numCareProteinStrenghGain = CreateFloatNumeric(0, 100, 1)),
                     ("Care Protein Dp Gain:", numCareProteinDpGain = CreateNumeric(0, 100, 0)),
                     ("Care Protein Care Mistake Time:", numCareProteinCareMistakeTime = CreateNumeric(0, 1000, 10)),
                     ("Care Protein Overdose Max:", numCareProteinOverdoseMax = CreateNumeric(0, 100, 7)),
@@ -698,8 +706,10 @@ namespace OmnimonModuleEditor.Tabs
                     ("Death Stage67 Mistake:", numDeathStage67Mistake = CreateNumeric(0, 100, 5)),
                     ("Death Save By B Press:", numDeathSaveByBPress = CreateNumeric(0, 100, 0)),
                     ("Death Save By Shake:", numDeathSaveByShake = CreateNumeric(0, 100, 0)),
+                    ("Death Old Age:", numDeathOldAge = CreateNumeric(0, 999999, 0)),
                     ("Vital Value Base:", numVitalValueBase = CreateNumeric(0, 1000, 1)),
                     ("Vital Value Loss:", numVitalValueLoss = CreateNumeric(0, 1000, 1)),
+                    ("", new Label()),
                 };
 
                 // Descobrir o maior número de linhas
@@ -771,13 +781,28 @@ namespace OmnimonModuleEditor.Tabs
 
             private NumericUpDown CreateNumeric(int min, int max, int value)
             {
-                return new NumericUpDown
+                var num = new NumericUpDown
                 {
                     Minimum = min,
                     Maximum = max,
                     Value = value,
                     Width = 80
                 };
+                return num;
+            }
+
+            private NumericUpDown CreateFloatNumeric(decimal min, decimal max, decimal value, decimal increment = 0.5m)
+            {
+                var num = new NumericUpDown
+                {
+                    Minimum = min,
+                    Maximum = max,
+                    Value = value,
+                    Width = 80,
+                    DecimalPlaces = 2,
+                    Increment = increment
+                };
+                return num;
             }
 
             public void ReloadSprites()
