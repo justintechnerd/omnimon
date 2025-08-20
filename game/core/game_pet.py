@@ -728,9 +728,9 @@ class GamePet:
     
     def add_care_mistake(self, mistake_type):
         if self.use_condition_hearts:
-            if self.condition_hearts_max > 0:
-                self.condition_hearts_max -= 1
-                runtime_globals.game_console.log(f"[!] Care mistake ({mistake_type})! Condition hearts left: {self.condition_hearts_max}")
+            if self.condition_hearts > 0:
+                self.condition_hearts -= 1
+                runtime_globals.game_console.log(f"[!] Care mistake ({mistake_type})! Condition hearts left: {self.condition_hearts}")
         else:
             self.mistakes += 1
             runtime_globals.game_console.log(f"[!] Care mistake ({mistake_type})! Total: {self.mistakes}")
