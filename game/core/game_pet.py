@@ -892,13 +892,14 @@ class GamePet:
         return attack
     
     def finish_training(self, won = False, grade=0):
+        module = get_module(self.module)
         if won:
             self.set_state("happy2")
-            self.effort += get_module(self.module).training_effort_gain
-            if grade > 0:
-                self.strength += int(get_module(self.module).training_strengh_gain_win * grade * get_module(self.module).training_strengh_multiplier)
+            self.effort += module.training_effort_gain
+            if grade > 0 and module.training_strengh_multiplier > 0:
+                self.strength += int(module.training_strengh_gain_win * grade * module.training_strengh_multiplier)
             else:
-                self.strength += get_module(self.module).training_strengh_gain_win
+                self.strength += module.training_strengh_gain_win
             if self.disturbance_penalty >= 2:
                 self.disturbance_penalty -= 2
             
@@ -907,11 +908,9 @@ class GamePet:
                 self.vital_activities.append("training")
         else:
             self.set_state("angry")
-            self.strength += get_module(self.module).training_strengh_gain_lose
+            self.strength += module.training_strengh_gain_lose
 
-        
-
-        weight_loss = get_module(self.module).training_weight_win if won else get_module(self.module).training_weight_lose
+        weight_loss = module.training_weight_win if won else module.training_weight_lose
         self.weight = max(self.min_weight, self.weight - weight_loss)
 
     def finish_versus(self, won=False):
