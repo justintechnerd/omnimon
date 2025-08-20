@@ -14,8 +14,8 @@ namespace OmnimonModuleEditor.docgenerators
                 .Replace("#MODULEADVENTUREMODE", module?.AdventureMode == true ? "Yes" : "No")
                 .Replace("#MODULECAREMEATWEIGHTGAINCLASS", GetIntegerCssClass(module?.CareMeatWeightGain))
                 .Replace("#MODULECAREMEATWEIGHTGAIN", GetIntegerDisplayValue(module?.CareMeatWeightGain))
-                .Replace("#MODULECAREMEATHUNGERGAINCLASS", GetIntegerCssClass(module?.CareMeatHungerGain))
-                .Replace("#MODULECAREMEATHUNGERGAIN", GetIntegerDisplayValue(module?.CareMeatHungerGain))
+                .Replace("#MODULECAREMEATHUNGERGAINCLASS", GetFloatCssClass(module?.CareMeatHungerGain))
+                .Replace("#MODULECAREMEATHUNGERGAIN", GetFloatDisplayValue(module?.CareMeatHungerGain))
                 .Replace("#MODULECAREMEATCAREMISTAKETIMECLASS", GetIntegerCssClass(module?.CareMeatCareMistakeTime))
                 .Replace("#MODULECAREMEATCAREMISTAKETIME", GetIntegerDisplayValue(module?.CareMeatCareMistakeTime))
                 .Replace("#MODULECAREOVERFEEDTIMERCLASS", GetIntegerCssClass(module?.CareOverfeedTimer))
@@ -32,8 +32,8 @@ namespace OmnimonModuleEditor.docgenerators
                 // Care Protein
                 .Replace("#MODULECAREPROTEINWEIGHTGAINCLASS", GetIntegerCssClass(module?.CareProteinWeightGain))
                 .Replace("#MODULECAREPROTEINWEIGHTGAIN", GetIntegerDisplayValue(module?.CareProteinWeightGain))
-                .Replace("#MODULECAREPROTEINSTRENGTHGAINCLASS", GetIntegerCssClass(module?.CareProteinStrenghGain))
-                .Replace("#MODULECAREPROTEINSTRENGTHGAIN", GetIntegerDisplayValue(module?.CareProteinStrenghGain))
+                .Replace("#MODULECAREPROTEINSTRENGTHGAINCLASS", GetFloatCssClass(module?.CareProteinStrenghGain))
+                .Replace("#MODULECAREPROTEINSTRENGTHGAIN", GetFloatDisplayValue(module?.CareProteinStrenghGain))
                 .Replace("#MODULECAREPROTEINDPGAINCLASS", GetIntegerCssClass(module?.CareProteinDpGain))
                 .Replace("#MODULECAREPROTEINDPGAIN", GetIntegerDisplayValue(module?.CareProteinDpGain))
                 .Replace("#MODULECAREPROTEINCAREMISTAKETIMECLASS", GetIntegerCssClass(module?.CareProteinCareMistakeTime))
@@ -48,10 +48,12 @@ namespace OmnimonModuleEditor.docgenerators
                 .Replace("#MODULECARESLEEPCAREMISTAKE", GetIntegerDisplayValue(module?.CareSleepCareMistakeTimer))
 
                 // Training
-                .Replace("#MODULETRAININGEFFORTGAINCLASS", GetIntegerCssClass(module?.TrainingEffortGain))
-                .Replace("#MODULETRAININGEFFORTGAIN", GetIntegerDisplayValue(module?.TrainingEffortGain))
-                .Replace("#MODULETRAININGSTRENGTHGAINCLASS", GetIntegerCssClass(module?.TrainingStrenghGain))
-                .Replace("#MODULETRAININGSTRENGTHGAIN", GetIntegerDisplayValue(module?.TrainingStrenghGain))
+                .Replace("#MODULETRAININGSTRENGTHGAINWINCLASS", GetIntegerCssClass(module?.TrainingStrenghGainWin))
+                .Replace("#MODULETRAININGSTRENGTHGAINWIN", GetIntegerDisplayValue(module?.TrainingStrenghGainWin))
+                .Replace("#MODULETRAININGSTRENGTHGAINLOSECLASS", GetIntegerCssClass(module?.TrainingStrenghGainLose))
+                .Replace("#MODULETRAININGSTRENGTHGAINLOSE", GetIntegerDisplayValue(module?.TrainingStrenghGainLose))
+                .Replace("#MODULETRAININGSTRENGMULTIPLIERCLASS", GetFloatCssClass(module?.TrainingStrenghMultiplier))
+                .Replace("#MODULETRAININGSTRENGMULTIPLIER", GetFloatDisplayValue(module?.TrainingStrenghMultiplier))
                 .Replace("#MODULETRAININGWEIGHTWINCLASS", GetIntegerCssClass(module?.TrainingWeightWin))
                 .Replace("#MODULETRAININGWEIGHTWIN", GetIntegerDisplayValue(module?.TrainingWeightWin))
                 .Replace("#MODULETRAININGWEIGHTLOSECLASS", GetIntegerCssClass(module?.TrainingWeightLose))
@@ -94,6 +96,8 @@ namespace OmnimonModuleEditor.docgenerators
                 .Replace("#MODULEDEATHSAVEBYBPRESS", GetBooleanOrIntegerDisplay(module?.DeathSaveByBPress))
                 .Replace("#MODULEDEATHSAVEBYSHAKECLASS", GetBooleanOrIntegerClass(module?.DeathSaveByShake))
                 .Replace("#MODULEDEATHSAVEBYSHAKE", GetBooleanOrIntegerDisplay(module?.DeathSaveByShake))
+                .Replace("#MODULEDEATHOLDAGECLASS", GetIntegerCssClass(module?.DeathOldAge))
+                .Replace("#MODULEDEATHOLDAGE", GetIntegerDisplayValue(module?.DeathOldAge))
 
                 // Vital Values - NEW
                 .Replace("#MODULEVITALVALUEBASECLASS", GetIntegerCssClass(module?.VitalValueBase))
@@ -151,6 +155,17 @@ namespace OmnimonModuleEditor.docgenerators
         {
             if (!value.HasValue) return "boolean-false";
             return value.Value == 0 ? "boolean-false" : "boolean-true";
+        }
+
+        private static string GetFloatDisplayValue(float? value)
+        {
+            return (value ?? 0).ToString("0.##");
+        }
+
+        private static string GetFloatCssClass(float? value)
+        {
+            float actualValue = value ?? 0;
+            return actualValue == 0 ? "boolean-false" : "";
         }
     }
 }

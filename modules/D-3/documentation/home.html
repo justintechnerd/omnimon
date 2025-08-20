@@ -292,14 +292,20 @@
                     <h2>Training Settings</h2>
                     <ul class="attribute-list">
                         <li class="attribute-item">
-                            <span class="attribute-label tooltip">Effort Gain:
+                            <span class="attribute-label tooltip">Strength Win:
                                 <span class="tooltiptext">Effort points gained when winning training sessions. At 16+ effort, pets gain significant power bonuses. Critical for unlocking evolution paths and combat effectiveness.</span>
                             </span>
                             <span class="attribute-value ">1</span>
                         </li>
                         <li class="attribute-item">
-                            <span class="attribute-label tooltip">Strength Gain:
-                                <span class="tooltiptext">Strength increase from training sessions (both win and lose). Helps maintain strength levels and prevent care mistakes. Supplements protein feeding.</span>
+                            <span class="attribute-label tooltip">Strength Lose:
+                                <span class="tooltiptext">Strength increase from training sessions when losing. Usually less than winning gain. Helps maintain strength levels even when training performance is poor.</span>
+                            </span>
+                            <span class="attribute-value boolean-false">0</span>
+                        </li>
+                        <li class="attribute-item">
+                            <span class="attribute-label tooltip">Strength Multiplier:
+                                <span class="tooltiptext">Multiplier applied to strength gains from training based on performance. Higher performance in training yields extra strength points.</span>
                             </span>
                             <span class="attribute-value ">1</span>
                         </li>
@@ -387,6 +393,12 @@
                                 <span class="tooltiptext">Enables death prevention by device shaking. When enabled, gives 1 minute frame window to save pet through physical interaction. Alternative to button-based saving.</span>
                             </span>
                             <span class="attribute-value boolean-false">No</span>
+                        </li>
+                        <li class="attribute-item">
+                            <span class="attribute-label tooltip">Death by Old Age:
+                                <span class="tooltiptext">Days of pet's life before death from old age. When set to 0, old age death is disabled. Higher values allow pets to live longer before dying of natural causes.</span>
+                            </span>
+                            <span class="attribute-value boolean-false">0</span>
                         </li>
                     </ul>
                 </div>

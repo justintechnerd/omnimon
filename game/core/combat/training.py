@@ -170,7 +170,7 @@ class Training:
         self.check_and_award_trophies()
 
         for pet in self.pets:
-            pet.finish_training(won)
+            pet.finish_training(won, grade=self.get_attack_count())
 
         distribute_pets_evenly()
         change_scene("game")

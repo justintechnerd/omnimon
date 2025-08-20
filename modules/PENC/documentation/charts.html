@@ -2273,7 +2273,7 @@
     </foreignObject>
     <text x="1530" y="842" class="pet-name">MetalSeadramon</text>
   </g>
-  <g class="pet-square" onclick="showPetModal(evt, this)" data-pet="amphimon" data-pet-info="{&quot;name&quot;:&quot;Amphimon&quot;,&quot;stage&quot;:6,&quot;version&quot;:2,&quot;attribute&quot;:&quot;Da&quot;,&quot;atkMain&quot;:0,&quot;atkAlt&quot;:0,&quot;time&quot;:2880,&quot;energy&quot;:60,&quot;minWeight&quot;:25,&quot;stomach&quot;:4,&quot;hungerLoss&quot;:60,&quot;poopTimer&quot;:120,&quot;sleeps&quot;:&quot;23:00&quot;,&quot;wakes&quot;:&quot;07:00&quot;,&quot;special&quot;:true,&quot;specialKey&quot;:&quot;Slot2&quot;,&quot;power&quot;:180,&quot;hp&quot;:0,&quot;strengthLoss&quot;:60,&quot;conditionHearts&quot;:4,&quot;healDoses&quot;:1,&quot;jogressAvailable&quot;:false}">
+  <g class="pet-square" onclick="showPetModal(evt, this)" data-pet="amphimon" data-pet-info="{&quot;name&quot;:&quot;Amphimon&quot;,&quot;stage&quot;:6,&quot;version&quot;:2,&quot;attribute&quot;:&quot;Da&quot;,&quot;atkMain&quot;:48,&quot;atkAlt&quot;:38,&quot;time&quot;:2880,&quot;energy&quot;:60,&quot;minWeight&quot;:25,&quot;stomach&quot;:4,&quot;hungerLoss&quot;:60,&quot;poopTimer&quot;:120,&quot;sleeps&quot;:&quot;23:00&quot;,&quot;wakes&quot;:&quot;07:00&quot;,&quot;special&quot;:true,&quot;specialKey&quot;:&quot;Slot2&quot;,&quot;power&quot;:180,&quot;hp&quot;:0,&quot;strengthLoss&quot;:60,&quot;conditionHearts&quot;:4,&quot;healDoses&quot;:1,&quot;jogressAvailable&quot;:false}">
     <rect x="1490" y="890" width="80" height="80" fill="#42a5f5" stroke="#95a5a6" stroke-width="3" rx="8"/>
     <rect x="1492" y="892" width="76" height="76" fill="none" stroke="white" stroke-width="1" rx="6"/>
     <foreignObject x="1502" y="898" width="55" height="55">
@@ -5698,9 +5698,9 @@
             if (pet.sleeps) addRow('Sleeps', pet.sleeps, 'Sleep start time. Pet will call to be put to sleep at this time.');
             if (pet.wakes) addRow('Wakes', pet.wakes, 'Wake up time. Pet will wake automatically at this time.');
             
-            if (pet.conditionHearts !== undefined) addRow('Condition Hearts', pet.conditionHearts, 'Condition/health hearts. Represents overall care quality and affects evolution.');
+            if (pet.conditionHearts !== undefined) addRow('Condition Hearts', pet.conditionHearts, 'Condition/health hearts. Represents overall care quality and affects evolution. Used in PVP battles and evolution requirements.');
             if (pet.healDoses !== undefined) addRow('Heal Doses', pet.healDoses, 'Number of medicine doses needed to cure sickness.');
-            if (pet.jogressAvailable !== undefined) addRow('Jogress Available', pet.jogressAvailable ? 'Yes' : 'No', 'Can participate in Jogress (fusion) evolution with another compatible pet.');
+            if (pet.jogressAvailable !== undefined) addRow('Jogress Available', pet.jogressAvailable ? 'Yes' : 'No', 'Can participate in Jogress (fusion) evolution with another compatible pet. Also enables PVP and Versus battle modes.');
             
             body.innerHTML = bodyHtml;
             document.getElementById('pet-modal').style.display = 'flex';

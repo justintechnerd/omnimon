@@ -30,7 +30,7 @@ namespace OmnimonModuleEditor.Models
         public int CareMeatWeightGain { get; set; }
 
         [JsonPropertyName("care_meat_hunger_gain")]
-        public int CareMeatHungerGain { get; set; }
+        public float CareMeatHungerGain { get; set; }
 
         [JsonPropertyName("care_meat_care_mistake_time")]
         public int CareMeatCareMistakeTime { get; set; }
@@ -55,7 +55,7 @@ namespace OmnimonModuleEditor.Models
         public int CareProteinWeightGain { get; set; }
 
         [JsonPropertyName("care_protein_strengh_gain")]
-        public int CareProteinStrenghGain { get; set; }
+        public float CareProteinStrenghGain { get; set; }
 
         [JsonPropertyName("care_protein_dp_gain")]
         public int CareProteinDpGain { get; set; }
@@ -77,8 +77,14 @@ namespace OmnimonModuleEditor.Models
         [JsonPropertyName("training_effort_gain")]
         public int TrainingEffortGain { get; set; }
 
-        [JsonPropertyName("training_strengh_gain")]
-        public int TrainingStrenghGain { get; set; }
+        [JsonPropertyName("training_strengh_gain_win")]
+        public int TrainingStrenghGainWin { get; set; }
+
+        [JsonPropertyName("training_strengh_gain_lose")]
+        public int TrainingStrenghGainLose { get; set; }
+
+        [JsonPropertyName("training_strengh_multiplier")]
+        public float TrainingStrenghMultiplier { get; set; } = 1.0f;
 
         [JsonPropertyName("training_weight_win")]
         public int TrainingWeightWin { get; set; }
@@ -138,6 +144,10 @@ namespace OmnimonModuleEditor.Models
 
         [JsonPropertyName("death_save_by_shake")]
         public int DeathSaveByShake { get; set; }
+
+        // Death by old age - NEW
+        [JsonPropertyName("death_old_age")]
+        public int DeathOldAge { get; set; }
 
         // Vital Values Settings - NEW
         [JsonPropertyName("vital_value_base")]

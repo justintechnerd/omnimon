@@ -19,7 +19,9 @@
   "care_disturbance_penalty_max": 0,
   "care_sleep_care_mistake_timer": 60,
   "training_effort_gain": 1,
-  "training_strengh_gain": 1,
+  "training_strengh_gain_win": 1,
+  "training_strengh_gain_lose": 1,
+  "training_strengh_multiplier": 1.0,
   "training_weight_win": 4,
   "training_weight_lose": 1,
   "traited_egg_starting_level": 3,
@@ -39,6 +41,7 @@
   "death_stage67_mistake": 5,
   "death_save_by_b_press": 0,
   "death_save_by_shake": 0,
+  "death_old_age": 0,
   "unlocks": [
     
   ],

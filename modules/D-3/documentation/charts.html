@@ -5151,9 +5151,9 @@
             if (pet.sleeps) addRow('Sleeps', pet.sleeps, 'Sleep start time. Pet will call to be put to sleep at this time.');
             if (pet.wakes) addRow('Wakes', pet.wakes, 'Wake up time. Pet will wake automatically at this time.');
             
-            if (pet.conditionHearts !== undefined) addRow('Condition Hearts', pet.conditionHearts, 'Condition/health hearts. Represents overall care quality and affects evolution.');
+            if (pet.conditionHearts !== undefined) addRow('Condition Hearts', pet.conditionHearts, 'Condition/health hearts. Represents overall care quality and affects evolution. Used in PVP battles and evolution requirements.');
             if (pet.healDoses !== undefined) addRow('Heal Doses', pet.healDoses, 'Number of medicine doses needed to cure sickness.');
-            if (pet.jogressAvailable !== undefined) addRow('Jogress Available', pet.jogressAvailable ? 'Yes' : 'No', 'Can participate in Jogress (fusion) evolution with another compatible pet.');
+            if (pet.jogressAvailable !== undefined) addRow('Jogress Available', pet.jogressAvailable ? 'Yes' : 'No', 'Can participate in Jogress (fusion) evolution with another compatible pet. Also enables PVP and Versus battle modes.');
             
             body.innerHTML = bodyHtml;
             document.getElementById('pet-modal').style.display = 'flex';
