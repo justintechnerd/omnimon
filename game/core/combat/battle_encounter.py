@@ -1091,12 +1091,6 @@ class BattleEncounter:
             # owner's pets in PvP mode.
             for i, pet in enumerate(self.battle_player.team1):
                 try:
-                    # Ensure counters exist
-                    if not hasattr(pet, 'pvp_battles'):
-                        pet.pvp_battles = 0
-                    if not hasattr(pet, 'pvp_wins'):
-                        pet.pvp_wins = 0
-
                     pet.pvp_battles += 1
                     # Determine if this pet won its pairing
                     if hasattr(self.battle_player, 'winners') and i < len(self.battle_player.winners):
