@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
@@ -180,16 +181,26 @@ namespace OmnimonModuleEditor.Models
         [JsonPropertyName("area")]
         public int? Area { get; set; }
 
+        private List<string> _to = new List<string>();
         [JsonPropertyName("to")]
         [JsonConverter(typeof(StringOrStringListConverter))]
-        public List<string> To { get; set; }
+        public List<string> To
+        {
+            get => _to;
+            set => _to = value != null ? value.Distinct().ToList() : new List<string>();
+        }
 
         [JsonPropertyName("amount")]
         public int? Amount { get; set; }
 
+        private List<string> _list = new List<string>();
         [JsonPropertyName("list")]
         [JsonConverter(typeof(StringOrStringListConverter))]
-        public List<string> List { get; set; }
+        public List<string> List
+        {
+            get => _list;
+            set => _list = value != null ? value.Distinct().ToList() : new List<string>();
+        }
     }
 
     public class Background
