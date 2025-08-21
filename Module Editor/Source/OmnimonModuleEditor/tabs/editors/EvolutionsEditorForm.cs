@@ -281,12 +281,17 @@ namespace OmnimonModuleEditor
 
             if (cmbVersions.SelectedIndex < 0) return;
             int selectedVersion = int.Parse(cmbVersions.SelectedItem.ToString().Replace(Resources.Label_Version + " ", ""));
-            var rootPet = pets.FirstOrDefault(p => p.Version == selectedVersion && p.Stage == 0);
-            if (rootPet == null) return;
+            var rootPets = pets.Where(p => p.Version == selectedVersion && p.Stage == 0).ToList();
+            if (rootPets.Count == 0) return;
 
             var petToPanel = new Dictionary<Pet, Panel>();
             int startX = 60, startY = 60;
-            AddPetAndEvolutionsRecursive(rootPet, startX, startY, 0, petToPanel);
+            int spacingX = 320;
+            for (int i = 0; i < rootPets.Count; i++)
+            {
+                int x = startX + i * spacingX;
+                AddPetAndEvolutionsRecursive(rootPets[i], x, startY, 0, petToPanel);
+            }
             UpdateCanvasScroll();
             panelChart.Invalidate();
         }
