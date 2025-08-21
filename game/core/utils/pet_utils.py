@@ -18,7 +18,9 @@ def get_training_targets():
     if runtime_globals.strategy_index == 0:
         return [pet for pet in get_selected_pets() if pet.can_train()]
     else:
-        return [pet for pet in get_selected_pets() if pet.can_train() and pet.effort < 16]
+        return [pet for pet in get_selected_pets() if pet.can_train() and (pet.effort < 16 or (
+            pet.strength < 4 and
+            runtime_globals.game_modules.get(pet.module).training_strengh_gain_win > 0))]
 
 def get_battle_targets():
     """

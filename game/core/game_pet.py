@@ -630,6 +630,8 @@ class GamePet:
         if self.timer % (self.hunger_loss  * 60 * constants.FRAME_RATE) == 0 and self.overfeed_timer == 0:
             if self.hunger > 0:
                 self.hunger -= 1
+                if self.hunger < 0:
+                    self.hunger = 0
             else:
                 self.starvation_counter += 1
         if self.timer % (self.strength_loss * 60 * constants.FRAME_RATE) == 0 and self.strength > 0:
@@ -637,6 +639,8 @@ class GamePet:
                 self.strength = 4
             else:
                 self.strength -= 1
+                if self.strength < 0:
+                    self.strength = 0
         if self.overfeed_timer > 0:
             self.overfeed_timer -= 1
 

@@ -49,7 +49,7 @@ class GameModule:
                     self.adventure_mode = data.get("adventure_mode", False)
 
                     self.meat_weight_gain = int(data.get("care_meat_weight_gain"))
-                    self.meat_hunger_gain = int(data.get("care_meat_hunger_gain"))
+                    self.meat_hunger_gain = float(data.get("care_meat_hunger_gain"))
                     self.meat_care_mistake_time = int(data.get("care_meat_care_mistake_time"))
                     self.overfeed_timer = int(data.get("care_overfeed_timer"))
                     self.use_condition_hearts = bool(data.get("care_condition_heart", False))
@@ -59,7 +59,7 @@ class GameModule:
                     self.enable_shaken_egg = bool(data.get("care_enable_shaken_egg", False))
 
                     self.protein_weight_gain = int(data.get("care_protein_weight_gain"))
-                    self.protein_strengh_gain = int(data.get("care_protein_strengh_gain"))
+                    self.protein_strengh_gain = float(data.get("care_protein_strengh_gain"))
                     self.protein_dp_gain = int(data.get("care_protein_dp_gain"))
                     self.protein_care_mistake_time = int(data.get("care_protein_care_mistake_time"))
                     self.protein_overdose_max = int(data.get("care_protein_overdose_max", 0))
