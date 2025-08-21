@@ -966,7 +966,12 @@ class GamePet:
             sick_chance += self.disturbance_penalty
             self.disturbance_penalty = 0
 
-        sick_chance = max(0.05, min(sick_chance / 100, 0.5))
+        try:
+            sc = float(sick_chance)
+        except Exception:
+            sc = 0.0
+        # clamp percentage 0..100 then convert to 0.0..1.0
+        sick_chance = max(0.0, min(sc, 100.0)) / 100.0
         
         if random.random() < sick_chance:
             self.set_sick()
