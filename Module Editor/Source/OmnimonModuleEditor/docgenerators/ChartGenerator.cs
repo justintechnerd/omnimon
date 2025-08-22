@@ -209,6 +209,7 @@ namespace OmnimonModuleEditor.docgenerators
                 time = pet.Time,
                 energy = pet.Energy,
                 minWeight = pet.MinWeight,
+                defaultWeight = pet.DefaultWeight,
                 stomach = pet.Stomach,
                 hungerLoss = pet.HungerLoss,
                 poopTimer = pet.PoopTimer,
