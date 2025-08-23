@@ -368,6 +368,7 @@
             addRow('Time', pet.time + ' hours', 'Evolution timer in hours. Pet evolves when this time expires (if evolution requirements are met).');
             addRow('Energy', pet.energy, 'Maximum DP (energy) capacity. DP is consumed during battles and training.');
             addRow('Min Weight', pet.minWeight, 'Minimum weight threshold. Weight can cause sickness when reaches 99g. Can be lost through training, but never below the minimun.');
+            if (pet.evolWeight > pet.minWeight) addRow('Evol Weight', pet.evolWeight, 'Evolution weight. Determines the starting weight of a pet after evolution.');
             addRow('Stomach', pet.stomach, 'Hunger capacity. Determines how much food the pet can eat before becoming full.');
             addRow('Hunger Loss', pet.hungerLoss + ' minutes', 'Rate of hunger depletion over time. Hunger will decrease in 1.');
             if (pet.strengthLoss !== undefined) addRow('Strength Loss', pet.strengthLoss + ' minutes', 'Rate of strength depletion over time. Strength affects power and evolution.');

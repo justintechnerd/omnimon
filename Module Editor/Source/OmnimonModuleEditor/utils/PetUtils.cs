@@ -106,6 +106,7 @@ namespace OmnimonModuleEditor.Utils
                 PoopTimer = pet.PoopTimer,
                 Energy = pet.Energy,
                 MinWeight = pet.MinWeight,
+                EvolWeight = pet.EvolWeight,
                 Stomach = pet.Stomach,
                 HungerLoss = pet.HungerLoss,
                 StrengthLoss = pet.StrengthLoss,
@@ -165,7 +166,7 @@ namespace OmnimonModuleEditor.Utils
             string rootDir = Path.GetDirectoryName(modulesDir); //go to the root directory
             string resourcesAtk = Path.Combine(rootDir, "resources", "atk");
 
-            // Novo: caminho do módulo
+            // Novo: caminho do mï¿½dulo
             string moduleAtk = Path.Combine(modulePath, "atk");
             bool moduleAtkExists = Directory.Exists(moduleAtk);
 
