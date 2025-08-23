@@ -110,7 +110,7 @@ namespace OmnimonModuleEditor.docgenerators
                 .Replace("#MODULEVERSION", module?.Version ?? "1.0")
                 .Replace("#MODULEDESCRIPTION", module?.Description ?? "No description available")
                 .Replace("#MODULEAUTHOR", module?.Author ?? "Unknown Author")
-                .Replace("#MODULENAMEFORMAT", module.NameFormat.Replace("$", "&#36;"))
+                .Replace("#MODULEFILEFORMAT", module?.NameFormat ?? "Unknown")
                 .Replace("#MODULERULESET", module?.Ruleset ?? "Unknown");
 
             string logoPath = Path.Combine(modulePath, "logo.png");
