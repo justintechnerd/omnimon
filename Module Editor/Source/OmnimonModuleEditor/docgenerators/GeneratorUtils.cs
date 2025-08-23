@@ -374,6 +374,7 @@ namespace OmnimonModuleEditor.docgenerators
                     addRow('Time', pet.time + ' hours', 'Evolution timer in hours. Pet evolves when this time expires (if evolution requirements are met).');
                     addRow('Energy', pet.energy, 'Maximum DP (energy) capacity. DP is consumed during battles and training.');
                     addRow('Min Weight', pet.minWeight, 'Minimum weight threshold. Weight affects evolution paths and battle performance.');
+                    if (pet.evolWeight > pet.minWeight) addRow('Evol Weight', pet.evolWeight, 'Evolution weight. Determines the starting weight of a pet after evolution.');
                     addRow('Stomach', pet.stomach, 'Hunger capacity. Determines how much food the pet can eat before becoming full.');
                     addRow('Hunger Loss', pet.hungerLoss, 'Rate of hunger depletion over time. Lower values mean hunger decreases slower.');
                     addRow('Poop Timer', pet.poopTimer + ' minutes', 'Time between pooping cycles. Neglecting poop cleanup causes care mistakes.');
