@@ -137,7 +137,7 @@ namespace OmnimonModuleEditor.Models
                 Power = 50,
                 Attribute = "",
                 ConditionHearts = 4,
-                JogressAvaliable = true,
+                JogressAvaliable = false,
                 Hp = 12,
                 Evolve = new List<Evolution>()
             },
@@ -222,7 +222,7 @@ namespace OmnimonModuleEditor.Models
                 Hp = 20,
                 Evolve = new List<Evolution>()
             },
-            // Stage 8 (template genérico, pois não há exemplos nos arquivos)
+            // Stage 8 (template genï¿½rico, pois nï¿½o hï¿½ exemplos nos arquivos)
             new Pet
             {
                 Name = "New Pet",
