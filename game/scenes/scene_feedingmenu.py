@@ -34,7 +34,7 @@ class SceneFeedingMenu:
 
         # Add default items (Protein and Vitamin) as the first options, without amount
         self.options = []
-        default_sprite_folder = os.path.join("resources", "items")
+        default_sprite_folder = os.path.join("assets", "items")
         for default_item in runtime_globals.default_items.values():
             sprite_path = os.path.join(default_sprite_folder, default_item.sprite_name)
             anim_path = os.path.join(default_sprite_folder, f"{default_item.sprite_name.split('.')[0]}_anim.png")
@@ -102,7 +102,7 @@ class SceneFeedingMenu:
             # Reload options dynamically
             self.options = []
             # Add default items (Protein and Vitamin) as the first options, without amount
-            default_sprite_folder = os.path.join("resources", "items")
+            default_sprite_folder = os.path.join("assets", "items")
             for default_item in runtime_globals.default_items.values():
                 sprite_path = os.path.join(default_sprite_folder, default_item.sprite_name)
                 anim_path = os.path.join(default_sprite_folder, f"{default_item.sprite_name.split('.')[0]}_anim.png")

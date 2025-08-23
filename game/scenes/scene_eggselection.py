@@ -6,6 +6,7 @@ from core.game_pet import GamePet
 from core.utils.module_utils import get_module
 from core.utils.pygame_utils import blit_with_shadow, get_font, sprite_load_percent
 from core.utils.scene_utils import change_scene
+from core.utils.sprite_utils import load_pet_sprites
 from core.utils.utils_unlocks import is_unlocked, unlock_item
 
 class SceneEggSelection:
@@ -32,7 +33,7 @@ class SceneEggSelection:
 
         # Use new method for unknown sprite and scale
         self.unknown_sprite = sprite_load_percent(
-            "resources/Unknown.png",
+            constants.UNKNOWN_SPRITE_PATH,
             percent=(self.EGG_SIZE[1] / constants.SCREEN_HEIGHT) * 100,
             keep_proportion=True,
             base_on="height"
@@ -41,7 +42,7 @@ class SceneEggSelection:
         # Traited overlay (same size as egg sprite) - optional
         try:
             self.traited_sprite = sprite_load_percent(
-                "resources/TraitedEgg.png",
+                constants.TRAITED_EGG_PATH,
                 percent=(self.EGG_SIZE[1] / constants.SCREEN_HEIGHT) * 100,
                 keep_proportion=True,
                 base_on="height"
@@ -95,20 +96,29 @@ class SceneEggSelection:
         for module_name, eggs in self.eggs_by_module.items():
             for egg in eggs:
                 egg_name = egg["name"]
-                folder_path = os.path.join(get_module(egg["module"]).folder_path, "monsters", f"{egg_name}_dmc")
-                frame_path = os.path.join(folder_path, "0.png")
                 try:
-                    # Use new method for egg sprite, scale to EGG_SIZE height
-                    self.egg_sprites[egg_name] = sprite_load_percent(
-                        frame_path,
-                        percent=(self.EGG_SIZE[1] / constants.SCREEN_HEIGHT) * 100,
-                        keep_proportion=True,
-                        base_on="height"
+                    module = get_module(egg["module"])
+                    module_path = module.folder_path
+                    
+                    # Use the new sprite utilities to load pet sprites with fallback support
+                    sprites_dict = load_pet_sprites(
+                        egg_name, 
+                        module_path, 
+                        module.name_format, 
+                        size=self.EGG_SIZE
                     )
-                    runtime_globals.game_console.log(f"[SceneEggSelection] Loaded sprite for {egg_name}")
-                except Exception:
+                    
+                    # Get the first frame (0.png)
+                    if "0" in sprites_dict:
+                        self.egg_sprites[egg_name] = sprites_dict["0"]
+                        runtime_globals.game_console.log(f"[SceneEggSelection] Loaded sprite for {egg_name}")
+                    else:
+                        self.egg_sprites[egg_name] = None
+                        runtime_globals.game_console.log(f"[SceneEggSelection] No sprite found for {egg_name}")
+                        
+                except Exception as e:
                     self.egg_sprites[egg_name] = None
-                    runtime_globals.game_console.log(f"[SceneEggSelection] Failed to load {frame_path}")
+                    runtime_globals.game_console.log(f"[SceneEggSelection] Failed to load sprite for {egg_name}: {e}")
 
     def cache_locked_special_eggs(self):
         """Cache locked status for all special eggs."""

@@ -1,6 +1,7 @@
 ﻿using OmnimonModuleEditor.Controls;
 using OmnimonModuleEditor.Models;
-using OmnimonModuleEditor.Properties; // For Resources
+using OmnimonModuleEditor.Properties;
+using OmnimonModuleEditor.Utils;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -364,21 +365,10 @@ namespace OmnimonModuleEditor
                 BorderStyle = BorderStyle.FixedSingle
             };
 
-            string nameFormat = this.module.NameFormat;
-            string folderName = nameFormat.Replace("$", pet.Name).Replace(':', '_');
-            string spritePath = Path.Combine(this.modulePath, "monsters", folderName, "0.png");
-            if (File.Exists(spritePath))
-            {
-                try
-                {
-                    using (var fs = new FileStream(spritePath, FileMode.Open, FileAccess.Read, FileShare.Read))
-                    {
-                        var img = Image.FromStream(fs);
-                        pb.Image = new Bitmap(img);
-                    }
-                }
-                catch { pb.Image = null; }
-            }
+            // Use new sprite loading system
+            var sprite = SpriteUtils.LoadSingleSprite(pet.Name, modulePath, PetUtils.FixedNameFormat);
+            pb.Image = sprite;
+
             itemPanel.Controls.Add(pb);
 
             Label lblName = new Label

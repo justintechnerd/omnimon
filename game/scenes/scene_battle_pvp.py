@@ -110,7 +110,7 @@ class SceneBattlePvP:
                 battle_log = self.simulation_data.get('battle_log', {})
                 runtime_globals.game_console.log("[SceneBattlePvP] Using serialized battle log data")
 
-                # For non-host: if host already pre-swapped the serialized log, use it as-is.
+                # Check if host pre-swapped the battle log for non-host devices
                 pre_swapped = bool(self.simulation_data.get('pre_swapped', False))
                 if not self.is_host and pre_swapped:
                     runtime_globals.game_console.log("[SceneBattlePvP] Received pre-swapped battle log from host; deserializing directly")
@@ -121,30 +121,20 @@ class SceneBattlePvP:
                         runtime_globals.game_console.log(f"[SceneBattlePvP] Failed to deserialize pre-swapped battle log: {e}")
                         self.battle_encounter.global_battle_log = battle_log
                 else:
-                    # For older hosts or unexpected shapes, perform the previous swap logic
-                    if not self.is_host and isinstance(battle_log, dict) and 'battle_log' in battle_log:
-                        runtime_globals.game_console.log("[SceneBattlePvP] Swapping battle log devices for non-host perspective")
-                        swapped_battle_log = self.swap_battle_log_devices(battle_log)
-                        # Deserialize swapped serialized dict into a BattleResult dataclass so
-                        # the battle encounter can use the same object shape as PvE (has .battle_log)
-                        try:
-                            deserialized = self.deserialize_battle_result(swapped_battle_log)
-                            self.battle_encounter.global_battle_log = deserialized
-                        except Exception as e:
-                            runtime_globals.game_console.log(f"[SceneBattlePvP] Failed to deserialize battle log: {e}")
-                            # Fallback to using the raw swapped dict
-                            self.battle_encounter.global_battle_log = swapped_battle_log
-                    else:
-                        # If host or unexpected shape, attach as-is
+                    # For host or cases where swapping wasn't done, use as-is
+                    runtime_globals.game_console.log("[SceneBattlePvP] Using battle log as-is (host or no pre-swap)")
+                    try:
+                        from core.combat.sim.models import battle_result_from_serialized
+                        self.battle_encounter.global_battle_log = battle_result_from_serialized(battle_log)
+                    except Exception as e:
+                        runtime_globals.game_console.log(f"[SceneBattlePvP] Failed to deserialize battle log: {e}")
                         self.battle_encounter.global_battle_log = battle_log
                 
             # The simulation payload's victory_status was produced from the
             # simulator using the canonical device labels (device1=device that
-            # ran the sim, i.e. the host). Older code attempted to swap
-            # "device1"/"device2" names here; in practice we store a
-            # human-readable "Victory"/"Defeat" string. For non-host clients
-            # we need to invert the Victory/Defeat value so it represents the
-            # local player's perspective (team1 is local on both devices).
+            # ran the sim, i.e. the host). For non-host clients we need to 
+            # invert the Victory/Defeat value so it represents the local 
+            # player's perspective (team1 is local on both devices).
             self.battle_encounter.victory_status = self.simulation_data.get('victory_status', 'Victory')
 
             # For client: if this device is the non-host, flip Victory/Defeat
@@ -162,6 +152,12 @@ class SceneBattlePvP:
                     elif vs == "Defeat":
                         # Host said Defeat -> host lost -> local player won
                         self.battle_encounter.victory_status = "Victory"
+                # If battle log was pre-swapped, the victory status should match the swapped perspective
+                pre_swapped = bool(self.simulation_data.get('pre_swapped', False))
+                if pre_swapped:
+                    # Battle log was pre-swapped, so victory status should already be from client perspective
+                    # Override the inversion above
+                    self.battle_encounter.victory_status = self.simulation_data.get('victory_status', 'Victory')
             
             # Log battle data info
             if hasattr(self.battle_encounter.global_battle_log, 'battle_log'):

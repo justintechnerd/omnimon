@@ -795,7 +795,7 @@ class SceneMainGame:
         """
         Debugging shortcuts (F12).
         """
-        if input_action == "F12":
+        if input_action == "F12" and constants.DEBUG_MODE:
             # Open debug scene
             runtime_globals.game_sound.play("menu")
             change_scene("debug")

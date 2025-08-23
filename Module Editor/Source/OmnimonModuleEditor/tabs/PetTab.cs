@@ -187,30 +187,9 @@ namespace OmnimonModuleEditor.Tabs
                 BorderStyle = BorderStyle.FixedSingle
             };
 
-            string nameFormat = module?.NameFormat ?? "_";
-            string safePetName = pet.Name.Replace(':', '_');
-            string folderName = nameFormat.Replace("$", safePetName);
-            string spritePath = Path.Combine(modulePath, "monsters", folderName, "0.png");
-
-            if (File.Exists(spritePath))
-            {
-                try
-                {
-                    using (var fs = new FileStream(spritePath, FileMode.Open, FileAccess.Read, FileShare.Read))
-                    {
-                        var img = Image.FromStream(fs);
-                        pb.Image = new Bitmap(img);
-                    }
-                }
-                catch
-                {
-                    pb.Image = null;
-                }
-            }
-            else
-            {
-                pb.Image = null;
-            }
+            // Use new sprite loading system
+            var sprite = PetUtils.LoadSinglePetSprite(pet.Name, modulePath);
+            pb.Image = sprite;
 
             itemPanel.Controls.Add(pb);
 
@@ -541,15 +520,14 @@ namespace OmnimonModuleEditor.Tabs
                     box.BackColor = Color.White;
                 }
 
-                if (pet == null || module == null) return;
+                if (pet == null || string.IsNullOrEmpty(modulePath)) return;
 
-                string nameFormat = module?.NameFormat ?? "_";
-                string safePetName = pet.Name.Replace(':', '_');
-                string folderName = nameFormat.Replace("$", safePetName);
+                // Use new sprite loading system
+                var spritesDict = SpriteUtils.LoadPetSprites(pet.Name, modulePath, PetUtils.FixedNameFormat, spriteBoxes.Count);
+                var sprites = SpriteUtils.ConvertSpritesToList(spritesDict, spriteBoxes.Count);
 
                 for (int i = 0; i < spriteBoxes.Count; i++)
                 {
-                    string spritePath = Path.Combine(modulePath, "monsters", folderName, $"{i}.png");
                     var box = spriteBoxes[i];
 
                     PictureBox pb;
@@ -568,20 +546,9 @@ namespace OmnimonModuleEditor.Tabs
                         pb = box.Controls[0] as PictureBox;
                     }
 
-                    if (File.Exists(spritePath))
+                    if (i < sprites.Count && sprites[i] != null)
                     {
-                        try
-                        {
-                            using (var fs = new FileStream(spritePath, FileMode.Open, FileAccess.Read, FileShare.Read))
-                            {
-                                var img = Image.FromStream(fs);
-                                pb.Image = new Bitmap(img);
-                            }
-                        }
-                        catch
-                        {
-                            pb.Image = null;
-                        }
+                        pb.Image = sprites[i];
                     }
                     else
                     {
@@ -913,15 +880,14 @@ namespace OmnimonModuleEditor.Tabs
                     if (Parent is TableLayoutPanel parentLayout && parentLayout.Parent is PetTab pt)
                         petTab = pt;
 
-                    if (currentPet == null || petTab == null || petTab.module == null || string.IsNullOrWhiteSpace(currentPet.Name))
+                    if (currentPet == null || petTab == null || string.IsNullOrWhiteSpace(currentPet.Name))
                     {
                         MessageBox.Show("Select a valid pet to import sprites.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         return;
                     }
 
-                    // Build the expected zip file name
-                    string nameFormat = petTab.module.NameFormat ?? "$";
-                    string zipName = nameFormat.Replace("$", currentPet.Name).Replace(':', '_') + ".zip";
+                    // Build the expected zip file name using fixed format
+                    string zipName = SpriteUtils.GetSpriteName(currentPet.Name, PetUtils.FixedNameFormat) + ".zip";
 
                     // Get the user's default downloads folder
                     string downloads = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
@@ -935,7 +901,7 @@ namespace OmnimonModuleEditor.Tabs
                     }
 
                     var result = MessageBox.Show(
-                        $"Import sprites from \"{zipName}\" for this pet?\n\nThe contents will be extracted to the pet's folder.",
+                        $"Import sprites from \"{zipName}\" for this pet?\n\nThe zip file will be copied to the monsters folder.",
                         "Import sprites",
                         MessageBoxButtons.YesNo,
                         MessageBoxIcon.Question
@@ -943,29 +909,17 @@ namespace OmnimonModuleEditor.Tabs
                     if (result != DialogResult.Yes)
                         return;
 
-                    // Create monsters folder and pet subfolder if needed
+                    // Create monsters folder if needed
                     string monstersFolder = Path.Combine(petTab.modulePath, "monsters");
                     if (!Directory.Exists(monstersFolder))
                         Directory.CreateDirectory(monstersFolder);
 
-                    string petFolder = Path.Combine(monstersFolder, nameFormat.Replace("$", currentPet.Name).Replace(':', '_'));
-                    if (!Directory.Exists(petFolder))
-                        Directory.CreateDirectory(petFolder);
+                    // New approach: just copy the zip file to the monsters folder
+                    string destinationZipPath = Path.Combine(monstersFolder, zipName);
 
-                    // Extract the zip to the pet folder (overwrite existing files)
                     try
                     {
-                        string tempExtract = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString());
-                        Directory.CreateDirectory(tempExtract);
-
-                        ZipFile.ExtractToDirectory(zipPath, tempExtract);
-
-                        foreach (var file in Directory.GetFiles(tempExtract))
-                        {
-                            string dest = Path.Combine(petFolder, Path.GetFileName(file));
-                            File.Copy(file, dest, true);
-                        }
-                        Directory.Delete(tempExtract, true);
+                        File.Copy(zipPath, destinationZipPath, true);
 
                         MessageBox.Show("Sprites imported successfully!", "Import sprites", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
