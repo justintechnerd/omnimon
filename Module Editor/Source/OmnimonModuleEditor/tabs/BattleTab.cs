@@ -241,30 +241,9 @@ namespace OmnimonModuleEditor.Tabs
                 BorderStyle = BorderStyle.FixedSingle
             };
 
-            string nameFormat = module?.NameFormat ?? "_";
-            string safeEnemyName = enemy.Name.Replace(':', '_');
-            string folderName = nameFormat.Replace("$", safeEnemyName);
-            string spritePath = Path.Combine(modulePath, "monsters", folderName, "0.png");
-
-            if (File.Exists(spritePath))
-            {
-                try
-                {
-                    using (var fs = new FileStream(spritePath, FileMode.Open, FileAccess.Read, FileShare.Read))
-                    {
-                        var img = Image.FromStream(fs);
-                        pb.Image = new Bitmap(img);
-                    }
-                }
-                catch
-                {
-                    pb.Image = null;
-                }
-            }
-            else
-            {
-                pb.Image = null;
-            }
+            // Use new SpriteUtils system for loading enemy sprites
+            var sprite = SpriteUtils.LoadSingleSprite(enemy.Name, modulePath, module?.NameFormat ?? SpriteUtils.DefaultNameFormat);
+            pb.Image = sprite;
 
             itemPanel.Controls.Add(pb);
 

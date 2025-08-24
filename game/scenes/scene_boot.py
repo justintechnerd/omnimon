@@ -31,7 +31,7 @@ class SceneBoot:
         Initializes the boot scene with a temporary timer.
         """
         self.background = WindowBackground(True)
-        self.logo = sprite_load_percent("resources/OmnimonLogo.png", percent=100, keep_proportion=True, base_on="height")
+        self.logo = sprite_load_percent(constants.OMNIMON_LOGO_PATH, percent=100, keep_proportion=True, base_on="height")
 
         # --- Platform detection ---
         is_batocera = os.path.exists("/usr/share/batocera") or os.path.exists("/etc/batocera-release")
@@ -43,13 +43,13 @@ class SceneBoot:
             pass
 
         if platform.system() == "Windows":
-            image_path = "resources/ControllersPC.png"
+            image_path = constants.CONTROLLERS_PC_PATH
         elif is_batocera:
-            image_path = "resources/ControllersBato.png"  # Or a Batocera-specific image if you have one
+            image_path = constants.CONTROLLERS_BATO_PATH  # Or a Batocera-specific image if you have one
         elif is_rpi:
-            image_path = "resources/ControllersPi.png"
+            image_path = constants.CONTROLLERS_PI_PATH
         else:
-            image_path = "resources/ControllersJoy.png"  # Fallback for other Linux
+            image_path = constants.CONTROLLERS_JOY_PATH  # Fallback for other Linux
 
         self.controller_sprite = sprite_load_percent(image_path, percent=100, keep_proportion=True, base_on="height")
         self.boot_timer = int(150 * (constants.FRAME_RATE / 30)) 

@@ -200,7 +200,7 @@
                                 moduleNameFormat = format;
                             };
                         }(testFormats[i]);
-                        testImg.src = '../monsters/' + testName + '/0.png';
+                        testImg.src = 'assets/' + getSafeFileName(pet.name) + '.png';
                     }
                 } catch(e) {
                     console.warn('Could not extract module name format:', e);
@@ -208,11 +208,25 @@
             }
         }
         
-        // Get sprite URL using module name format
+        // Get sprite URL using assets folder
         function getPetSpriteUrl(petName) {
-            var safeName = petName.replace(/:/g, '_');
-            var folderName = moduleNameFormat.replace('$', safeName);
-            return '../monsters/' + folderName + '/0.png';
+            return 'assets/' + getSafeFileName(petName) + '.png';
+        }
+        
+        // Convert pet name to safe filename
+        function getSafeFileName(petName) {
+            return petName.replace(/ /g, '_')
+                         .replace(/\(/g, '')
+                         .replace(/\)/g, '')
+                         .replace(/:/g, '_')
+                         .replace(/\//g, '_')
+                         .replace(/\\/g, '_')
+                         .replace(/\?/g, '_')
+                         .replace(/\*/g, '_')
+                         .replace(/"/g, '_')
+                         .replace(/</g, '_')
+                         .replace(/>/g, '_')
+                         .replace(/\|/g, '_');
         }
         
         // Get attack sprite URL with fallback handling

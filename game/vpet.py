@@ -88,8 +88,8 @@ class VirtualPetGame:
 
         global last_stats_update, cached_stats
 
-        # Only draw debug stats if explicitly enabled and clock is provided
-        if constants.DEBUG and clock is not None:
+        # Draw debug stats if DEBUG_MODE is enabled and clock is provided
+        if constants.DEBUG_MODE and clock is not None:
             now = time.time()
             if now - last_stats_update >= 3:  # Update stats every 3 seconds
                 cached_stats = get_system_stats()
@@ -169,27 +169,38 @@ def draw_system_stats(clock, surface, stats, font):
     """Efficiently draws FPS, CPU temp, memory, and CPU usage."""
     global cached_stats_surface, last_stats_values
 
-    if not constants.DEBUG:
+    # Show system stats only when DEBUG_MODE is enabled, but FPS can be shown independently
+    show_system_stats = constants.DEBUG_MODE
+    show_fps_only = constants.SHOW_FPS and not constants.DEBUG_MODE
+
+    if not show_system_stats and not show_fps_only:
         return
 
     temp, cpu_usage, memory_usage = stats
     fps = int(clock.get_fps())
-    stats_tuple = (fps, temp, cpu_usage, memory_usage)
+    stats_tuple = (fps, temp, cpu_usage, memory_usage, show_system_stats, show_fps_only)
 
-    # Only update cached surface if stats changed
+    # Only update cached surface if stats changed or display mode changed
     if cached_stats_surface is None or stats_tuple != last_stats_values:
-        cached_stats_surface = pygame.Surface((140, 60), pygame.SRCALPHA)
+        surface_height = 60 if show_system_stats else 20
+        cached_stats_surface = pygame.Surface((140, surface_height), pygame.SRCALPHA)
         y = 0
-        cached_stats_surface.blit(font.render(f"FPS: {fps}", True, (255, 255, 255)), (0, y))
-        y += 16
-        if temp is not None:
-            cached_stats_surface.blit(font.render(f"Temp: {temp:.1f}°C", True, (255, 255, 255)), (0, y))
+        
+        # Always show FPS if SHOW_FPS is enabled OR if DEBUG_MODE is enabled
+        if constants.SHOW_FPS or constants.DEBUG_MODE:
+            cached_stats_surface.blit(font.render(f"FPS: {fps}", True, (255, 255, 255)), (0, y))
             y += 16
-        if cpu_usage is not None:
-            cached_stats_surface.blit(font.render(f"CPU: {cpu_usage:.1f}%", True, (255, 255, 255)), (0, y))
-            y += 16
-        if memory_usage is not None:
-            cached_stats_surface.blit(font.render(f"RAM: {memory_usage:.1f}%", True, (255, 255, 255)), (0, y))
+            
+        # Only show other system stats if DEBUG_MODE is enabled
+        if show_system_stats:
+            if temp is not None:
+                cached_stats_surface.blit(font.render(f"Temp: {temp:.1f}°C", True, (255, 255, 255)), (0, y))
+                y += 16
+            if cpu_usage is not None:
+                cached_stats_surface.blit(font.render(f"CPU: {cpu_usage:.1f}%", True, (255, 255, 255)), (0, y))
+                y += 16
+            if memory_usage is not None:
+                cached_stats_surface.blit(font.render(f"RAM: {memory_usage:.1f}%", True, (255, 255, 255)), (0, y))
         last_stats_values = stats_tuple
 
     # Blit the cached stats surface

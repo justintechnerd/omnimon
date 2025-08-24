@@ -40,7 +40,7 @@ class WindowClock:
         icons = {}
         for name in names:
             try:
-                path = os.path.join("resources", f"{name}.png")
+                path = os.path.join("assets", f"{name}.png")
                 # Use the new sprite loading method, scale to UI bar height, keep proportions
                 icons[name] = sprite_load_percent(path, percent=(self.height / constants.SCREEN_HEIGHT) * 100, keep_proportion=True, base_on="height")
             except Exception:

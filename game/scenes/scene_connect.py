@@ -39,7 +39,7 @@ class SceneConnect:
             runtime_globals.game_console.log("[SceneConnect] Background created")
             
             self.options = [
-                ("Wifi", sprite_load_percent("resources/OmniWifi.png", percent=(constants.OPTION_ICON_SIZE / constants.SCREEN_HEIGHT) * 100, keep_proportion=True, base_on="height"))
+                ("Wifi", sprite_load_percent(constants.OMNI_WIFI_PATH, percent=(constants.OPTION_ICON_SIZE / constants.SCREEN_HEIGHT) * 100, keep_proportion=True, base_on="height"))
             ]
             runtime_globals.game_console.log("[SceneConnect] Options created")
 
@@ -931,9 +931,37 @@ class SceneConnect:
                 
                 # Wait for battle simulation data
                 runtime_globals.game_console.log("[SceneConnect] Waiting for battle simulation data...")
-                data = self.client_socket.recv(8192).decode()  # Larger buffer for simulation data
+                # Receive possibly-large simulation payload. TCP is a stream and
+                # a single recv() may return a partial message, so accumulate
+                # chunks until we can successfully parse JSON or the socket
+                # closes/timeout occurs.
+                data = ""
+                sim_data = None
+                try:
+                    while True:
+                        chunk = self.client_socket.recv(8192)
+                        if not chunk:
+                            # Connection closed by peer
+                            break
+                        data += chunk.decode()
+                        try:
+                            sim_data = json.loads(data)
+                            break
+                        except json.JSONDecodeError:
+                            # Incomplete JSON, loop to receive more
+                            continue
+                except socket.timeout:
+                    runtime_globals.game_console.log("[SceneConnect] Timeout while receiving battle simulation data")
+                except Exception as e:
+                    runtime_globals.game_console.log(f"[SceneConnect] Error receiving simulation data chunks: {e}")
+
                 runtime_globals.game_console.log(f"[SceneConnect] Received battle simulation data: {len(data)} bytes")
-                sim_data = json.loads(data)
+                if sim_data is None:
+                    # Could not parse incoming payload
+                    runtime_globals.game_console.log("[SceneConnect] Failed to parse battle simulation JSON payload")
+                    self.stop_networking()
+                    self.phase = "menu"
+                    return
                 
                 if sim_data.get("type") == "battle_simulation":
                     self.battle_simulation_data = sim_data["data"]
@@ -1144,6 +1172,13 @@ class SceneConnect:
             if 'battle_log' in sim_payload:
                 sim_payload['battle_log'] = _swap_serialized_battle_log(sim_payload['battle_log'])
                 sim_payload['pre_swapped'] = True
+                
+                # Also swap the victory status for client perspective
+                vs = sim_payload.get('victory_status', 'Victory')
+                if vs == "Victory":
+                    sim_payload['victory_status'] = "Defeat"
+                elif vs == "Defeat":
+                    sim_payload['victory_status'] = "Victory"
 
             sim_message = {
                 "type": "battle_simulation",

@@ -91,6 +91,8 @@ class BattleEncounter:
         self.hit_animation_frames = self.load_hit_animation()
         self.hit_animations = []
         self.turn_limit = 12
+        self.super_hits = 0
+        self.strength = 0
         
 
     def set_initial_state(self, area=0, round=0, version=1):
@@ -192,6 +194,10 @@ class BattleEncounter:
         self.battle_player = GameBattle(get_battle_targets(), self.enemies, self.hp_boost, self.attack_boost, self.module)
         # PvP ordering flag: when True, enemy actions are processed before pets
         self.enemy_first = False
+        
+        # For PvP mode, use staggered cooldowns to prevent simultaneous attacks
+        if self.pvp_mode:
+            self.battle_player.reset_cooldowns_staggered()
 
         # Debug battle log display (when DEBUG flag is on)
         self.debug_battle_logs = []  # List of log entries per pet position: [{"turn": int, "hit": str, "arrow": str}, ...]
@@ -218,6 +224,10 @@ class BattleEncounter:
                 bp.team2_shot[i] = True
             if i < len(bp.phase):
                 bp.phase[i] = "enemy_attack"
+        
+        # For PvP clients, use staggered cooldowns to ensure proper synchronization
+        if self.pvp_mode:
+            bp.reset_cooldowns_staggered()
 
     def setup_pvp_teams(self, my_pets, enemy_pet_data):
         """Sets up teams for PvP battle from pet data."""
@@ -252,7 +262,7 @@ class BattleEncounter:
             enemy.module = pet_data["module"]
             
             # Load sprite for the enemy
-            enemy.load_sprite(self.module.folder_path, boss=False)
+            enemy.load_sprite(enemy.module, boss=False)
             
             enemy_objects.append(enemy)
         
@@ -261,12 +271,12 @@ class BattleEncounter:
         self.enemies = enemy_objects
         
         # Initialize debug logs for PvP
-        if constants.DEBUG:
+        if constants.DEBUG_MODE:
             self.init_debug_battle_logs()
 
     def init_debug_battle_logs(self):
         """Initialize debug battle log entries for each pet position."""
-        if not constants.DEBUG:
+        if not constants.DEBUG_MODE:
             return
         
         num_pets = len(get_battle_targets()) if not self.pvp_mode else len(self.battle_player.team1)
@@ -280,7 +290,7 @@ class BattleEncounter:
 
     def update_debug_battle_logs(self):
         """Update debug battle logs with current phase information and hit results."""
-        if not constants.DEBUG or not hasattr(self, 'debug_battle_logs'):
+        if not constants.DEBUG_MODE or not hasattr(self, 'debug_battle_logs'):
             return
             
         for i in range(len(self.debug_battle_logs)):
@@ -418,7 +428,7 @@ class BattleEncounter:
 
         for enemy in self.enemies:
             if enemy:
-                enemy.load_sprite(self.module.folder_path, self.boss)
+                enemy.load_sprite(self.module.name, self.boss)
 
     def load_hit_animation(self):
         """
@@ -745,7 +755,7 @@ class BattleEncounter:
         self.battle_player.update()
 
         # Update debug battle logs based on current phases
-        if constants.DEBUG:
+        if constants.DEBUG_MODE:
             self.update_debug_battle_logs()
 
         # Allow PvP to reverse processing order so host team acts first.
@@ -775,10 +785,25 @@ class BattleEncounter:
         self.update_battle_pet_projectiles()
         self.update_battle_enemy_projectiles()
 
-        if self.battle_player.team1_total_hp <= 0 or self.battle_player.team2_total_hp <= 0 or all(turn > self.turn_limit for turn in self.battle_player.turns):
-            self.phase = "result" if not self.boss else "clear"
-            self.frame_counter = 0
-            runtime_globals.game_console.log("All pairs finished battle, entering result phase")
+        # Check for battle termination
+        if self.pvp_mode:
+            # For PvP, check if simulation is complete or if we've run out of battle log entries
+            max_turn = max(self.battle_player.turns)
+            battle_log_length = len(self.global_battle_log.battle_log) if hasattr(self.global_battle_log, 'battle_log') else 0
+            
+            # Check if all pets have finished their turns or reached the end of battle log
+            if (all(turn > self.turn_limit for turn in self.battle_player.turns) or 
+                max_turn > battle_log_length or
+                all(phase == "result" for phase in self.battle_player.phase)):
+                self.phase = "result" if not self.boss else "clear"
+                self.frame_counter = 0
+                runtime_globals.game_console.log(f"PvP battle finished: max_turn={max_turn}, log_length={battle_log_length}")
+        else:
+            # For PvE, use HP-based termination
+            if self.battle_player.team1_total_hp <= 0 or self.battle_player.team2_total_hp <= 0 or all(turn > self.turn_limit for turn in self.battle_player.turns):
+                self.phase = "result" if not self.boss else "clear"
+                self.frame_counter = 0
+                runtime_globals.game_console.log("All pairs finished battle, entering result phase")
 
     def setup_pet_attack(self, pet):
         """
@@ -796,14 +821,24 @@ class BattleEncounter:
             return
         turn_log = self.global_battle_log.battle_log[turn - 1]
 
+        # For PvP, determine which device this pet belongs to from the perspective of the battle log
+        # Host device: device1 attacks are my pets, device2 attacks are enemy pets  
+        # Client device: device1 attacks are enemy pets, device2 attacks are my pets (swapped)
+        if self.pvp_mode and hasattr(self, 'enemy_first') and self.enemy_first:
+            # Client perspective: my pets are actually device2 in the battle log
+            device_label = "device2"
+        else:
+            # Host perspective or PvE: my pets are device1 in the battle log
+            device_label = "device1"
+
         # Find the attack entry for this pet
         attack_entry = next(
-            (a for a in turn_log.attacks if a.device == "device1" and a.attacker == pet_index),
+            (a for a in turn_log.attacks if a.device == device_label and a.attacker == pet_index),
             None
         )
 
         if not attack_entry:
-            runtime_globals.game_console.log(f"[BattleEncounter] No attack entry found for pet {pet_index} in turn {turn}")
+            runtime_globals.game_console.log(f"[BattleEncounter] No attack entry found for pet {pet_index} in turn {turn} for device {device_label}")
             return
 
         hits = attack_entry.damage if attack_entry.hit else 0
@@ -813,7 +848,7 @@ class BattleEncounter:
             runtime_globals.game_console.log(f"[BattleEncounter] Pet {pet_index} attacking defender {defender_idx} with hits: {hits}")
 
         # Update debug battle log for this pet
-        if constants.DEBUG and pet_index < len(self.debug_battle_logs):
+        if constants.DEBUG_MODE and pet_index < len(self.debug_battle_logs):
             self.debug_battle_logs[pet_index]["turn"] = turn
             self.debug_battle_logs[pet_index]["arrow"] = ">"
             # Don't show hit info during attack phase, only during charge
@@ -882,21 +917,31 @@ class BattleEncounter:
             return
         turn_log = self.global_battle_log.battle_log[turn - 1]
 
+        # For PvP, determine which device this enemy belongs to from the perspective of the battle log
+        # Host device: device2 attacks are enemy attacks
+        # Client device: device1 attacks are enemy attacks (swapped)
+        if self.pvp_mode and hasattr(self, 'enemy_first') and self.enemy_first:
+            # Client perspective: enemy attacks are actually device1 in the battle log
+            device_label = "device1"
+        else:
+            # Host perspective or PvE: enemy attacks are device2 in the battle log
+            device_label = "device2"
+
         # For bosses, collect all attacks by this enemy in this turn
         attack_entries = [
             a for a in turn_log.attacks
-            if a.device == "device2" and a.attacker == enemy_index
+            if a.device == device_label and a.attacker == enemy_index
         ]
 
         if not attack_entries:
-            runtime_globals.game_console.log(f"[BattleEncounter] No attack entries found for enemy {enemy_index} in turn {turn}")
+            runtime_globals.game_console.log(f"[BattleEncounter] No attack entries found for enemy {enemy_index} in turn {turn} for device {device_label}")
             return
 
         # Choose attack sprite
         hits = attack_entries[0].damage if attack_entries and attack_entries[0].hit else 0
         
         # Update debug battle log for enemy attacks (affects the defender pet)
-        if constants.DEBUG and attack_entries:
+        if constants.DEBUG_MODE and attack_entries:
             for attack_entry in attack_entries:
                 defender_idx = attack_entry.defender
                 if defender_idx < len(self.debug_battle_logs):
@@ -1222,8 +1267,8 @@ class BattleEncounter:
         elif self.phase == "result":
             self.draw_result(surface)
 
-        # Draw debug battle logs if DEBUG flag is enabled
-        if constants.DEBUG and self.phase in ["battle", "charge"]:
+        # Draw debug battle logs if DEBUG_MODE and DEBUG_BATTLE_INFO flags are enabled
+        if constants.DEBUG_MODE and constants.DEBUG_BATTLE_INFO and self.phase in ["battle"]:
             self.draw_debug_battle_logs(surface)
 
     def draw_level(self, surface):
@@ -1865,10 +1910,10 @@ class BattleEncounter:
 
     def draw_debug_battle_logs(self, surface):
         """
-        Draws debug battle log information between enemies and pets when DEBUG flag is enabled.
+        Draws debug battle log information between enemies and pets when DEBUG_MODE flag is enabled.
         Shows turn number, hit results, and attack direction arrows.
         """
-        if not constants.DEBUG or not hasattr(self, 'debug_battle_logs'):
+        if not constants.DEBUG_MODE or not hasattr(self, 'debug_battle_logs'):
             return
             
         font_small = get_font(constants.FONT_SIZE_SMALL)

@@ -69,6 +69,7 @@
       <HintPath>..\packages\System.Buffers.4.5.1\lib\net461\System.Buffers.dll</HintPath>
     </Reference>
     <Reference Include="System.Core" />
+    <Reference Include="System.IO.Compression" />
     <Reference Include="System.IO.Compression.FileSystem" />
     <Reference Include="System.IO.Pipelines, Version=9.0.0.6, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.IO.Pipelines.9.0.6\lib\net462\System.IO.Pipelines.dll</HintPath>
@@ -182,6 +183,7 @@
     <Compile Include="controls\StageSelectForm.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="utils\SpriteUtils.cs" />
     <EmbeddedResource Include="ModuleEditorForm.resx">
       <DependentUpon>ModuleEditorForm.cs</DependentUpon>
     </EmbeddedResource>

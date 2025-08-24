@@ -1,16 +1,15 @@
 from datetime import datetime
 import pygame
 import random
-import os
 
 from core import game_globals, runtime_globals
 from core.animation import Animation, PetFrame
 import game.core.constants as constants
 from core.game_digidex import register_digidex_entry
-from core.game_module import sprite_load
+from core.utils.sprite_utils import load_pet_sprites, convert_sprites_to_list
 from core.game_poop import GamePoop
 from core.utils.module_utils import get_module
-from core.utils.pygame_utils import blit_with_cache
+from core.utils.pygame_utils import blit_with_cache, sprite_load
 from core.utils.scene_utils import change_scene
 from core.utils.utils_unlocks import is_unlocked, unlock_item
 
@@ -167,20 +166,25 @@ class GamePet:
                 self.sleep_timer = 0
 
     def load_sprite(self):
-        """Loads animation frames for the pet, replacing `$` in module paths."""
-        runtime_globals.pet_sprites[self] = []
+        """Loads animation frames for the pet using the new sprite loading utility."""
+        # Get module object to access folder_path and name_format
+        module_obj = get_module(self.module)
+        if not module_obj:
+            runtime_globals.game_console.log(f"Module {self.module} not found for pet {self.name}")
+            return
         
-        module = get_module(self.module)
-        folder = os.path.join(module.folder_path, "monsters", module.name_format.replace("$", self.name))
-
-        for i in range(20):
-            frame_file = os.path.join(folder, f"{i}.png")
-            if not os.path.exists(frame_file):
-                break
-
-            runtime_globals.pet_sprites[self].append(sprite_load(frame_file, size=(constants.PET_WIDTH, constants.PET_HEIGHT)))
-
-        if get_module(self.module).reverse_atk_frames:
+        # Get module properties
+        module_path = module_obj.folder_path
+        name_format = getattr(module_obj, 'name_format', '$_dmc')  # Default format if not specified
+        
+        # Load sprites using the new utility function
+        sprites_dict = load_pet_sprites(self.name, module_path, name_format, size=(constants.PET_WIDTH, constants.PET_HEIGHT))
+        
+        # Convert to list format expected by existing code
+        runtime_globals.pet_sprites[self] = convert_sprites_to_list(sprites_dict)
+        
+        # Apply frame swapping if needed for modules with reverse_atk_frames
+        if module_obj.reverse_atk_frames:
             sprites = runtime_globals.pet_sprites[self]
             # Swap TRAIN1 <-> ATK1 and TRAIN2 <-> ATK2
             if len(runtime_globals.pet_sprites[self]) > 6:
