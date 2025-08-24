@@ -86,6 +86,7 @@ namespace OmnimonModuleEditor.Utils
                 PoopTimer = pet.PoopTimer,
                 Energy = pet.Energy,
                 MinWeight = pet.MinWeight,
+                EvolWeight = pet.EvolWeight,
                 Stomach = pet.Stomach,
                 HungerLoss = pet.HungerLoss,
                 StrengthLoss = pet.StrengthLoss,

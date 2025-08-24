@@ -66,6 +66,7 @@ class GamePet:
         self.time = data.get("time", 0)
         self.poop_timer = data.get("poop_timer", 60)
         self.min_weight = data.get("min_weight")
+        self.evol_weight = data.get("evol_weight", 0)
         self.stomach = data.get("stomach")
         self.hunger_loss = data.get("hunger_loss")
         self.strength_loss = data.get("strength_loss")
@@ -82,6 +83,8 @@ class GamePet:
 
     def reset_variables(self):
         self.timer = 0
+        if self.evol_weight > 0:
+            self.weight = self.evol_weight
         if self.weight < self.min_weight:
             self.weight = self.min_weight
         self.dp = self.energy

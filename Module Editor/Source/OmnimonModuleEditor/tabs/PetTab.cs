@@ -396,6 +396,7 @@ namespace OmnimonModuleEditor.Tabs
             public NumericUpDown NumPoopTimer;
             public NumericUpDown NumEnergy;
             public NumericUpDown NumMinWeight;
+            public NumericUpDown NumEvolWeight;
             public NumericUpDown NumStomach;
             public NumericUpDown NumHungerLoss;
             public NumericUpDown NumStrengthLoss;
@@ -443,6 +444,7 @@ namespace OmnimonModuleEditor.Tabs
                 NumPoopTimer.Value = Math.Max(NumPoopTimer.Minimum, pet.PoopTimer);
                 NumEnergy.Value = Math.Max(NumEnergy.Minimum, pet.Energy);
                 NumMinWeight.Value = Math.Max(NumMinWeight.Minimum, pet.MinWeight);
+                NumEvolWeight.Value = Math.Max(NumEvolWeight.Minimum, pet.EvolWeight);
                 NumStomach.Value = Math.Max(NumStomach.Minimum, pet.Stomach);
                 NumHungerLoss.Value = Math.Max(NumHungerLoss.Minimum, pet.HungerLoss);
                 NumStrengthLoss.Value = Math.Max(NumStrengthLoss.Minimum, pet.StrengthLoss);
@@ -474,7 +476,7 @@ namespace OmnimonModuleEditor.Tabs
                 pet.Special = ChkSpecial.Checked;
                 pet.SpecialKey = TxtSpecialKey.Text;
 
-                // Salva null se vazio, inválido ou igual a "  :"
+                // Salva null se vazio, invï¿½lido ou igual a "  :"
                 pet.Sleeps = IsValidTime(TxtSleeps.Text) ? TxtSleeps.Text : null;
                 pet.Wakes = IsValidTime(TxtWakes.Text) ? TxtWakes.Text : null;
 
@@ -484,6 +486,7 @@ namespace OmnimonModuleEditor.Tabs
                 pet.PoopTimer = (int)NumPoopTimer.Value;
                 pet.Energy = (int)NumEnergy.Value;
                 pet.MinWeight = (int)NumMinWeight.Value;
+                pet.EvolWeight = (int)NumEvolWeight.Value;
                 pet.Stomach = (int)NumStomach.Value;
                 pet.HungerLoss = (int)NumHungerLoss.Value;
                 pet.StrengthLoss = (int)NumStrengthLoss.Value;
@@ -498,7 +501,7 @@ namespace OmnimonModuleEditor.Tabs
                 pet.Hp = (int)NumHp.Value;
             }
 
-            // Função auxiliar para validar hora no formato HH:mm
+            // Funï¿½ï¿½o auxiliar para validar hora no formato HH:mm
             private bool IsValidTime(string value)
             {
                 if (string.IsNullOrWhiteSpace(value)) return false;
@@ -759,6 +762,7 @@ namespace OmnimonModuleEditor.Tabs
                 NumStomach = new NumericUpDown { Minimum = 2, Value = 4 };
                 NumStrengthLoss = new NumericUpDown { Minimum = 2, Value = 4, Maximum = 99999 };
                 NumMinWeight = new NumericUpDown { Minimum = 5, Value = 5 };
+                NumEvolWeight = new NumericUpDown { Minimum = 0, Value = 0, Maximum = 99 };
                 NumPoopTimer = new NumericUpDown { Minimum = 3, Value = 3, Maximum = 99999 };
                 NumConditionHearts = new NumericUpDown { Minimum = 0, Value = 0 };
                 NumHealDoses = new NumericUpDown { Minimum = 1, Value = 1 };
@@ -784,6 +788,7 @@ namespace OmnimonModuleEditor.Tabs
                 AddField("Strength Loss:", NumStrengthLoss);
                 AddField("Min Weight:", NumMinWeight);
                 AddField("Poop Timer:", NumPoopTimer);
+                AddField("Evol Weight:", NumEvolWeight);
                 AddField("Condition Hearts:", NumConditionHearts);
                 AddField("Heal Doses:", NumHealDoses);
                 AddField("Jogress Available:", ChkJogress);
@@ -932,7 +937,7 @@ namespace OmnimonModuleEditor.Tabs
                     }
                 };
 
-                // Botão Edit Evolutions
+                // Botï¿½o Edit Evolutions
                 btnEditEvolutions = new Button
                 {
                     Text = "Edit Evolutions",
@@ -942,7 +947,7 @@ namespace OmnimonModuleEditor.Tabs
                     Anchor = AnchorStyles.Right
                 };
 
-                // Adicione o botão ao final do painel de campos
+                // Adicione o botï¿½o ao final do painel de campos
                 var bottomPanel = new FlowLayoutPanel
                 {
                     Dock = DockStyle.Bottom,
@@ -952,7 +957,7 @@ namespace OmnimonModuleEditor.Tabs
                 bottomPanel.Controls.Add(btnEditEvolutions);
                 this.Controls.Add(bottomPanel);
 
-                // Evento do botão
+                // Evento do botï¿½o
                 btnEditEvolutions.Click += (s, e) =>
                 {
                     {
