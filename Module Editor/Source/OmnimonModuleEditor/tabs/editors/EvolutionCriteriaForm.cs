@@ -388,8 +388,11 @@ public class EvolutionCriteriaForm : Form
         {
             int v0 = (int)ctrls[0].Value;
             int v1 = (int)ctrls[1].Value;
-            if (v0 == -1 || v1 == -1) return null;
-            if (v0 == 0 && v1 == max) return new int[] { 0, 999999 };
+            if (v1 == -1) return null;
+            if (v0 > max) v0 = max;
+            if (v1 > max) v1 = max;
+            if (v0 > v1) v0 = v1;
+            if (v0 < 0) return new int[] { 0, v1 };
             return new int[] { v0, v1 };
         }
 
