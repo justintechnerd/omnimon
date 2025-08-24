@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using System.Reflection;
+using OmnimonModuleEditor.Utils;
 
 namespace OmnimonModuleEditor.docgenerators
 {
@@ -908,17 +909,15 @@ namespace OmnimonModuleEditor.docgenerators
 
         public static string GetPetSprite(string petName, OmnimonModuleEditor.Models.Module module)
         {
-            if (string.IsNullOrEmpty(petName)) return "../missing.png";
-            string petFolderName = GetPetFolderName(petName, module);
-            return $"../monsters/{petFolderName}/0.png";
+            // Use fixed name format instead of module.NameFormat
+            string spriteName = GetPetFolderName(petName, null);
+            return $"../monsters/{spriteName}/0.png";
         }
 
         public static string GetPetFolderName(string petName, OmnimonModuleEditor.Models.Module module)
         {
-            if (string.IsNullOrEmpty(petName)) return "unknown";
-            string nameFormat = module?.NameFormat ?? "$";
-            string safePetName = petName.Replace(':', '_');
-            return nameFormat.Replace("$", safePetName);
+            // Use fixed name format regardless of module
+            return PetUtils.FixedNameFormat.Replace("$", CleanPetId(petName));
         }
 
         public static string CleanPetId(string petName)

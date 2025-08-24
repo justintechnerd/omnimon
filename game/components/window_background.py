@@ -56,7 +56,7 @@ class WindowBackground:
 
     def load_sprite(self, boot):
         if boot:
-            path = "resources/Splash.png"
+            path = "assets/Splash.png"
         else:
             name = game_globals.game_background
             module_name = game_globals.background_module_name

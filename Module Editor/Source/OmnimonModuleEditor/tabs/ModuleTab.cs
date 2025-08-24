@@ -319,7 +319,7 @@ namespace OmnimonModuleEditor.Tabs
                 Version = mainPanel.txtVersion?.Text ?? "",
                 Description = mainPanel.txtDescription?.Text ?? "",
                 Author = mainPanel.txtAuthor?.Text ?? "",
-                NameFormat = mainPanel.txtNameFormat?.Text ?? "",
+                NameFormat = OmnimonModuleEditor.Utils.PetUtils.FixedNameFormat, // Always use fixed format
                 Ruleset = mainPanel.cmbRuleset?.SelectedItem?.ToString() ?? "",
                 AdventureMode = mainPanel.chkAdventureMode?.Checked ?? false,
                 CareMeatWeightGain = (int)(mainPanel.numCareMeatWeightGain?.Value ?? 0),
@@ -395,7 +395,7 @@ namespace OmnimonModuleEditor.Tabs
             mainPanel.txtVersion.Text = module.Version ?? "";
             mainPanel.txtDescription.Text = module.Description ?? "";
             mainPanel.txtAuthor.Text = module.Author ?? "";
-            mainPanel.txtNameFormat.Text = module.NameFormat ?? "";
+            mainPanel.txtNameFormat.Text = OmnimonModuleEditor.Utils.PetUtils.FixedNameFormat; // Always show fixed format
             if (mainPanel.cmbRuleset.Items.Contains(module.Ruleset))
                 mainPanel.cmbRuleset.SelectedItem = module.Ruleset;
             else if (mainPanel.cmbRuleset.Items.Count > 0)
@@ -652,7 +652,7 @@ namespace OmnimonModuleEditor.Tabs
                 // Configuration fields (moved main fields out of here)
                 var col1 = new (string, Control)[]
                 {
-                    ("Name Format:", txtNameFormat = new TextBox() { Width = 140, Text = "$_dmc" }),
+                    ("Name Format:", txtNameFormat = new TextBox() { Width = 140, Text = "$_dmc", Enabled = false }),
                     ("Ruleset:", cmbRuleset = new ComboBox() { DropDownStyle = ComboBoxStyle.DropDownList, Width = 140 }),
                     ("Adventure Mode:", chkAdventureMode = new CheckBox()),
                     ("Training Effort Gain:", numTrainingEffortGain = CreateNumeric(0, 100, 1)),

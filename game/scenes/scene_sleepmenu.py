@@ -20,8 +20,8 @@ class SceneSleepMenu:
     def __init__(self) -> None:
         self.background = WindowBackground()
         self.options = [
-            ("Sleep", sprite_load_percent("resources/SleepIcon.png", percent=(OPTION_ICON_SIZE / constants.SCREEN_HEIGHT) * 100, keep_proportion=True, base_on="height")),
-            ("Wake", sprite_load_percent("resources/WakeIcon.png", percent=(OPTION_ICON_SIZE / constants.SCREEN_HEIGHT) * 100, keep_proportion=True, base_on="height"))
+            ("Sleep", sprite_load_percent(constants.SLEEP_ICON_PATH, percent=(OPTION_ICON_SIZE / constants.SCREEN_HEIGHT) * 100, keep_proportion=True, base_on="height")),
+            ("Wake", sprite_load_percent(constants.WAKE_ICON_PATH, percent=(OPTION_ICON_SIZE / constants.SCREEN_HEIGHT) * 100, keep_proportion=True, base_on="height"))
         ]
 
         self.selected_index = 0

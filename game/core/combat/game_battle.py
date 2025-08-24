@@ -84,6 +84,16 @@ class GameBattle:
         """
         self.cooldowns = [self.calculate_deterministic_cooldown(i) for i in range(len(self.team1))]
 
+    def reset_cooldowns_staggered(self, stagger_amount=10):
+        """
+        Resets the cooldowns with staggering to prevent simultaneous attacks.
+        Used for PvP synchronization.
+        """
+        base_cooldowns = [self.calculate_deterministic_cooldown(i) for i in range(len(self.team1))]
+        # Add staggering based on pet index to prevent simultaneous attacks
+        for i in range(len(base_cooldowns)):
+            self.cooldowns[i] = base_cooldowns[i] + (i * stagger_amount)
+
     def calculate_deterministic_cooldown(self, pet_index):
         """
         Calculates a deterministic cooldown value based on pet name, turn, phase, and team size.

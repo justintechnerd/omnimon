@@ -44,12 +44,12 @@ class SceneSettingsMenu:
         # Load sprites for visual indicators using the new method and scale
         self.settings_sprites = {
             "Show Clock": {
-                "On": sprite_load_percent("resources/IconOn.png", percent=(constants.MENU_ICON_SIZE / constants.SCREEN_HEIGHT) * 100, keep_proportion=True, base_on="height"),
-                "Off": sprite_load_percent("resources/IconOff.png", percent=(constants.MENU_ICON_SIZE / constants.SCREEN_HEIGHT) * 100, keep_proportion=True, base_on="height")
+                "On": sprite_load_percent(constants.ICON_ON_PATH, percent=(constants.MENU_ICON_SIZE / constants.SCREEN_HEIGHT) * 100, keep_proportion=True, base_on="height"),
+                "Off": sprite_load_percent(constants.ICON_OFF_PATH, percent=(constants.MENU_ICON_SIZE / constants.SCREEN_HEIGHT) * 100, keep_proportion=True, base_on="height")
             },
             "Debug": {
-                "On": sprite_load_percent("resources/IconOn.png", percent=(constants.MENU_ICON_SIZE / constants.SCREEN_HEIGHT) * 100, keep_proportion=True, base_on="height"),
-                "Off": sprite_load_percent("resources/IconOff.png", percent=(constants.MENU_ICON_SIZE / constants.SCREEN_HEIGHT) * 100, keep_proportion=True, base_on="height")
+                "On": sprite_load_percent(constants.ICON_ON_PATH, percent=(constants.MENU_ICON_SIZE / constants.SCREEN_HEIGHT) * 100, keep_proportion=True, base_on="height"),
+                "Off": sprite_load_percent(constants.ICON_OFF_PATH, percent=(constants.MENU_ICON_SIZE / constants.SCREEN_HEIGHT) * 100, keep_proportion=True, base_on="height")
             }
         }
 
@@ -298,7 +298,7 @@ class SceneSettingsMenu:
         if label == "Show Clock":
             return self.settings_sprites["Show Clock"]["On"] if game_globals.showClock else self.settings_sprites["Show Clock"]["Off"]
         elif label == "Debug":
-            return self.settings_sprites["Debug"]["On"] if constants.DEBUG else self.settings_sprites["Debug"]["Off"]
+            return self.settings_sprites["Debug"]["On"] if constants.DEBUG_MODE else self.settings_sprites["Debug"]["Off"]
         return None
     
     def handle_event(self, input_action) -> None:
