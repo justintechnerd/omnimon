@@ -1100,3 +1100,5 @@ class GamePet:
             self.pvp_wins = 0
         if not hasattr(self, "pvp_battles"):
             self.pvp_battles = 0
+        if not hasattr(self, "protein_feedings"):
+            self.protein_feedings = 0
