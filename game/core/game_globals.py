@@ -289,6 +289,11 @@ def load() -> None:
                 quests = data.get("quests", [])
                 event = data.get("event", None)
                 event_time = data.get("event_time", None)
+                for pet in pet_list:
+                    try:
+                        data.get(pet.protein_feedings)
+                    except:
+                        pet.protein_feedings = 0
 
                 print(f"[Game] Successfully loaded save file: {os.path.basename(save_path)} with {len(pet_list)} valid pets")
                 return  # Successfully loaded, exit the function

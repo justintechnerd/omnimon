@@ -102,6 +102,7 @@ class GamePet:
         self.starvation_counter = 0
         self.disturbance_penalty = 0
         self.overfeed_timer = 0
+        self.protein_feedings = 0
         self.protein_overdose = 0
         self.shake_counter = 0
         self.death_save_counter = 0
@@ -114,7 +115,6 @@ class GamePet:
         self.vital_values = 100
         self.overfeed = 0
         self.sleep_disturbances = 0
-        self.protein_overdose = 0
 
         module = get_module(self.module)
 
@@ -530,11 +530,14 @@ class GamePet:
         elif food_type == "strength":
             self.set_state("eat")
             self.strength = min(4, self.strength + module.protein_strengh_gain)
-            self.protein_overdose += 1
+            self.protein_feedings += 1
             if self.stage > 1 and self.weight < 99:
                 self.weight += module.protein_weight_gain
-            if self.dp < self.energy and self.protein_overdose % 4 == 0:
-                self.dp += module.protein_dp_gain
+            if self.protein_feedings % 4 == 0:
+                self.protein_overdose += 1
+                self.protein_feedings = 0
+                if self.dp < self.energy:
+                    self.dp = min(self.energy, self.dp + module.protein_dp_gain)
             self.care_strength_mistake_timer = 0
             accepted = True
             runtime_globals.game_console.log(f"{self.name} ate food (strength). Strength {self.strength}")
