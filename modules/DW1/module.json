@@ -19,6 +19,7 @@
   "care_protein_dp_gain": 1,
   "care_protein_care_mistake_time": 120,
   "care_protein_overdose_max": 0,
+  "care_protein_penalty": 0,
   "care_disturbance_penalty_max": 0,
   "care_sleep_care_mistake_timer": 540,
   "training_effort_gain": 1,
