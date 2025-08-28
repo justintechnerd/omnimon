@@ -2,7 +2,7 @@
   "enemies": [
     {
       "name": "Agumon",
-      "power": 10,
+      "power": 3,
       "attribute": "Va",
       "hp": 4,
       "area": 1,
@@ -16,8 +16,8 @@
       "stage": 3
     },
     {
-      "name": "Betamon",
-      "power": 14,
+      "name": "ModokiBetamon",
+      "power": 7,
       "attribute": "Vi",
       "hp": 3,
       "area": 2,
@@ -28,6 +28,21 @@
       "unlock": "",
       "atk_main": 5,
       "atk_alt": 32,
+      "stage": 3
+    },
+    {
+      "name": "Dokunemon",
+      "power": 7,
+      "attribute": "Vi",
+      "hp": 3,
+      "area": 2,
+      "round": 2,
+      "version": 1,
+      "handicap": 0,
+      "prize": "",
+      "unlock": "",
+      "atk_main": 5,
+      "atk_alt": 42,
       "stage": 3
     },
     {
@@ -80,8 +95,8 @@
       "power": 32,
       "attribute": "Da",
       "hp": 26,
-      "area": 6,
-      "round": 1,
+      "area": 5,
+      "round": 2,
       "version": 1,
       "handicap": 0,
       "prize": "",

@@ -80,7 +80,7 @@
                 </div>
                 <div class="module-info">
                     <h1>DW1</h1>
-                    <p class="version">Version: 0.5.2</p>
+                    <p class="version">Version: 0.5.3</p>
                     <p class="author">Author: justintechnerd</p>
                     <p class="description">A vpet interpretation of the Digimon World PS1 game. Pet data adapted from the guide by Syd Montague and Ginoshie, and from the Prima guide.</p>
                 </div>
@@ -127,6 +127,12 @@
                         <li class="attribute-item">
                             <span class="attribute-label tooltip">Enable Shaken Egg:
                                 <span class="tooltiptext">Allows eggs to be "shaken" (shake_counter >= 99) for evolution bonuses. It can provide a power bonus.</span>
+                            </span>
+                            <span class="attribute-value boolean-false">No</span>
+                        </li>
+                        <li class="attribute-item">
+                            <span class="attribute-label tooltip">Flush Disturbance Sleep:
+                                <span class="tooltiptext">When enabled, using the flush/toilet function while the pet is sleeping will count as a sleep disturbance. When disabled, flushing won't disturb sleep.</span>
                             </span>
                             <span class="attribute-value boolean-false">No</span>
                         </li>
@@ -202,7 +208,7 @@
                             <span class="attribute-label tooltip">DP Gain:
                                 <span class="tooltiptext">DP is your stamina, gained every 4th protein feeding, if current DP is below maximum energy. DP is consumed during battles and affects battle participation.</span>
                             </span>
-                            <span class="attribute-value ">1</span>
+                            <span class="attribute-value ">4</span>
                         </li>
                         <li class="attribute-item">
                             <span class="attribute-label tooltip">Care Mistake Time:
@@ -213,6 +219,12 @@
                         <li class="attribute-item">
                             <span class="attribute-label tooltip">Overdose Max:
                                 <span class="tooltiptext">Maximum protein overdose counter that affects battle sick chance. Each protein feeding increases overdose. Higher overdose increases sick probability after losing battles.</span>
+                            </span>
+                            <span class="attribute-value boolean-false">0</span>
+                        </li>
+                            <li class="attribute-item">
+                            <span class="attribute-label tooltip">Protein Penalty:
+                                <span class="tooltiptext">Protein Penalty affects battle sick chance. Determines the amount of each penalty for Protein Overdose in percent.</span>
                             </span>
                             <span class="attribute-value boolean-false">0</span>
                         </li>
@@ -252,7 +264,7 @@
                             <span class="attribute-label tooltip">Base Sick Chance Win:
                                 <span class="tooltiptext">Base percentage chance of getting sick after winning a battle. Modified by protein overdose and disturbance penalties. Minimum 5%, maximum 50%.</span>
                             </span>
-                            <span class="attribute-value ">5</span>
+                            <span class="attribute-value ">1</span>
                         </li>
                         <li class="attribute-item">
                             <span class="attribute-label tooltip">Base Sick Chance Lose:

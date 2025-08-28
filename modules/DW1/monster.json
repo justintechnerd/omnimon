@@ -1,6 +1,34 @@
 {
   "monster": [
     {
+      "name": "Bot_Egg",
+      "stage": 0,
+      "version": 1,
+      "special": true,
+      "special_key": "Bot_Egg",
+      "atk_main": 0,
+      "atk_alt": 0,
+      "time": 1,
+      "poop_timer": 3,
+      "energy": 0,
+      "min_weight": 5,
+      "evol_weight": 0,
+      "stomach": 2,
+      "hunger_loss": 2,
+      "strength_loss": 2,
+      "heal_doses": 1,
+      "power": 0,
+      "attribute": "Da",
+      "condition_hearts": 0,
+      "jogress_avaliable": false,
+      "hp": 0,
+      "evolve": [
+        {
+          "to": "Botamon"
+        }
+      ]
+    },
+    {
       "name": "Day",
       "stage": 0,
       "version": 1,
@@ -57,36 +85,8 @@
       ]
     },
     {
-      "name": "Bot_Egg",
-      "stage": 0,
-      "version": 1,
-      "special": true,
-      "special_key": "Bot_Egg",
-      "atk_main": 0,
-      "atk_alt": 0,
-      "time": 1,
-      "poop_timer": 3,
-      "energy": 0,
-      "min_weight": 5,
-      "evol_weight": 0,
-      "stomach": 2,
-      "hunger_loss": 2,
-      "strength_loss": 2,
-      "heal_doses": 1,
-      "power": 0,
-      "attribute": "Da",
-      "condition_hearts": 0,
-      "jogress_avaliable": false,
-      "hp": 0,
-      "evolve": [
-        {
-          "to": "Botamon"
-        }
-      ]
-    },
-    {
       "name": "Botamon",
-      "stage": 2,
+      "stage": 1,
       "version": 1,
       "special": false,
       "special_key": "",
@@ -656,7 +656,7 @@
           "to": "Phoenixmon",
           "win_count": [
             0,
-            1
+            0
           ],
           "mistakes": [
             0,
@@ -800,7 +800,7 @@
           "to": "Phoenixmon",
           "win_count": [
             0,
-            1
+            0
           ],
           "mistakes": [
             0,
@@ -1000,7 +1000,7 @@
           "to": "MegaSeadramon",
           "win_count": [
             0,
-            1
+            0
           ],
           "mistakes": [
             0,
@@ -1144,7 +1144,7 @@
           "to": "H-Kabuterimon",
           "win_count": [
             0,
-            1
+            0
           ],
           "mistakes": [
             0,
@@ -1212,7 +1212,7 @@
           "to": "H-Kabuterimon",
           "win_count": [
             0,
-            1
+            0
           ],
           "mistakes": [
             0,
@@ -1424,7 +1424,7 @@
           ],
           "mistakes": [
             0,
-            1
+            0
           ],
           "trophies": [
             21,
@@ -1556,7 +1556,7 @@
           ],
           "mistakes": [
             0,
-            1
+            0
           ],
           "trophies": [
             18,
@@ -1681,7 +1681,7 @@
           ],
           "mistakes": [
             0,
-            1
+            0
           ],
           "trophies": [
             18,
@@ -2277,7 +2277,7 @@
     },
     {
       "name": "Punimon",
-      "stage": 2,
+      "stage": 1,
       "version": 2,
       "special": false,
       "special_key": "",
@@ -2401,7 +2401,7 @@
           "to": "Angemon",
           "mistakes": [
             0,
-            1
+            0
           ],
           "trophies": [
             2,
@@ -2794,7 +2794,7 @@
           "to": "Phoenixmon",
           "win_count": [
             0,
-            1
+            0
           ],
           "mistakes": [
             0,
@@ -3085,7 +3085,7 @@
           "to": "MegaSeadramon",
           "win_count": [
             0,
-            1
+            0
           ],
           "mistakes": [
             0,
@@ -3138,7 +3138,7 @@
           "to": "H-Kabuterimon",
           "win_count": [
             0,
-            1
+            0
           ],
           "mistakes": [
             0,
@@ -3206,7 +3206,7 @@
           "to": "Phoenixmon",
           "win_count": [
             0,
-            1
+            0
           ],
           "mistakes": [
             0,
@@ -3285,7 +3285,7 @@
           "to": "H-Kabuterimon",
           "win_count": [
             0,
-            1
+            0
           ],
           "mistakes": [
             0,
@@ -3493,7 +3493,7 @@
           ],
           "mistakes": [
             0,
-            1
+            0
           ],
           "trophies": [
             21,
@@ -3625,7 +3625,7 @@
           ],
           "mistakes": [
             0,
-            1
+            0
           ],
           "trophies": [
             18,
@@ -3674,7 +3674,7 @@
           "to": "H-Kabuterimon",
           "win_count": [
             0,
-            1
+            0
           ],
           "mistakes": [
             0,
@@ -3693,7 +3693,7 @@
           "to": "MegaSeadramon",
           "win_count": [
             0,
-            1
+            0
           ],
           "mistakes": [
             0,
@@ -3761,7 +3761,7 @@
           ],
           "mistakes": [
             0,
-            1
+            0
           ],
           "trophies": [
             18,
@@ -3870,7 +3870,7 @@
           "to": "MegaSeadramon",
           "win_count": [
             0,
-            1
+            0
           ],
           "mistakes": [
             0,
@@ -4326,7 +4326,7 @@
     },
     {
       "name": "Poyomon",
-      "stage": 2,
+      "stage": 1,
       "version": 3,
       "special": false,
       "special_key": "",
@@ -4723,7 +4723,7 @@
           "to": "Angemon",
           "mistakes": [
             0,
-            1
+            0
           ],
           "trophies": [
             2,
@@ -4896,7 +4896,7 @@
           "to": "Phoenixmon",
           "win_count": [
             0,
-            1
+            0
           ],
           "mistakes": [
             0,
@@ -4968,7 +4968,7 @@
           "to": "Phoenixmon",
           "win_count": [
             0,
-            1
+            0
           ],
           "mistakes": [
             0,
@@ -5104,7 +5104,7 @@
           "to": "Phoenixmon",
           "win_count": [
             0,
-            1
+            0
           ],
           "mistakes": [
             0,
@@ -5293,7 +5293,7 @@
           "to": "H-Kabuterimon",
           "win_count": [
             0,
-            1
+            0
           ],
           "mistakes": [
             0,
@@ -5361,7 +5361,7 @@
           "to": "Phoenixmon",
           "win_count": [
             0,
-            1
+            0
           ],
           "mistakes": [
             0,
@@ -5440,7 +5440,7 @@
           "to": "H-Kabuterimon",
           "win_count": [
             0,
-            1
+            0
           ],
           "mistakes": [
             0,
@@ -5580,7 +5580,7 @@
           ],
           "mistakes": [
             0,
-            1
+            0
           ],
           "trophies": [
             21,
@@ -5712,7 +5712,7 @@
           ],
           "mistakes": [
             0,
-            1
+            0
           ],
           "trophies": [
             18,
@@ -5837,7 +5837,7 @@
           ],
           "mistakes": [
             0,
-            1
+            0
           ],
           "trophies": [
             18,
@@ -5977,7 +5977,7 @@
           "to": "Phoenixmon",
           "win_count": [
             0,
-            1
+            0
           ],
           "mistakes": [
             0,
@@ -6479,7 +6479,7 @@
     },
     {
       "name": "Yuramon",
-      "stage": 2,
+      "stage": 1,
       "version": 4,
       "special": false,
       "special_key": "",
@@ -6966,7 +6966,7 @@
           "to": "Phoenixmon",
           "win_count": [
             0,
-            1
+            0
           ],
           "mistakes": [
             0,
@@ -7110,7 +7110,7 @@
           "to": "MegaSeadramon",
           "win_count": [
             0,
-            1
+            0
           ],
           "mistakes": [
             0,
@@ -7163,7 +7163,7 @@
           "to": "H-Kabuterimon",
           "win_count": [
             0,
-            1
+            0
           ],
           "mistakes": [
             0,
@@ -7231,7 +7231,7 @@
           "to": "H-Kabuterimon",
           "win_count": [
             0,
-            1
+            0
           ],
           "mistakes": [
             0,
@@ -7303,7 +7303,7 @@
           ],
           "mistakes": [
             0,
-            1
+            0
           ],
           "trophies": [
             21,
@@ -7435,7 +7435,7 @@
           ],
           "mistakes": [
             0,
-            1
+            0
           ],
           "trophies": [
             18,
@@ -7503,7 +7503,7 @@
           "to": "MegaSeadramon",
           "win_count": [
             0,
-            1
+            0
           ],
           "mistakes": [
             0,
@@ -7567,7 +7567,7 @@
           "to": "H-Kabuterimon",
           "win_count": [
             0,
-            1
+            0
           ],
           "mistakes": [
             0,
@@ -7586,7 +7586,7 @@
           "to": "MegaSeadramon",
           "win_count": [
             0,
-            1
+            0
           ],
           "mistakes": [
             0,
@@ -7654,7 +7654,7 @@
           ],
           "mistakes": [
             0,
-            1
+            0
           ],
           "trophies": [
             18,
@@ -7778,7 +7778,7 @@
           "to": "MegaSeadramon",
           "win_count": [
             0,
-            1
+            0
           ],
           "mistakes": [
             0,
