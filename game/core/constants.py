@@ -343,8 +343,7 @@ def update_resolution_constants(width, height):
     FONT_SIZE_LARGE = int(40 * UI_SCALE)
 
     from core import game_globals
-    if hasattr(game_globals, "pet_list"):
-        numpets = len(game_globals.pet_list)
+    numpets = len(game_globals.pet_list)
     if numpets == 0:
         numpets = MAX_PETS
     # Prevent oversized sprites when MAX_PETS == 1
