@@ -133,11 +133,26 @@ class GamePet:
         # self.y = (24 * constants.UI_SCALE) + (constants.SCREEN_HEIGHT - constants.PET_HEIGHT) // 2
         # New formula keeps the placement of the bottom of the sprite in the same place for most MAX_PETS as the previous
         # formula for MAX_PETS = 4. Slight offset to sprite for MAX_PETS <= 2 as to not overlap the top menu icons.
-        if constants.MAX_PETS > 2:
-            self.y = int(174 * constants.UI_SCALE - constants.PET_HEIGHT)
+        numpets = len(game_globals.pet_list)
+        if numpets == 0:
+            numpets = 1
+        if numpets > 2:
+            self.y = int(174 * constants.HEIGHT_SCALE - constants.PET_HEIGHT)
         else:
-            self.y = int(190 * constants.UI_SCALE - constants.PET_HEIGHT - 5)
+            self.y = int(190 * constants.HEIGHT_SCALE - constants.PET_HEIGHT - 5)
         self.x_range = (0, constants.SCREEN_WIDTH - constants.PET_WIDTH)
+
+    def reset_y(self):
+        # Move back to proper y position if scaling has changed
+        numpets = len(game_globals.pet_list)
+        if numpets == 0:
+            numpets = 1
+        if numpets > 2:
+            self.y = int(174 * constants.HEIGHT_SCALE - constants.PET_HEIGHT)
+        else:
+            self.y = int(190 * constants.HEIGHT_SCALE - constants.PET_HEIGHT - 5)
+        self.dirty = True
+
 
     def get_sprite(self, index):
         return runtime_globals.pet_sprites[self][index]
@@ -357,7 +372,7 @@ class GamePet:
         if self.state == "moving" and self.frame_counter % int(constants.FRAME_RATE / 3) == 0:  # move only when animation frame updates
             step = random.choice([2, 6])
             old_x = self.x
-            self.x += (step * (constants.SCREEN_WIDTH / 240)) * self.direction
+            self.x += (step * (constants.PET_WIDTH / 60) * self.direction)
             if self.x <= self.x_range[0]:
                 self.x = self.x_range[0]
                 self.direction = 1

@@ -1,7 +1,5 @@
 import json
-import os
 import pygame
-import platform
 
 #=====================================================================
 # Pygame Version Compatibility
@@ -132,7 +130,9 @@ ATK_LEVEL = {
 # UI Settings
 #=====================================================================
 # UI Settings - scale proportionally to a 240x240 reference screen
-UI_SCALE = SCREEN_HEIGHT / 240
+HEIGHT_SCALE = SCREEN_HEIGHT / 240
+WIDTH_SCALE = SCREEN_WIDTH / 240
+UI_SCALE = min(HEIGHT_SCALE, WIDTH_SCALE)
 
 MENU_ICON_SIZE = int(24 * UI_SCALE)         # Icon size (24x24 at 240x240)
 OPTION_ICON_SIZE = int(48 * UI_SCALE)       # Option icon size (48x48 at 240x240)
@@ -321,13 +321,15 @@ CONTROLLERS_JOY_PATH = "assets/ControllersJoy.png"
 DMC_SOUNDS_PATH = "assets/dmc_sounds"
 
 def update_resolution_constants(width, height):
-    global SCREEN_WIDTH, SCREEN_HEIGHT, UI_SCALE, PET_WIDTH, PET_HEIGHT
+    global SCREEN_WIDTH, SCREEN_HEIGHT, HEIGHT_SCALE, WIDTH_SCALE, UI_SCALE, PET_WIDTH, PET_HEIGHT
     global MENU_ICON_SIZE, OPTION_ICON_SIZE, OPTION_FRAME_WIDTH, OPTION_FRAME_HEIGHT, PET_ICON_SIZE
     global FONT_SIZE_SMALL, FONT_SIZE_MEDIUM, FONT_SIZE_MEDIUM_LARGE, FONT_SIZE_LARGE
 
     SCREEN_WIDTH = width
     SCREEN_HEIGHT = height
-    UI_SCALE = SCREEN_HEIGHT / 240  # Or your preferred base value
+    HEIGHT_SCALE = SCREEN_HEIGHT / 240
+    WIDTH_SCALE = SCREEN_WIDTH / 240
+    UI_SCALE = min(HEIGHT_SCALE, WIDTH_SCALE)
 
     MENU_ICON_SIZE = int(24 * UI_SCALE)
     OPTION_ICON_SIZE = int(48 * UI_SCALE)
@@ -340,8 +342,18 @@ def update_resolution_constants(width, height):
     FONT_SIZE_MEDIUM_LARGE = int(30 * UI_SCALE)
     FONT_SIZE_LARGE = int(40 * UI_SCALE)
 
+    from core import game_globals
+    if hasattr(game_globals, "pet_list"):
+        numpets = len(game_globals.pet_list)
+    if numpets == 0:
+        numpets = MAX_PETS
     # Prevent oversized sprites when MAX_PETS == 1
-    PET_WIDTH = PET_HEIGHT = SCREEN_HEIGHT // max(MAX_PETS, 2)
+    if numpets > MAX_PETS:
+        maxwidth = SCREEN_WIDTH // max(numpets, 2)
+    else:
+        maxwidth = SCREEN_WIDTH // max(min(MAX_PETS, numpets), 2)
+    maxheight = SCREEN_HEIGHT // 2
+    PET_WIDTH = PET_HEIGHT = min(maxwidth, maxheight)
 
     # Also update combat constants
     try:

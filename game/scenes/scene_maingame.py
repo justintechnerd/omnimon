@@ -46,6 +46,7 @@ class SceneMainGame:
         self.fade_alpha = 0
         self.lock_inputs = False
         self.lock_updates = False
+        self.last_num_pets = 0
 
         self.sprites = {
             "heart_empty": pygame.transform.scale(pygame.image.load(constants.HEART_EMPTY_ICON_PATH).convert_alpha(), (HEARTS_SIZE, HEARTS_SIZE)),
@@ -124,6 +125,9 @@ class SceneMainGame:
         if game_globals.event_time is None:
             game_globals.event_time = 60  # 60 minutes until first event check
 
+        # Set pets' vertical positioning
+        self.reset_pet_floor()
+
     def update(self) -> None:
         """
         Updates all game objects (pets, background, poops, cleaning effect).
@@ -139,7 +143,15 @@ class SceneMainGame:
             runtime_globals.last_input_frame = self.frame_counter
 
         # Update pets and poops only if necessary
+        numpets = len(game_globals.pet_list)
+        if (numpets != self.last_num_pets):
+            self.rescale_sprites()
+            self.reset_pet_floor()
+            self.last_num_pets = numpets
         for pet in game_globals.pet_list:
+            if (pet.y != self.pet_floor):
+                pet.dirty = True # Necessary to force pet.update() and pet.draw()
+                pet.reset_y()
             pet.update()
 
         for poop in game_globals.poop_list:
@@ -165,6 +177,22 @@ class SceneMainGame:
         # Update background and game messages
         self.background.update()
         runtime_globals.game_message.update()
+
+    def reset_pet_floor(self):
+        numpets = len(game_globals.pet_list)
+        if numpets == 0:
+            numpets = 1
+        if numpets > 2:
+            self.pet_floor = int(174 * constants.HEIGHT_SCALE - constants.PET_HEIGHT)
+        else:
+            self.pet_floor = int(190 * constants.HEIGHT_SCALE - constants.PET_HEIGHT - 5)
+
+    def rescale_sprites(self):
+        numpets = len(game_globals.pet_list)
+        if numpets != self.last_num_pets:
+            constants.update_resolution_constants(constants.SCREEN_WIDTH, constants.SCREEN_HEIGHT)
+            for pet in game_globals.pet_list:
+                pet.load_sprite()
 
     def check_evolution_start(self):
         """Begins evolution sequence when a pet is ready to evolve."""
@@ -655,16 +683,10 @@ class SceneMainGame:
                         # Prevent food from overlapping menu icons
                         y_offset = 20 * constants.UI_SCALE if game_globals.showClock else 5 * constants.UI_SCALE
                         y_min = y_offset + 2 * constants.MENU_ICON_SIZE
-                        if constants.MAX_PETS == 4:
-                            y = max(y_min, pet.y - (food_sprite.get_height() // 2))
-                            surface.blit(food_sprite, (x, y))
-                        else:
-                            # Scale the food sprite
-                            food_size = food_sprite.get_height()
-                            food_size = food_size * max(constants.MAX_PETS, 2) // 4
-                            food_sprite_scaled = pygame.transform.scale(food_sprite, (food_size, food_size))
-                            y = max(y_min, pet.y - (food_size // 2))
-                            surface.blit(food_sprite_scaled, (x, y))
+                        food_size = constants.PET_WIDTH // 2
+                        food_sprite_scaled = pygame.transform.scale(food_sprite, (food_size, food_size))
+                        y = max(y_min, pet.y - (food_size // 2))
+                        surface.blit(food_sprite_scaled, (x, y))
                 elif idx in self.food_anims:
                     # Clean up if pet is no longer eating
                     game_pet_eating.pop(idx, None)
