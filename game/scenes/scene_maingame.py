@@ -188,11 +188,9 @@ class SceneMainGame:
             self.pet_floor = int(190 * constants.HEIGHT_SCALE - constants.PET_HEIGHT - 5)
 
     def rescale_sprites(self):
-        numpets = len(game_globals.pet_list)
-        if numpets != self.last_num_pets:
-            constants.update_resolution_constants(constants.SCREEN_WIDTH, constants.SCREEN_HEIGHT)
-            for pet in game_globals.pet_list:
-                pet.load_sprite()
+        constants.update_resolution_constants(constants.SCREEN_WIDTH, constants.SCREEN_HEIGHT)
+        for pet in game_globals.pet_list:
+            pet.load_sprite()
 
     def check_evolution_start(self):
         """Begins evolution sequence when a pet is ready to evolve."""
